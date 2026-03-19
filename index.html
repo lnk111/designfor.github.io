@@ -70,6 +70,7 @@ button { font-family: var(--ff-sans); }
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--c-border);
   transition: background 0.3s, border-color 0.3s;
+  pointer-events: all;
 }
 
 /* Logo */
@@ -115,6 +116,9 @@ button { font-family: var(--ff-sans); }
   cursor: pointer;
   transition: color 0.25s;
   white-space: nowrap;
+  user-select: none;
+  pointer-events: all;
+  position: relative;
 }
 .nav__link::after {
   content: '';
@@ -234,6 +238,7 @@ button { font-family: var(--ff-sans); }
   position: fixed;
   top: var(--header-h);
   left: 0; right: 0; bottom: 0;
+  z-index: 1;
 }
 
 .page {
