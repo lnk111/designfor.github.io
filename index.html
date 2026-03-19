@@ -1585,4 +1585,15 @@ buildSlideshow();
 
 /* =========================================
    FORM SUBMIT
-   ============
+   ========================================= */
+function handleSubmit() {
+  const name = document.querySelector('.form-group__input[type="text"]');
+  if (name && !name.value.trim()) {
+    alert('이름을 입력해 주세요.');
+    return;
+  }
+  alert('상담 신청이 접수되었습니다.\n빠른 시일 내에 연락드리겠습니다 :)');
+}
+</script>
+</body>
+</html>
