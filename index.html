@@ -1467,8 +1467,9 @@ function toggleMob() {
 /* =========================================
    PORTFOLIO SLIDESHOW
    ========================================= */
-const STORE_KEY  = 'df_admin_assets_v2';
-const SLIDE_SEC  = 4.5;
+const STORE_KEY       = 'df_admin_assets_v2';
+const CLOUD_PHOTO_KEY = 'df_cloud_photos_v1';
+const SLIDE_SEC       = 4.5;
 
 let slides     = [];
 let slideIdx   = 0;
@@ -1476,9 +1477,11 @@ let slideTimer = null;
 
 function loadSlides() {
   try {
-    const raw = localStorage.getItem(STORE_KEY);
-    const all = raw ? JSON.parse(raw) : [];
-    slides = all.filter(a => a.type === 'photo').reverse();
+    // Cloudinary 사진 우선, 없으면 localStorage 사진 fallback
+    const rawCloud = localStorage.getItem(STORE_KEY);
+    const all = rawCloud ? JSON.parse(rawCloud) : [];
+    const photos = all.filter(a => a.type === 'photo');
+    slides = photos.length ? photos.reverse() : photos;
   } catch(e) { slides = []; }
 }
 
