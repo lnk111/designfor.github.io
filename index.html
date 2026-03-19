@@ -634,6 +634,177 @@ button { font-family: var(--ff-sans); }
 }
 
 /* =========================================
+   PORTFOLIO SLIDESHOW
+   ========================================= */
+#pg-portfolio {
+  background: var(--c-dark);
+  display: flex;
+  flex-direction: column;
+}
+
+/* header bar */
+.port__header {
+  flex-shrink: 0;
+  padding: 40px var(--pad-x) 28px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  border-bottom: 1px solid var(--c-border-dk);
+  z-index: 2;
+}
+.port__heading {
+  font-family: var(--ff-serif);
+  font-size: clamp(26px, 3.5vw, 42px);
+  font-weight: 300;
+  color: #F0EDE6;
+  line-height: 1.12;
+}
+.port__heading em { font-style: italic; color: var(--c-gold-lt); }
+
+/* slideshow stage */
+.slide-stage {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* each slide */
+.slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+.slide.is-active {
+  opacity: 1;
+  pointer-events: all;
+}
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* slide overlay — title bottom-left */
+.slide__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(10,10,8,0.75) 0%, transparent 50%);
+  display: flex;
+  align-items: flex-end;
+  padding: 40px var(--pad-x);
+}
+.slide__title {
+  font-family: var(--ff-kr);
+  font-size: 18px;
+  font-weight: 400;
+  color: #F0EDE6;
+  letter-spacing: 0.04em;
+  margin-bottom: 6px;
+}
+.slide__sub {
+  font-size: 11px;
+  color: var(--c-gold-lt);
+  letter-spacing: 0.18em;
+}
+
+/* empty state */
+.slide-empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  color: rgba(169,165,157,0.35);
+  font-family: var(--ff-serif);
+  font-size: 16px;
+  font-style: italic;
+  letter-spacing: 0.1em;
+}
+.slide-empty svg {
+  width: 40px; height: 40px;
+  stroke: rgba(169,165,157,0.2);
+  fill: none; stroke-width: 1;
+}
+
+/* dot indicators */
+.slide-dots {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+}
+.slide-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: rgba(240,237,230,0.25);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.3s, transform 0.3s;
+}
+.slide-dot.is-active {
+  background: var(--c-gold);
+  transform: scale(1.3);
+}
+
+/* prev/next arrows */
+.slide-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 44px; height: 44px;
+  background: rgba(240,237,230,0.08);
+  border: 1px solid rgba(240,237,230,0.15);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: background 0.3s, border-color 0.3s;
+}
+.slide-arrow:hover {
+  background: rgba(181,145,85,0.2);
+  border-color: var(--c-gold);
+}
+.slide-arrow svg {
+  width: 16px; height: 16px;
+  stroke: #F0EDE6; fill: none; stroke-width: 1.5;
+}
+.slide-arrow--prev { left: 24px; }
+.slide-arrow--next { right: 24px; }
+
+/* progress bar */
+.slide-progress {
+  position: absolute;
+  bottom: 0; left: 0;
+  height: 2px;
+  background: var(--c-gold);
+  width: 0%;
+  transition: width linear;
+  z-index: 10;
+}
+
+/* counter top-right */
+.slide-counter {
+  position: absolute;
+  top: 20px; right: var(--pad-x);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  color: rgba(240,237,230,0.4);
+  z-index: 10;
+}
+
+/* =========================================
    PAGE: CONSULT
    ========================================= */
 #pg-consult {
@@ -1069,68 +1240,36 @@ button { font-family: var(--ff-sans); }
         <p class="label" style="color:var(--c-gold);">Portfolio</p>
         <h2 class="port__heading">공간을 바꾼 <em>이야기들</em></h2>
       </div>
-      <div class="port__filters">
-        <button class="filter-btn is-on" data-f="all">전체</button>
-        <button class="filter-btn" data-f="full">전체시공</button>
-        <button class="filter-btn" data-f="partial">부분시공</button>
-      </div>
     </div>
 
-    <div class="port__grid">
-      <div class="port-card" data-t="full">
-        <div class="port-card__bg">판교 TH212 · 43평</div>
-        <div class="port-card__overlay">
-          <div>
-            <p class="port-card__title">판교 TH212</p>
-            <p class="port-card__sub">43평 · 전체 리모델링</p>
-          </div>
-        </div>
+    <!-- SLIDESHOW STAGE -->
+    <div class="slide-stage" id="slide-stage">
+
+      <!-- empty state (shown when no photos) -->
+      <div class="slide-empty" id="slide-empty">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        관리자 페이지에서 포트폴리오 사진을 등록해 주세요
       </div>
-      <div class="port-card" data-t="full">
-        <div class="port-card__bg">동탄 솔빛마을</div>
-        <div class="port-card__overlay">
-          <div>
-            <p class="port-card__title">동탄 솔빛마을 쌍용예가</p>
-            <p class="port-card__sub">전체 리모델링</p>
-          </div>
-        </div>
-      </div>
-      <div class="port-card" data-t="partial">
-        <div class="port-card__bg">신정마을 9단지</div>
-        <div class="port-card__overlay">
-          <div>
-            <p class="port-card__title">신정마을 9단지</p>
-            <p class="port-card__sub">26평 Type A · 용인</p>
-          </div>
-        </div>
-      </div>
-      <div class="port-card" data-t="full">
-        <div class="port-card__bg">Coming Soon</div>
-        <div class="port-card__overlay">
-          <div>
-            <p class="port-card__title">새 프로젝트</p>
-            <p class="port-card__sub">준비 중입니다</p>
-          </div>
-        </div>
-      </div>
-      <div class="port-card" data-t="partial">
-        <div class="port-card__bg">Coming Soon</div>
-        <div class="port-card__overlay">
-          <div>
-            <p class="port-card__title">새 프로젝트</p>
-            <p class="port-card__sub">준비 중입니다</p>
-          </div>
-        </div>
-      </div>
-      <div class="port-card" data-t="full">
-        <div class="port-card__bg">Coming Soon</div>
-        <div class="port-card__overlay">
-          <div>
-            <p class="port-card__title">새 프로젝트</p>
-            <p class="port-card__sub">준비 중입니다</p>
-          </div>
-        </div>
-      </div>
+
+      <!-- slides injected by JS -->
+      <div id="slides-wrap"></div>
+
+      <!-- dots injected by JS -->
+      <div class="slide-dots" id="slide-dots"></div>
+
+      <!-- arrows -->
+      <button class="slide-arrow slide-arrow--prev" id="slide-prev" onclick="slideMove(-1)" style="display:none">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button class="slide-arrow slide-arrow--next" id="slide-next" onclick="slideMove(1)" style="display:none">
+        <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
+      </button>
+
+      <!-- counter -->
+      <div class="slide-counter" id="slide-counter"></div>
+
+      <!-- progress bar -->
+      <div class="slide-progress" id="slide-progress"></div>
     </div>
   </section>
 
@@ -1158,7 +1297,7 @@ button { font-family: var(--ff-sans); }
           </div>
           <div class="info-row">
             <span class="info-row__label">Email</span>
-            <span class="info-row__val">designfor@naver.com</span>
+            <span class="info-row__val"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e58180968c828b838a97a58b84938097cb868a88">[email&#160;protected]</a></span>
           </div>
           <div class="info-row">
             <span class="info-row__label">시간</span>
@@ -1261,14 +1400,14 @@ button { font-family: var(--ff-sans); }
       </div>
       <div class="footer__info">
         대표 : 남경 &nbsp;|&nbsp; 경기도 화성시<br>
-        Tel : 010-0000-0000 &nbsp;|&nbsp; designfor@naver.com
+        Tel : 010-0000-0000 &nbsp;|&nbsp; <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="dcb8b9afb5bbb2bab3ae9cb2bdaab9aef2bfb3b1">[email&#160;protected]</a>
       </div>
     </footer>
   </section>
 
 </div><!-- /#page-wrap -->
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* =========================================
    PAGE ROUTER
    ========================================= */
@@ -1290,6 +1429,13 @@ function goPage(id) {
   document.getElementById(old.el).classList.remove('is-active');
   if (old.nav) document.getElementById(old.nav).classList.remove('is-active');
 
+  /* pause slideshow when leaving portfolio */
+  if (current === 'portfolio') {
+    clearTimeout(slideTimer);
+    const bar = document.getElementById('slide-progress');
+    if (bar) { bar.style.transition = 'none'; bar.style.width = '0%'; }
+  }
+
   /* activate new */
   current = id;
   const next = PAGE_MAP[id];
@@ -1297,6 +1443,9 @@ function goPage(id) {
   el.classList.add('is-active');
   el.scrollTop = 0;
   if (next.nav) document.getElementById(next.nav).classList.add('is-active');
+
+  /* rebuild slideshow when entering portfolio */
+  if (id === 'portfolio') setTimeout(buildSlideshow, 80);
 }
 
 /* =========================================
@@ -1311,31 +1460,124 @@ function toggleMob() {
 }
 
 /* =========================================
-   PORTFOLIO FILTER
+   PORTFOLIO SLIDESHOW
    ========================================= */
-document.querySelectorAll('.filter-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('is-on'));
-    btn.classList.add('is-on');
-    const f = btn.dataset.f;
-    document.querySelectorAll('.port-card').forEach(card => {
-      const show = f === 'all' || card.dataset.t === f;
-      card.classList.toggle('is-hidden', !show);
-    });
+const STORE_KEY  = 'df_admin_assets_v2';
+const SLIDE_SEC  = 4.5;
+
+let slides     = [];
+let slideIdx   = 0;
+let slideTimer = null;
+
+function loadSlides() {
+  try {
+    const raw = localStorage.getItem(STORE_KEY);
+    const all = raw ? JSON.parse(raw) : [];
+    slides = all.filter(a => a.type === 'photo').reverse();
+  } catch(e) { slides = []; }
+}
+
+function buildSlideshow() {
+  loadSlides();
+  const wrap  = document.getElementById('slides-wrap');
+  const dots  = document.getElementById('slide-dots');
+  const empty = document.getElementById('slide-empty');
+  const prev  = document.getElementById('slide-prev');
+  const next  = document.getElementById('slide-next');
+
+  wrap.innerHTML = '';
+  dots.innerHTML = '';
+  clearTimeout(slideTimer);
+
+  if (!slides.length) {
+    empty.style.display = 'flex';
+    prev.style.display = next.style.display = 'none';
+    document.getElementById('slide-counter').textContent = '';
+    const bar = document.getElementById('slide-progress');
+    bar.style.transition = 'none'; bar.style.width = '0%';
+    return;
+  }
+
+  empty.style.display = 'none';
+  prev.style.display = next.style.display = slides.length > 1 ? 'flex' : 'none';
+
+  slides.forEach((s, i) => {
+    const slide = document.createElement('div');
+    slide.className = 'slide' + (i === 0 ? ' is-active' : '');
+    slide.innerHTML = `
+      <img src="${escStr(s.src)}" alt="${escStr(s.title)}" loading="${i < 2 ? 'eager' : 'lazy'}">
+      <div class="slide__overlay">
+        <div>
+          <div class="slide__title">${escStr(s.title)}</div>
+          ${s.tag ? `<div class="slide__sub">${escStr(s.tag)}</div>` : ''}
+        </div>
+      </div>`;
+    wrap.appendChild(slide);
+
+    if (slides.length > 1) {
+      const dot = document.createElement('button');
+      dot.className = 'slide-dot' + (i === 0 ? ' is-active' : '');
+      dot.setAttribute('aria-label', `슬라이드 ${i+1}`);
+      dot.onclick = () => goSlide(i);
+      dots.appendChild(dot);
+    }
   });
-});
+
+  slideIdx = 0;
+  updateCounter();
+  if (slides.length > 1) startAuto();
+}
+
+function goSlide(idx) {
+  const allSlides = document.querySelectorAll('#slides-wrap .slide');
+  const allDots   = document.querySelectorAll('.slide-dot');
+  allSlides[slideIdx]?.classList.remove('is-active');
+  allDots[slideIdx]?.classList.remove('is-active');
+  slideIdx = (idx + slides.length) % slides.length;
+  allSlides[slideIdx]?.classList.add('is-active');
+  allDots[slideIdx]?.classList.add('is-active');
+  updateCounter();
+  if (slides.length > 1) { clearTimeout(slideTimer); startAuto(); }
+}
+
+function slideMove(dir) { goSlide(slideIdx + dir); }
+
+function startAuto() {
+  clearTimeout(slideTimer);
+  const bar = document.getElementById('slide-progress');
+  bar.style.transition = 'none';
+  bar.style.width = '0%';
+  void bar.offsetWidth;
+  bar.style.transition = `width ${SLIDE_SEC}s linear`;
+  bar.style.width = '100%';
+  slideTimer = setTimeout(() => goSlide(slideIdx + 1), SLIDE_SEC * 1000);
+}
+
+function updateCounter() {
+  const el = document.getElementById('slide-counter');
+  el.textContent = slides.length > 1
+    ? `${String(slideIdx+1).padStart(2,'0')} / ${String(slides.length).padStart(2,'0')}`
+    : '';
+}
+
+function escStr(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* touch swipe */
+(function(){
+  let tx = 0;
+  const stage = document.getElementById('slide-stage');
+  if (!stage) return;
+  stage.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+  stage.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - tx;
+    if (Math.abs(dx) > 40) slideMove(dx < 0 ? 1 : -1);
+  }, { passive: true });
+})();
+
+buildSlideshow();
 
 /* =========================================
    FORM SUBMIT
-   ========================================= */
-function handleSubmit() {
-  const name = document.querySelector('.form-group__input[type="text"]').value.trim();
-  if (!name) {
-    alert('이름을 입력해 주세요.');
-    return;
-  }
-  alert('상담 신청이 접수되었습니다.\n빠른 시일 내에 연락드리겠습니다 :)');
-}
-</script>
-</body>
-</html>
+   ============
