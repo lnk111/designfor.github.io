@@ -509,9 +509,6 @@ document.getElementById('modal-overlay').addEventListener('click', e => {
    FILE SELECT + 미리보기 (삭제 · 순서 변경)
    ========================================= */
 
-// 상세 이미지 데이터: { src: dataURL or cloudURL, file: File|null }
-let detailItems = [];   // pendingDetails 대신 이 배열 사용
-
 function onCoverSelect(e) {
   const file = e.target.files[0];
   if (!file) return;
