@@ -505,56 +505,83 @@ detailDrop.addEventListener('drop', e => {
 });
 
 /* =========================================
-   SAVE PROJECT
+   SAVE PROJECT — 병렬 업로드 + 압축
    ========================================= */
+const PARALLEL = 4;       // 동시 업로드 수
+const MAX_PX   = 1920;    // 최대 가로/세로 픽셀
+const QUALITY  = 0.82;    // JPEG 품질 (0~1)
+
 async function saveProject() {
   const siteName = document.getElementById('mf-sitename').value.trim();
   if (!siteName) { showToast('현장명을 입력해 주세요.'); return; }
 
-  const btn = document.getElementById('btn-save');
+  const btn  = document.getElementById('btn-save');
   const prog = document.getElementById('upload-prog');
   const bar  = document.getElementById('prog-bar');
   const txt  = document.getElementById('prog-text');
 
   btn.disabled = true;
   prog.classList.add('show');
+  bar.style.width = '0%';
 
   let coverUrl   = existingCover;
   let detailUrls = [...existingDetails];
 
-  // 대표 이미지 업로드
-  if (pendingCover) {
-    txt.textContent = '대표 이미지 업로드 중...';
-    bar.style.width = '20%';
-    try { coverUrl = await uploadToCloudinary(pendingCover); } catch(e) { showToast('대표 이미지 업로드 실패'); }
-  }
+  // 전체 파일 목록 구성
+  const allFiles = [];
+  if (pendingCover)                   allFiles.push({ file: pendingCover,   role: 'cover' });
+  pendingDetails.forEach((f, i) =>    allFiles.push({ file: f,              role: 'detail', idx: i }));
 
-  // 상세 이미지 업로드
-  for (let i = 0; i < pendingDetails.length; i++) {
-    const pct = 20 + Math.round(((i+1) / pendingDetails.length) * 75);
+  const total    = allFiles.length;
+  let   done     = 0;
+
+  const updateBar = () => {
+    done++;
+    const pct = Math.round((done / total) * 100);
     bar.style.width = pct + '%';
-    txt.textContent = `상세 이미지 업로드 중... ${i+1}/${pendingDetails.length}`;
-    try {
-      const url = await uploadToCloudinary(pendingDetails[i]);
-      detailUrls.push(url);
-    } catch(e) { showToast(`이미지 ${i+1} 업로드 실패`); }
+    txt.textContent = `업로드 중... ${done} / ${total} (${pct}%)`;
+  };
+
+  // 청크 단위 병렬 처리
+  const results = new Array(total).fill(null);
+
+  for (let i = 0; i < total; i += PARALLEL) {
+    const chunk = allFiles.slice(i, i + PARALLEL);
+    await Promise.all(chunk.map(async (item, j) => {
+      const globalIdx = i + j;
+      try {
+        const compressed = await compressImage(item.file);
+        results[globalIdx] = { role: item.role, idx: item.idx, url: await uploadToCloudinary(compressed) };
+      } catch(e) {
+        results[globalIdx] = { role: item.role, idx: item.idx, url: null };
+        showToast(`${item.file.name} 업로드 실패`);
+      }
+      updateBar();
+    }));
   }
 
+  // 결과 정리
+  results.forEach(r => {
+    if (!r || !r.url) return;
+    if (r.role === 'cover')  coverUrl = r.url;
+    if (r.role === 'detail') detailUrls.push(r.url);
+  });
+
+  txt.textContent = '저장 완료!';
   bar.style.width = '100%';
-  txt.textContent = '저장 중...';
 
   const projects = loadProjects();
   const newProject = {
-    id:          editingId || uid(),
-    siteName:    document.getElementById('mf-sitename').value.trim(),
-    area:        document.getElementById('mf-area').value.trim(),
-    location:    document.getElementById('mf-location').value.trim(),
-    period:      document.getElementById('mf-period').value.trim(),
-    type:        document.getElementById('mf-type').value,
-    coverImage:  coverUrl,
-    images:      detailUrls,
-    updatedAt:   Date.now(),
-    createdAt:   editingId ? (projects.find(p=>p.id===editingId)?.createdAt || Date.now()) : Date.now(),
+    id:         editingId || uid(),
+    siteName:   document.getElementById('mf-sitename').value.trim(),
+    area:       document.getElementById('mf-area').value.trim(),
+    location:   document.getElementById('mf-location').value.trim(),
+    period:     document.getElementById('mf-period').value.trim(),
+    type:       document.getElementById('mf-type').value,
+    coverImage: coverUrl,
+    images:     detailUrls,
+    updatedAt:  Date.now(),
+    createdAt:  editingId ? (projects.find(p => p.id === editingId)?.createdAt || Date.now()) : Date.now(),
   };
 
   if (editingId) {
@@ -567,21 +594,53 @@ async function saveProject() {
   saveProjects(projects);
   renderProjectList();
   closeModal();
-  showToast(editingId ? '현장이 수정되었습니다.' : '현장이 등록되었습니다! ✓');
-
-  setTimeout(() => { prog.classList.remove('show'); bar.style.width='0%'; btn.disabled=false; }, 800);
+  showToast(editingId ? '현장이 수정되었습니다. ✓' : `현장 등록 완료! (이미지 ${total}장) ✓`);
+  setTimeout(() => { prog.classList.remove('show'); bar.style.width = '0%'; btn.disabled = false; }, 1000);
 }
 
 /* =========================================
-   CLOUDINARY
+   이미지 압축 — Canvas 리사이즈
+   ========================================= */
+function compressImage(file) {
+  return new Promise((resolve) => {
+    // 이미 작은 파일은 그냥 통과
+    if (file.size < 300 * 1024) { resolve(file); return; }
+
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      let { width, height } = img;
+
+      // 비율 유지하며 축소
+      if (width > MAX_PX || height > MAX_PX) {
+        if (width > height) { height = Math.round(height * MAX_PX / width); width = MAX_PX; }
+        else                { width  = Math.round(width  * MAX_PX / height); height = MAX_PX; }
+      }
+
+      const canvas = document.createElement('canvas');
+      canvas.width = width; canvas.height = height;
+      canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+
+      canvas.toBlob(blob => {
+        resolve(blob || file);
+      }, 'image/jpeg', QUALITY);
+    };
+    img.onerror = () => resolve(file);
+    img.src = url;
+  });
+}
+
+/* =========================================
+   CLOUDINARY 업로드
    ========================================= */
 async function uploadToCloudinary(file) {
   const fd = new FormData();
   fd.append('file', file);
   fd.append('upload_preset', UPLOAD_PRESET);
   fd.append('folder', 'designfor_portfolio');
-  const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, { method:'POST', body:fd });
-  if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message||'실패'); }
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, { method: 'POST', body: fd });
+  if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || '실패'); }
   const data = await res.json();
   return data.secure_url;
 }
