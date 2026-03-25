@@ -12,7 +12,7 @@
 :root {
   --bg: #F5F4F1; --surface: #FFFFFF; --dark: #1A1A17; --stone: #68665E;
   --stone-lt: #B0ADA5; --gold: #B59155; --gold-lt: #CDA96E;
-  --border: rgba(26,26,23,0.10); --red: #C0392B; --green: #27AE60;
+  --border: rgba(26,26,23,0.10); --red: #C0392B;
   --ff: 'Noto Sans KR', sans-serif; --serif: 'Cormorant Garamond', Georgia, serif; --radius: 12px;
 }
 html, body { min-height: 100%; font-family: var(--ff); font-weight: 300; background: var(--bg); color: var(--dark); }
@@ -42,12 +42,10 @@ html, body { min-height: 100%; font-family: var(--ff); font-weight: 300; backgro
 .adm-tabs { display: flex; border-bottom: 1px solid var(--border); background: var(--surface); padding: 0 32px; }
 .adm-tab { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--stone-lt); padding: 14px 20px; cursor: pointer; border-bottom: 2px solid transparent; transition: color 0.2s, border-color 0.2s; background: none; border-top: none; border-left: none; border-right: none; font-family: var(--ff); }
 .adm-tab.is-on { color: var(--dark); border-bottom-color: var(--gold); }
-
-/* VIEWS */
 .adm-view { display: none; }
 .adm-view.is-on { display: block; }
 
-/* ── PORTFOLIO VIEW ── */
+/* PORTFOLIO VIEW */
 .port-view { max-width: 1200px; margin: 0 auto; padding: 32px; }
 .port-view-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; }
 .port-view-title { font-family: var(--serif); font-size: 22px; font-weight: 300; letter-spacing: 0.1em; color: var(--dark); }
@@ -55,7 +53,7 @@ html, body { min-height: 100%; font-family: var(--ff); font-weight: 300; backgro
 .btn-add-project:hover { background: var(--gold-lt); }
 .btn-add-project svg { width: 14px; height: 14px; stroke: var(--dark); fill: none; stroke-width: 2; }
 
-/* 현장 카드 목록 */
+/* 현장 카드 */
 .project-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
 .project-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; transition: border-color 0.25s; }
 .project-card:hover { border-color: var(--stone-lt); }
@@ -70,94 +68,44 @@ html, body { min-height: 100%; font-family: var(--ff); font-weight: 300; backgro
 .btn-edit:hover { border-color: var(--gold); color: var(--gold); }
 .btn-del-project { font-size: 10px; letter-spacing: 0.16em; color: var(--stone-lt); background: none; border: 1px solid var(--border); border-radius: 8px; padding: 8px 14px; cursor: pointer; transition: all 0.2s; font-family: var(--ff); }
 .btn-del-project:hover { border-color: var(--red); color: var(--red); }
+.empty-projects { padding: 80px 24px; text-align: center; color: var(--stone-lt); font-size: 13px; line-height: 2; grid-column: 1/-1; }
 
-.empty-projects { padding: 80px 24px; text-align: center; color: var(--stone-lt); font-size: 13px; line-height: 2; }
-
-/* ── 현장 등록/수정 MODAL ── */
+/* MODAL */
 .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; display: none; align-items: flex-start; justify-content: center; overflow-y: auto; padding: 40px 20px; }
 .modal-overlay.show { display: flex; }
 .modal-box { background: var(--surface); border-radius: 20px; width: 100%; max-width: 680px; padding: 40px; position: relative; margin: auto; }
-.modal-close { position: absolute; top: 20px; right: 24px; font-size: 22px; color: var(--stone-lt); background: none; border: none; cursor: pointer; line-height: 1; }
+.modal-close { position: absolute; top: 20px; right: 24px; font-size: 22px; color: var(--stone-lt); background: none; border: none; cursor: pointer; }
 .modal-close:hover { color: var(--dark); }
 .modal-title { font-family: var(--serif); font-size: 22px; font-weight: 300; letter-spacing: 0.1em; color: var(--dark); margin-bottom: 32px; }
-
-/* form */
 .mf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .mf-group { margin-bottom: 20px; }
 .mf-label { display: block; font-size: 10px; letter-spacing: 0.22em; color: var(--stone); text-transform: uppercase; margin-bottom: 8px; }
 .mf-input, .mf-select { width: 100%; border: 1px solid var(--border); border-radius: var(--radius); padding: 11px 14px; font-family: var(--ff); font-size: 13px; font-weight: 300; color: var(--dark); background: var(--bg); outline: none; transition: border-color 0.25s; }
 .mf-input:focus, .mf-select:focus { border-color: var(--gold); }
-
-/* 섹션 구분 */
 .mf-section { font-size: 10px; letter-spacing: 0.26em; color: var(--stone); text-transform: uppercase; margin: 28px 0 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
 
-/* 이미지 드롭존 */
+/* 미리보기 */
+.preview-strip { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; min-height: 10px; }
+.preview-thumb-wrap { position: relative; width: 86px; height: 86px; cursor: grab; user-select: none; transition: transform 0.15s, opacity 0.15s, box-shadow 0.15s; border-radius: 10px; }
+.preview-thumb-wrap:active { cursor: grabbing; }
+.preview-thumb-wrap.is-dragging { opacity: 0.45; transform: scale(0.94); box-shadow: 0 8px 24px rgba(0,0,0,0.18); z-index: 100; }
+.preview-thumb-wrap.drag-over-target { transform: scale(1.06); box-shadow: 0 0 0 2px var(--gold); }
+.preview-thumb { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; border: 1px solid var(--border); display: block; pointer-events: none; }
+.preview-thumb-wrap.is-cover .preview-thumb { border-color: var(--gold); border-width: 2px; }
+.preview-cover-badge { position: absolute; bottom: 0; left: 0; right: 0; background: var(--gold); color: var(--dark); font-size: 8px; letter-spacing: 0.12em; text-align: center; padding: 3px 0; border-radius: 0 0 9px 9px; font-family: var(--ff); pointer-events: none; }
+.preview-order-num { position: absolute; top: 5px; left: 6px; background: rgba(0,0,0,0.52); color: #fff; font-size: 9px; padding: 1px 5px; border-radius: 4px; pointer-events: none; }
+.preview-remove { position: absolute; top: -6px; right: -6px; width: 20px; height: 20px; border-radius: 50%; background: var(--red); color: #fff; border: none; cursor: pointer; font-size: 11px; line-height: 20px; text-align: center; padding: 0; box-shadow: 0 2px 6px rgba(0,0,0,0.2); transition: transform 0.15s; z-index: 10; }
+.preview-remove:hover { transform: scale(1.15); }
+.preview-drag-hint { font-size: 10px; color: var(--stone-lt); letter-spacing: 0.12em; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+.preview-drag-hint svg { width: 12px; height: 12px; stroke: var(--stone-lt); fill: none; stroke-width: 2; flex-shrink: 0; }
+
+/* 드롭존 */
 .drop-zone { border: 1.5px dashed var(--border); border-radius: var(--radius); padding: 24px 16px; text-align: center; cursor: pointer; transition: border-color 0.3s, background 0.3s; background: var(--bg); margin-bottom: 12px; position: relative; }
 .drop-zone.drag-over { border-color: var(--gold); background: #FBF7F0; }
 .drop-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
 .drop-zone__icon { width: 24px; height: 24px; stroke: var(--stone-lt); fill: none; stroke-width: 1.5; margin: 0 auto 8px; }
 .drop-zone__text { font-size: 12px; color: var(--stone-lt); line-height: 1.6; }
 .drop-zone__text strong { color: var(--gold); font-weight: 400; }
-
-/* 미리보기 strip */
-.preview-strip { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; min-height: 10px; }
-.preview-thumb-wrap {
-  position: relative; width: 86px; height: 86px;
-  cursor: grab; user-select: none;
-  transition: transform 0.15s, opacity 0.15s, box-shadow 0.15s;
-  border-radius: 10px;
-}
-.preview-thumb-wrap:active { cursor: grabbing; }
-.preview-thumb-wrap.is-dragging {
-  opacity: 0.45; transform: scale(0.94);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
-  z-index: 100;
-}
-.preview-thumb-wrap.drag-over-target {
-  transform: scale(1.06);
-  box-shadow: 0 0 0 2px var(--gold);
-}
-.preview-thumb {
-  width: 100%; height: 100%; object-fit: cover;
-  border-radius: 10px; border: 1px solid var(--border); display: block;
-  pointer-events: none;
-}
-/* 대표 뱃지 */
-.preview-thumb-wrap.is-cover .preview-thumb { border-color: var(--gold); border-width: 2px; }
-.preview-cover-badge {
-  position: absolute; bottom: 0; left: 0; right: 0;
-  background: var(--gold); color: var(--dark);
-  font-size: 8px; letter-spacing: 0.12em; text-align: center;
-  padding: 3px 0; border-radius: 0 0 9px 9px;
-  font-family: var(--ff); font-weight: 400;
-  pointer-events: none;
-}
-/* 순서 번호 */
-.preview-order-num {
-  position: absolute; top: 5px; left: 6px;
-  background: rgba(0,0,0,0.52); color: #fff;
-  font-size: 9px; letter-spacing: 0.06em;
-  padding: 1px 5px; border-radius: 4px;
-  pointer-events: none;
-}
-/* 삭제 버튼 */
-.preview-remove {
-  position: absolute; top: -6px; right: -6px;
-  width: 20px; height: 20px; border-radius: 50%;
-  background: var(--red); color: #fff; border: none;
-  cursor: pointer; font-size: 11px; line-height: 20px;
-  text-align: center; padding: 0;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  transition: transform 0.15s, background 0.15s;
-  z-index: 10;
-}
-.preview-remove:hover { transform: scale(1.15); background: #E74C3C; }
-/* 드래그 힌트 */
-.preview-drag-hint {
-  font-size: 10px; color: var(--stone-lt); letter-spacing: 0.12em;
-  margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
-}
-.preview-drag-hint svg { width: 12px; height: 12px; stroke: var(--stone-lt); fill: none; stroke-width: 2; flex-shrink: 0; }
 
 /* 업로드 진행 */
 .upload-progress { display: none; margin-bottom: 12px; }
@@ -174,7 +122,7 @@ html, body { min-height: 100%; font-family: var(--ff); font-weight: 300; backgro
 .btn-cancel { background: none; border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 24px; font-family: var(--ff); font-size: 10px; color: var(--stone); letter-spacing: 0.18em; text-transform: uppercase; cursor: pointer; transition: all 0.25s; }
 .btn-cancel:hover { border-color: var(--dark); color: var(--dark); }
 
-/* ── 링크 VIEW ── */
+/* 링크 VIEW */
 .link-view { max-width: 800px; margin: 0 auto; padding: 32px; }
 .link-view-title { font-family: var(--serif); font-size: 22px; font-weight: 300; letter-spacing: 0.1em; color: var(--dark); margin-bottom: 28px; }
 .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 16px; }
@@ -189,8 +137,6 @@ html, body { min-height: 100%; font-family: var(--ff); font-weight: 300; backgro
 .tag-btn.selected { background: var(--dark); color: #fff; border-color: var(--dark); }
 .btn-submit { width: 100%; background: var(--gold); color: var(--dark); border: none; border-radius: var(--radius); padding: 13px; font-family: var(--ff); font-size: 10px; font-weight: 400; letter-spacing: 0.24em; text-transform: uppercase; cursor: pointer; transition: background 0.25s; }
 .btn-submit:hover { background: var(--gold-lt); }
-
-/* 링크 목록 */
 .link-list { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
 .link-item { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 .link-item__title { font-size: 13px; font-weight: 400; color: var(--dark); }
@@ -199,6 +145,11 @@ html, body { min-height: 100%; font-family: var(--ff); font-weight: 300; backgro
 .link-del { background: none; border: none; cursor: pointer; color: var(--stone-lt); transition: color 0.2s; padding: 4px; }
 .link-del:hover { color: var(--red); }
 .link-del svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+/* 로딩 */
+.loading-state { padding: 60px 24px; text-align: center; color: var(--stone-lt); font-size: 13px; grid-column: 1/-1; }
+.loading-spinner { width: 24px; height: 24px; border: 2px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 12px; }
+@keyframes spin { to { transform: rotate(360deg); } }
 
 /* toast */
 #toast { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--dark); color: #F5F4F1; font-size: 12px; letter-spacing: 0.14em; padding: 12px 28px; border-radius: 100px; opacity: 0; transition: opacity 0.3s, transform 0.3s; pointer-events: none; z-index: 9999; white-space: nowrap; }
@@ -232,7 +183,6 @@ html, body { min-height: 100%; font-family: var(--ff); font-weight: 300; backgro
     <div class="adm-header-logo">DESIGN FOR <span>관리자 대시보드</span></div>
     <button class="btn-logout" onclick="doLogout()">로그아웃</button>
   </header>
-
   <div class="adm-tabs">
     <button class="adm-tab is-on" data-tab="portfolio" onclick="switchTab('portfolio')">포트폴리오 현장</button>
     <button class="adm-tab" data-tab="links" onclick="switchTab('links')">링크 관리</button>
@@ -248,7 +198,9 @@ html, body { min-height: 100%; font-family: var(--ff); font-weight: 300; backgro
           새 현장 추가
         </button>
       </div>
-      <div class="project-list" id="project-list"></div>
+      <div class="project-list" id="project-list">
+        <div class="loading-state"><div class="loading-spinner"></div>불러오는 중...</div>
+      </div>
     </div>
   </div>
 
@@ -281,47 +233,27 @@ html, body { min-height: 100%; font-family: var(--ff); font-weight: 300; backgro
   </div>
 </div>
 
-<!-- 현장 등록/수정 MODAL -->
+<!-- 현장 모달 -->
 <div class="modal-overlay" id="modal-overlay">
   <div class="modal-box">
     <button class="modal-close" onclick="closeModal()">✕</button>
     <div class="modal-title" id="modal-title">새 현장 추가</div>
-
-    <!-- 기본 정보 -->
     <div class="mf-section">기본 정보</div>
     <div class="mf-row">
-      <div class="mf-group">
-        <label class="mf-label">현장명 *</label>
-        <input class="mf-input" id="mf-sitename" type="text" placeholder="예: 판교 TH212">
-      </div>
-      <div class="mf-group">
-        <label class="mf-label">평수</label>
-        <input class="mf-input" id="mf-area" type="text" placeholder="예: 43py">
-      </div>
+      <div class="mf-group"><label class="mf-label">현장명 *</label><input class="mf-input" id="mf-sitename" type="text" placeholder="예: 판교 TH212"></div>
+      <div class="mf-group"><label class="mf-label">평수</label><input class="mf-input" id="mf-area" type="text" placeholder="예: 43py"></div>
     </div>
     <div class="mf-row">
-      <div class="mf-group">
-        <label class="mf-label">위치</label>
-        <input class="mf-input" id="mf-location" type="text" placeholder="예: 경기도 성남시 판교">
-      </div>
-      <div class="mf-group">
-        <label class="mf-label">유형</label>
+      <div class="mf-group"><label class="mf-label">위치</label><input class="mf-input" id="mf-location" type="text" placeholder="예: 경기도 성남시 판교"></div>
+      <div class="mf-group"><label class="mf-label">유형</label>
         <select class="mf-select" id="mf-type">
           <option value="">선택</option>
-          <option>아파트</option>
-          <option>주택</option>
-          <option>상업공간</option>
-          <option>오피스</option>
-          <option>기타</option>
+          <option>아파트</option><option>주택</option><option>상업공간</option><option>오피스</option><option>기타</option>
         </select>
       </div>
     </div>
-    <div class="mf-group">
-      <label class="mf-label">시작일 ~ 완료일</label>
-      <input class="mf-input" id="mf-period" type="text" placeholder="예: 2024.03.01 ~ 2024.06.30">
-    </div>
+    <div class="mf-group"><label class="mf-label">시작일 ~ 완료일</label><input class="mf-input" id="mf-period" type="text" placeholder="예: 2024.03.01 ~ 2024.06.30"></div>
 
-    <!-- 대표 이미지 -->
     <div class="mf-section">대표 이미지 (썸네일용 1장)</div>
     <div class="preview-strip" id="cover-preview"></div>
     <div class="drop-zone" id="cover-drop">
@@ -330,7 +262,6 @@ html, body { min-height: 100%; font-family: var(--ff); font-weight: 300; backgro
       <div class="drop-zone__text"><strong>클릭하여 대표 이미지 선택</strong><br>목록 화면 썸네일로 사용됩니다</div>
     </div>
 
-    <!-- 상세 이미지 -->
     <div class="mf-section">상세 이미지 (여러 장)</div>
     <div class="preview-drag-hint" id="detail-drag-hint" style="display:none">
       <svg viewBox="0 0 24 24"><path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/></svg>
@@ -343,12 +274,10 @@ html, body { min-height: 100%; font-family: var(--ff); font-weight: 300; backgro
       <div class="drop-zone__text"><strong>클릭하거나 끌어다 놓기</strong><br>JPG, PNG, WEBP · 여러 장 가능</div>
     </div>
 
-    <!-- 업로드 진행 -->
     <div class="upload-progress" id="upload-prog">
       <div class="progress-text" id="prog-text">업로드 중...</div>
       <div class="progress-bar-wrap"><div class="progress-bar-fill" id="prog-bar"></div></div>
     </div>
-
     <div class="modal-actions">
       <button class="btn-save" id="btn-save" onclick="saveProject()">저장하기</button>
       <button class="btn-cancel" onclick="closeModal()">취소</button>
@@ -356,76 +285,91 @@ html, body { min-height: 100%; font-family: var(--ff); font-weight: 300; backgro
   </div>
 </div>
 
-<!-- TOAST -->
 <div id="toast"></div>
 
-<script>
-/* =========================================
-   CONFIG
-   ========================================= */
+<!-- Firebase SDK -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import {
+  getFirestore, collection, doc,
+  getDocs, setDoc, deleteDoc,
+  query, orderBy
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+/* ── Firebase 초기화 ── */
+const app = initializeApp({
+  apiKey:            "AIzaSyC0LNwrtehJ8BytnXL5-aiG2H_sTIgXgk4",
+  authDomain:        "designfor-ef0ed.firebaseapp.com",
+  projectId:         "designfor-ef0ed",
+  storageBucket:     "designfor-ef0ed.firebasestorage.app",
+  messagingSenderId: "284384518635",
+  appId:             "1:284384518635:web:62f4a1ce63e90ca7b2f9ae"
+});
+const db = getFirestore(app);
+
+/* ── CONFIG ── */
 const PASS          = '1212';
 const CLOUD_NAME    = 'dirocerek';
 const UPLOAD_PRESET = 'designfor_upload';
-const PROJECTS_KEY  = 'df_projects_v1';
-const LINKS_KEY     = 'df_links_v1';
+const PARALLEL      = 4;
+const MAX_PX        = 1920;
+const QUALITY       = 0.82;
 
-/* =========================================
-   STATE
-   ========================================= */
-let editingId    = null;   // 수정 중인 현장 id (null = 신규)
-let pendingCover = null;   // File 객체 (대표 이미지)
-let detailItems  = [];     // { src: string, file: File|null } 배열 (상세 이미지)
-let existingCover  = '';   // 기존 URL (수정 시)
-let existingDetails = [];  // 기존 URL 배열 (수정 시, 참조용)
+/* ── STATE ── */
+let editingId       = null;
+let pendingCover    = null;
+let detailItems     = [];
+let existingCover   = '';
+let cachedProjects  = [];
+let dragSrcIdx      = null;
 
-/* =========================================
-   AUTH
-   ========================================= */
-function doLogin() {
+/* ── AUTH ── */
+window.doLogin = function() {
   const pw = document.getElementById('pw-input').value;
   if (pw === PASS) {
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('admin-screen').classList.add('show');
-    renderProjectList();
-    renderLinkList();
+    fetchProjects();
+    fetchLinks();
   } else {
     document.getElementById('login-error').textContent = '비밀번호가 맞지 않습니다.';
     document.getElementById('pw-input').value = '';
   }
-}
-function doLogout() {
+};
+window.doLogout = function() {
   document.getElementById('admin-screen').classList.remove('show');
   document.getElementById('login-screen').style.display = 'flex';
   document.getElementById('pw-input').value = '';
   document.getElementById('login-error').textContent = '';
-}
+};
 
-/* =========================================
-   TABS
-   ========================================= */
-function switchTab(name) {
+/* ── TABS ── */
+window.switchTab = function(name) {
   document.querySelectorAll('.adm-tab').forEach(t => t.classList.toggle('is-on', t.dataset.tab === name));
   document.querySelectorAll('.adm-view').forEach(v => v.classList.toggle('is-on', v.id === `tab-${name}`));
-}
+};
 
-/* =========================================
-   PROJECT CRUD
-   ========================================= */
-function loadProjects() {
-  try { return JSON.parse(localStorage.getItem(PROJECTS_KEY) || '[]'); } catch(e) { return []; }
-}
-function saveProjects(arr) {
-  localStorage.setItem(PROJECTS_KEY, JSON.stringify(arr));
+/* ── FIRESTORE: 프로젝트 ── */
+async function fetchProjects() {
+  const el = document.getElementById('project-list');
+  el.innerHTML = '<div class="loading-state"><div class="loading-spinner"></div>불러오는 중...</div>';
+  try {
+    const q = query(collection(db, 'projects'), orderBy('createdAt', 'desc'));
+    const snap = await getDocs(q);
+    cachedProjects = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderProjectList();
+  } catch(e) {
+    el.innerHTML = `<div class="loading-state">불러오기 실패: ${e.message}</div>`;
+  }
 }
 
 function renderProjectList() {
-  const projects = loadProjects();
   const el = document.getElementById('project-list');
-  if (!projects.length) {
-    el.innerHTML = `<div class="empty-projects" style="grid-column:1/-1;">등록된 현장이 없습니다.<br>"새 현장 추가" 버튼으로 시작해 주세요.</div>`;
+  if (!cachedProjects.length) {
+    el.innerHTML = '<div class="empty-projects">등록된 현장이 없습니다.<br>"새 현장 추가" 버튼으로 시작해 주세요.</div>';
     return;
   }
-  el.innerHTML = projects.map(p => `
+  el.innerHTML = cachedProjects.map(p => `
     <div class="project-card">
       <div class="project-card__cover">
         ${p.coverImage
@@ -435,7 +379,8 @@ function renderProjectList() {
       <div class="project-card__body">
         <div class="project-card__name">${esc(p.siteName)}</div>
         <div class="project-card__meta">
-          ${p.area ? p.area + ' &nbsp;·&nbsp; ' : ''}${p.type || ''}${p.location ? '<br>' + p.location : ''}
+          ${p.area ? p.area + ' &nbsp;·&nbsp; ' : ''}${p.type || ''}
+          ${p.location ? '<br>' + p.location : ''}
           ${p.images && p.images.length ? `<br>상세 이미지 ${p.images.length}장` : ''}
         </div>
       </div>
@@ -447,423 +392,290 @@ function renderProjectList() {
   `).join('');
 }
 
-function deleteProject(id) {
+window.deleteProject = async function(id) {
   if (!confirm('이 현장을 삭제하시겠습니까?')) return;
-  const arr = loadProjects().filter(p => p.id !== id);
-  saveProjects(arr);
-  renderProjectList();
-  showToast('삭제되었습니다.');
-}
+  try {
+    await deleteDoc(doc(db, 'projects', id));
+    cachedProjects = cachedProjects.filter(p => p.id !== id);
+    renderProjectList();
+    showToast('삭제되었습니다.');
+  } catch(e) { showToast('삭제 실패: ' + e.message); }
+};
 
-/* =========================================
-   MODAL 열기 / 닫기
-   ========================================= */
-function openModal(id) {
-  editingId      = id || null;
-  pendingCover   = null;
-  detailItems    = [];   // ← pendingDetails 대신 detailItems 사용
-  existingCover  = '';
-  existingDetails = [];
+/* ── MODAL ── */
+window.openModal = function(id) {
+  editingId    = id || null;
+  pendingCover = null;
+  detailItems  = [];
+  existingCover = '';
 
-  // 폼 초기화
   ['mf-sitename','mf-area','mf-location','mf-period'].forEach(i => document.getElementById(i).value = '');
   document.getElementById('mf-type').value = '';
-  document.getElementById('cover-preview').innerHTML  = '';
+  document.getElementById('cover-preview').innerHTML = '';
   document.getElementById('detail-preview').innerHTML = '';
   document.getElementById('detail-drag-hint').style.display = 'none';
-  document.getElementById('cover-file').value  = '';
+  document.getElementById('cover-file').value = '';
   document.getElementById('detail-files').value = '';
 
   if (id) {
-    const p = loadProjects().find(x => x.id === id);
+    const p = cachedProjects.find(x => x.id === id);
     if (!p) return;
     document.getElementById('modal-title').textContent = '현장 수정';
-    document.getElementById('mf-sitename').value = p.siteName  || '';
-    document.getElementById('mf-area').value     = p.area      || '';
-    document.getElementById('mf-location').value = p.location  || '';
-    document.getElementById('mf-period').value   = p.period    || '';
-    document.getElementById('mf-type').value     = p.type      || '';
-
-    existingCover   = p.coverImage || '';
-    existingDetails = p.images     || [];
-
+    document.getElementById('mf-sitename').value = p.siteName || '';
+    document.getElementById('mf-area').value     = p.area     || '';
+    document.getElementById('mf-location').value = p.location || '';
+    document.getElementById('mf-period').value   = p.period   || '';
+    document.getElementById('mf-type').value     = p.type     || '';
+    existingCover = p.coverImage || '';
     if (existingCover) renderCoverPreview(existingCover);
-    // 기존 상세 이미지를 detailItems로 로드
-    if (existingDetails.length) loadExistingDetailImages(existingDetails);
+    if (p.images && p.images.length) loadExistingDetailImages(p.images);
   } else {
     document.getElementById('modal-title').textContent = '새 현장 추가';
   }
-
   document.getElementById('modal-overlay').classList.add('show');
-}
-
-function closeModal() {
+};
+window.closeModal = function() {
   document.getElementById('modal-overlay').classList.remove('show');
-}
-// 오버레이 클릭으로 닫기
+};
 document.getElementById('modal-overlay').addEventListener('click', e => {
-  if (e.target === document.getElementById('modal-overlay')) closeModal();
+  if (e.target === document.getElementById('modal-overlay')) window.closeModal();
 });
 
-/* =========================================
-   FILE SELECT + 미리보기 (삭제 · 순서 변경)
-   ========================================= */
-
-function onCoverSelect(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  pendingCover = file;
-  const reader = new FileReader();
-  reader.onload = ev => renderCoverPreview(ev.target.result);
-  reader.readAsDataURL(file);
-}
-
+/* ── 이미지 미리보기 ── */
 function renderCoverPreview(src) {
-  const el = document.getElementById('cover-preview');
-  el.innerHTML = `
+  document.getElementById('cover-preview').innerHTML = `
     <div class="preview-thumb-wrap is-cover">
       <img class="preview-thumb" src="${src}">
       <div class="preview-cover-badge">대표</div>
       <button class="preview-remove" onclick="removeCover()" title="삭제">✕</button>
     </div>`;
 }
-
-function removeCover() {
-  pendingCover  = null;
-  existingCover = '';
+window.removeCover = function() {
+  pendingCover = null; existingCover = '';
   document.getElementById('cover-preview').innerHTML = '';
   document.getElementById('cover-file').value = '';
+};
+window.onCoverSelect = function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  pendingCover = file;
+  const reader = new FileReader();
+  reader.onload = ev => renderCoverPreview(ev.target.result);
+  reader.readAsDataURL(file);
+};
+function loadExistingDetailImages(urls) {
+  detailItems = urls.map(url => ({ src: url, file: null }));
+  renderDetailPreview();
 }
-
-/* 상세 이미지 선택 */
-function onDetailSelect(e) {
-  const files = Array.from(e.target.files).filter(f => f.type.startsWith('image/'));
-  addDetailFiles(files);
+window.onDetailSelect = function(e) {
+  addDetailFiles(Array.from(e.target.files).filter(f => f.type.startsWith('image/')));
   e.target.value = '';
-}
-
+};
 function addDetailFiles(files) {
   files.forEach(f => {
     const item = { src: null, file: f };
     detailItems.push(item);
     const idx = detailItems.length - 1;
     const reader = new FileReader();
-    reader.onload = ev => {
-      detailItems[idx].src = ev.target.result;
-      renderDetailPreview();
-    };
+    reader.onload = ev => { detailItems[idx].src = ev.target.result; renderDetailPreview(); };
     reader.readAsDataURL(f);
   });
 }
-
-/* 기존 URL 이미지 (수정 모드) */
-function loadExistingDetailImages(urls) {
-  detailItems = urls.map(url => ({ src: url, file: null }));
-  renderDetailPreview();
-}
-
-/* 렌더링 */
 function renderDetailPreview() {
-  const el    = document.getElementById('detail-preview');
-  const hint  = document.getElementById('detail-drag-hint');
+  const hint = document.getElementById('detail-drag-hint');
   hint.style.display = detailItems.length ? 'flex' : 'none';
-
-  el.innerHTML = detailItems.map((item, i) => `
-    <div class="preview-thumb-wrap"
-         draggable="true"
-         data-idx="${i}"
-         ondragstart="onDragStart(event,${i})"
-         ondragover="onDragOver(event,${i})"
-         ondragleave="onDragLeave(event)"
-         ondrop="onDrop(event,${i})"
-         ondragend="onDragEnd(event)">
-      <img class="preview-thumb" src="${item.src || ''}" alt="이미지 ${i+1}">
-      <div class="preview-order-num">${i + 1}</div>
+  document.getElementById('detail-preview').innerHTML = detailItems.map((item, i) => `
+    <div class="preview-thumb-wrap" draggable="true" data-idx="${i}"
+      ondragstart="onDragStart(event,${i})" ondragover="onDragOver(event,${i})"
+      ondragleave="onDragLeave(event)" ondrop="onDrop(event,${i})" ondragend="onDragEnd(event)">
+      <img class="preview-thumb" src="${item.src||''}" alt="이미지 ${i+1}">
+      <div class="preview-order-num">${i+1}</div>
       <button class="preview-remove" onclick="removeDetailItem(${i})" title="삭제">✕</button>
-    </div>
-  `).join('');
+    </div>`).join('');
 }
+window.removeDetailItem = function(idx) { detailItems.splice(idx,1); renderDetailPreview(); };
 
-function removeDetailItem(idx) {
-  detailItems.splice(idx, 1);
-  renderDetailPreview();
-}
-
-/* ── 드래그 & 드롭 순서 변경 ── */
-let dragSrcIdx = null;
-
-function onDragStart(e, idx) {
-  dragSrcIdx = idx;
-  e.dataTransfer.effectAllowed = 'move';
-  setTimeout(() => {
-    const el = document.querySelector(`[data-idx="${idx}"]`);
-    if (el) el.classList.add('is-dragging');
-  }, 0);
-}
-
-function onDragOver(e, idx) {
+/* ── 드래그 순서 변경 ── */
+window.onDragStart = function(e,idx) {
+  dragSrcIdx = idx; e.dataTransfer.effectAllowed='move';
+  setTimeout(()=>{ const el=document.querySelector(`[data-idx="${idx}"]`); if(el) el.classList.add('is-dragging'); },0);
+};
+window.onDragOver = function(e,idx) {
+  e.preventDefault(); e.dataTransfer.dropEffect='move';
+  if(idx===dragSrcIdx) return;
+  document.querySelectorAll('.preview-thumb-wrap').forEach(el=>el.classList.remove('drag-over-target'));
+  const el=document.querySelector(`[data-idx="${idx}"]`); if(el) el.classList.add('drag-over-target');
+};
+window.onDragLeave = function(e) { e.currentTarget.classList.remove('drag-over-target'); };
+window.onDrop = function(e,targetIdx) {
   e.preventDefault();
-  e.dataTransfer.dropEffect = 'move';
-  if (idx === dragSrcIdx) return;
-  document.querySelectorAll('.preview-thumb-wrap').forEach(el => el.classList.remove('drag-over-target'));
-  const el = document.querySelector(`[data-idx="${idx}"]`);
-  if (el) el.classList.add('drag-over-target');
-}
-
-function onDragLeave(e) {
-  e.currentTarget.classList.remove('drag-over-target');
-}
-
-function onDrop(e, targetIdx) {
-  e.preventDefault();
-  if (dragSrcIdx === null || dragSrcIdx === targetIdx) return;
-  // 배열 순서 변경
-  const moved = detailItems.splice(dragSrcIdx, 1)[0];
-  detailItems.splice(targetIdx, 0, moved);
-  dragSrcIdx = null;
-  renderDetailPreview();
-}
-
-function onDragEnd(e) {
-  dragSrcIdx = null;
-  document.querySelectorAll('.preview-thumb-wrap').forEach(el => {
-    el.classList.remove('is-dragging', 'drag-over-target');
-  });
-}
-
-/* 드롭존 파일 드롭 (업로드 박스로 드롭) */
+  if(dragSrcIdx===null||dragSrcIdx===targetIdx) return;
+  const moved=detailItems.splice(dragSrcIdx,1)[0]; detailItems.splice(targetIdx,0,moved);
+  dragSrcIdx=null; renderDetailPreview();
+};
+window.onDragEnd = function() {
+  dragSrcIdx=null;
+  document.querySelectorAll('.preview-thumb-wrap').forEach(el=>el.classList.remove('is-dragging','drag-over-target'));
+};
 const detailDrop = document.getElementById('detail-drop');
-detailDrop.addEventListener('dragover', e => {
-  // 파일 드롭인지 썸네일 이동인지 구분
-  if (dragSrcIdx !== null) return;
-  e.preventDefault(); detailDrop.classList.add('drag-over');
-});
-detailDrop.addEventListener('dragleave', () => detailDrop.classList.remove('drag-over'));
-detailDrop.addEventListener('drop', e => {
-  if (dragSrcIdx !== null) return;
+detailDrop.addEventListener('dragover', e=>{ if(dragSrcIdx!==null) return; e.preventDefault(); detailDrop.classList.add('drag-over'); });
+detailDrop.addEventListener('dragleave', ()=>detailDrop.classList.remove('drag-over'));
+detailDrop.addEventListener('drop', e=>{
+  if(dragSrcIdx!==null) return;
   e.preventDefault(); detailDrop.classList.remove('drag-over');
-  const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
-  if (files.length) addDetailFiles(files);
+  addDetailFiles(Array.from(e.dataTransfer.files).filter(f=>f.type.startsWith('image/')));
 });
 
-/* =========================================
-   SAVE PROJECT — 병렬 업로드 + 압축
-   ========================================= */
-const PARALLEL = 4;       // 동시 업로드 수
-const MAX_PX   = 1920;    // 최대 가로/세로 픽셀
-const QUALITY  = 0.82;    // JPEG 품질 (0~1)
-
-async function saveProject() {
+/* ── SAVE PROJECT → Firestore ── */
+window.saveProject = async function() {
   const siteName = document.getElementById('mf-sitename').value.trim();
   if (!siteName) { showToast('현장명을 입력해 주세요.'); return; }
 
-  const btn  = document.getElementById('btn-save');
-  const prog = document.getElementById('upload-prog');
-  const bar  = document.getElementById('prog-bar');
-  const txt  = document.getElementById('prog-text');
-
-  btn.disabled = true;
-  prog.classList.add('show');
-  bar.style.width = '0%';
+  const btn=document.getElementById('btn-save'), prog=document.getElementById('upload-prog');
+  const bar=document.getElementById('prog-bar'), txt=document.getElementById('prog-text');
+  btn.disabled=true; prog.classList.add('show'); bar.style.width='0%';
 
   let coverUrl = existingCover;
-
-  // detailItems 중 file이 있는 것만 업로드, URL인 것은 그대로 유지
-  const newFileItems  = detailItems.filter(d => d.file !== null);
-  const existUrlItems = detailItems.filter(d => d.file === null);
-
-  // 전체 업로드 대상 (커버 + 새 파일들)
+  const newFiles   = detailItems.filter(d=>d.file!==null);
+  const existUrls  = detailItems.filter(d=>d.file===null);
   const uploadQueue = [];
-  if (pendingCover) uploadQueue.push({ file: pendingCover, role: 'cover' });
-  newFileItems.forEach((d, i) => uploadQueue.push({ file: d.file, role: 'detail', detailIdx: i }));
+  if (pendingCover) uploadQueue.push({file:pendingCover, role:'cover'});
+  newFiles.forEach(d=>uploadQueue.push({file:d.file, role:'detail'}));
 
-  const total = uploadQueue.length;
-  let done = 0;
+  const total=uploadQueue.length; let done=0;
+  const updateBar=()=>{ done++; const p=Math.round(done/Math.max(total,1)*100); bar.style.width=p+'%'; txt.textContent=total>0?`업로드 중... ${done}/${total} (${p}%)`:'저장 중...'; };
 
-  const updateBar = () => {
-    done++;
-    const pct = Math.round((done / Math.max(total, 1)) * 100);
-    bar.style.width = pct + '%';
-    txt.textContent = total > 0 ? `업로드 중... ${done} / ${total} (${pct}%)` : '저장 중...';
-  };
-
-  // 병렬 업로드 결과
-  const uploadResults = new Array(uploadQueue.length).fill(null);
-
-  for (let i = 0; i < uploadQueue.length; i += PARALLEL) {
-    const chunk = uploadQueue.slice(i, i + PARALLEL);
-    await Promise.all(chunk.map(async (item, j) => {
-      const gi = i + j;
-      try {
-        const compressed = await compressImage(item.file);
-        uploadResults[gi] = { role: item.role, detailIdx: item.detailIdx, url: await uploadToCloudinary(compressed) };
-      } catch(e) {
-        uploadResults[gi] = { role: item.role, detailIdx: item.detailIdx, url: null };
-        showToast(`${item.file.name} 업로드 실패`);
-      }
-      updateBar();
+  const uploadResults=[];
+  for(let i=0;i<uploadQueue.length;i+=PARALLEL) {
+    const chunk=uploadQueue.slice(i,i+PARALLEL);
+    const res = await Promise.all(chunk.map(async item=>{
+      try { const c=await compressImage(item.file); return {role:item.role, url:await uploadToCloudinary(c)}; }
+      catch(e){ showToast(`${item.file.name} 업로드 실패`); return {role:item.role, url:null}; }
     }));
+    res.forEach(r=>uploadResults.push(r));
+    updateBar();
   }
 
-  // 커버 URL 업데이트
-  const coverResult = uploadResults.find(r => r && r.role === 'cover');
-  if (coverResult?.url) coverUrl = coverResult.url;
+  const coverRes=uploadResults.find(r=>r.role==='cover');
+  if(coverRes?.url) coverUrl=coverRes.url;
 
-  // 상세 이미지: detailItems 순서 유지하면서 URL 교체
-  let newFileUploadedUrls = [];
-  uploadResults.filter(r => r && r.role === 'detail' && r.url).forEach(r => {
-    newFileUploadedUrls.push(r.url);
-  });
+  let newUrlIdx=0;
+  const newUploadedUrls=uploadResults.filter(r=>r.role==='detail'&&r.url).map(r=>r.url);
+  const finalImages=detailItems.map(d=>d.file===null?d.src:newUploadedUrls[newUrlIdx++]).filter(Boolean);
 
-  // detailItems 순서대로 URL 배열 구성
-  let newFileIdx = 0;
-  const finalDetailUrls = detailItems.map(d => {
-    if (d.file === null) return d.src;   // 기존 URL 그대로
-    return newFileUploadedUrls[newFileIdx++] || null;  // 새로 업로드된 URL
-  }).filter(Boolean);
+  bar.style.width='100%'; txt.textContent='저장 중...';
 
-  bar.style.width = '100%';
-  txt.textContent = '저장 완료!';
-
-  const projects = loadProjects();
-  const newProject = {
-    id:         editingId || uid(),
-    siteName:   document.getElementById('mf-sitename').value.trim(),
-    area:       document.getElementById('mf-area').value.trim(),
-    location:   document.getElementById('mf-location').value.trim(),
-    period:     document.getElementById('mf-period').value.trim(),
-    type:       document.getElementById('mf-type').value,
+  const id = editingId || uid();
+  const data = {
+    siteName: document.getElementById('mf-sitename').value.trim(),
+    area:     document.getElementById('mf-area').value.trim(),
+    location: document.getElementById('mf-location').value.trim(),
+    period:   document.getElementById('mf-period').value.trim(),
+    type:     document.getElementById('mf-type').value,
     coverImage: coverUrl,
-    images:     finalDetailUrls,
-    updatedAt:  Date.now(),
-    createdAt:  editingId ? (projects.find(p => p.id === editingId)?.createdAt || Date.now()) : Date.now(),
+    images:   finalImages,
+    updatedAt: Date.now(),
+    createdAt: editingId ? (cachedProjects.find(p=>p.id===editingId)?.createdAt||Date.now()) : Date.now(),
   };
 
-  if (editingId) {
-    const idx = projects.findIndex(p => p.id === editingId);
-    if (idx >= 0) projects[idx] = newProject; else projects.unshift(newProject);
-  } else {
-    projects.unshift(newProject);
-  }
+  try {
+    await setDoc(doc(db,'projects',id), data);
+    if(editingId) {
+      const idx=cachedProjects.findIndex(p=>p.id===editingId);
+      if(idx>=0) cachedProjects[idx]={id,...data}; else cachedProjects.unshift({id,...data});
+    } else {
+      cachedProjects.unshift({id,...data});
+    }
+    renderProjectList();
+    window.closeModal();
+    showToast(editingId?'현장이 수정되었습니다. ✓':`현장 등록 완료! ✓`);
+  } catch(e) { showToast('저장 실패: '+e.message); }
 
-  saveProjects(projects);
-  renderProjectList();
-  closeModal();
-  showToast(editingId ? '현장이 수정되었습니다. ✓' : `현장 등록 완료! (이미지 ${total}장) ✓`);
-  setTimeout(() => { prog.classList.remove('show'); bar.style.width = '0%'; btn.disabled = false; }, 1000);
+  setTimeout(()=>{ prog.classList.remove('show'); bar.style.width='0%'; btn.disabled=false; },800);
+};
+
+/* ── Cloudinary 업로드 ── */
+async function uploadToCloudinary(file) {
+  const fd=new FormData();
+  fd.append('file',file); fd.append('upload_preset',UPLOAD_PRESET); fd.append('folder','designfor_portfolio');
+  const res=await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,{method:'POST',body:fd});
+  if(!res.ok){const e=await res.json();throw new Error(e.error?.message||'실패');}
+  return (await res.json()).secure_url;
 }
 
-/* =========================================
-   이미지 압축 — Canvas 리사이즈
-   ========================================= */
+/* ── 이미지 압축 ── */
 function compressImage(file) {
-  return new Promise((resolve) => {
-    // 이미 작은 파일은 그냥 통과
-    if (file.size < 300 * 1024) { resolve(file); return; }
-
-    const img = new Image();
-    const url = URL.createObjectURL(file);
-    img.onload = () => {
+  return new Promise(resolve=>{
+    if(file.size<300*1024){resolve(file);return;}
+    const img=new Image(), url=URL.createObjectURL(file);
+    img.onload=()=>{
       URL.revokeObjectURL(url);
-      let { width, height } = img;
-
-      // 비율 유지하며 축소
-      if (width > MAX_PX || height > MAX_PX) {
-        if (width > height) { height = Math.round(height * MAX_PX / width); width = MAX_PX; }
-        else                { width  = Math.round(width  * MAX_PX / height); height = MAX_PX; }
-      }
-
-      const canvas = document.createElement('canvas');
-      canvas.width = width; canvas.height = height;
-      canvas.getContext('2d').drawImage(img, 0, 0, width, height);
-
-      canvas.toBlob(blob => {
-        resolve(blob || file);
-      }, 'image/jpeg', QUALITY);
+      let{width:w,height:h}=img;
+      if(w>MAX_PX||h>MAX_PX){if(w>h){h=Math.round(h*MAX_PX/w);w=MAX_PX;}else{w=Math.round(w*MAX_PX/h);h=MAX_PX;}}
+      const c=document.createElement('canvas'); c.width=w; c.height=h;
+      c.getContext('2d').drawImage(img,0,0,w,h);
+      c.toBlob(b=>resolve(b||file),'image/jpeg',QUALITY);
     };
-    img.onerror = () => resolve(file);
-    img.src = url;
+    img.onerror=()=>resolve(file); img.src=url;
   });
 }
 
-/* =========================================
-   CLOUDINARY 업로드
-   ========================================= */
-async function uploadToCloudinary(file) {
-  const fd = new FormData();
-  fd.append('file', file);
-  fd.append('upload_preset', UPLOAD_PRESET);
-  fd.append('folder', 'designfor_portfolio');
-  const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, { method: 'POST', body: fd });
-  if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || '실패'); }
-  const data = await res.json();
-  return data.secure_url;
+/* ── FIRESTORE: 링크 ── */
+async function fetchLinks() {
+  try {
+    const snap=await getDocs(query(collection(db,'links'),orderBy('createdAt','desc')));
+    renderLinkList(snap.docs.map(d=>({id:d.id,...d.data()})));
+  } catch(e){}
+}
+window.addLink = async function() {
+  const title=document.getElementById('link-title').value.trim();
+  let url=document.getElementById('link-url').value.trim();
+  const memo=document.getElementById('link-memo').value.trim();
+  const tag=document.querySelector('#link-tags .tag-btn.selected')?.dataset.tag||'';
+  if(!title){showToast('링크 제목을 입력해주세요.');return;}
+  if(!url){showToast('URL을 입력해주세요.');return;}
+  if(!/^https?:\/\//i.test(url)) url='https://'+url;
+  const id=uid();
+  const data={title,url,memo,tag,createdAt:Date.now()};
+  try {
+    await setDoc(doc(db,'links',id),data);
+    showToast('링크가 등록되었습니다.');
+    ['link-title','link-url','link-memo'].forEach(i=>document.getElementById(i).value='');
+    fetchLinks();
+  } catch(e){showToast('저장 실패: '+e.message);}
+};
+window.deleteLink = async function(id) {
+  try { await deleteDoc(doc(db,'links',id)); fetchLinks(); showToast('삭제되었습니다.'); }
+  catch(e){showToast('삭제 실패');}
+};
+function renderLinkList(links) {
+  const el=document.getElementById('link-list');
+  if(!links||!links.length){el.innerHTML='';return;}
+  el.innerHTML=links.map(l=>`
+    <div class="link-item">
+      <div style="flex:1;min-width:0;"><div class="link-item__title">${esc(l.title)}</div><div class="link-item__url">${esc(l.url)}</div></div>
+      <span class="link-item__tag">${esc(l.tag)}</span>
+      <button class="link-del" onclick="deleteLink('${esc(l.id)}')"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg></button>
+    </div>`).join('');
 }
 
-/* =========================================
-   LINKS
-   ========================================= */
-function loadLinks() { try { return JSON.parse(localStorage.getItem(LINKS_KEY)||'[]'); } catch(e){return[];} }
-function saveLinks(arr) { localStorage.setItem(LINKS_KEY, JSON.stringify(arr)); }
-
-document.getElementById('link-tags').addEventListener('click', e => {
-  const btn = e.target.closest('.tag-btn'); if(!btn) return;
+/* 링크 태그 선택 */
+document.getElementById('link-tags').addEventListener('click',e=>{
+  const btn=e.target.closest('.tag-btn'); if(!btn) return;
   document.querySelectorAll('#link-tags .tag-btn').forEach(b=>b.classList.remove('selected'));
   btn.classList.add('selected');
 });
 
-function addLink() {
-  const title = document.getElementById('link-title').value.trim();
-  let   url   = document.getElementById('link-url').value.trim();
-  const memo  = document.getElementById('link-memo').value.trim();
-  const tag   = document.querySelector('#link-tags .tag-btn.selected')?.dataset.tag || '';
-  if (!title) { showToast('링크 제목을 입력해주세요.'); return; }
-  if (!url)   { showToast('URL을 입력해주세요.'); return; }
-  if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
-  const links = loadLinks();
-  links.unshift({ id:uid(), title, url, memo, tag, createdAt:Date.now() });
-  saveLinks(links);
-  renderLinkList();
-  showToast('링크가 등록되었습니다.');
-  ['link-title','link-url','link-memo'].forEach(id => document.getElementById(id).value='');
-}
-
-function deleteLink(id) {
-  saveLinks(loadLinks().filter(l=>l.id!==id));
-  renderLinkList();
-  showToast('삭제되었습니다.');
-}
-
-function renderLinkList() {
-  const links = loadLinks();
-  const el = document.getElementById('link-list');
-  if (!links.length) { el.innerHTML=''; return; }
-  el.innerHTML = links.map(l=>`
-    <div class="link-item">
-      <div style="flex:1;min-width:0;">
-        <div class="link-item__title">${esc(l.title)}</div>
-        <div class="link-item__url">${esc(l.url)}</div>
-      </div>
-      <span class="link-item__tag">${esc(l.tag)}</span>
-      <button class="link-del" onclick="deleteLink('${esc(l.id)}')">
-        <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
-      </button>
-    </div>
-  `).join('');
-}
-
-/* =========================================
-   TOAST / UTILS
-   ========================================= */
+/* ── TOAST / UTILS ── */
 let toastTimer;
 function showToast(msg) {
-  const el = document.getElementById('toast');
-  el.textContent = msg; el.classList.add('show');
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.classList.add('show');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(()=>el.classList.remove('show'), 2500);
+  toastTimer=setTimeout(()=>el.classList.remove('show'),2500);
 }
-function uid() { return Math.random().toString(36).slice(2)+Date.now().toString(36); }
-function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function uid(){return Math.random().toString(36).slice(2)+Date.now().toString(36);}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 </script>
 </body>
 </html>
