@@ -38,44 +38,82 @@ a { text-decoration: none; color: inherit; }
 button { font-family: var(--ff-sans); }
 
 /* =========================================
-   HEADER
+   HEADER — 투명 (홈) / 불투명 (다른 페이지)
    ========================================= */
 #header {
   position: fixed; top: 0; left: 0; right: 0;
   height: var(--header-h); z-index: 500;
   display: flex; align-items: center; justify-content: space-between;
   padding: 0 var(--pad-x);
-  background: rgba(253,251,248,0.94);
-  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--c-border);
+  background: transparent;
+  border-bottom: 1px solid transparent;
   pointer-events: all;
+  transition: background 0.4s, border-color 0.4s;
+}
+/* 홈이 아닐 때 — 밝은 배경 */
+#header.is-solid {
+  background: rgba(253,251,248,0.96);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border-bottom-color: var(--c-border);
 }
 .logo { display: flex; flex-direction: column; cursor: pointer; line-height: 1; user-select: none; }
-.logo__en { font-family: var(--ff-serif); font-size: 20px; font-weight: 400; letter-spacing: 0.16em; color: var(--c-dark); }
-.logo__ko { font-size: 9px; font-weight: 300; letter-spacing: 0.30em; color: var(--c-stone); margin-top: 4px; }
+.logo__en {
+  font-family: var(--ff-serif); font-size: 20px; font-weight: 400;
+  letter-spacing: 0.16em; color: #fff;
+  transition: color 0.4s;
+}
+.logo__ko {
+  font-size: 9px; font-weight: 300; letter-spacing: 0.30em;
+  color: rgba(255,255,255,0.55); margin-top: 4px;
+  transition: color 0.4s;
+}
+#header.is-solid .logo__en { color: var(--c-dark); }
+#header.is-solid .logo__ko { color: var(--c-stone); }
+
 .nav { display: flex; align-items: center; list-style: none; }
 .nav__link {
   display: block; padding: 8px 20px;
   font-size: 11px; font-weight: 300; letter-spacing: 0.20em;
-  color: var(--c-stone); cursor: pointer; transition: color 0.25s;
+  color: rgba(255,255,255,0.75); cursor: pointer; transition: color 0.25s;
   white-space: nowrap; user-select: none; position: relative;
 }
 .nav__link::after {
   content: ''; position: absolute; bottom: 2px; left: 20px; right: 20px;
-  height: 1px; background: var(--c-gold);
+  height: 1px; background: #fff;
   transform: scaleX(0); transform-origin: left; transition: transform 0.3s var(--ease-out);
 }
-.nav__link:hover, .nav__link.is-active { color: var(--c-dark); }
+.nav__link:hover, .nav__link.is-active { color: #fff; }
 .nav__link:hover::after, .nav__link.is-active::after { transform: scaleX(1); }
+
+/* solid 상태에서 메뉴 색 */
+#header.is-solid .nav__link { color: var(--c-stone); }
+#header.is-solid .nav__link::after { background: var(--c-gold); }
+#header.is-solid .nav__link:hover,
+#header.is-solid .nav__link.is-active { color: var(--c-dark); }
+
+/* 기존 header-cta 제거 — 홈에는 별도 버튼 사용 */
 .header-cta {
-  font-size: 10px; font-weight: 400; letter-spacing: 0.22em;
-  color: var(--c-gold); border: 1px solid var(--c-gold);
+  font-size: 10px; font-weight: 300; letter-spacing: 0.22em;
+  color: rgba(255,255,255,0.8); border: 1px solid rgba(255,255,255,0.4);
   padding: 9px 20px; background: transparent; cursor: pointer;
-  transition: background 0.3s, color 0.3s;
+  transition: background 0.3s, color 0.3s, border-color 0.3s;
+  white-space: nowrap;
 }
-.header-cta:hover { background: var(--c-gold); color: #fff; }
+.header-cta:hover {
+  background: rgba(255,255,255,1);
+  color: var(--c-dark);
+  border-color: #fff;
+}
+#header.is-solid .header-cta {
+  color: var(--c-gold); border-color: var(--c-gold);
+}
+#header.is-solid .header-cta:hover {
+  background: var(--c-gold); color: #fff;
+}
+
 .hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 32px; height: 32px; background: none; border: none; cursor: pointer; padding: 4px; }
-.hamburger__bar { display: block; width: 22px; height: 1px; background: var(--c-dark); transition: transform 0.35s var(--ease-out), opacity 0.3s; }
+.hamburger__bar { display: block; width: 22px; height: 1px; background: #fff; transition: transform 0.35s var(--ease-out), opacity 0.3s, background 0.4s; }
+#header.is-solid .hamburger__bar { background: var(--c-dark); }
 .hamburger.is-open .hamburger__bar:nth-child(1) { transform: translateY(6px) rotate(45deg); }
 .hamburger.is-open .hamburger__bar:nth-child(2) { opacity: 0; }
 .hamburger.is-open .hamburger__bar:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
@@ -104,35 +142,70 @@ button { font-family: var(--ff-sans); }
    ========================================= */
 #pg-home { background: var(--c-dark2); overflow: hidden; }
 .home-stage { position: absolute; inset: 0; }
-.home-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1.2s cubic-bezier(0.4,0,0.2,1); pointer-events: none; }
+
+/* 슬라이드 — 켄번스 줌 애니메이션 */
+.home-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1.2s cubic-bezier(0.4,0,0.2,1); pointer-events: none; overflow: hidden; }
 .home-slide.is-active { opacity: 1; pointer-events: all; }
-.home-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.home-slide__dim { position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,10,8,0.65) 0%, rgba(10,10,8,0.2) 60%, transparent 100%); }
+.home-slide img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transform: scale(1.0);
+  animation: none;
+}
+/* 활성 슬라이드 이미지에 켄번스 줌 적용 */
+.home-slide.is-active img {
+  animation: kenburns 5s ease-out forwards;
+}
+@keyframes kenburns {
+  from { transform: scale(1.0); }
+  to   { transform: scale(1.05); }
+}
+
+.home-slide__dim { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.35) 100%); }
 .home-bg-dark { position: absolute; inset: 0; background: var(--c-dark2); }
 .home-texture { position: absolute; inset: 0; opacity: 0.03; background-image: repeating-linear-gradient(0deg,transparent,transparent 79px,rgba(255,255,255,1) 79px,rgba(255,255,255,1) 80px), repeating-linear-gradient(90deg,transparent,transparent 79px,rgba(255,255,255,1) 79px,rgba(255,255,255,1) 80px); }
-.home-accent { position: absolute; top: 0; left: var(--pad-x); width: 1px; height: 96px; background: linear-gradient(to bottom, transparent, var(--c-gold)); animation: growDown 1.6s 0.4s var(--ease-out) both; }
-@keyframes growDown { from { transform: scaleY(0); opacity: 0; transform-origin: top; } to { transform: scaleY(1); opacity: 1; transform-origin: top; } }
-.home__content { position: absolute; bottom: 80px; left: var(--pad-x); z-index: 10; animation: fadeUp 1.2s 0.5s var(--ease-out) both; }
-@keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
-.home__eyebrow { font-size: 9px; letter-spacing: 0.42em; color: var(--c-gold); font-weight: 400; margin-bottom: 28px; text-transform: uppercase; }
-.home__title { font-family: var(--ff-serif); font-size: clamp(56px,9.5vw,110px); font-weight: 300; line-height: 1.02; letter-spacing: -0.02em; color: #F0EDE6; margin-bottom: 32px; }
-.home__title em { font-style: italic; color: var(--c-gold-lt); }
-.home__sub { font-family: var(--ff-kr); font-size: clamp(13px,1.6vw,17px); font-weight: 300; color: rgba(240,237,230,0.5); line-height: 1.9; margin-bottom: 44px; letter-spacing: 0.04em; }
-.home__btns { display: flex; align-items: center; gap: 40px; }
-.btn--primary { display: inline-flex; align-items: center; font-size: 10px; font-weight: 400; letter-spacing: 0.26em; background: var(--c-gold); color: var(--c-dark); padding: 15px 36px; border: none; cursor: pointer; transition: background 0.3s, transform 0.2s; text-transform: uppercase; }
-.btn--primary:hover { background: var(--c-gold-lt); transform: translateY(-1px); }
-.btn--ghost-light { font-size: 10px; font-weight: 300; letter-spacing: 0.26em; color: rgba(240,237,230,0.5); border: none; background: none; cursor: pointer; border-bottom: 1px solid rgba(240,237,230,0.2); padding-bottom: 3px; transition: color 0.3s, border-color 0.3s; text-transform: uppercase; }
-.btn--ghost-light:hover { color: #F0EDE6; border-color: rgba(240,237,230,0.55); }
-.slide-dots { position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; z-index: 10; }
-.slide-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(240,237,230,0.25); border: none; cursor: pointer; padding: 0; transition: background 0.3s, transform 0.3s; }
-.slide-dot.is-active { background: var(--c-gold); transform: scale(1.3); }
-.slide-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 10; width: 44px; height: 44px; background: rgba(240,237,230,0.08); border: 1px solid rgba(240,237,230,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background 0.3s, border-color 0.3s; }
-.slide-arrow:hover { background: rgba(181,145,85,0.2); border-color: var(--c-gold); }
-.slide-arrow svg { width: 16px; height: 16px; stroke: #F0EDE6; fill: none; stroke-width: 1.5; }
-.slide-arrow--prev { left: 24px; }
-.slide-arrow--next { right: 24px; }
-.slide-progress { position: absolute; bottom: 0; left: 0; height: 2px; background: var(--c-gold); width: 0%; transition: width linear; z-index: 10; }
-.slide-counter { position: absolute; top: 20px; right: var(--pad-x); font-size: 10px; letter-spacing: 0.22em; color: rgba(240,237,230,0.4); z-index: 10; }
+
+/* 중앙 상담문의 버튼 */
+.home__cta-center {
+  position: absolute;
+  bottom: 72px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+.btn--consult {
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.9);
+  border: 1px solid rgba(255,255,255,0.5);
+  background: transparent;
+  padding: 16px 48px;
+  cursor: pointer;
+  transition: background 0.35s, color 0.35s, border-color 0.35s;
+  white-space: nowrap;
+}
+.btn--consult:hover {
+  background: #ffffff;
+  color: var(--c-dark);
+  border-color: #ffffff;
+}
+
+/* 슬라이드 컨트롤 */
+.slide-dots { position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; z-index: 10; }
+.slide-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.3); border: none; cursor: pointer; padding: 0; transition: background 0.3s, transform 0.3s; }
+.slide-dot.is-active { background: #fff; transform: scale(1.4); }
+.slide-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 10; width: 44px; height: 44px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background 0.3s, border-color 0.3s; }
+.slide-arrow:hover { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.6); }
+.slide-arrow svg { width: 16px; height: 16px; stroke: #fff; fill: none; stroke-width: 1.5; }
+.slide-arrow--prev { left: 28px; }
+.slide-arrow--next { right: 28px; }
+.slide-progress { position: absolute; bottom: 0; left: 0; height: 2px; background: rgba(255,255,255,0.6); width: 0%; transition: width linear; z-index: 10; }
+.slide-counter { position: absolute; top: 20px; right: var(--pad-x); font-size: 10px; letter-spacing: 0.22em; color: rgba(255,255,255,0.45); z-index: 10; }
 .home-empty { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; color: rgba(169,165,157,0.3); font-family: var(--ff-serif); font-size: 15px; font-style: italic; letter-spacing: 0.1em; pointer-events: none; }
 .home-empty svg { width: 40px; height: 40px; stroke: rgba(169,165,157,0.18); fill: none; stroke-width: 1; }
 
@@ -408,7 +481,6 @@ button { font-family: var(--ff-sans); }
   <section class="page is-active" id="pg-home">
     <div class="home-bg-dark"></div>
     <div class="home-texture"></div>
-    <div class="home-accent"></div>
     <div class="home-stage" id="home-stage">
       <div class="home-empty" id="home-empty">
         <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
@@ -416,15 +488,12 @@ button { font-family: var(--ff-sans); }
       </div>
       <div id="home-slides"></div>
     </div>
-    <div class="home__content">
-      <p class="home__eyebrow">Design For · Interior</p>
-      <h1 class="home__title">공간이<br><em>쉬워지는</em><br>순간</h1>
-      <p class="home__sub">복잡하게만 느껴졌던 인테리어,<br>디자인포와 함께라면 달라집니다.</p>
-      <div class="home__btns">
-        <button class="btn--primary" onclick="goPage('consult')">무료 상담 신청</button>
-        <button class="btn--ghost-light" onclick="goPage('portfolio')">포트폴리오 보기</button>
-      </div>
+
+    <!-- 중앙 하단 상담 버튼 -->
+    <div class="home__cta-center">
+      <button class="btn--consult" onclick="goPage('consult')">상담 문의하기</button>
     </div>
+
     <div class="slide-dots" id="slide-dots"></div>
     <button class="slide-arrow slide-arrow--prev" id="slide-prev" onclick="slideMove(-1)" style="display:none">
       <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
@@ -519,7 +588,7 @@ button { font-family: var(--ff-sans); }
         <div class="info-list">
           <div class="info-row"><span class="info-row__label">Tel</span><span class="info-row__val">010-0000-0000</span></div>
           <div class="info-row"><span class="info-row__label">Kakao</span><span class="info-row__val">@디자인포 카카오 채널</span></div>
-          <div class="info-row"><span class="info-row__label">Email</span><span class="info-row__val">designfor@naver.com</span></div>
+          <div class="info-row"><span class="info-row__label">Email</span><span class="info-row__val"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="9afeffe9f3fdf4fcf5e8daf4fbecffe8b4f9f5f7">[email&#160;protected]</a></span></div>
           <div class="info-row"><span class="info-row__label">시간</span><span class="info-row__val">평일 09:00 — 18:00</span></div>
         </div>
       </div>
@@ -563,13 +632,13 @@ button { font-family: var(--ff-sans); }
     </div>
     <footer class="site-footer">
       <div><div class="footer__brand">DESIGN FOR</div><div class="footer__copy">© 2025 Design For. All Rights Reserved.</div></div>
-      <div class="footer__info">대표 : 남경 &nbsp;|&nbsp; 경기도 화성시<br>Tel : 010-0000-0000 &nbsp;|&nbsp; designfor@naver.com</div>
+      <div class="footer__info">대표 : 남경 &nbsp;|&nbsp; 경기도 화성시<br>Tel : 010-0000-0000 &nbsp;|&nbsp; <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0a6e6f79636d646c65784a646b7c6f7824696567">[email&#160;protected]</a></div>
     </footer>
   </section>
 
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* =========================================
    PAGE ROUTER
    ========================================= */
@@ -596,6 +665,14 @@ function goPage(id) {
   if (next.nav) document.getElementById(next.nav).classList.add('is-active');
   if (id === 'home')      setTimeout(buildHomeSlideshow, 80);
   if (id === 'portfolio') { showPortList(); setTimeout(buildPortGrid, 80); }
+
+  // 헤더 투명/불투명 전환
+  const header = document.getElementById('header');
+  if (id === 'home') {
+    header.classList.remove('is-solid');
+  } else {
+    header.classList.add('is-solid');
+  }
 }
 
 /* =========================================
@@ -782,13 +859,4 @@ function showPortDetail(id) {
    ========================================= */
 function handleSubmit() {
   const name = document.querySelector('.form-group__input[type="text"]');
-  if (name && !name.value.trim()) { alert('이름을 입력해 주세요.'); return; }
-  alert('상담 신청이 접수되었습니다.\n빠른 시일 내에 연락드리겠습니다 :)');
-}
-function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-
-/* INIT */
-buildHomeSlideshow();
-</script>
-</body>
-</html>
+  if (name && !name.value.tr
