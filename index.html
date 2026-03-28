@@ -120,7 +120,7 @@ button { font-family: var(--ff-sans); }
 /* =========================================
    PAGE SYSTEM
    ========================================= */
-#page-wrap { position: fixed; top: var(--header-h); left: 0; right: 0; bottom: 0; z-index: 1; }
+#page-wrap { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 1; }
 .page { position: absolute; inset: 0; overflow-y: auto; overflow-x: hidden; opacity: 0; pointer-events: none; transition: opacity 0.5s var(--ease-out); -webkit-overflow-scrolling: touch; }
 .page.is-active { opacity: 1; pointer-events: all; }
 
@@ -159,7 +159,7 @@ button { font-family: var(--ff-sans); }
 .slide-arrow--prev { left: 28px; }
 .slide-arrow--next { right: 28px; }
 .slide-progress { position: absolute; bottom: 0; left: 0; height: 2px; background: rgba(255,255,255,0.6); width: 0%; transition: width linear; z-index: 10; }
-.slide-counter { position: absolute; top: 20px; right: var(--pad-x); font-size: 10px; letter-spacing: 0.22em; color: rgba(255,255,255,0.45); z-index: 10; }
+.slide-counter { position: absolute; top: calc(20px + var(--header-h)); right: var(--pad-x); font-size: 10px; letter-spacing: 0.22em; color: rgba(255,255,255,0.45); z-index: 10; }
 .home-empty { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; color: rgba(169,165,157,0.3); font-family: var(--ff-serif); font-size: 15px; font-style: italic; letter-spacing: 0.1em; pointer-events: none; }
 .home-empty svg { width: 40px; height: 40px; stroke: rgba(169,165,157,0.18); fill: none; stroke-width: 1; }
 
@@ -168,8 +168,8 @@ button { font-family: var(--ff-sans); }
    ========================================= */
 #pg-about { background: var(--c-cream); }
 .about__inner { display: grid; grid-template-columns: 1fr 1fr; min-height: 100%; }
-.about__left { padding: 80px var(--pad-x); display: flex; flex-direction: column; justify-content: center; border-right: 1px solid var(--c-border); }
-.about__right { padding: 80px var(--pad-x); display: flex; flex-direction: column; justify-content: center; }
+.about__left { padding: calc(80px + var(--header-h)) var(--pad-x) 80px; display: flex; flex-direction: column; justify-content: center; border-right: 1px solid var(--c-border); }
+.about__right { padding: calc(80px + var(--header-h)) var(--pad-x) 80px; display: flex; flex-direction: column; justify-content: center; }
 .label { font-size: 9px; letter-spacing: 0.40em; color: var(--c-gold); font-weight: 400; text-transform: uppercase; margin-bottom: 20px; }
 .heading { font-family: var(--ff-serif); font-size: clamp(30px,4vw,48px); font-weight: 300; line-height: 1.14; color: var(--c-dark); margin-bottom: 6px; }
 .heading em { font-style: italic; color: var(--c-gold); }
@@ -190,7 +190,7 @@ button { font-family: var(--ff-sans); }
 #pg-portfolio { background: var(--c-bg); }
 .port-list { min-height: 100%; }
 .port-list__header {
-  padding: 52px var(--pad-x) 36px;
+  padding: calc(52px + var(--header-h)) var(--pad-x) 36px;
   border-bottom: 1px solid var(--c-border);
   display: flex; align-items: flex-end; justify-content: space-between;
   flex-wrap: wrap; gap: 16px;
@@ -218,7 +218,7 @@ button { font-family: var(--ff-sans); }
 /* 포트폴리오 상세 */
 .port-detail { display: none; min-height: 100%; }
 .port-detail.is-active { display: block; }
-.port-detail__back { display: inline-flex; align-items: center; gap: 10px; font-size: 10px; letter-spacing: 0.22em; color: var(--c-stone); text-transform: uppercase; cursor: pointer; background: none; border: none; padding: 28px var(--pad-x) 0; transition: color 0.25s; }
+.port-detail__back { display: inline-flex; align-items: center; gap: 10px; font-size: 10px; letter-spacing: 0.22em; color: var(--c-stone); text-transform: uppercase; cursor: pointer; background: none; border: none; padding: calc(28px + var(--header-h)) var(--pad-x) 0; transition: color 0.25s; }
 .port-detail__back:hover { color: var(--c-gold); }
 .port-detail__back svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.5; }
 .port-detail__info { padding: 48px var(--pad-x) 56px; border-bottom: 1px solid var(--c-border); }
@@ -235,8 +235,8 @@ button { font-family: var(--ff-sans); }
    ========================================= */
 #pg-consult { background: var(--c-bg); }
 .consult__wrap { display: grid; grid-template-columns: 1fr 1fr; min-height: 100%; }
-.consult__left { padding: 80px var(--pad-x); display: flex; flex-direction: column; justify-content: center; border-right: 1px solid var(--c-border); }
-.consult__right { background: var(--c-dark2); padding: 80px var(--pad-x); display: flex; flex-direction: column; justify-content: center; }
+.consult__left { padding: calc(80px + var(--header-h)) var(--pad-x) 80px; display: flex; flex-direction: column; justify-content: center; border-right: 1px solid var(--c-border); }
+.consult__right { background: var(--c-dark2); padding: calc(80px + var(--header-h)) var(--pad-x) 80px; display: flex; flex-direction: column; justify-content: center; }
 .info-list { margin-top: 40px; padding-top: 32px; border-top: 1px solid var(--c-border); display: flex; flex-direction: column; gap: 16px; }
 .info-row { display: flex; gap: 20px; align-items: baseline; }
 .info-row__label { font-size: 9px; letter-spacing: 0.26em; color: var(--c-gold); text-transform: uppercase; min-width: 52px; flex-shrink: 0; }
@@ -256,7 +256,7 @@ button { font-family: var(--ff-sans); }
    SNS
    ========================================= */
 #pg-sns { background: var(--c-bg); display: flex; flex-direction: column; }
-.sns__inner { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 60px var(--pad-x); }
+.sns__inner { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: calc(60px + var(--header-h)) var(--pad-x) 60px; }
 .sns__inner .rule { margin: 22px auto; }
 .sns__desc { font-size: 13px; color: var(--c-stone); line-height: 2; margin-bottom: 56px; }
 .sns-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; width: 100%; max-width: 840px; }
@@ -282,7 +282,7 @@ button { font-family: var(--ff-sans); }
    ADMIN DASHBOARD
    ========================================= */
 #pg-admin { background: #F8F7F4; }
-.admin__wrap { min-height: 100%; padding: 48px var(--pad-x) 80px; }
+.admin__wrap { min-height: 100%; padding: calc(48px + var(--header-h)) var(--pad-x) 80px; }
 
 /* 어드민 헤더 */
 .admin__header {
@@ -471,21 +471,21 @@ button { font-family: var(--ff-sans); }
   .hamburger { display: flex; }
   .slide-counter { right: var(--pad-x-sm); }
   .about__inner { grid-template-columns: 1fr; min-height: unset; }
-  .about__left { padding: 52px var(--pad-x-sm) 36px; border-right: none; border-bottom: 1px solid var(--c-border); }
+  .about__left { padding: calc(52px + var(--header-h)) var(--pad-x-sm) 36px; border-right: none; border-bottom: 1px solid var(--c-border); }
   .about__right { padding: 36px var(--pad-x-sm) 52px; }
-  .port-list__header { padding: 40px var(--pad-x-sm) 28px; }
-  .port-detail__back { padding: 20px var(--pad-x-sm) 0; }
+  .port-list__header { padding: calc(40px + var(--header-h)) var(--pad-x-sm) 28px; }
+  .port-detail__back { padding: calc(20px + var(--header-h)) var(--pad-x-sm) 0; }
   .port-detail__info { padding: 36px var(--pad-x-sm) 40px; }
   .port-detail__images { padding: 0 var(--pad-x-sm) 60px; }
   .consult__wrap { grid-template-columns: 1fr; min-height: unset; }
-  .consult__left { padding: 52px var(--pad-x-sm) 36px; border-right: none; border-bottom: 1px solid var(--c-border); }
+  .consult__left { padding: calc(52px + var(--header-h)) var(--pad-x-sm) 36px; border-right: none; border-bottom: 1px solid var(--c-border); }
   .consult__right { padding: 36px var(--pad-x-sm) 52px; }
-  .sns__inner { padding: 48px var(--pad-x-sm); }
+  .sns__inner { padding: calc(48px + var(--header-h)) var(--pad-x-sm) 48px; }
   .sns-grid { grid-template-columns: 1fr; max-width: 360px; }
   .site-footer { padding: 20px var(--pad-x-sm); }
   .footer__info { text-align: left; }
   .port-detail__meta-grid { grid-template-columns: 1fr; gap: 24px; }
-  .admin__wrap { padding: 36px var(--pad-x-sm) 60px; }
+  .admin__wrap { padding: calc(36px + var(--header-h)) var(--pad-x-sm) 60px; }
   .admin-modal { padding: 32px 24px; }
   .mf-row { grid-template-columns: 1fr; }
 }
@@ -635,7 +635,7 @@ button { font-family: var(--ff-sans); }
         <div class="info-list">
           <div class="info-row"><span class="info-row__label">Tel</span><span class="info-row__val">010-0000-0000</span></div>
           <div class="info-row"><span class="info-row__label">Kakao</span><span class="info-row__val">@디자인포 카카오 채널</span></div>
-          <div class="info-row"><span class="info-row__label">Email</span><span class="info-row__val">info@designfor.kr</span></div>
+          <div class="info-row"><span class="info-row__label">Email</span><span class="info-row__val"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="bfd6d1d9d0ffdbdaccd6d8d1d9d0cd91d4cd">[email&#160;protected]</a></span></div>
           <div class="info-row"><span class="info-row__label">시간</span><span class="info-row__val">평일 09:00 — 18:00</span></div>
         </div>
       </div>
@@ -691,7 +691,7 @@ button { font-family: var(--ff-sans); }
     </div>
     <footer class="site-footer">
       <div><div class="footer__brand">DESIGN FOR</div><div class="footer__copy">© 2025 Design For. All Rights Reserved.</div></div>
-      <div class="footer__info">대표 : 남경 &nbsp;|&nbsp; 경기도 화성시<br>Tel : 010-0000-0000 &nbsp;|&nbsp; info@designfor.kr</div>
+      <div class="footer__info">대표 : 남경 &nbsp;|&nbsp; 경기도 화성시<br>Tel : 010-0000-0000 &nbsp;|&nbsp; <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="b1d8dfd7def1d5d4c2d8d6dfd7dec39fdac3">[email&#160;protected]</a></div>
     </footer>
   </section>
 
@@ -780,7 +780,7 @@ button { font-family: var(--ff-sans); }
 <!-- TOAST -->
 <div id="toast"></div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* =========================================
    UTILITY
    ========================================= */
@@ -1357,19 +1357,4 @@ function deleteProject(id) {
 
 /* =========================================
    관리자 페이지 진입: URL 해시 또는 키 조합
-   ?admin=1 로 접속하면 관리자 대시보드 표시
-   ========================================= */
-(function() {
-  var params = new URLSearchParams(window.location.search);
-  if (params.get('admin') === '1') {
-    // 헤더에 관리자 링크 표시 (선택)
-    goPage('admin');
-  } else {
-    // 기본: 홈 로드
-    buildHomeSlideshow();
-  }
-})();
-
-</script>
-</body>
-</html>
+   ?admin=1 로 접속하면 관리자 �
