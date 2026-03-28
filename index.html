@@ -121,7 +121,7 @@ button { font-family: var(--ff-sans); }
    PAGE SYSTEM
    ========================================= */
 #page-wrap { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 1; }
-.page { position: absolute; inset: 0; overflow-y: auto; overflow-x: hidden; opacity: 0; pointer-events: none; transition: opacity 0.5s var(--ease-out); -webkit-overflow-scrolling: touch; }
+.page { position: absolute; inset: 0; overflow-y: auto; overflow-x: hidden; opacity: 0; pointer-events: none; transition: opacity 0.5s var(--ease-out); -webkit-overflow-scrolling: touch; will-change: opacity; }
 .page.is-active { opacity: 1; pointer-events: all; }
 
 /* =========================================
@@ -838,9 +838,9 @@ function goPage(id) {
   if (next.nav) document.getElementById(next.nav).classList.add('is-active');
 
   // 페이지별 초기화
-  if (id === 'home')      setTimeout(buildHomeSlideshow, 80);
-  if (id === 'portfolio') { showPortList(); setTimeout(buildPortGrid, 80); }
-  if (id === 'admin')     setTimeout(buildAdminGrid, 80);
+  if (id === 'home')      buildHomeSlideshow();
+  if (id === 'portfolio') { showPortList(); buildPortGrid(); }
+  if (id === 'admin')     buildAdminGrid();
 
   // 헤더 투명 / 불투명
   const header = document.getElementById('header');
@@ -1341,7 +1341,7 @@ function saveProject() {
 
   closeModal();
   buildAdminGrid();
-  buildHomeSlideshow(); // ← 홈 슬라이드쇼 즉시 갱신
+  buildHomeSlideshow(); // 홈 슬라이드쇼 즉시 갱신
 }
 
 /* =========================================
@@ -1353,10 +1353,23 @@ function deleteProject(id) {
   if (saveProjects(projects)) {
     showToast('현장이 삭제되었습니다.');
     buildAdminGrid();
-    buildHomeSlideshow(); // ← 홈 슬라이드쇼 즉시 갱신
+    buildHomeSlideshow(); // 홈 슬라이드쇼 즉시 갱신
   }
 }
 
 /* =========================================
-   관리자 페이지 진입: URL 해시 또는 키 조합
-   ?admin=1 로 접속하면 관리자 �
+   관리자 페이지 진입
+   ?admin=1 로 접속하면 관리자 대시보드 표시
+   ========================================= */
+(function() {
+  var params = new URLSearchParams(window.location.search);
+  if (params.get('admin') === '1') {
+    goPage('admin');
+  } else {
+    buildHomeSlideshow();
+  }
+})();
+
+</script>
+</body>
+</html>
