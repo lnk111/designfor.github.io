@@ -426,7 +426,7 @@ button { font-family: var(--ff-sans); }
         <div class="info-list">
           <div class="info-row"><span class="info-row__label">Tel</span><span class="info-row__val">010-0000-0000</span></div>
           <div class="info-row"><span class="info-row__label">Kakao</span><span class="info-row__val">@디자인포 카카오 채널</span></div>
-          <div class="info-row"><span class="info-row__label">Email</span><span class="info-row__val">info@designfor.kr</span></div>
+          <div class="info-row"><span class="info-row__label">Email</span><span class="info-row__val"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="ef86818980af8b8a9c86888189809dc1849d">[email&#160;protected]</a></span></div>
           <div class="info-row"><span class="info-row__label">시간</span><span class="info-row__val">평일 09:00 — 18:00</span></div>
         </div>
       </div>
@@ -470,7 +470,7 @@ button { font-family: var(--ff-sans); }
     </div>
     <footer class="site-footer">
       <div><div class="footer__brand">DESIGN FOR</div><div class="footer__copy">© 2025 Design For. All Rights Reserved.</div></div>
-      <div class="footer__info">대표 : 남경 &nbsp;|&nbsp; 경기도 화성시<br>Tel : 010-0000-0000 &nbsp;|&nbsp; info@designfor.kr</div>
+      <div class="footer__info">대표 : 남경 &nbsp;|&nbsp; 경기도 화성시<br>Tel : 010-0000-0000 &nbsp;|&nbsp; <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7811161e17381c1d0b111f161e170a56130a">[email&#160;protected]</a></div>
     </footer>
   </section>
 
@@ -535,7 +535,7 @@ button { font-family: var(--ff-sans); }
 <!-- =====================================================
      Firebase SDK v10 (ES Module)
      ===================================================== -->
-<script type="module">
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="module">
 import { initializeApp }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
 import { getFirestore, collection, addDoc, updateDoc, deleteDoc,
@@ -546,10 +546,10 @@ import { getFirestore, collection, addDoc, updateDoc, deleteDoc,
    ※ apiKey는 Firebase 콘솔 → 프로젝트 설정 → 웹 앱에서 복사하세요
    ────────────────────── */
 const firebaseConfig = {
-  apiKey:            "AIzaSyExample_ReplaceWithYourActualKey",
+  apiKey:            "AIzaSyC0LNwrtehJ8BytnXL5-aiG2H_sTIgXgk4",
   authDomain:        "designfor-ef0ed.firebaseapp.com",
   projectId:         "designfor-ef0ed",
-  storageBucket:     "designfor-ef0ed.appspot.com",
+  storageBucket:     "designfor-ef0ed.firebasestorage.app",
   messagingSenderId: "284384518635",
   appId:             "1:284384518635:web:62f4a1ce63e90ca7b2f9ae"
 };
@@ -1013,18 +1013,4 @@ window.deleteProject = async function(id) {
     await deleteDoc(doc(db, COL, id));
     showToast('현장이 삭제되었습니다.');
   } catch (err) {
-    showToast('삭제 오류: ' + err.message, 3000);
-  }
-};
-
-/* ─── 진입 처리 ─── */
-(function() {
-  const bar = document.getElementById('loading-bar');
-  if (bar) setTimeout(() => { bar.style.width = '55%'; }, 80);
-  const params = new URLSearchParams(window.location.search);
-  if (params.get('admin') === '1') window.goPage('admin');
-})();
-
-</script>
-</body>
-</html>
+    showToast('삭제 오류: ' + err.m
