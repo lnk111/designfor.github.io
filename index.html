@@ -163,60 +163,100 @@ button { font-family: var(--ff-sans); }
 .port-detail__images { padding: 0 var(--pad-x) 80px; display: flex; flex-direction: column; gap: 3px; }
 .port-detail__img { width: 100%; display: block; max-height: 80vh; object-fit: cover; }
 
-/* CONSULT */
-#pg-consult { background: var(--c-bg); }
-.consult__page { max-width: 860px; margin: 0 auto; padding: calc(60px + var(--header-h)) var(--pad-x) 100px; }
-.consult__page-title { font-family: var(--ff-serif); font-size: clamp(28px,4vw,42px); font-weight: 300; color: var(--c-dark); letter-spacing: 0.06em; margin-bottom: 8px; }
+/* CONSULT — 고가독성 UX 개선 버전 */
+#pg-consult { background: #F7F6F3; }
+.consult__page { max-width: 800px; margin: 0 auto; padding: calc(48px + var(--header-h)) var(--pad-x) 100px; }
+.consult__page-title { font-family: var(--ff-serif); font-size: clamp(26px,3.5vw,38px); font-weight: 400; color: var(--c-dark); letter-spacing: 0.04em; margin-bottom: 6px; }
 .consult__page-title em { font-style: italic; color: var(--c-gold); }
 
 /* 안내사항 */
-.consult__notice { background: var(--c-cream); border-left: 3px solid var(--c-gold); padding: 28px 32px; margin: 36px 0 48px; }
-.consult__notice-title { font-size: 10px; letter-spacing: 0.30em; color: var(--c-gold); text-transform: uppercase; margin-bottom: 16px; font-weight: 400; }
-.consult__notice-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-.consult__notice-list li { font-size: 13px; font-weight: 300; color: var(--c-stone); line-height: 1.8; padding-left: 20px; position: relative; }
-.consult__notice-list li::before { content: attr(data-n); position: absolute; left: 0; color: var(--c-gold); font-size: 12px; font-weight: 400; }
+.consult__notice { background: #FFF8EE; border-left: 4px solid var(--c-gold); padding: 24px 28px; margin: 28px 0 44px; border-radius: 0 4px 4px 0; }
+.consult__notice-title { font-size: 11px; letter-spacing: 0.22em; color: var(--c-gold); text-transform: uppercase; margin-bottom: 14px; font-weight: 500; }
+.consult__notice-list { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+.consult__notice-list li { font-size: 13.5px; font-weight: 400; color: #3D3B35; line-height: 1.7; padding-left: 22px; position: relative; }
+.consult__notice-list li::before { content: attr(data-n); position: absolute; left: 0; color: var(--c-gold); font-size: 13px; font-weight: 500; }
 
-/* 섹션 제목 */
-.consult__section { margin-bottom: 48px; }
-.consult__section-title { font-size: 10px; letter-spacing: 0.30em; color: var(--c-dark); text-transform: uppercase; font-weight: 500; padding-bottom: 14px; border-bottom: 1px solid var(--c-border); margin-bottom: 28px; }
-
-/* 폼 필드 공통 */
-.cf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px 40px; margin-bottom: 24px; }
-.cf-row.full { grid-template-columns: 1fr; }
-.cf-group { display: flex; flex-direction: column; gap: 8px; }
-.cf-label { font-size: 9px; letter-spacing: 0.28em; color: var(--c-stone); text-transform: uppercase; font-weight: 400; }
-.cf-label span { color: var(--c-gold); margin-left: 2px; }
-.cf-input, .cf-select, .cf-textarea {
-  width: 100%; background: transparent; border: none;
-  border-bottom: 1px solid var(--c-border);
-  padding: 10px 0; font-family: var(--ff-sans); font-size: 13px;
-  font-weight: 300; color: var(--c-dark); outline: none;
-  transition: border-color 0.3s; -webkit-appearance: none; border-radius: 0;
+/* 섹션 */
+.consult__section { margin-bottom: 44px; background: #fff; border: 1px solid rgba(26,26,23,0.10); padding: 32px 36px; }
+.consult__section-title {
+  font-size: 11px; letter-spacing: 0.22em; color: var(--c-dark);
+  text-transform: uppercase; font-weight: 600;
+  padding-bottom: 16px; border-bottom: 2px solid var(--c-dark);
+  margin-bottom: 28px;
 }
-.cf-input::placeholder, .cf-textarea::placeholder { color: var(--c-stone-lt); }
-.cf-input:focus, .cf-select:focus, .cf-textarea:focus { border-bottom-color: var(--c-gold); }
-.cf-select option { background: #fff; }
-.cf-textarea { resize: vertical; min-height: 100px; }
+
+/* 폼 그리드 */
+.cf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 28px 36px; margin-bottom: 28px; }
+.cf-row.full { grid-template-columns: 1fr; }
+.cf-group { display: flex; flex-direction: column; gap: 7px; }
+
+/* 라벨 — 명확하게 */
+.cf-label {
+  font-size: 12px; letter-spacing: 0.06em;
+  color: #2A2A26; font-weight: 600;
+  font-family: var(--ff-sans);
+}
+.cf-label span { color: #C0392B; margin-left: 3px; font-weight: 700; }
+
+/* 입력 필드 — 박스형, 명확한 테두리 */
+.cf-input, .cf-select, .cf-textarea {
+  width: 100%;
+  background: #FDFCFA;
+  border: 1.5px solid #C8C6BF;
+  border-radius: 4px;
+  padding: 13px 16px;
+  font-family: var(--ff-sans);
+  font-size: 14px;
+  font-weight: 400;
+  color: #1A1A17;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  -webkit-appearance: none;
+}
+.cf-input::placeholder, .cf-textarea::placeholder {
+  color: #B0ADA6;
+  font-weight: 300;
+}
+.cf-input:focus, .cf-select:focus, .cf-textarea:focus {
+  border-color: var(--c-gold);
+  box-shadow: 0 0 0 3px rgba(181,145,85,0.12);
+  background: #FFFDF8;
+}
+.cf-select { cursor: pointer; }
+.cf-select option { background: #fff; color: #1A1A17; }
+.cf-textarea { resize: vertical; min-height: 110px; line-height: 1.7; }
 
 /* 연락처 분할 */
-.cf-tel-wrap { display: flex; align-items: center; gap: 8px; }
-.cf-tel-wrap .cf-input { text-align: center; }
-.cf-tel-sep { color: var(--c-stone-lt); font-size: 16px; flex-shrink: 0; }
+.cf-tel-wrap { display: flex; align-items: center; gap: 10px; }
+.cf-tel-wrap .cf-input { text-align: center; flex: 1; }
+.cf-tel-sep { color: #888; font-size: 18px; font-weight: 300; flex-shrink: 0; }
 
-/* 라디오/체크박스 그룹 */
-.cf-radio-group, .cf-check-group { display: flex; flex-wrap: wrap; gap: 10px 20px; padding: 8px 0; }
+/* 라디오/체크박스 — 카드 버튼형 */
+.cf-radio-group, .cf-check-group { display: flex; flex-wrap: wrap; gap: 10px; padding: 4px 0; }
 .cf-radio-label, .cf-check-label {
-  display: flex; align-items: center; gap: 8px;
-  font-size: 13px; font-weight: 300; color: var(--c-stone);
-  cursor: pointer; transition: color 0.2s;
+  display: flex; align-items: center; gap: 9px;
+  font-size: 13.5px; font-weight: 400; color: #3D3B35;
+  cursor: pointer;
+  background: #F4F3EF;
+  border: 1.5px solid #D4D2CB;
+  border-radius: 4px;
+  padding: 10px 16px;
+  transition: border-color 0.2s, background 0.2s, color 0.2s;
+  user-select: none;
 }
-.cf-radio-label:hover, .cf-check-label:hover { color: var(--c-dark); }
+.cf-radio-label:hover, .cf-check-label:hover {
+  border-color: var(--c-gold);
+  background: #FFF8EE;
+  color: #1A1A17;
+}
 .cf-radio-label input[type="radio"],
 .cf-check-label input[type="checkbox"] { display: none; }
 .cf-radio-box, .cf-check-box {
-  width: 16px; height: 16px; border: 1px solid var(--c-stone-lt);
+  width: 18px; height: 18px;
+  border: 2px solid #C8C6BF;
   display: flex; align-items: center; justify-content: center;
   transition: border-color 0.2s, background 0.2s; flex-shrink: 0;
+  background: #fff;
 }
 .cf-radio-box { border-radius: 50%; }
 .cf-radio-label input:checked ~ .cf-radio-box,
@@ -224,57 +264,105 @@ button { font-family: var(--ff-sans); }
   border-color: var(--c-gold); background: var(--c-gold);
 }
 .cf-radio-label input:checked ~ .cf-radio-box::after {
-  content: ''; width: 6px; height: 6px; border-radius: 50%; background: #fff;
+  content: ''; width: 7px; height: 7px; border-radius: 50%; background: #fff;
 }
 .cf-check-label input:checked ~ .cf-check-box::after {
-  content: '✓'; font-size: 10px; color: #fff; line-height: 1;
+  content: '✓'; font-size: 11px; color: #fff; line-height: 1; font-weight: 700;
 }
-.cf-radio-label input:checked ~ span:last-child,
-.cf-check-label input:checked ~ span:last-child { color: var(--c-dark); font-weight: 400; }
+/* 선택된 라디오/체크 카드 강조 */
+.cf-radio-label:has(input:checked),
+.cf-check-label:has(input:checked) {
+  border-color: var(--c-gold);
+  background: #FFF8EE;
+  color: #1A1A17;
+  font-weight: 500;
+}
 
-/* 평수/방/욕실 인라인 */
-.cf-space-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; padding: 8px 0; }
+/* 평수/방/욕실 */
+.cf-space-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 4px 0; }
 .cf-space-item { display: flex; align-items: center; gap: 8px; }
-.cf-space-input { width: 64px; border: none; border-bottom: 1px solid var(--c-border); padding: 6px 0; text-align: center; font-family: var(--ff-sans); font-size: 13px; color: var(--c-dark); outline: none; background: transparent; transition: border-color 0.3s; }
-.cf-space-input:focus { border-bottom-color: var(--c-gold); }
-.cf-space-unit { font-size: 12px; color: var(--c-stone); }
+.cf-space-input {
+  width: 72px;
+  border: 1.5px solid #C8C6BF; border-radius: 4px;
+  padding: 12px 0; text-align: center;
+  font-family: var(--ff-sans); font-size: 14px; font-weight: 400;
+  color: #1A1A17; outline: none; background: #FDFCFA;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.cf-space-input:focus {
+  border-color: var(--c-gold);
+  box-shadow: 0 0 0 3px rgba(181,145,85,0.12);
+}
+.cf-space-unit { font-size: 13px; font-weight: 500; color: #3D3B35; }
 
 /* 파일 첨부 */
-.cf-file-wrap { position: relative; }
+.cf-file-wrap { display: flex; flex-direction: column; gap: 10px; }
 .cf-file-input { display: none; }
 .cf-file-btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  font-size: 11px; letter-spacing: 0.14em; color: var(--c-stone);
-  border: 1px solid var(--c-border); padding: 10px 20px;
-  cursor: pointer; transition: border-color 0.25s, color 0.25s; background: transparent;
-  font-family: var(--ff-sans);
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 13px; font-weight: 400; color: #3D3B35;
+  border: 1.5px solid #C8C6BF; border-radius: 4px;
+  padding: 13px 20px; cursor: pointer;
+  transition: border-color 0.25s, background 0.25s, color 0.25s;
+  background: #F4F3EF; font-family: var(--ff-sans);
+  align-self: flex-start;
 }
-.cf-file-btn:hover { border-color: var(--c-gold); color: var(--c-gold); }
-.cf-file-btn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.5; }
-.cf-file-name { margin-top: 8px; font-size: 11px; color: var(--c-stone-lt); }
+.cf-file-btn:hover { border-color: var(--c-gold); background: #FFF8EE; color: var(--c-gold); }
+.cf-file-btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.5; }
+.cf-file-name { font-size: 12px; color: #888; line-height: 1.6; }
 
 /* 개인정보 동의 */
-.consult__privacy { margin: 32px 0 40px; padding: 24px 28px; border: 1px solid var(--c-border); background: var(--c-cream); max-height: 180px; overflow-y: auto; }
-.consult__privacy p { font-size: 11px; color: var(--c-stone); line-height: 1.9; }
-.consult__privacy-agree { display: flex; align-items: center; gap: 12px; margin-top: 20px; cursor: pointer; }
+.consult__privacy {
+  margin: 28px 0 12px;
+  padding: 20px 24px;
+  border: 1px solid #D4D2CB;
+  background: #F7F6F3;
+  max-height: 160px; overflow-y: auto;
+  border-radius: 4px;
+}
+.consult__privacy p { font-size: 12px; color: #5A5852; line-height: 1.9; }
+.consult__privacy-agree {
+  display: flex; align-items: center; gap: 12px;
+  margin-top: 16px; cursor: pointer;
+  padding: 14px 18px;
+  border: 1.5px solid #C8C6BF;
+  border-radius: 4px;
+  background: #fff;
+  transition: border-color 0.2s, background 0.2s;
+}
+.consult__privacy-agree:hover { border-color: var(--c-gold); background: #FFF8EE; }
 .consult__privacy-agree input { display: none; }
-.consult__privacy-agree-box { width: 18px; height: 18px; border: 1px solid var(--c-stone-lt); display: flex; align-items: center; justify-content: center; transition: border-color 0.2s, background 0.2s; flex-shrink: 0; }
-.consult__privacy-agree input:checked ~ .consult__privacy-agree-box { border-color: var(--c-gold); background: var(--c-gold); }
-.consult__privacy-agree input:checked ~ .consult__privacy-agree-box::after { content: '✓'; font-size: 11px; color: #fff; }
-.consult__privacy-agree-txt { font-size: 13px; color: var(--c-stone); }
+.consult__privacy-agree-box {
+  width: 20px; height: 20px; border: 2px solid #C8C6BF;
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color 0.2s, background 0.2s; flex-shrink: 0;
+  background: #fff; border-radius: 3px;
+}
+.consult__privacy-agree input:checked ~ .consult__privacy-agree-box {
+  border-color: var(--c-gold); background: var(--c-gold);
+}
+.consult__privacy-agree input:checked ~ .consult__privacy-agree-box::after {
+  content: '✓'; font-size: 12px; color: #fff; font-weight: 700;
+}
+.consult__privacy-agree-txt { font-size: 14px; font-weight: 500; color: #2A2A26; }
 
 /* 제출 버튼 */
 .btn--consult-submit {
   width: 100%; background: var(--c-dark); color: #F0EDE6;
-  border: none; padding: 18px; font-family: var(--ff-sans);
-  font-size: 10px; font-weight: 400; letter-spacing: 0.30em;
-  text-transform: uppercase; cursor: pointer; transition: background 0.3s;
+  border: none; border-radius: 4px;
+  padding: 20px; font-family: var(--ff-sans);
+  font-size: 14px; font-weight: 500; letter-spacing: 0.18em;
+  text-transform: uppercase; cursor: pointer;
+  transition: background 0.3s; margin-top: 24px;
 }
 .btn--consult-submit:hover { background: var(--c-gold); }
+.btn--consult-submit:disabled { background: #C8C6BF; cursor: not-allowed; }
 
 @media (max-width: 900px) {
-  .consult__page { padding: calc(40px + var(--header-h)) var(--pad-x-sm) 80px; }
+  .consult__page { padding: calc(36px + var(--header-h)) var(--pad-x-sm) 80px; }
+  .consult__section { padding: 24px 20px; }
   .cf-row { grid-template-columns: 1fr; gap: 20px; }
+  .cf-radio-group, .cf-check-group { gap: 8px; }
 }
 
 /* SNS */
@@ -325,6 +413,45 @@ button { font-family: var(--ff-sans); }
 .btn--card-del:hover { background: #C0392B; color: #fff; border-color: #C0392B; }
 .admin-empty { grid-column: 1 / -1; padding: 80px 0; text-align: center; color: var(--c-stone-lt); font-size: 13px; line-height: 2.2; }
 .admin-empty svg { display: block; margin: 0 auto 20px; width: 44px; height: 44px; stroke: var(--c-gold-pale); fill: none; stroke-width: 1; }
+
+/* 어드민 탭 */
+.admin__tabs { display: flex; gap: 0; border-bottom: 1px solid var(--c-border); margin-bottom: 36px; }
+.admin__tab {
+  font-size: 10px; letter-spacing: 0.24em; font-weight: 400;
+  color: var(--c-stone-lt); background: none; border: none;
+  border-bottom: 2px solid transparent; padding: 12px 28px;
+  cursor: pointer; transition: color 0.25s, border-color 0.25s;
+  text-transform: uppercase; margin-bottom: -1px;
+}
+.admin__tab:hover { color: var(--c-stone); }
+.admin__tab.is-on { color: var(--c-gold); border-bottom-color: var(--c-gold); }
+
+/* 상담 문의 리스트 */
+.inq-list { display: flex; flex-direction: column; gap: 16px; }
+.inq-card {
+  background: #fff; border: 1px solid var(--c-border);
+  padding: 24px 28px; transition: box-shadow 0.3s, border-color 0.3s;
+}
+.inq-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.06); border-color: var(--c-gold-pale); }
+.inq-card__top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
+.inq-card__name { font-family: var(--ff-kr); font-size: 15px; font-weight: 400; color: var(--c-dark); }
+.inq-card__date { font-size: 10px; color: var(--c-stone-lt); letter-spacing: 0.08em; white-space: nowrap; }
+.inq-card__tel { font-size: 14px; color: var(--c-gold); letter-spacing: 0.06em; margin-bottom: 10px; }
+.inq-card__meta { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-bottom: 12px; }
+.inq-card__badge {
+  font-size: 10px; letter-spacing: 0.12em; color: var(--c-stone);
+  background: var(--c-cream); padding: 4px 10px;
+}
+.inq-card__addr { font-size: 12px; color: var(--c-stone); margin-bottom: 8px; }
+.inq-card__msg { font-size: 12px; color: var(--c-stone); line-height: 1.7; border-top: 1px solid var(--c-border); padding-top: 12px; margin-top: 4px; }
+.inq-card__actions { display: flex; gap: 8px; margin-top: 14px; }
+.btn--inq-del { font-size: 9px; letter-spacing: 0.18em; padding: 7px 16px; color: #C0392B; border: 1px solid rgba(192,57,43,0.25); background: transparent; cursor: pointer; transition: background 0.25s, color 0.25s; }
+.btn--inq-del:hover { background: #C0392B; color: #fff; border-color: #C0392B; }
+.btn--inq-read { font-size: 9px; letter-spacing: 0.18em; padding: 7px 16px; color: var(--c-stone); border: 1px solid var(--c-border); background: transparent; cursor: pointer; transition: background 0.25s, color 0.25s; }
+.btn--inq-read:hover { background: var(--c-dark); color: #fff; border-color: var(--c-dark); }
+.inq-card.is-new { border-left: 3px solid var(--c-gold); }
+.inq-new-badge { display: inline-block; font-size: 8px; letter-spacing: 0.12em; color: #fff; background: var(--c-gold); padding: 2px 7px; margin-left: 8px; vertical-align: middle; }
+.inq-empty { padding: 80px 0; text-align: center; color: var(--c-stone-lt); font-size: 13px; line-height: 2.2; }
 
 /* MODAL */
 .admin-modal-bg { position: fixed; inset: 0; z-index: 900; background: rgba(26,26,23,0.6); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.35s var(--ease-out); padding: 20px; }
@@ -770,12 +897,26 @@ button { font-family: var(--ff-sans); }
     <div class="admin__wrap">
       <div class="admin__header">
         <h2 class="admin__title">관리자 <span>대시보드</span></h2>
-        <button class="btn--admin-add" onclick="openModal()">
+        <button class="btn--admin-add" id="btn-add-project" onclick="openModal()" style="display:none">
           <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           새 현장 등록
         </button>
       </div>
-      <div class="admin-grid" id="admin-grid"></div>
+      <!-- 탭 -->
+      <div class="admin__tabs">
+        <button class="admin__tab is-on" id="tab-portfolio" onclick="switchAdminTab('portfolio')">포트폴리오</button>
+        <button class="admin__tab" id="tab-inquiries" onclick="switchAdminTab('inquiries')">
+          상담 문의 <span id="inq-new-count" style="display:none"></span>
+        </button>
+      </div>
+      <!-- 포트폴리오 -->
+      <div id="admin-portfolio-panel">
+        <div class="admin-grid" id="admin-grid"></div>
+      </div>
+      <!-- 상담 문의 -->
+      <div id="admin-inquiries-panel" style="display:none">
+        <div class="inq-list" id="inq-list"></div>
+      </div>
     </div>
   </section>
 
@@ -1090,7 +1231,8 @@ window.showPortDetail = function(id) {
 };
 
 /* ─── CONSULT FORM ─── */
-window.handleSubmit = function() {
+/* ─── 상담 문의 제출 → Firestore 저장 ─── */
+window.handleSubmit = async function() {
   const name  = (document.getElementById('c-name')?.value  || '').trim();
   const tel1  = (document.getElementById('c-tel1')?.value  || '').trim();
   const tel2  = (document.getElementById('c-tel2')?.value  || '').trim();
@@ -1099,6 +1241,7 @@ window.handleSubmit = function() {
   const agree = document.getElementById('c-agree')?.checked;
   const spaceType = document.querySelector('input[name="space-type"]:checked')?.value || '';
   const budget    = document.querySelector('input[name="budget"]:checked')?.value || '';
+  const inflows   = [...document.querySelectorAll('input[name="inflow"]:checked')].map(el => el.value);
 
   if (!name)  { showToast('성함을 입력해 주세요.'); return; }
   if (!tel1 || !tel2 || !tel3) { showToast('연락처를 입력해 주세요.'); return; }
@@ -1107,15 +1250,46 @@ window.handleSubmit = function() {
   if (!budget)    { showToast('공사예산을 선택해 주세요.'); return; }
   if (!agree) { showToast('개인정보 수집 및 이용에 동의해 주세요.'); return; }
 
-  showToast('상담 신청이 접수되었습니다. 영업일 기준 2~3일 내 연락드리겠습니다.', 4000);
+  const submitBtn = document.querySelector('.btn--consult-submit');
+  if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = '저장 중...'; }
 
-  // 폼 초기화
-  ['c-name','c-email','c-tel1','c-tel2','c-tel3','c-addr','c-pyeong','c-room','c-bath','c-start','c-movein','c-msg','c-url'].forEach(id => {
-    const el = document.getElementById(id); if (el) el.value = '';
-  });
-  document.querySelectorAll('input[name="inflow"], input[name="space-type"], input[name="budget"], #c-agree').forEach(el => { el.checked = false; });
-  const fn = document.getElementById('c-file-name');
-  if (fn) fn.textContent = '평면도 미첨부 시 원활한 상담이 불가하오니 첨부 부탁드립니다.';
+  const inquiry = {
+    name,
+    tel: tel1 + '-' + tel2 + '-' + tel3,
+    email:     (document.getElementById('c-email')?.value   || '').trim(),
+    addr,
+    pyeong:    document.getElementById('c-pyeong')?.value || '',
+    room:      document.getElementById('c-room')?.value   || '',
+    bath:      document.getElementById('c-bath')?.value   || '',
+    startDate: (document.getElementById('c-start')?.value   || '').trim(),
+    moveIn:    (document.getElementById('c-movein')?.value  || '').trim(),
+    spaceType,
+    budget,
+    inflow:    inflows.join(', '),
+    msg:       (document.getElementById('c-msg')?.value     || '').trim(),
+    projectUrl:(document.getElementById('c-url')?.value     || '').trim(),
+    createdAt: Date.now(),
+    isNew:     true,
+  };
+
+  try {
+    await addDoc(collection(db, 'inquiries'), inquiry);
+    showToast('상담 신청이 접수되었습니다. 영업일 기준 2~3일 내 연락드리겠습니다.', 4000);
+
+    // 폼 초기화
+    ['c-name','c-email','c-tel1','c-tel2','c-tel3','c-addr',
+     'c-pyeong','c-room','c-bath','c-start','c-movein','c-msg','c-url'].forEach(id => {
+      const el = document.getElementById(id); if (el) el.value = '';
+    });
+    document.querySelectorAll('input[name="inflow"], input[name="space-type"], input[name="budget"], #c-agree')
+      .forEach(el => { el.checked = false; });
+    const fn = document.getElementById('c-file-name');
+    if (fn) fn.textContent = '평면도 미첨부 시 원활한 상담이 불가하오니 첨부 부탁드립니다.';
+  } catch(err) {
+    showToast('제출 오류: ' + err.message, 3500);
+  } finally {
+    if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = '상담 신청하기'; }
+  }
 };
 
 window.updateFileName = function(input) {
@@ -1124,8 +1298,104 @@ window.updateFileName = function(input) {
   el.textContent = input.files.length ? input.files[0].name : '평면도 미첨부 시 원활한 상담이 불가하오니 첨부 부탁드립니다.';
 };
 
+/* ─── 어드민 탭 전환 ─── */
+window.switchAdminTab = function(tab) {
+  const isPortfolio = tab === 'portfolio';
+  document.getElementById('tab-portfolio').classList.toggle('is-on', isPortfolio);
+  document.getElementById('tab-inquiries').classList.toggle('is-on', !isPortfolio);
+  document.getElementById('admin-portfolio-panel').style.display = isPortfolio ? '' : 'none';
+  document.getElementById('admin-inquiries-panel').style.display = isPortfolio ? 'none' : '';
+  document.getElementById('btn-add-project').style.display = isPortfolio ? '' : 'none';
+  if (!isPortfolio) buildInqList();
+};
+
+/* ─── Firestore 문의 실시간 리스너 ─── */
+const iqQuery = query(collection(db, 'inquiries'), orderBy('createdAt', 'desc'));
+let inquiriesCache = [];
+onSnapshot(iqQuery, (snap) => {
+  inquiriesCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  // 새 문의 배지 업신
+  const newCount = inquiriesCache.filter(i => i.isNew).length;
+  const badge = document.getElementById('inq-new-count');
+  if (badge) {
+    if (newCount > 0) {
+      badge.style.display = 'inline-block';
+      badge.textContent = newCount;
+      badge.style.cssText = 'display:inline-block;background:var(--c-gold);color:#fff;font-size:9px;border-radius:10px;padding:1px 7px;margin-left:6px;vertical-align:middle;';
+    } else {
+      badge.style.display = 'none';
+    }
+  }
+  if (window._page === 'admin' && document.getElementById('admin-inquiries-panel')?.style.display !== 'none') {
+    buildInqList();
+  }
+});
+
+/* ─── 문의 목록 렌더링 ─── */
+function buildInqList() {
+  const list = document.getElementById('inq-list');
+  if (!list) return;
+  if (!inquiriesCache.length) {
+    list.innerHTML = '<div class="inq-empty">아직 접수된 상담 문의가 없습니다.</div>';
+    return;
+  }
+  list.innerHTML = inquiriesCache.map(inq => {
+    const d = new Date(inq.createdAt);
+    const dateStr = d.getFullYear() + '.' + String(d.getMonth()+1).padStart(2,'0') + '.' + String(d.getDate()).padStart(2,'0') + ' ' + String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+    const badges = [
+      inq.spaceType && `<span class="inq-card__badge">${esc(inq.spaceType)}</span>`,
+      inq.pyeong    && `<span class="inq-card__badge">${esc(inq.pyeong)}평</span>`,
+      inq.budget    && `<span class="inq-card__badge">${esc(inq.budget)}</span>`,
+      inq.inflow    && `<span class="inq-card__badge">유입: ${esc(inq.inflow)}</span>`,
+    ].filter(Boolean).join('');
+
+    return `<div class="inq-card${inq.isNew ? ' is-new' : ''}">
+      <div class="inq-card__top">
+        <div>
+          <span class="inq-card__name">${esc(inq.name)}</span>
+          ${inq.isNew ? '<span class="inq-new-badge">NEW</span>' : ''}
+        </div>
+        <span class="inq-card__date">${dateStr}</span>
+      </div>
+      <div class="inq-card__tel">${esc(inq.tel)}</div>
+      ${inq.email ? `<div style="font-size:12px;color:var(--c-stone);margin-bottom:8px;">${esc(inq.email)}</div>` : ''}
+      ${inq.addr  ? `<div class="inq-card__addr">📍 ${esc(inq.addr)}</div>` : ''}
+      <div class="inq-card__meta">${badges}</div>
+      ${inq.startDate || inq.moveIn ? `<div style="font-size:11px;color:var(--c-stone-lt);margin-bottom:8px;">
+        ${inq.startDate ? '공사 시작: ' + esc(inq.startDate) : ''}
+        ${inq.startDate && inq.moveIn ? ' &nbsp;|&nbsp; ' : ''}
+        ${inq.moveIn ? '입주 예정: ' + esc(inq.moveIn) : ''}
+      </div>` : ''}
+      ${inq.msg ? `<div class="inq-card__msg">${esc(inq.msg)}</div>` : ''}
+      <div class="inq-card__actions">
+        ${inq.isNew ? `<button class="btn--inq-read" onclick="markInqRead('${esc(inq.id)}')">확인 처리</button>` : '<span style="font-size:10px;color:var(--c-stone-lt);letter-spacing:0.1em;">확인 완료</span>'}
+        <button class="btn--inq-del" onclick="deleteInq('${esc(inq.id)}')">삭제</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ─── 문의 확인 처리 ─── */
+window.markInqRead = async function(id) {
+  try {
+    await updateDoc(doc(db, 'inquiries', id), { isNew: false });
+  } catch(err) { showToast('오류: ' + err.message, 3000); }
+};
+
+/* ─── 문의 삭제 ─── */
+window.deleteInq = async function(id) {
+  if (!confirm('이 문의를 삭제하시겠습니까?')) return;
+  try {
+    await deleteDoc(doc(db, 'inquiries', id));
+    showToast('문의가 삭제되었습니다.');
+  } catch(err) { showToast('오류: ' + err.message, 3000); }
+};
+
 /* ─── ADMIN 그리드 ─── */
 function buildAdminGrid() {
+  // 포트폴리오 탭일 때만 새 현장 등록 버튼 표시
+  const addBtn = document.getElementById('btn-add-project');
+  if (addBtn) addBtn.style.display = '';
   const grid = document.getElementById('admin-grid');
   if (!projectsCache.length) {
     grid.innerHTML = '<div class="admin-empty"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>등록된 현장이 없습니다.<br>"새 현장 등록" 버튼을 눌러 주세요.</div>';
