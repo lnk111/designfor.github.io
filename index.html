@@ -280,8 +280,8 @@ button { font-family: var(--ff-sans); }
 #toast { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--c-dark); color: #F0EDE6; font-size: 12px; letter-spacing: 0.12em; padding: 14px 28px; z-index: 9999; opacity: 0; transition: opacity 0.3s, transform 0.3s; pointer-events: none; white-space: nowrap; }
 #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-/* 로딩 오버레이 */
-#loading-overlay { position: fixed; inset: 0; z-index: 9998; background: var(--c-dark2); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; transition: opacity 0.6s; }
+/* 로딩 오버레이 — Firebase 연결 전 잠깐 표시 */
+#loading-overlay { position: fixed; inset: 0; z-index: 9998; background: var(--c-dark2); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; transition: opacity 0.5s; }
 #loading-overlay.hide { opacity: 0; pointer-events: none; }
 .loading-logo { font-family: var(--ff-serif); font-size: 24px; font-weight: 300; letter-spacing: 0.2em; color: #fff; }
 .loading-bar-bg { width: 120px; height: 1px; background: rgba(255,255,255,0.15); }
@@ -620,14 +620,19 @@ const COL = 'projects';
 let projectsCache = [];
 
 /* ─── 로딩 오버레이 ─── */
+let _loadingHidden = false;
 function hideLoading() {
+  if (_loadingHidden) return;
+  _loadingHidden = true;
   const bar = document.getElementById('loading-bar');
   if (bar) bar.style.width = '100%';
   setTimeout(() => {
     const ol = document.getElementById('loading-overlay');
     if (ol) ol.classList.add('hide');
-  }, 700);
+  }, 500);
 }
+// 안전장치: 2.5초 안에 Firebase 응답 없으면 강제 해제
+setTimeout(hideLoading, 2500);
 
 /* ─── Firestore 실시간 리스너 ───
    PC에서 저장 → 핸드폰에도 즉시 반영 */
@@ -641,7 +646,8 @@ onSnapshot(q, (snap) => {
 }, (err) => {
   console.error('Firestore 오류:', err);
   hideLoading();
-  showToast('데이터 로드 오류. 새로고침 해주세요.', 3500);
+  // Firestore 읽기 오류 시에도 홈 화면은 정상 표시
+  buildHomeSlideshow();
 });
 
 /* ─── 유틸 ─── */
@@ -1069,4 +1075,21 @@ window.deleteProject = async function(id) {
     await deleteDoc(doc(db, COL, id));
     showToast('현장이 삭제되었습니다.');
   } catch (err) {
-    showToast('삭제 오류: ' + err.m
+    showToast('삭제 오류: ' + err.message, 3000);
+  }
+};
+
+/* ─── 진입 처리 ─── */
+(function() {
+  const bar = document.getElementById('loading-bar');
+  if (bar) {
+    setTimeout(() => { bar.style.width = '40%'; }, 100);
+    setTimeout(() => { bar.style.width = '70%'; }, 600);
+  }
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('admin') === '1') window.goPage('admin');
+})();
+
+</script>
+</body>
+</html>
