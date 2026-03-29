@@ -414,44 +414,169 @@ button { font-family: var(--ff-sans); }
 .admin-empty { grid-column: 1 / -1; padding: 80px 0; text-align: center; color: var(--c-stone-lt); font-size: 13px; line-height: 2.2; }
 .admin-empty svg { display: block; margin: 0 auto 20px; width: 44px; height: 44px; stroke: var(--c-gold-pale); fill: none; stroke-width: 1; }
 
-/* 어드민 탭 */
-.admin__tabs { display: flex; gap: 0; border-bottom: 1px solid var(--c-border); margin-bottom: 36px; }
+/* ── 어드민 탭 ── */
+.admin__tabs {
+  display: flex; gap: 4px;
+  background: #ECEAE5; border-radius: 8px;
+  padding: 4px; margin-bottom: 36px;
+}
 .admin__tab {
-  font-size: 10px; letter-spacing: 0.24em; font-weight: 400;
-  color: var(--c-stone-lt); background: none; border: none;
-  border-bottom: 2px solid transparent; padding: 12px 28px;
-  cursor: pointer; transition: color 0.25s, border-color 0.25s;
-  text-transform: uppercase; margin-bottom: -1px;
+  flex: 1; font-size: 12px; letter-spacing: 0.12em; font-weight: 500;
+  color: var(--c-stone); background: transparent; border: none;
+  border-radius: 6px; padding: 12px 20px;
+  cursor: pointer; transition: background 0.2s, color 0.2s;
+  text-transform: uppercase;
 }
-.admin__tab:hover { color: var(--c-stone); }
-.admin__tab.is-on { color: var(--c-gold); border-bottom-color: var(--c-gold); }
+.admin__tab:hover { color: var(--c-dark); background: rgba(255,255,255,0.6); }
+.admin__tab.is-on { background: #fff; color: var(--c-dark); box-shadow: 0 1px 4px rgba(0,0,0,0.10); }
 
-/* 상담 문의 리스트 */
-.inq-list { display: flex; flex-direction: column; gap: 16px; }
-.inq-card {
+/* ── 상담 문의 패널 ── */
+.inq-summary {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 12px;
+  margin-bottom: 28px;
+}
+.inq-stat {
   background: #fff; border: 1px solid var(--c-border);
-  padding: 24px 28px; transition: box-shadow 0.3s, border-color 0.3s;
+  border-radius: 8px; padding: 18px 20px;
+  display: flex; flex-direction: column; gap: 4px;
 }
-.inq-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.06); border-color: var(--c-gold-pale); }
-.inq-card__top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
-.inq-card__name { font-family: var(--ff-kr); font-size: 15px; font-weight: 400; color: var(--c-dark); }
-.inq-card__date { font-size: 10px; color: var(--c-stone-lt); letter-spacing: 0.08em; white-space: nowrap; }
-.inq-card__tel { font-size: 14px; color: var(--c-gold); letter-spacing: 0.06em; margin-bottom: 10px; }
-.inq-card__meta { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-bottom: 12px; }
-.inq-card__badge {
-  font-size: 10px; letter-spacing: 0.12em; color: var(--c-stone);
-  background: var(--c-cream); padding: 4px 10px;
+.inq-stat__label { font-size: 10px; letter-spacing: 0.16em; color: var(--c-stone); text-transform: uppercase; }
+.inq-stat__num { font-family: var(--ff-serif); font-size: 32px; font-weight: 300; color: var(--c-dark); line-height: 1; }
+.inq-stat.highlight .inq-stat__num { color: var(--c-gold); }
+
+/* ── 문의 카드 리스트 ── */
+.inq-list { display: flex; flex-direction: column; gap: 12px; }
+
+.inq-card {
+  background: #fff;
+  border: 1px solid #DDD9D0;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: box-shadow 0.25s, border-color 0.25s;
 }
-.inq-card__addr { font-size: 12px; color: var(--c-stone); margin-bottom: 8px; }
-.inq-card__msg { font-size: 12px; color: var(--c-stone); line-height: 1.7; border-top: 1px solid var(--c-border); padding-top: 12px; margin-top: 4px; }
-.inq-card__actions { display: flex; gap: 8px; margin-top: 14px; }
-.btn--inq-del { font-size: 9px; letter-spacing: 0.18em; padding: 7px 16px; color: #C0392B; border: 1px solid rgba(192,57,43,0.25); background: transparent; cursor: pointer; transition: background 0.25s, color 0.25s; }
-.btn--inq-del:hover { background: #C0392B; color: #fff; border-color: #C0392B; }
-.btn--inq-read { font-size: 9px; letter-spacing: 0.18em; padding: 7px 16px; color: var(--c-stone); border: 1px solid var(--c-border); background: transparent; cursor: pointer; transition: background 0.25s, color 0.25s; }
+.inq-card:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.08); border-color: var(--c-gold-pale); }
+.inq-card.is-new { border-left: 4px solid var(--c-gold); }
+
+/* 카드 헤더 */
+.inq-card__head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 22px;
+  background: #FAFAF8;
+  border-bottom: 1px solid #ECEAE5;
+  gap: 12px;
+}
+.inq-card__head-left { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.inq-card__name {
+  font-size: 16px; font-weight: 600;
+  color: #1A1A17; letter-spacing: 0.02em;
+}
+.inq-new-badge {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.10em;
+  color: #fff; background: var(--c-gold);
+  padding: 3px 9px; border-radius: 20px;
+}
+.inq-read-badge {
+  font-size: 10px; letter-spacing: 0.08em;
+  color: var(--c-stone-lt); background: #F0EEE9;
+  padding: 3px 9px; border-radius: 20px;
+}
+.inq-card__date {
+  font-size: 11px; color: var(--c-stone-lt);
+  letter-spacing: 0.06em; white-space: nowrap;
+}
+
+/* 카드 바디 */
+.inq-card__body { padding: 20px 22px; }
+
+/* 연락처 + 이메일 */
+.inq-card__contact {
+  display: flex; align-items: center; gap: 20px;
+  flex-wrap: wrap; margin-bottom: 16px;
+  padding-bottom: 16px; border-bottom: 1px solid #ECEAE5;
+}
+.inq-contact-item { display: flex; align-items: center; gap: 7px; }
+.inq-contact-icon { width: 15px; height: 15px; stroke: var(--c-stone-lt); fill: none; stroke-width: 1.5; flex-shrink: 0; }
+.inq-contact-val { font-size: 14px; font-weight: 500; color: var(--c-dark); }
+.inq-contact-email { font-size: 13px; font-weight: 400; color: var(--c-stone); }
+
+/* 정보 그리드 */
+.inq-card__grid {
+  display: grid; grid-template-columns: repeat(2,1fr);
+  gap: 14px 32px; margin-bottom: 16px;
+}
+.inq-field { display: flex; flex-direction: column; gap: 3px; }
+.inq-field__label {
+  font-size: 10px; letter-spacing: 0.14em; font-weight: 600;
+  color: var(--c-stone); text-transform: uppercase;
+}
+.inq-field__val {
+  font-size: 13px; font-weight: 400; color: #1A1A17; line-height: 1.6;
+}
+.inq-field__val.empty { color: var(--c-stone-lt); font-style: italic; }
+
+/* 뱃지 태그 */
+.inq-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.inq-tag {
+  font-size: 11px; font-weight: 500; color: #3D3B35;
+  background: #F0EEE9; border: 1px solid #DDD9D0;
+  padding: 4px 10px; border-radius: 4px;
+}
+.inq-tag.gold { background: #FFF4E0; border-color: var(--c-gold-pale); color: #8A6830; }
+
+/* 주소 */
+.inq-card__addr {
+  display: flex; align-items: flex-start; gap: 7px;
+  padding: 12px 14px; background: #F7F6F3;
+  border-radius: 6px; margin-bottom: 14px;
+}
+.inq-addr-icon { width: 14px; height: 14px; stroke: var(--c-stone-lt); fill: none; stroke-width: 1.5; flex-shrink: 0; margin-top: 1px; }
+.inq-addr-val { font-size: 13px; font-weight: 400; color: #1A1A17; line-height: 1.6; }
+
+/* 문의사항 */
+.inq-card__msg {
+  padding: 14px 16px;
+  background: #FAFAF8; border: 1px solid #ECEAE5;
+  border-radius: 6px; margin-bottom: 14px;
+}
+.inq-card__msg-label {
+  font-size: 10px; letter-spacing: 0.14em; font-weight: 600;
+  color: var(--c-stone); text-transform: uppercase; margin-bottom: 6px;
+}
+.inq-card__msg-text { font-size: 13px; color: #1A1A17; line-height: 1.7; }
+
+/* 액션 버튼 */
+.inq-card__actions {
+  display: flex; gap: 8px; justify-content: flex-end;
+  padding-top: 14px; border-top: 1px solid #ECEAE5;
+}
+.btn--inq-read {
+  font-size: 11px; font-weight: 500; letter-spacing: 0.10em;
+  padding: 9px 18px; color: var(--c-dark);
+  border: 1.5px solid #C8C6BF; background: #fff;
+  border-radius: 4px; cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
 .btn--inq-read:hover { background: var(--c-dark); color: #fff; border-color: var(--c-dark); }
-.inq-card.is-new { border-left: 3px solid var(--c-gold); }
-.inq-new-badge { display: inline-block; font-size: 8px; letter-spacing: 0.12em; color: #fff; background: var(--c-gold); padding: 2px 7px; margin-left: 8px; vertical-align: middle; }
-.inq-empty { padding: 80px 0; text-align: center; color: var(--c-stone-lt); font-size: 13px; line-height: 2.2; }
+.btn--inq-del {
+  font-size: 11px; font-weight: 500; letter-spacing: 0.10em;
+  padding: 9px 18px; color: #C0392B;
+  border: 1.5px solid rgba(192,57,43,0.3); background: #fff;
+  border-radius: 4px; cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.btn--inq-del:hover { background: #C0392B; color: #fff; border-color: #C0392B; }
+
+.inq-empty {
+  padding: 80px 0; text-align: center;
+  color: var(--c-stone-lt); font-size: 14px; line-height: 2.4;
+}
+.inq-empty svg { display: block; margin: 0 auto 16px; width: 40px; height: 40px; stroke: #DDD9D0; fill: none; stroke-width: 1; }
+
+@media (max-width: 600px) {
+  .inq-summary { grid-template-columns: 1fr 1fr; }
+  .inq-card__grid { grid-template-columns: 1fr; }
+  .inq-card__head { flex-direction: column; align-items: flex-start; }
+}
 
 /* MODAL */
 .admin-modal-bg { position: fixed; inset: 0; z-index: 900; background: rgba(26,26,23,0.6); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.35s var(--ease-out); padding: 20px; }
@@ -915,6 +1040,7 @@ button { font-family: var(--ff-sans); }
       </div>
       <!-- 상담 문의 -->
       <div id="admin-inquiries-panel" style="display:none">
+        <div class="inq-summary" id="inq-summary"></div>
         <div class="inq-list" id="inq-list"></div>
       </div>
     </div>
@@ -1335,41 +1461,126 @@ onSnapshot(iqQuery, (snap) => {
 function buildInqList() {
   const list = document.getElementById('inq-list');
   if (!list) return;
+
+  // 요약 통계 업데이트
+  const total   = inquiriesCache.length;
+  const newCnt  = inquiriesCache.filter(i => i.isNew).length;
+  const todayCnt = inquiriesCache.filter(i => {
+    const d = new Date(i.createdAt);
+    const t = new Date();
+    return d.getFullYear()===t.getFullYear() && d.getMonth()===t.getMonth() && d.getDate()===t.getDate();
+  }).length;
+  const statEl = document.getElementById('inq-summary');
+  if (statEl) {
+    statEl.innerHTML = `
+      <div class="inq-stat highlight">
+        <div class="inq-stat__label">미확인 문의</div>
+        <div class="inq-stat__num">${newCnt}</div>
+      </div>
+      <div class="inq-stat">
+        <div class="inq-stat__label">오늘 접수</div>
+        <div class="inq-stat__num">${todayCnt}</div>
+      </div>
+      <div class="inq-stat">
+        <div class="inq-stat__label">전체 문의</div>
+        <div class="inq-stat__num">${total}</div>
+      </div>`;
+  }
+
   if (!inquiriesCache.length) {
-    list.innerHTML = '<div class="inq-empty">아직 접수된 상담 문의가 없습니다.</div>';
+    list.innerHTML = `<div class="inq-empty">
+      <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      아직 접수된 상담 문의가 없습니다.<br>
+      <span style="font-size:12px;color:#B0ADA6;">고객이 상담 신청을 하면 여기에 표시됩니다.</span>
+    </div>`;
     return;
   }
+
   list.innerHTML = inquiriesCache.map(inq => {
     const d = new Date(inq.createdAt);
-    const dateStr = d.getFullYear() + '.' + String(d.getMonth()+1).padStart(2,'0') + '.' + String(d.getDate()).padStart(2,'0') + ' ' + String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
-    const badges = [
-      inq.spaceType && `<span class="inq-card__badge">${esc(inq.spaceType)}</span>`,
-      inq.pyeong    && `<span class="inq-card__badge">${esc(inq.pyeong)}평</span>`,
-      inq.budget    && `<span class="inq-card__badge">${esc(inq.budget)}</span>`,
-      inq.inflow    && `<span class="inq-card__badge">유입: ${esc(inq.inflow)}</span>`,
-    ].filter(Boolean).join('');
+    const dateStr = d.getFullYear() + '.' +
+      String(d.getMonth()+1).padStart(2,'0') + '.' +
+      String(d.getDate()).padStart(2,'0') + ' ' +
+      String(d.getHours()).padStart(2,'0') + ':' +
+      String(d.getMinutes()).padStart(2,'0');
+
+    // 공간구성 텍스트
+    const spaceParts = [
+      inq.pyeong && inq.pyeong + '평',
+      inq.room   && inq.room + '방',
+      inq.bath   && inq.bath + '욕실',
+    ].filter(Boolean).join(' · ');
+
+    // 연락처 아이콘
+    const phoneIcon = `<svg class="inq-contact-icon" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.36 2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.77a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2z"/></svg>`;
+    const mailIcon  = `<svg class="inq-contact-icon" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>`;
+    const pinIcon   = `<svg class="inq-addr-icon" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>`;
 
     return `<div class="inq-card${inq.isNew ? ' is-new' : ''}">
-      <div class="inq-card__top">
-        <div>
+
+      <!-- 헤더 -->
+      <div class="inq-card__head">
+        <div class="inq-card__head-left">
           <span class="inq-card__name">${esc(inq.name)}</span>
-          ${inq.isNew ? '<span class="inq-new-badge">NEW</span>' : ''}
+          ${inq.isNew
+            ? '<span class="inq-new-badge">NEW</span>'
+            : '<span class="inq-read-badge">확인완료</span>'}
+          ${inq.spaceType ? `<span style="font-size:11px;color:var(--c-stone);background:#F0EEE9;padding:3px 9px;border-radius:4px;">${esc(inq.spaceType)}</span>` : ''}
         </div>
         <span class="inq-card__date">${dateStr}</span>
       </div>
-      <div class="inq-card__tel">${esc(inq.tel)}</div>
-      ${inq.email ? `<div style="font-size:12px;color:var(--c-stone);margin-bottom:8px;">${esc(inq.email)}</div>` : ''}
-      ${inq.addr  ? `<div class="inq-card__addr">📍 ${esc(inq.addr)}</div>` : ''}
-      <div class="inq-card__meta">${badges}</div>
-      ${inq.startDate || inq.moveIn ? `<div style="font-size:11px;color:var(--c-stone-lt);margin-bottom:8px;">
-        ${inq.startDate ? '공사 시작: ' + esc(inq.startDate) : ''}
-        ${inq.startDate && inq.moveIn ? ' &nbsp;|&nbsp; ' : ''}
-        ${inq.moveIn ? '입주 예정: ' + esc(inq.moveIn) : ''}
-      </div>` : ''}
-      ${inq.msg ? `<div class="inq-card__msg">${esc(inq.msg)}</div>` : ''}
-      <div class="inq-card__actions">
-        ${inq.isNew ? `<button class="btn--inq-read" onclick="markInqRead('${esc(inq.id)}')">확인 처리</button>` : '<span style="font-size:10px;color:var(--c-stone-lt);letter-spacing:0.1em;">확인 완료</span>'}
-        <button class="btn--inq-del" onclick="deleteInq('${esc(inq.id)}')">삭제</button>
+
+      <!-- 바디 -->
+      <div class="inq-card__body">
+
+        <!-- 연락처 -->
+        <div class="inq-card__contact">
+          <div class="inq-contact-item">
+            ${phoneIcon}
+            <span class="inq-contact-val">${esc(inq.tel)}</span>
+          </div>
+          ${inq.email ? `<div class="inq-contact-item">${mailIcon}<span class="inq-contact-email">${esc(inq.email)}</span></div>` : ''}
+        </div>
+
+        <!-- 주소 -->
+        ${inq.addr ? `<div class="inq-card__addr">${pinIcon}<span class="inq-addr-val">${esc(inq.addr)}</span></div>` : ''}
+
+        <!-- 정보 그리드 -->
+        <div class="inq-card__grid">
+          <div class="inq-field">
+            <div class="inq-field__label">공간구성</div>
+            <div class="inq-field__val ${spaceParts ? '' : 'empty'}">${spaceParts || '미입력'}</div>
+          </div>
+          <div class="inq-field">
+            <div class="inq-field__label">공사예산</div>
+            <div class="inq-field__val ${inq.budget ? '' : 'empty'}">${inq.budget ? `<span class="inq-tag gold">${esc(inq.budget)}</span>` : '미선택'}</div>
+          </div>
+          <div class="inq-field">
+            <div class="inq-field__label">공사 시작일</div>
+            <div class="inq-field__val ${inq.startDate ? '' : 'empty'}">${esc(inq.startDate) || '미입력'}</div>
+          </div>
+          <div class="inq-field">
+            <div class="inq-field__label">입주 예정일</div>
+            <div class="inq-field__val ${inq.moveIn ? '' : 'empty'}">${esc(inq.moveIn) || '미입력'}</div>
+          </div>
+          ${inq.inflow ? `<div class="inq-field" style="grid-column:1/-1">
+            <div class="inq-field__label">유입경로</div>
+            <div class="inq-field__val"><div class="inq-tags">${inq.inflow.split(',').map(s => `<span class="inq-tag">${esc(s.trim())}</span>`).join('')}</div></div>
+          </div>` : ''}
+        </div>
+
+        <!-- 문의사항 -->
+        ${inq.msg ? `<div class="inq-card__msg">
+          <div class="inq-card__msg-label">문의사항</div>
+          <div class="inq-card__msg-text">${esc(inq.msg)}</div>
+        </div>` : ''}
+
+        <!-- 액션 -->
+        <div class="inq-card__actions">
+          ${inq.isNew ? `<button class="btn--inq-read" onclick="markInqRead('${esc(inq.id)}')">확인 처리</button>` : ''}
+          <button class="btn--inq-del" onclick="deleteInq('${esc(inq.id)}')">삭제</button>
+        </div>
+
       </div>
     </div>`;
   }).join('');
