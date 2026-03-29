@@ -323,10 +323,12 @@ button { font-family: var(--ff-sans); }
     <span class="logo__ko">쉬워지는 인테리어</span>
   </div>
   <ul class="nav">
-    <li><span class="nav__link" id="nl-about"     onclick="goPage('about')">OWL STORY</span></li>
     <li><span class="nav__link" id="nl-portfolio" onclick="goPage('portfolio')">PORTFOLIO</span></li>
+    <li><span class="nav__link" id="nl-process"   onclick="goPage('process')">PROCESS</span></li>
     <li><span class="nav__link" id="nl-consult"   onclick="goPage('consult')">CONSULTANT</span></li>
-    <li><span class="nav__link" id="nl-sns"       onclick="goPage('sns')">SNS</span></li>
+    <li><span class="nav__link" id="nl-about"     onclick="goPage('about')">ABOUT</span></li>
+    <li><span class="nav__link" id="nl-blog"      onclick="openBlog()">BLOG</span></li>
+    <li><span class="nav__link" id="nl-instagram" onclick="openInstagram()">INSTAGRAM</span></li>
   </ul>
   <button class="header-cta" onclick="goPage('consult')">견적 문의하기</button>
   <button class="hamburger" id="hamburger" onclick="toggleMob()" aria-label="메뉴">
@@ -336,10 +338,12 @@ button { font-family: var(--ff-sans); }
 
 <!-- MOBILE MENU -->
 <div id="mob-menu">
-  <span class="mob-menu__link" onclick="goPage('about');    closeMob()">OWL STORY</span>
   <span class="mob-menu__link" onclick="goPage('portfolio');closeMob()">PORTFOLIO</span>
+  <span class="mob-menu__link" onclick="goPage('process');  closeMob()">PROCESS</span>
   <span class="mob-menu__link" onclick="goPage('consult');  closeMob()">CONSULTANT</span>
-  <span class="mob-menu__link" onclick="goPage('sns');      closeMob()">SNS</span>
+  <span class="mob-menu__link" onclick="goPage('about');    closeMob()">ABOUT</span>
+  <span class="mob-menu__link" onclick="openBlog();          closeMob()">BLOG</span>
+  <span class="mob-menu__link" onclick="openInstagram();     closeMob()">INSTAGRAM</span>
   <button class="mob-menu__cta" onclick="goPage('consult');closeMob()">견적 문의하기</button>
 </div>
 
@@ -363,6 +367,27 @@ button { font-family: var(--ff-sans); }
     <button class="slide-arrow slide-arrow--next" id="slide-next" onclick="slideMove(1)"  style="display:none"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
     <div class="slide-counter" id="slide-counter"></div>
     <div class="slide-progress" id="slide-progress"></div>
+  </section>
+
+
+  <!-- PROCESS -->
+  <section class="page" id="pg-process">
+    <div class="about__inner">
+      <div class="about__left">
+        <p class="label">How We Work</p>
+        <h2 class="heading">디자인포의<br>시공 <em>프로세스</em></h2>
+        <div class="rule"></div>
+        <p class="body-text">첫 상담부터 준공까지,<br>모든 단계를 투명하게 안내합니다.<br><br>고객이 불안하지 않도록<br>디자인포가 항상 곁에 있습니다.</p>
+      </div>
+      <div class="about__right">
+        <div class="val-grid">
+          <div class="val-card"><div class="val-card__num">01</div><h3 class="val-card__title">무료 상담</h3><p class="val-card__desc">전화·카카오·방문 상담을 통해 공간 니즈와 예산을 파악합니다.</p></div>
+          <div class="val-card"><div class="val-card__num">02</div><h3 class="val-card__title">디자인 제안</h3><p class="val-card__desc">고객 취향에 맞는 시안과 상세 견적서를 제출합니다.</p></div>
+          <div class="val-card"><div class="val-card__num">03</div><h3 class="val-card__title">계약 및 착공</h3><p class="val-card__desc">투명한 계약 후, 숙련된 팀이 공사를 시작합니다.</p></div>
+          <div class="val-card"><div class="val-card__num">04</div><h3 class="val-card__title">준공 및 사후관리</h3><p class="val-card__desc">완공 후 하자 점검과 지속적인 AS를 보장합니다.</p></div>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- ABOUT -->
@@ -608,10 +633,10 @@ function showToast(msg, dur) {
 /* ─── PAGE ROUTER ─── */
 const PAGE_MAP = {
   home:      { el:'pg-home',      nav:null },
-  about:     { el:'pg-about',     nav:'nl-about' },
   portfolio: { el:'pg-portfolio', nav:'nl-portfolio' },
+  process:   { el:'pg-process',   nav:'nl-process' },
   consult:   { el:'pg-consult',   nav:'nl-consult' },
-  sns:       { el:'pg-sns',       nav:'nl-sns' },
+  about:     { el:'pg-about',     nav:'nl-about' },
   admin:     { el:'pg-admin',     nav:null },
 };
 let current = 'home';
@@ -637,6 +662,10 @@ window.goPage = function(id) {
 
 /* ─── 모바일 메뉴 ─── */
 let mobOpen = false;
+/* ─── 외부 링크 ─── */
+window.openBlog      = function() { window.open('https://blog.naver.com', '_blank'); };
+window.openInstagram = function() { window.open('https://instagram.com/designfor_interior', '_blank'); };
+
 window.toggleMob = () => mobOpen ? closeMob() : openMob();
 function openMob() {
   mobOpen = true;
