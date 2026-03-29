@@ -932,13 +932,7 @@ button { font-family: var(--ff-sans); }
         <div class="cf-row full">
           <div class="cf-group">
             <label class="cf-label">공사예산 <span>*</span></label>
-            <div class="cf-radio-group">
-              <label class="cf-radio-label"><input type="radio" name="budget" value="6000이상"><div class="cf-radio-box"></div><span>6,000만원 이상</span></label>
-              <label class="cf-radio-label"><input type="radio" name="budget" value="7000-8000"><div class="cf-radio-box"></div><span>7,000 ~ 8,000만원</span></label>
-              <label class="cf-radio-label"><input type="radio" name="budget" value="9000-1억"><div class="cf-radio-box"></div><span>9,000만원 ~ 1억</span></label>
-              <label class="cf-radio-label"><input type="radio" name="budget" value="1억이상"><div class="cf-radio-box"></div><span>1억 이상</span></label>
-              <label class="cf-radio-label"><input type="radio" name="budget" value="2억이상"><div class="cf-radio-box"></div><span>2억 이상</span></label>
-            </div>
+            <input id="c-budget" class="cf-input" type="text" placeholder="예) 5,000만원 / 1억 2,000만원">
           </div>
         </div>
 
@@ -1364,14 +1358,14 @@ window.handleSubmit = async function() {
   const addr  = (document.getElementById('c-addr')?.value  || '').trim();
   const agree = document.getElementById('c-agree')?.checked;
   const spaceType = document.querySelector('input[name="space-type"]:checked')?.value || '';
-  const budget    = document.querySelector('input[name="budget"]:checked')?.value || '';
+  const budget    = (document.getElementById('c-budget')?.value || '').trim();
   const inflows   = [...document.querySelectorAll('input[name="inflow"]:checked')].map(el => el.value);
 
   if (!name)  { showToast('성함을 입력해 주세요.'); return; }
   if (!tel1 || !tel2 || !tel3) { showToast('연락처를 입력해 주세요.'); return; }
   if (!addr)  { showToast('공사예정지 주소를 입력해 주세요.'); return; }
   if (!spaceType) { showToast('공간유형을 선택해 주세요.'); return; }
-  if (!budget)    { showToast('공사예산을 선택해 주세요.'); return; }
+  if (!budget)    { showToast('공사예산을 입력해 주세요.'); return; }
   if (!agree) { showToast('개인정보 수집 및 이용에 동의해 주세요.'); return; }
 
   const submitBtn = document.querySelector('.btn--consult-submit');
@@ -1405,8 +1399,9 @@ window.handleSubmit = async function() {
      'c-pyeong','c-room','c-bath','c-start','c-movein','c-msg','c-url'].forEach(id => {
       const el = document.getElementById(id); if (el) el.value = '';
     });
-    document.querySelectorAll('input[name="inflow"], input[name="space-type"], input[name="budget"], #c-agree')
+    document.querySelectorAll('input[name="inflow"], input[name="space-type"], #c-agree')
       .forEach(el => { el.checked = false; });
+  const budgetEl = document.getElementById('c-budget'); if (budgetEl) budgetEl.value = '';
     const fn = document.getElementById('c-file-name');
     if (fn) fn.textContent = '평면도 미첨부 시 원활한 상담이 불가하오니 첨부 부탁드립니다.';
   } catch(err) {
