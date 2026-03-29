@@ -8,9 +8,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Sans+KR:wght@300;400;500&family=Noto+Serif+KR:wght@300;400&display=swap" rel="stylesheet">
 <style>
-/* =========================================
-   DESIGN SYSTEM
-   ========================================= */
 :root {
   --c-bg:        #FDFBF8;
   --c-cream:     #F5F1EA;
@@ -22,7 +19,6 @@
   --c-gold-lt:   #CDA96E;
   --c-gold-pale: #E8D9BC;
   --c-border:    rgba(26,26,23,0.10);
-  --c-border-dk: rgba(255,255,255,0.10);
   --pad-x:       60px;
   --pad-x-sm:    24px;
   --header-h:    64px;
@@ -37,67 +33,26 @@ body { font-family: var(--ff-sans); font-weight: 300; background: var(--c-bg); c
 a { text-decoration: none; color: inherit; }
 button { font-family: var(--ff-sans); }
 
-/* =========================================
-   HEADER
-   ========================================= */
-#header {
-  position: fixed; top: 0; left: 0; right: 0;
-  height: var(--header-h); z-index: 500;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 var(--pad-x);
-  background: transparent;
-  border-bottom: 1px solid transparent;
-  transition: background 0.4s, border-color 0.4s;
-}
-#header.is-solid {
-  background: rgba(253,251,248,0.96);
-  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-  border-bottom-color: var(--c-border);
-}
+/* HEADER */
+#header { position: fixed; top: 0; left: 0; right: 0; height: var(--header-h); z-index: 500; display: flex; align-items: center; justify-content: space-between; padding: 0 var(--pad-x); background: transparent; border-bottom: 1px solid transparent; transition: background 0.4s, border-color 0.4s; }
+#header.is-solid { background: rgba(253,251,248,0.96); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom-color: var(--c-border); }
 .logo { display: flex; flex-direction: column; cursor: pointer; line-height: 1; user-select: none; }
-.logo__en {
-  font-family: var(--ff-serif); font-size: 20px; font-weight: 400;
-  letter-spacing: 0.16em; color: #fff;
-  transition: color 0.4s;
-}
-.logo__ko {
-  font-size: 9px; font-weight: 300; letter-spacing: 0.30em;
-  color: rgba(255,255,255,0.55); margin-top: 4px;
-  transition: color 0.4s;
-}
+.logo__en { font-family: var(--ff-serif); font-size: 20px; font-weight: 400; letter-spacing: 0.16em; color: #fff; transition: color 0.4s; }
+.logo__ko { font-size: 9px; font-weight: 300; letter-spacing: 0.30em; color: rgba(255,255,255,0.55); margin-top: 4px; transition: color 0.4s; }
 #header.is-solid .logo__en { color: var(--c-dark); }
 #header.is-solid .logo__ko { color: var(--c-stone); }
-
 .nav { display: flex; align-items: center; list-style: none; }
-.nav__link {
-  display: block; padding: 8px 20px;
-  font-size: 11px; font-weight: 300; letter-spacing: 0.20em;
-  color: rgba(255,255,255,0.75); cursor: pointer; transition: color 0.25s;
-  white-space: nowrap; user-select: none; position: relative;
-}
-.nav__link::after {
-  content: ''; position: absolute; bottom: 2px; left: 20px; right: 20px;
-  height: 1px; background: #fff;
-  transform: scaleX(0); transform-origin: left; transition: transform 0.3s var(--ease-out);
-}
+.nav__link { display: block; padding: 8px 20px; font-size: 11px; font-weight: 300; letter-spacing: 0.20em; color: rgba(255,255,255,0.75); cursor: pointer; transition: color 0.25s; white-space: nowrap; user-select: none; position: relative; }
+.nav__link::after { content: ''; position: absolute; bottom: 2px; left: 20px; right: 20px; height: 1px; background: #fff; transform: scaleX(0); transform-origin: left; transition: transform 0.3s var(--ease-out); }
 .nav__link:hover, .nav__link.is-active { color: #fff; }
 .nav__link:hover::after, .nav__link.is-active::after { transform: scaleX(1); }
 #header.is-solid .nav__link { color: var(--c-stone); }
 #header.is-solid .nav__link::after { background: var(--c-gold); }
-#header.is-solid .nav__link:hover,
-#header.is-solid .nav__link.is-active { color: var(--c-dark); }
-
-.header-cta {
-  font-size: 10px; font-weight: 300; letter-spacing: 0.22em;
-  color: rgba(255,255,255,0.8); border: 1px solid rgba(255,255,255,0.4);
-  padding: 9px 20px; background: transparent; cursor: pointer;
-  transition: background 0.3s, color 0.3s, border-color 0.3s;
-  white-space: nowrap;
-}
+#header.is-solid .nav__link:hover, #header.is-solid .nav__link.is-active { color: var(--c-dark); }
+.header-cta { font-size: 10px; font-weight: 300; letter-spacing: 0.22em; color: rgba(255,255,255,0.8); border: 1px solid rgba(255,255,255,0.4); padding: 9px 20px; background: transparent; cursor: pointer; transition: background 0.3s, color 0.3s, border-color 0.3s; white-space: nowrap; }
 .header-cta:hover { background: rgba(255,255,255,1); color: var(--c-dark); border-color: #fff; }
 #header.is-solid .header-cta { color: var(--c-gold); border-color: var(--c-gold); }
 #header.is-solid .header-cta:hover { background: var(--c-gold); color: #fff; }
-
 .hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 32px; height: 32px; background: none; border: none; cursor: pointer; padding: 4px; }
 .hamburger__bar { display: block; width: 22px; height: 1px; background: #fff; transition: transform 0.35s var(--ease-out), opacity 0.3s, background 0.4s; }
 #header.is-solid .hamburger__bar { background: var(--c-dark); }
@@ -106,27 +61,19 @@ button { font-family: var(--ff-sans); }
 .hamburger.is-open .hamburger__bar:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 
 /* MOBILE MENU */
-#mob-menu {
-  position: fixed; inset: 0; z-index: 400; background: var(--c-bg);
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 36px;
-  opacity: 0; pointer-events: none; transition: opacity 0.4s var(--ease-out);
-}
+#mob-menu { position: fixed; inset: 0; z-index: 400; background: var(--c-bg); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 36px; opacity: 0; pointer-events: none; transition: opacity 0.4s var(--ease-out); }
 #mob-menu.is-open { opacity: 1; pointer-events: all; }
 .mob-menu__link { font-family: var(--ff-serif); font-size: 32px; font-weight: 300; letter-spacing: 0.10em; color: var(--c-dark); cursor: pointer; transition: color 0.25s; }
 .mob-menu__link:hover { color: var(--c-gold); }
 .mob-menu__cta { margin-top: 8px; font-size: 10px; letter-spacing: 0.28em; color: var(--c-gold); border: 1px solid var(--c-gold); padding: 12px 32px; cursor: pointer; background: none; transition: background 0.3s, color 0.3s; }
 .mob-menu__cta:hover { background: var(--c-gold); color: #fff; }
 
-/* =========================================
-   PAGE SYSTEM
-   ========================================= */
+/* PAGE SYSTEM */
 #page-wrap { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 1; }
 .page { position: absolute; inset: 0; overflow-y: auto; overflow-x: hidden; opacity: 0; pointer-events: none; transition: opacity 0.5s var(--ease-out); -webkit-overflow-scrolling: touch; will-change: opacity; }
 .page.is-active { opacity: 1; pointer-events: all; }
 
-/* =========================================
-   HOME
-   ========================================= */
+/* HOME */
 #pg-home { background: var(--c-dark2); overflow: hidden; }
 .home-stage { position: absolute; inset: 0; }
 .home-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1.2s cubic-bezier(0.4,0,0.2,1); pointer-events: none; overflow: hidden; }
@@ -137,19 +84,9 @@ button { font-family: var(--ff-sans); }
 .home-slide__dim { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.35) 100%); }
 .home-bg-dark { position: absolute; inset: 0; background: var(--c-dark2); }
 .home-texture { position: absolute; inset: 0; opacity: 0.03; background-image: repeating-linear-gradient(0deg,transparent,transparent 79px,rgba(255,255,255,1) 79px,rgba(255,255,255,1) 80px), repeating-linear-gradient(90deg,transparent,transparent 79px,rgba(255,255,255,1) 79px,rgba(255,255,255,1) 80px); }
-
-.home__cta-center {
-  position: absolute; bottom: 72px; left: 50%; transform: translateX(-50%);
-  z-index: 10; display: flex; flex-direction: column; align-items: center; gap: 20px;
-}
-.btn--consult {
-  font-size: 11px; font-weight: 300; letter-spacing: 0.28em; text-transform: uppercase;
-  color: rgba(255,255,255,0.9); border: 1px solid rgba(255,255,255,0.5);
-  background: transparent; padding: 16px 48px; cursor: pointer;
-  transition: background 0.35s, color 0.35s, border-color 0.35s; white-space: nowrap;
-}
+.home__cta-center { position: absolute; bottom: 72px; left: 50%; transform: translateX(-50%); z-index: 10; display: flex; flex-direction: column; align-items: center; gap: 20px; }
+.btn--consult { font-size: 11px; font-weight: 300; letter-spacing: 0.28em; text-transform: uppercase; color: rgba(255,255,255,0.9); border: 1px solid rgba(255,255,255,0.5); background: transparent; padding: 16px 48px; cursor: pointer; transition: background 0.35s, color 0.35s, border-color 0.35s; white-space: nowrap; }
 .btn--consult:hover { background: #ffffff; color: var(--c-dark); border-color: #ffffff; }
-
 .slide-dots { position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; z-index: 10; }
 .slide-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.3); border: none; cursor: pointer; padding: 0; transition: background 0.3s, transform 0.3s; }
 .slide-dot.is-active { background: #fff; transform: scale(1.4); }
@@ -163,9 +100,7 @@ button { font-family: var(--ff-sans); }
 .home-empty { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; color: rgba(169,165,157,0.3); font-family: var(--ff-serif); font-size: 15px; font-style: italic; letter-spacing: 0.1em; pointer-events: none; }
 .home-empty svg { width: 40px; height: 40px; stroke: rgba(169,165,157,0.18); fill: none; stroke-width: 1; }
 
-/* =========================================
-   ABOUT
-   ========================================= */
+/* ABOUT */
 #pg-about { background: var(--c-cream); }
 .about__inner { display: grid; grid-template-columns: 1fr 1fr; min-height: 100%; }
 .about__left { padding: calc(80px + var(--header-h)) var(--pad-x) 80px; display: flex; flex-direction: column; justify-content: center; border-right: 1px solid var(--c-border); }
@@ -184,26 +119,14 @@ button { font-family: var(--ff-sans); }
 .val-card__title { font-family: var(--ff-kr); font-size: 13px; font-weight: 400; color: var(--c-dark); letter-spacing: 0.04em; margin-bottom: 10px; }
 .val-card__desc { font-size: 11.5px; color: var(--c-stone); line-height: 1.9; }
 
-/* =========================================
-   PORTFOLIO
-   ========================================= */
+/* PORTFOLIO */
 #pg-portfolio { background: var(--c-bg); }
 .port-list { min-height: 100%; }
-.port-list__header {
-  padding: calc(52px + var(--header-h)) var(--pad-x) 36px;
-  border-bottom: 1px solid var(--c-border);
-  display: flex; align-items: flex-end; justify-content: space-between;
-  flex-wrap: wrap; gap: 16px;
-}
+.port-list__header { padding: calc(52px + var(--header-h)) var(--pad-x) 36px; border-bottom: 1px solid var(--c-border); display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
 .port-list__title { font-family: var(--ff-serif); font-size: clamp(28px,4vw,44px); font-weight: 300; color: var(--c-dark); line-height: 1.12; }
 .port-list__title em { font-style: italic; color: var(--c-gold); }
 .port-filters { display: flex; gap: 20px; flex-wrap: wrap; }
-.port-filter {
-  font-size: 10px; letter-spacing: 0.20em; color: var(--c-stone-lt);
-  background: none; border: none; border-bottom: 1px solid transparent;
-  padding-bottom: 4px; cursor: pointer; transition: color 0.25s, border-color 0.25s;
-  text-transform: uppercase;
-}
+.port-filter { font-size: 10px; letter-spacing: 0.20em; color: var(--c-stone-lt); background: none; border: none; border-bottom: 1px solid transparent; padding-bottom: 4px; cursor: pointer; transition: color 0.25s, border-color 0.25s; text-transform: uppercase; }
 .port-filter:hover, .port-filter.is-on { color: var(--c-gold); border-color: var(--c-gold); }
 .port-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; padding: 36px var(--pad-x) 60px; }
 .port-item { position: relative; aspect-ratio: 3/2; overflow: hidden; background: var(--c-cream); cursor: pointer; }
@@ -214,8 +137,6 @@ button { font-family: var(--ff-sans); }
 .port-item__name { font-family: var(--ff-kr); font-size: 17px; font-weight: 400; color: #FFFFFF; letter-spacing: 0.04em; text-align: center; padding: 0 20px; }
 .port-item__area { font-size: 11px; color: rgba(255,255,255,0.75); letter-spacing: 0.20em; text-transform: uppercase; }
 .port-grid__empty { grid-column: 1 / -1; padding: 100px 24px; text-align: center; color: var(--c-stone-lt); font-size: 13px; line-height: 2; }
-
-/* 포트폴리오 상세 */
 .port-detail { display: none; min-height: 100%; }
 .port-detail.is-active { display: block; }
 .port-detail__back { display: inline-flex; align-items: center; gap: 10px; font-size: 10px; letter-spacing: 0.22em; color: var(--c-stone); text-transform: uppercase; cursor: pointer; background: none; border: none; padding: calc(28px + var(--header-h)) var(--pad-x) 0; transition: color 0.25s; }
@@ -230,9 +151,7 @@ button { font-family: var(--ff-sans); }
 .port-detail__images { padding: 0 var(--pad-x) 80px; display: flex; flex-direction: column; gap: 3px; }
 .port-detail__img { width: 100%; display: block; max-height: 80vh; object-fit: cover; }
 
-/* =========================================
-   CONSULT
-   ========================================= */
+/* CONSULT */
 #pg-consult { background: var(--c-bg); }
 .consult__wrap { display: grid; grid-template-columns: 1fr 1fr; min-height: 100%; }
 .consult__left { padding: calc(80px + var(--header-h)) var(--pad-x) 80px; display: flex; flex-direction: column; justify-content: center; border-right: 1px solid var(--c-border); }
@@ -252,9 +171,7 @@ button { font-family: var(--ff-sans); }
 .btn--submit { width: 100%; background: var(--c-gold); color: var(--c-dark); border: none; padding: 15px; font-family: var(--ff-sans); font-size: 10px; font-weight: 400; letter-spacing: 0.28em; text-transform: uppercase; cursor: pointer; margin-top: 8px; transition: background 0.3s; }
 .btn--submit:hover { background: var(--c-gold-lt); }
 
-/* =========================================
-   SNS
-   ========================================= */
+/* SNS */
 #pg-sns { background: var(--c-bg); display: flex; flex-direction: column; }
 .sns__inner { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: calc(60px + var(--header-h)) var(--pad-x) 60px; }
 .sns__inner .rule { margin: 22px auto; }
@@ -272,199 +189,93 @@ button { font-family: var(--ff-sans); }
 .sns-card:hover .sns-card__name { color: var(--c-gold); }
 .sns-card__id { position:relative; z-index:1; font-size:12px; font-weight:400; color:var(--c-dark); transition:color 0.4s; }
 .sns-card:hover .sns-card__id { color: #F0EDE6; }
-
 .site-footer { background: var(--c-dark); padding: 28px var(--pad-x); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; border-top: 1px solid rgba(181,145,85,0.22); flex-shrink: 0; }
 .footer__brand { font-family: var(--ff-serif); font-size: 16px; font-weight: 300; letter-spacing: 0.14em; color: #F0EDE6; }
 .footer__copy { font-size: 9.5px; letter-spacing: 0.12em; color: var(--c-stone); margin-top: 5px; }
 .footer__info { font-size: 10.5px; color: var(--c-stone); line-height: 1.8; text-align: right; }
 
-/* =========================================
-   ADMIN DASHBOARD
-   ========================================= */
+/* ADMIN */
 #pg-admin { background: #F8F7F4; }
 .admin__wrap { min-height: 100%; padding: calc(48px + var(--header-h)) var(--pad-x) 80px; }
-
-/* 어드민 헤더 */
-.admin__header {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 40px; padding-bottom: 28px;
-  border-bottom: 1px solid var(--c-border);
-}
-.admin__title {
-  font-family: var(--ff-serif); font-size: 28px; font-weight: 300;
-  color: var(--c-dark); letter-spacing: 0.06em;
-}
+.admin__header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 40px; padding-bottom: 28px; border-bottom: 1px solid var(--c-border); }
+.admin__title { font-family: var(--ff-serif); font-size: 28px; font-weight: 300; color: var(--c-dark); letter-spacing: 0.06em; }
 .admin__title span { font-style: italic; color: var(--c-gold); }
-.btn--admin-add {
-  display: inline-flex; align-items: center; gap: 8px;
-  font-size: 10px; letter-spacing: 0.24em; font-weight: 400;
-  color: #fff; background: var(--c-gold); border: none;
-  padding: 12px 24px; cursor: pointer;
-  transition: background 0.3s;
-}
+.btn--admin-add { display: inline-flex; align-items: center; gap: 8px; font-size: 10px; letter-spacing: 0.24em; font-weight: 400; color: #fff; background: var(--c-gold); border: none; padding: 12px 24px; cursor: pointer; transition: background 0.3s; }
 .btn--admin-add:hover { background: var(--c-gold-lt); }
 .btn--admin-add svg { width: 14px; height: 14px; stroke: #fff; fill: none; stroke-width: 2; }
-
-/* 프로젝트 카드 그리드 */
-.admin-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
-}
-.admin-card {
-  background: #fff;
-  border: 1px solid var(--c-border);
-  overflow: hidden;
-  transition: box-shadow 0.3s, border-color 0.3s;
-}
+.admin-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+.admin-card { background: #fff; border: 1px solid var(--c-border); overflow: hidden; transition: box-shadow 0.3s, border-color 0.3s; }
 .admin-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.08); border-color: var(--c-gold-pale); }
-.admin-card__thumb {
-  width: 100%; aspect-ratio: 4/3;
-  object-fit: cover; display: block;
-  background: var(--c-cream);
-}
-.admin-card__thumb-placeholder {
-  width: 100%; aspect-ratio: 4/3;
-  background: var(--c-cream);
-  display: flex; align-items: center; justify-content: center;
-  color: var(--c-stone-lt); font-size: 11px; letter-spacing: 0.1em;
-}
+.admin-card__thumb { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; background: var(--c-cream); }
+.admin-card__thumb-placeholder { width: 100%; aspect-ratio: 4/3; background: var(--c-cream); display: flex; align-items: center; justify-content: center; color: var(--c-stone-lt); font-size: 11px; letter-spacing: 0.1em; }
 .admin-card__body { padding: 18px 20px 20px; }
-.admin-card__name {
-  font-family: var(--ff-kr); font-size: 14px; font-weight: 400;
-  color: var(--c-dark); margin-bottom: 6px;
-}
-.admin-card__meta {
-  font-size: 11px; color: var(--c-stone-lt); letter-spacing: 0.08em;
-  margin-bottom: 16px; line-height: 1.6;
-}
+.admin-card__name { font-family: var(--ff-kr); font-size: 14px; font-weight: 400; color: var(--c-dark); margin-bottom: 6px; }
+.admin-card__meta { font-size: 11px; color: var(--c-stone-lt); letter-spacing: 0.08em; margin-bottom: 16px; line-height: 1.6; }
 .admin-card__actions { display: flex; gap: 8px; }
-.btn--card-edit, .btn--card-del {
-  flex: 1; font-size: 9px; letter-spacing: 0.20em;
-  padding: 8px; border: 1px solid; cursor: pointer;
-  transition: background 0.25s, color 0.25s;
-  background: transparent;
-}
+.btn--card-edit, .btn--card-del { flex: 1; font-size: 9px; letter-spacing: 0.20em; padding: 8px; border: 1px solid; cursor: pointer; transition: background 0.25s, color 0.25s; background: transparent; }
 .btn--card-edit { color: var(--c-stone); border-color: var(--c-border); }
 .btn--card-edit:hover { background: var(--c-dark); color: #fff; border-color: var(--c-dark); }
 .btn--card-del { color: #C0392B; border-color: rgba(192,57,43,0.25); }
 .btn--card-del:hover { background: #C0392B; color: #fff; border-color: #C0392B; }
-
-.admin-empty {
-  grid-column: 1 / -1; padding: 80px 0; text-align: center;
-  color: var(--c-stone-lt); font-size: 13px; line-height: 2.2;
-}
+.admin-empty { grid-column: 1 / -1; padding: 80px 0; text-align: center; color: var(--c-stone-lt); font-size: 13px; line-height: 2.2; }
 .admin-empty svg { display: block; margin: 0 auto 20px; width: 44px; height: 44px; stroke: var(--c-gold-pale); fill: none; stroke-width: 1; }
 
-/* ── MODAL ── */
-.admin-modal-bg {
-  position: fixed; inset: 0; z-index: 900;
-  background: rgba(26,26,23,0.6);
-  display: flex; align-items: center; justify-content: center;
-  opacity: 0; pointer-events: none;
-  transition: opacity 0.35s var(--ease-out);
-  padding: 20px;
-}
+/* MODAL */
+.admin-modal-bg { position: fixed; inset: 0; z-index: 900; background: rgba(26,26,23,0.6); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.35s var(--ease-out); padding: 20px; }
 .admin-modal-bg.is-open { opacity: 1; pointer-events: all; }
-.admin-modal {
-  background: #fff; width: 100%; max-width: 680px;
-  max-height: 90vh; overflow-y: auto;
-  padding: 44px 48px;
-  transform: translateY(24px);
-  transition: transform 0.35s var(--ease-out);
-}
+.admin-modal { background: #fff; width: 100%; max-width: 680px; max-height: 90vh; overflow-y: auto; padding: 44px 48px; transform: translateY(24px); transition: transform 0.35s var(--ease-out); }
 .admin-modal-bg.is-open .admin-modal { transform: translateY(0); }
 .admin-modal__header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 36px; }
 .admin-modal__title { font-family: var(--ff-serif); font-size: 22px; font-weight: 300; color: var(--c-dark); letter-spacing: 0.06em; }
 .admin-modal__close { background: none; border: none; cursor: pointer; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; color: var(--c-stone); transition: color 0.2s; }
 .admin-modal__close:hover { color: var(--c-dark); }
 .admin-modal__close svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.5; }
-
 .mf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
 .mf-row.full { grid-template-columns: 1fr; }
-.mf-group {}
 .mf-label { display: block; font-size: 9px; letter-spacing: 0.28em; color: var(--c-stone); text-transform: uppercase; margin-bottom: 8px; font-weight: 400; }
-.mf-input, .mf-select {
-  width: 100%; background: #FDFBF8; border: 1px solid var(--c-border);
-  padding: 10px 14px; font-family: var(--ff-sans); font-size: 13px;
-  font-weight: 300; color: var(--c-dark); outline: none;
-  transition: border-color 0.3s; border-radius: 0;
-}
+.mf-input, .mf-select { width: 100%; background: #FDFBF8; border: 1px solid var(--c-border); padding: 10px 14px; font-family: var(--ff-sans); font-size: 13px; font-weight: 300; color: var(--c-dark); outline: none; transition: border-color 0.3s; border-radius: 0; }
 .mf-input:focus, .mf-select:focus { border-color: var(--c-gold); }
 .mf-select option { background: #fff; }
-
-/* 이미지 업로드 영역 */
 .mf-upload-section { margin-bottom: 20px; }
 .mf-upload-label-text { display: block; font-size: 9px; letter-spacing: 0.28em; color: var(--c-stone); text-transform: uppercase; margin-bottom: 10px; font-weight: 400; }
-.mf-upload-zone {
-  border: 2px dashed var(--c-gold-pale); padding: 28px 20px;
-  text-align: center; cursor: pointer;
-  transition: border-color 0.3s, background 0.3s;
-  background: #FDFBF8;
-}
+.mf-upload-zone { border: 2px dashed var(--c-gold-pale); padding: 28px 20px; text-align: center; cursor: pointer; transition: border-color 0.3s, background 0.3s; background: #FDFBF8; }
 .mf-upload-zone:hover { border-color: var(--c-gold); background: #FAF8F0; }
 .mf-upload-zone input[type="file"] { display: none; }
 .mf-upload-zone__text { font-size: 12px; color: var(--c-stone); line-height: 1.8; }
 .mf-upload-zone__text strong { color: var(--c-gold); font-weight: 400; }
-
-/* 업로드된 이미지 미리보기 */
+.mf-progress-wrap { margin-top: 12px; display: none; }
+.mf-progress-wrap.show { display: block; }
+.mf-progress-bar-bg { background: var(--c-cream); height: 4px; border-radius: 2px; overflow: hidden; margin-bottom: 6px; }
+.mf-progress-bar { height: 100%; background: var(--c-gold); width: 0%; transition: width 0.3s; }
+.mf-progress-txt { font-size: 10px; color: var(--c-stone); letter-spacing: 0.1em; }
 .mf-preview-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 8px; margin-top: 12px; }
-.mf-preview-item {
-  position: relative; aspect-ratio: 1; overflow: hidden;
-  border: 2px solid transparent; cursor: pointer;
-  transition: border-color 0.25s;
-}
+.mf-preview-item { position: relative; aspect-ratio: 1; overflow: hidden; border: 2px solid transparent; cursor: pointer; transition: border-color 0.25s; }
 .mf-preview-item.is-cover { border-color: var(--c-gold); }
 .mf-preview-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.mf-preview-item__del {
-  position: absolute; top: 4px; right: 4px;
-  width: 20px; height: 20px; border-radius: 50%;
-  background: rgba(0,0,0,0.6); border: none;
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer; opacity: 0; transition: opacity 0.2s;
-}
+.mf-preview-item__del { position: absolute; top: 4px; right: 4px; width: 20px; height: 20px; border-radius: 50%; background: rgba(0,0,0,0.6); border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; transition: opacity 0.2s; }
 .mf-preview-item:hover .mf-preview-item__del { opacity: 1; }
 .mf-preview-item__del svg { width: 10px; height: 10px; stroke: #fff; fill: none; stroke-width: 2; }
-.mf-preview-item__cover-badge {
-  position: absolute; bottom: 0; left: 0; right: 0;
-  background: var(--c-gold); color: #fff;
-  font-size: 8px; letter-spacing: 0.12em;
-  text-align: center; padding: 3px 0;
-}
+.mf-preview-item__cover-badge { position: absolute; bottom: 0; left: 0; right: 0; background: var(--c-gold); color: #fff; font-size: 8px; letter-spacing: 0.12em; text-align: center; padding: 3px 0; }
 .mf-cover-hint { font-size: 10px; color: var(--c-stone-lt); margin-top: 6px; }
-
 .mf-actions { display: flex; gap: 12px; margin-top: 32px; }
-.btn--mf-save {
-  flex: 1; background: var(--c-gold); color: #fff; border: none;
-  padding: 14px; font-family: var(--ff-sans); font-size: 10px;
-  letter-spacing: 0.24em; font-weight: 400; cursor: pointer;
-  transition: background 0.3s;
-}
+.btn--mf-save { flex: 1; background: var(--c-gold); color: #fff; border: none; padding: 14px; font-family: var(--ff-sans); font-size: 10px; letter-spacing: 0.24em; font-weight: 400; cursor: pointer; transition: background 0.3s; }
 .btn--mf-save:hover { background: var(--c-gold-lt); }
-.btn--mf-cancel {
-  flex: 1; background: transparent; color: var(--c-stone);
-  border: 1px solid var(--c-border); padding: 14px;
-  font-family: var(--ff-sans); font-size: 10px; letter-spacing: 0.24em;
-  cursor: pointer; transition: background 0.3s, color 0.3s;
-}
+.btn--mf-save:disabled { background: var(--c-stone-lt); cursor: not-allowed; }
+.btn--mf-cancel { flex: 1; background: transparent; color: var(--c-stone); border: 1px solid var(--c-border); padding: 14px; font-family: var(--ff-sans); font-size: 10px; letter-spacing: 0.24em; cursor: pointer; transition: background 0.3s, color 0.3s; }
 .btn--mf-cancel:hover { background: var(--c-dark); color: #fff; border-color: var(--c-dark); }
 
-/* =========================================
-   TOAST
-   ========================================= */
-#toast {
-  position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(20px);
-  background: var(--c-dark); color: #F0EDE6;
-  font-size: 12px; letter-spacing: 0.12em;
-  padding: 14px 28px; z-index: 9999;
-  opacity: 0; transition: opacity 0.3s, transform 0.3s;
-  pointer-events: none; white-space: nowrap;
-}
+/* TOAST */
+#toast { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--c-dark); color: #F0EDE6; font-size: 12px; letter-spacing: 0.12em; padding: 14px 28px; z-index: 9999; opacity: 0; transition: opacity 0.3s, transform 0.3s; pointer-events: none; white-space: nowrap; }
 #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-/* =========================================
-   RESPONSIVE
-   ========================================= */
+/* 로딩 오버레이 */
+#loading-overlay { position: fixed; inset: 0; z-index: 9998; background: var(--c-dark2); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; transition: opacity 0.6s; }
+#loading-overlay.hide { opacity: 0; pointer-events: none; }
+.loading-logo { font-family: var(--ff-serif); font-size: 24px; font-weight: 300; letter-spacing: 0.2em; color: #fff; }
+.loading-bar-bg { width: 120px; height: 1px; background: rgba(255,255,255,0.15); }
+.loading-bar { height: 100%; background: var(--c-gold); width: 0%; transition: width 0.8s var(--ease-out); }
+
+/* RESPONSIVE */
 @media (max-width: 900px) {
   :root { --pad-x: var(--pad-x-sm); }
   .nav, .header-cta { display: none; }
@@ -499,6 +310,12 @@ button { font-family: var(--ff-sans); }
 </head>
 <body>
 
+<!-- 로딩 오버레이 -->
+<div id="loading-overlay">
+  <div class="loading-logo">DESIGN FOR</div>
+  <div class="loading-bar-bg"><div class="loading-bar" id="loading-bar"></div></div>
+</div>
+
 <!-- HEADER -->
 <header id="header">
   <div class="logo" onclick="goPage('home')">
@@ -513,9 +330,7 @@ button { font-family: var(--ff-sans); }
   </ul>
   <button class="header-cta" onclick="goPage('consult')">견적 문의하기</button>
   <button class="hamburger" id="hamburger" onclick="toggleMob()" aria-label="메뉴">
-    <span class="hamburger__bar"></span>
-    <span class="hamburger__bar"></span>
-    <span class="hamburger__bar"></span>
+    <span class="hamburger__bar"></span><span class="hamburger__bar"></span><span class="hamburger__bar"></span>
   </button>
 </header>
 
@@ -528,13 +343,11 @@ button { font-family: var(--ff-sans); }
   <button class="mob-menu__cta" onclick="goPage('consult');closeMob()">견적 문의하기</button>
 </div>
 
-<!-- PAGE WRAP -->
 <div id="page-wrap">
 
-  <!-- ══ HOME ══ -->
+  <!-- HOME -->
   <section class="page is-active" id="pg-home">
-    <div class="home-bg-dark"></div>
-    <div class="home-texture"></div>
+    <div class="home-bg-dark"></div><div class="home-texture"></div>
     <div class="home-stage" id="home-stage">
       <div class="home-empty" id="home-empty">
         <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
@@ -546,17 +359,13 @@ button { font-family: var(--ff-sans); }
       <button class="btn--consult" onclick="goPage('consult')">상담 문의하기</button>
     </div>
     <div class="slide-dots" id="slide-dots"></div>
-    <button class="slide-arrow slide-arrow--prev" id="slide-prev" onclick="slideMove(-1)" style="display:none">
-      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-    </button>
-    <button class="slide-arrow slide-arrow--next" id="slide-next" onclick="slideMove(1)" style="display:none">
-      <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
-    </button>
+    <button class="slide-arrow slide-arrow--prev" id="slide-prev" onclick="slideMove(-1)" style="display:none"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+    <button class="slide-arrow slide-arrow--next" id="slide-next" onclick="slideMove(1)"  style="display:none"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
     <div class="slide-counter" id="slide-counter"></div>
     <div class="slide-progress" id="slide-progress"></div>
   </section>
 
-  <!-- ══ ABOUT ══ -->
+  <!-- ABOUT -->
   <section class="page" id="pg-about">
     <div class="about__inner">
       <div class="about__left">
@@ -576,14 +385,11 @@ button { font-family: var(--ff-sans); }
     </div>
   </section>
 
-  <!-- ══ PORTFOLIO ══ -->
+  <!-- PORTFOLIO -->
   <section class="page" id="pg-portfolio">
     <div class="port-list" id="port-list-view">
       <div class="port-list__header">
-        <div>
-          <p class="label">Portfolio</p>
-          <h2 class="port-list__title">공간을 바꾼 <em>이야기들</em></h2>
-        </div>
+        <div><p class="label">Portfolio</p><h2 class="port-list__title">공간을 바꾼 <em>이야기들</em></h2></div>
         <div class="port-filters">
           <button class="port-filter is-on" data-f="all">전체</button>
           <button class="port-filter" data-f="아파트">아파트</button>
@@ -594,37 +400,22 @@ button { font-family: var(--ff-sans); }
       <div class="port-grid" id="port-grid"></div>
     </div>
     <div class="port-detail" id="port-detail-view">
-      <button class="port-detail__back" onclick="showPortList()">
-        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-        목록으로
-      </button>
+      <button class="port-detail__back" onclick="showPortList()"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>목록으로</button>
       <div class="port-detail__info">
         <div class="port-detail__project-label">PROJECT INFO</div>
         <div class="port-detail__sitename" id="detail-sitename"></div>
         <div class="port-detail__meta-grid">
-          <div class="port-detail__meta-item">
-            <div class="port-detail__meta-label">Location</div>
-            <div class="port-detail__meta-value" id="detail-location">—</div>
-          </div>
-          <div class="port-detail__meta-item">
-            <div class="port-detail__meta-label">Space area</div>
-            <div class="port-detail__meta-value" id="detail-area">—</div>
-          </div>
-          <div class="port-detail__meta-item">
-            <div class="port-detail__meta-label">Starts and Completion</div>
-            <div class="port-detail__meta-value" id="detail-period">—</div>
-          </div>
-          <div class="port-detail__meta-item">
-            <div class="port-detail__meta-label">Type</div>
-            <div class="port-detail__meta-value" id="detail-type">—</div>
-          </div>
+          <div class="port-detail__meta-item"><div class="port-detail__meta-label">Location</div><div class="port-detail__meta-value" id="detail-location">—</div></div>
+          <div class="port-detail__meta-item"><div class="port-detail__meta-label">Space area</div><div class="port-detail__meta-value" id="detail-area">—</div></div>
+          <div class="port-detail__meta-item"><div class="port-detail__meta-label">Starts and Completion</div><div class="port-detail__meta-value" id="detail-period">—</div></div>
+          <div class="port-detail__meta-item"><div class="port-detail__meta-label">Type</div><div class="port-detail__meta-value" id="detail-type">—</div></div>
         </div>
       </div>
       <div class="port-detail__images" id="detail-images"></div>
     </div>
   </section>
 
-  <!-- ══ CONSULT ══ -->
+  <!-- CONSULT -->
   <section class="page" id="pg-consult">
     <div class="consult__wrap">
       <div class="consult__left">
@@ -635,7 +426,7 @@ button { font-family: var(--ff-sans); }
         <div class="info-list">
           <div class="info-row"><span class="info-row__label">Tel</span><span class="info-row__val">010-0000-0000</span></div>
           <div class="info-row"><span class="info-row__label">Kakao</span><span class="info-row__val">@디자인포 카카오 채널</span></div>
-          <div class="info-row"><span class="info-row__label">Email</span><span class="info-row__val"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="bfd6d1d9d0ffdbdaccd6d8d1d9d0cd91d4cd">[email&#160;protected]</a></span></div>
+          <div class="info-row"><span class="info-row__label">Email</span><span class="info-row__val">info@designfor.kr</span></div>
           <div class="info-row"><span class="info-row__label">시간</span><span class="info-row__val">평일 09:00 — 18:00</span></div>
         </div>
       </div>
@@ -644,22 +435,10 @@ button { font-family: var(--ff-sans); }
         <div class="form-group"><label class="form-group__label">이름</label><input id="c-name" class="form-group__input" type="text" placeholder="홍길동"></div>
         <div class="form-group"><label class="form-group__label">연락처</label><input id="c-tel" class="form-group__input" type="tel" placeholder="010-0000-0000"></div>
         <div class="form-group"><label class="form-group__label">시공 유형</label>
-          <select id="c-type" class="form-group__select">
-            <option value="">선택해 주세요</option>
-            <option>아파트 전체 리모델링</option>
-            <option>부분 시공 (주방 / 욕실)</option>
-            <option>신축 인테리어</option>
-            <option>기타</option>
-          </select>
+          <select id="c-type" class="form-group__select"><option value="">선택해 주세요</option><option>아파트 전체 리모델링</option><option>부분 시공 (주방 / 욕실)</option><option>신축 인테리어</option><option>기타</option></select>
         </div>
         <div class="form-group"><label class="form-group__label">예상 평수</label>
-          <select id="c-size" class="form-group__select">
-            <option value="">선택해 주세요</option>
-            <option>20평 미만</option>
-            <option>20평 — 30평</option>
-            <option>30평 — 40평</option>
-            <option>40평 이상</option>
-          </select>
+          <select id="c-size" class="form-group__select"><option value="">선택해 주세요</option><option>20평 미만</option><option>20평 — 30평</option><option>30평 — 40평</option><option>40평 이상</option></select>
         </div>
         <div class="form-group"><label class="form-group__label">문의 내용 (선택)</label><textarea id="c-msg" class="form-group__textarea" placeholder="자유롭게 작성해 주세요"></textarea></div>
         <button class="btn--submit" onclick="handleSubmit()">상담 신청하기</button>
@@ -667,7 +446,7 @@ button { font-family: var(--ff-sans); }
     </div>
   </section>
 
-  <!-- ══ SNS ══ -->
+  <!-- SNS -->
   <section class="page" id="pg-sns">
     <div class="sns__inner">
       <p class="label">Our Channels</p>
@@ -691,11 +470,11 @@ button { font-family: var(--ff-sans); }
     </div>
     <footer class="site-footer">
       <div><div class="footer__brand">DESIGN FOR</div><div class="footer__copy">© 2025 Design For. All Rights Reserved.</div></div>
-      <div class="footer__info">대표 : 남경 &nbsp;|&nbsp; 경기도 화성시<br>Tel : 010-0000-0000 &nbsp;|&nbsp; <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="b1d8dfd7def1d5d4c2d8d6dfd7dec39fdac3">[email&#160;protected]</a></div>
+      <div class="footer__info">대표 : 남경 &nbsp;|&nbsp; 경기도 화성시<br>Tel : 010-0000-0000 &nbsp;|&nbsp; info@designfor.kr</div>
     </footer>
   </section>
 
-  <!-- ══ ADMIN ══ -->
+  <!-- ADMIN -->
   <section class="page" id="pg-admin">
     <div class="admin__wrap">
       <div class="admin__header">
@@ -709,665 +488,541 @@ button { font-family: var(--ff-sans); }
     </div>
   </section>
 
-</div><!-- /page-wrap -->
+</div>
 
-<!-- ══ ADMIN MODAL ══ -->
+<!-- ADMIN MODAL -->
 <div class="admin-modal-bg" id="admin-modal-bg" onclick="onModalBgClick(event)">
   <div class="admin-modal">
     <div class="admin-modal__header">
       <h3 class="admin-modal__title" id="modal-title">현장 등록</h3>
-      <button class="admin-modal__close" onclick="closeModal()">
-        <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </button>
+      <button class="admin-modal__close" onclick="closeModal()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
     </div>
-
     <div class="mf-row">
-      <div class="mf-group">
-        <label class="mf-label">현장명 *</label>
-        <input id="mf-sitename" class="mf-input" type="text" placeholder="예) 수원 망포동 아파트">
-      </div>
-      <div class="mf-group">
-        <label class="mf-label">유형 *</label>
-        <select id="mf-type" class="mf-select">
-          <option value="">선택</option>
-          <option value="아파트">아파트</option>
-          <option value="주택">주택</option>
-          <option value="상업공간">상업공간</option>
-          <option value="기타">기타</option>
-        </select>
+      <div class="mf-group"><label class="mf-label">현장명 *</label><input id="mf-sitename" class="mf-input" type="text" placeholder="예) 수원 망포동 아파트"></div>
+      <div class="mf-group"><label class="mf-label">유형 *</label>
+        <select id="mf-type" class="mf-select"><option value="">선택</option><option value="아파트">아파트</option><option value="주택">주택</option><option value="상업공간">상업공간</option><option value="기타">기타</option></select>
       </div>
     </div>
-
     <div class="mf-row">
-      <div class="mf-group">
-        <label class="mf-label">위치</label>
-        <input id="mf-location" class="mf-input" type="text" placeholder="예) 경기도 수원시">
-      </div>
-      <div class="mf-group">
-        <label class="mf-label">면적</label>
-        <input id="mf-area" class="mf-input" type="text" placeholder="예) 32평 (106㎡)">
-      </div>
+      <div class="mf-group"><label class="mf-label">위치</label><input id="mf-location" class="mf-input" type="text" placeholder="예) 경기도 수원시"></div>
+      <div class="mf-group"><label class="mf-label">면적</label><input id="mf-area" class="mf-input" type="text" placeholder="예) 32평 (106㎡)"></div>
     </div>
-
     <div class="mf-row full">
-      <div class="mf-group">
-        <label class="mf-label">시공 기간</label>
-        <input id="mf-period" class="mf-input" type="text" placeholder="예) 2024.03 — 2024.05">
-      </div>
+      <div class="mf-group"><label class="mf-label">시공 기간</label><input id="mf-period" class="mf-input" type="text" placeholder="예) 2024.03 — 2024.05"></div>
     </div>
-
-    <!-- 이미지 업로드 -->
     <div class="mf-upload-section">
-      <span class="mf-upload-label-text">사진 업로드 * (첫 번째 사진이 대표 이미지)</span>
+      <span class="mf-upload-label-text">사진 업로드 * (여러 장 선택 가능)</span>
       <label class="mf-upload-zone">
         <input type="file" id="mf-file-input" accept="image/*" multiple onchange="handleFileSelect(event)">
-        <div class="mf-upload-zone__text">
-          <strong>클릭하여 사진 선택</strong> 또는 드래그 앤 드롭<br>
-          JPG, PNG, WEBP / 파일당 최대 5MB
-        </div>
+        <div class="mf-upload-zone__text"><strong>클릭하여 사진 선택</strong> 또는 드래그 앤 드롭<br>JPG, PNG, WEBP — 파일당 최대 10MB</div>
       </label>
+      <div class="mf-progress-wrap" id="mf-progress-wrap">
+        <div class="mf-progress-bar-bg"><div class="mf-progress-bar" id="mf-progress-bar"></div></div>
+        <div class="mf-progress-txt" id="mf-progress-txt">업로드 중...</div>
+      </div>
       <div class="mf-preview-grid" id="mf-preview-grid"></div>
       <p class="mf-cover-hint" id="mf-cover-hint" style="display:none">※ 사진을 클릭하면 대표 이미지로 설정됩니다</p>
     </div>
-
     <div class="mf-actions">
-      <button class="btn--mf-save" onclick="saveProject()">저장하기</button>
+      <button class="btn--mf-save" id="btn-save" onclick="saveProject()">저장하기</button>
       <button class="btn--mf-cancel" onclick="closeModal()">취소</button>
     </div>
   </div>
 </div>
 
-<!-- TOAST -->
 <div id="toast"></div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-/* =========================================
-   UTILITY
-   ========================================= */
-function esc(str) {
-  if (str == null) return '';
-  return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
+<!-- =====================================================
+     Firebase SDK v10 (ES Module)
+     ===================================================== -->
+<script type="module">
+import { initializeApp }
+  from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getFirestore, collection, addDoc, updateDoc, deleteDoc,
+         doc, query, orderBy, onSnapshot }
+  from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+/* ─── Firebase 설정 ───
+   ※ apiKey는 Firebase 콘솔 → 프로젝트 설정 → 웹 앱에서 복사하세요
+   ────────────────────── */
+const firebaseConfig = {
+  apiKey:            "AIzaSyExample_ReplaceWithYourActualKey",
+  authDomain:        "designfor-ef0ed.firebaseapp.com",
+  projectId:         "designfor-ef0ed",
+  storageBucket:     "designfor-ef0ed.appspot.com",
+  messagingSenderId: "284384518635",
+  appId:             "1:284384518635:web:62f4a1ce63e90ca7b2f9ae"
+};
+
+/* ─── Cloudinary 설정 ─── */
+const CLD_CLOUD  = 'dirocerek';
+const CLD_PRESET = 'designfor_upload';
+const CLD_FOLDER = 'designfor_portfolio';
+
+/* ─── 초기화 ─── */
+const app = initializeApp(firebaseConfig);
+const db  = getFirestore(app);
+const COL = 'projects';
+
+/* ─── 전역 캐시 ─── */
+let projectsCache = [];
+
+/* ─── 로딩 오버레이 ─── */
+function hideLoading() {
+  const bar = document.getElementById('loading-bar');
+  if (bar) bar.style.width = '100%';
+  setTimeout(() => {
+    const ol = document.getElementById('loading-overlay');
+    if (ol) ol.classList.add('hide');
+  }, 700);
 }
 
-function uid() {
-  return Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
-}
+/* ─── Firestore 실시간 리스너 ───
+   PC에서 저장 → 핸드폰에도 즉시 반영 */
+const q = query(collection(db, COL), orderBy('createdAt', 'asc'));
+onSnapshot(q, (snap) => {
+  projectsCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  hideLoading();
+  buildHomeSlideshow();
+  if (window._page === 'portfolio') buildPortGrid();
+  if (window._page === 'admin')     buildAdminGrid();
+}, (err) => {
+  console.error('Firestore 오류:', err);
+  hideLoading();
+  showToast('데이터 로드 오류. 새로고침 해주세요.', 3500);
+});
 
-function showToast(msg, duration) {
-  duration = duration || 2400;
+/* ─── 유틸 ─── */
+function esc(s) {
+  return s == null ? '' : String(s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+}
+function showToast(msg, dur) {
+  dur = dur || 2400;
   const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.classList.add('show');
-  setTimeout(() => el.classList.remove('show'), duration);
+  el.textContent = msg; el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), dur);
 }
 
-/* =========================================
-   PAGE ROUTER
-   ========================================= */
+/* ─── PAGE ROUTER ─── */
 const PAGE_MAP = {
-  home:      { el: 'pg-home',      nav: null },
-  about:     { el: 'pg-about',     nav: 'nl-about' },
-  portfolio: { el: 'pg-portfolio', nav: 'nl-portfolio' },
-  consult:   { el: 'pg-consult',   nav: 'nl-consult' },
-  sns:       { el: 'pg-sns',       nav: 'nl-sns' },
-  admin:     { el: 'pg-admin',     nav: null },
+  home:      { el:'pg-home',      nav:null },
+  about:     { el:'pg-about',     nav:'nl-about' },
+  portfolio: { el:'pg-portfolio', nav:'nl-portfolio' },
+  consult:   { el:'pg-consult',   nav:'nl-consult' },
+  sns:       { el:'pg-sns',       nav:'nl-sns' },
+  admin:     { el:'pg-admin',     nav:null },
 };
 let current = 'home';
+window._page = 'home';
 
-function goPage(id) {
+window.goPage = function(id) {
   if (!PAGE_MAP[id]) return;
-
-  // 이전 페이지 비활성화
   const old = PAGE_MAP[current];
   document.getElementById(old.el).classList.remove('is-active');
   if (old.nav) document.getElementById(old.nav).classList.remove('is-active');
   if (current === 'home') stopSlide();
-
-  current = id;
-
-  // 새 페이지 활성화
+  current = id; window._page = id;
   const next = PAGE_MAP[id];
-  const el = document.getElementById(next.el);
-  el.classList.add('is-active');
-  el.scrollTop = 0;
+  const el   = document.getElementById(next.el);
+  el.classList.add('is-active'); el.scrollTop = 0;
   if (next.nav) document.getElementById(next.nav).classList.add('is-active');
-
-  // 페이지별 초기화
   if (id === 'home')      buildHomeSlideshow();
   if (id === 'portfolio') { showPortList(); buildPortGrid(); }
   if (id === 'admin')     buildAdminGrid();
+  const hdr = document.getElementById('header');
+  id === 'home' ? hdr.classList.remove('is-solid') : hdr.classList.add('is-solid');
+};
 
-  // 헤더 투명 / 불투명
-  const header = document.getElementById('header');
-  if (id === 'home') {
-    header.classList.remove('is-solid');
-  } else {
-    header.classList.add('is-solid');
-  }
-}
-
-/* =========================================
-   MOBILE MENU
-   ========================================= */
+/* ─── 모바일 메뉴 ─── */
 let mobOpen = false;
-function toggleMob() { mobOpen ? closeMob() : openMob(); }
+window.toggleMob = () => mobOpen ? closeMob() : openMob();
 function openMob() {
   mobOpen = true;
   document.getElementById('mob-menu').classList.add('is-open');
   document.getElementById('hamburger').classList.add('is-open');
   document.body.style.overflow = 'hidden';
 }
-function closeMob() {
+window.closeMob = function() {
   mobOpen = false;
   document.getElementById('mob-menu').classList.remove('is-open');
   document.getElementById('hamburger').classList.remove('is-open');
   document.body.style.overflow = '';
-}
+};
 
-/* =========================================
-   DATA STORE  (IndexedDB → localStorage 폴백)
-   key: df_projects_v1
-   구조: [{id, siteName, area, location, period, type, coverImage, images:[base64...]}]
-
-   ※ localStorage는 약 5MB 제한이 있습니다.
-      이미지가 많으면 IndexedDB 방식 전환을 권장합니다.
-   ========================================= */
-const PROJECTS_KEY = 'df_projects_v1';
-
-function loadProjects() {
-  try {
-    const raw = localStorage.getItem(PROJECTS_KEY);
-    return raw ? JSON.parse(raw) : [];
-  } catch(e) {
-    console.warn('loadProjects 오류:', e);
-    return [];
-  }
-}
-
-function saveProjects(arr) {
-  try {
-    localStorage.setItem(PROJECTS_KEY, JSON.stringify(arr));
-    return true;
-  } catch(e) {
-    // localStorage 용량 초과 시
-    if (e.name === 'QuotaExceededError' || e.code === 22) {
-      showToast('저장 용량이 초과되었습니다. 일부 이미지를 삭제해 주세요.', 3500);
-    } else {
-      showToast('저장 중 오류가 발생했습니다.', 3000);
-    }
-    console.error('saveProjects 오류:', e);
-    return false;
-  }
-}
-
-/* =========================================
-   HOME SLIDESHOW
-   ========================================= */
+/* ─── HOME SLIDESHOW ─── */
 const SLIDE_SEC = 4.5;
 let slides = [], slideIdx = 0, slideTimer = null;
 
 function buildHomeSlideshow() {
-  const projects = loadProjects();
-  // coverImage 있는 현장만, 등록 역순
-  slides = projects.filter(function(p) { return p.coverImage; }).reverse();
-
+  slides = [...projectsCache].filter(p => p.coverImage).reverse();
   const wrap  = document.getElementById('home-slides');
   const dots  = document.getElementById('slide-dots');
   const empty = document.getElementById('home-empty');
   const prev  = document.getElementById('slide-prev');
   const next  = document.getElementById('slide-next');
-
-  wrap.innerHTML = '';
-  dots.innerHTML = '';
+  wrap.innerHTML = ''; dots.innerHTML = '';
   clearTimeout(slideTimer);
-
   if (!slides.length) {
     empty.style.display = 'flex';
-    prev.style.display = 'none';
-    next.style.display = 'none';
+    prev.style.display = next.style.display = 'none';
     document.getElementById('slide-counter').textContent = '';
-    resetBar();
-    return;
+    resetBar(); return;
   }
-
   empty.style.display = 'none';
-  prev.style.display = slides.length > 1 ? 'flex' : 'none';
-  next.style.display = slides.length > 1 ? 'flex' : 'none';
-
-  slides.forEach(function(p, i) {
-    var div = document.createElement('div');
+  prev.style.display = next.style.display = slides.length > 1 ? 'flex' : 'none';
+  slides.forEach((p, i) => {
+    const div = document.createElement('div');
     div.className = 'home-slide' + (i === 0 ? ' is-active' : '');
-    var img = document.createElement('img');
-    img.src = p.coverImage;
-    img.alt = p.siteName || '';
+    const img = document.createElement('img');
+    img.src = p.coverImage; img.alt = p.siteName || '';
     img.loading = i < 2 ? 'eager' : 'lazy';
-    var dim = document.createElement('div');
+    const dim = document.createElement('div');
     dim.className = 'home-slide__dim';
-    div.appendChild(img);
-    div.appendChild(dim);
-    wrap.appendChild(div);
-
+    div.append(img, dim); wrap.appendChild(div);
     if (slides.length > 1) {
-      var dot = document.createElement('button');
+      const dot = document.createElement('button');
       dot.className = 'slide-dot' + (i === 0 ? ' is-active' : '');
       dot.setAttribute('aria-label', '슬라이드 ' + (i + 1));
-      (function(idx) { dot.onclick = function() { goSlide(idx); }; })(i);
+      dot.onclick = ((n) => () => goSlide(n))(i);
       dots.appendChild(dot);
     }
   });
-
-  slideIdx = 0;
-  updateCounter();
+  slideIdx = 0; updateCounter();
   if (slides.length > 1) startAuto();
 }
 
 function goSlide(idx) {
-  var all     = document.querySelectorAll('#home-slides .home-slide');
-  var allDots = document.querySelectorAll('.slide-dot');
-  if (all[slideIdx]) all[slideIdx].classList.remove('is-active');
-  if (allDots[slideIdx]) allDots[slideIdx].classList.remove('is-active');
+  const all  = document.querySelectorAll('#home-slides .home-slide');
+  const dots = document.querySelectorAll('.slide-dot');
+  if (all[slideIdx])  all[slideIdx].classList.remove('is-active');
+  if (dots[slideIdx]) dots[slideIdx].classList.remove('is-active');
   slideIdx = (idx + slides.length) % slides.length;
-  if (all[slideIdx]) all[slideIdx].classList.add('is-active');
-  if (allDots[slideIdx]) allDots[slideIdx].classList.add('is-active');
+  if (all[slideIdx])  all[slideIdx].classList.add('is-active');
+  if (dots[slideIdx]) dots[slideIdx].classList.add('is-active');
   updateCounter();
   if (slides.length > 1) { clearTimeout(slideTimer); startAuto(); }
 }
-function slideMove(dir) { goSlide(slideIdx + dir); }
-
+window.slideMove = (dir) => goSlide(slideIdx + dir);
 function startAuto() {
-  clearTimeout(slideTimer);
-  resetBar();
-  var bar = document.getElementById('slide-progress');
-  void bar.offsetWidth; // reflow
-  bar.style.transition = 'width ' + SLIDE_SEC + 's linear';
+  clearTimeout(slideTimer); resetBar();
+  const bar = document.getElementById('slide-progress');
+  void bar.offsetWidth;
+  bar.style.transition = `width ${SLIDE_SEC}s linear`;
   bar.style.width = '100%';
-  slideTimer = setTimeout(function() { goSlide(slideIdx + 1); }, SLIDE_SEC * 1000);
+  slideTimer = setTimeout(() => goSlide(slideIdx + 1), SLIDE_SEC * 1000);
 }
-function stopSlide()  { clearTimeout(slideTimer); resetBar(); }
+function stopSlide() { clearTimeout(slideTimer); resetBar(); }
 function resetBar() {
-  var b = document.getElementById('slide-progress');
+  const b = document.getElementById('slide-progress');
   if (b) { b.style.transition = 'none'; b.style.width = '0%'; }
 }
 function updateCounter() {
-  var el = document.getElementById('slide-counter');
+  const el = document.getElementById('slide-counter');
   el.textContent = slides.length > 1
-    ? (String(slideIdx + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0'))
-    : '';
+    ? String(slideIdx + 1).padStart(2,'0') + ' / ' + String(slides.length).padStart(2,'0') : '';
 }
-
 // 터치 스와이프
 (function() {
-  var tx = 0;
-  var s = document.getElementById('pg-home');
-  s.addEventListener('touchstart', function(e) { tx = e.touches[0].clientX; }, { passive: true });
-  s.addEventListener('touchend',   function(e) {
-    var dx = e.changedTouches[0].clientX - tx;
-    if (Math.abs(dx) > 40) slideMove(dx < 0 ? 1 : -1);
+  let tx = 0, s = document.getElementById('pg-home');
+  s.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+  s.addEventListener('touchend',   e => {
+    const dx = e.changedTouches[0].clientX - tx;
+    if (Math.abs(dx) > 40) window.slideMove(dx < 0 ? 1 : -1);
   }, { passive: true });
 })();
 
-/* =========================================
-   PORTFOLIO 목록
-   ========================================= */
-var portFilter = 'all';
+/* ─── PORTFOLIO 목록 ─── */
+let portFilter = 'all';
 
 function buildPortGrid() {
-  var projects = loadProjects();
-  var filtered = portFilter === 'all'
-    ? projects
-    : projects.filter(function(p) { return p.type === portFilter; });
-  var grid = document.getElementById('port-grid');
-
+  const filtered = portFilter === 'all'
+    ? projectsCache
+    : projectsCache.filter(p => p.type === portFilter);
+  const grid = document.getElementById('port-grid');
   if (!filtered.length) {
-    grid.innerHTML = '<div class="port-grid__empty">등록된 포트폴리오가 없습니다.<br>관리자 페이지에서 현장을 등록해 주세요.</div>';
+    grid.innerHTML = '<div class="port-grid__empty">등록된 포트폴리오가 없습니다.</div>';
     return;
   }
-
-  grid.innerHTML = filtered.map(function(p) {
-    return '<div class="port-item" onclick="showPortDetail(\'' + esc(p.id) + '\')">'
-      + (p.coverImage
-          ? '<img class="port-item__img" src="' + p.coverImage + '" alt="' + esc(p.siteName) + '" loading="lazy" onerror="this.style.display=\'none\'">'
-          : '')
-      + '<div class="port-item__overlay">'
-      + '<div class="port-item__name">' + esc(p.siteName) + '</div>'
-      + (p.area ? '<div class="port-item__area">' + esc(p.area) + '</div>' : '')
-      + '</div></div>';
-  }).join('');
+  grid.innerHTML = filtered.map(p =>
+    `<div class="port-item" onclick="showPortDetail('${esc(p.id)}')">`
+    + (p.coverImage ? `<img class="port-item__img" src="${p.coverImage}" alt="${esc(p.siteName)}" loading="lazy" onerror="this.style.display='none'">` : '')
+    + `<div class="port-item__overlay"><div class="port-item__name">${esc(p.siteName)}</div>`
+    + (p.area ? `<div class="port-item__area">${esc(p.area)}</div>` : '')
+    + `</div></div>`
+  ).join('');
 }
 
-// 필터 버튼
-document.querySelectorAll('.port-filter').forEach(function(btn) {
-  btn.addEventListener('click', function() {
-    document.querySelectorAll('.port-filter').forEach(function(b) { b.classList.remove('is-on'); });
+document.querySelectorAll('.port-filter').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.port-filter').forEach(b => b.classList.remove('is-on'));
     btn.classList.add('is-on');
     portFilter = btn.dataset.f;
     buildPortGrid();
   });
 });
 
-function showPortList() {
-  document.getElementById('port-list-view').style.display  = 'block';
+window.showPortList = function() {
+  document.getElementById('port-list-view').style.display = 'block';
   document.getElementById('port-detail-view').classList.remove('is-active');
   document.getElementById('pg-portfolio').scrollTop = 0;
-}
+};
 
-/* =========================================
-   PORTFOLIO 상세
-   ========================================= */
-function showPortDetail(id) {
-  var projects = loadProjects();
-  var p = null;
-  for (var i = 0; i < projects.length; i++) {
-    if (projects[i].id === id) { p = projects[i]; break; }
-  }
+window.showPortDetail = function(id) {
+  const p = projectsCache.find(x => x.id === id);
   if (!p) return;
-
   document.getElementById('detail-sitename').textContent = p.siteName || '';
   document.getElementById('detail-location').textContent = p.location || '—';
   document.getElementById('detail-area').textContent     = p.area     || '—';
   document.getElementById('detail-period').textContent   = p.period   || '—';
   document.getElementById('detail-type').textContent     = p.type     || '—';
-
-  var allImgs = [];
-  if (p.coverImage) allImgs.push(p.coverImage);
-  if (p.images && p.images.length) {
-    p.images.forEach(function(img) {
-      if (img !== p.coverImage) allImgs.push(img);
-    });
-  }
-
-  var imgWrap = document.getElementById('detail-images');
-  imgWrap.innerHTML = allImgs.map(function(src) {
-    return '<img class="port-detail__img" src="' + src + '" alt="' + esc(p.siteName) + '" loading="lazy">';
-  }).join('');
-
+  const imgs = [];
+  if (p.coverImage) imgs.push(p.coverImage);
+  if (p.images) p.images.forEach(img => { if (img !== p.coverImage) imgs.push(img); });
+  document.getElementById('detail-images').innerHTML = imgs.map(src =>
+    `<img class="port-detail__img" src="${src}" alt="${esc(p.siteName)}" loading="lazy">`
+  ).join('');
   document.getElementById('port-list-view').style.display = 'none';
   document.getElementById('port-detail-view').classList.add('is-active');
   document.getElementById('pg-portfolio').scrollTop = 0;
-}
+};
 
-/* =========================================
-   CONSULT FORM
-   ========================================= */
-function handleSubmit() {
-  var name = (document.getElementById('c-name').value || '').trim();
-  var tel  = (document.getElementById('c-tel').value  || '').trim();
+/* ─── CONSULT FORM ─── */
+window.handleSubmit = function() {
+  const name = (document.getElementById('c-name').value || '').trim();
+  const tel  = (document.getElementById('c-tel').value  || '').trim();
   if (!name) { showToast('이름을 입력해 주세요.'); return; }
   if (!tel)  { showToast('연락처를 입력해 주세요.'); return; }
   showToast('상담 신청이 접수되었습니다. 곧 연락드리겠습니다.', 3000);
-  document.getElementById('c-name').value = '';
-  document.getElementById('c-tel').value  = '';
-  document.getElementById('c-type').value = '';
-  document.getElementById('c-size').value = '';
-  document.getElementById('c-msg').value  = '';
-}
+  ['c-name','c-tel','c-type','c-size','c-msg'].forEach(id => { document.getElementById(id).value = ''; });
+};
 
-/* =========================================
-   ADMIN — 그리드
-   ========================================= */
+/* ─── ADMIN 그리드 ─── */
 function buildAdminGrid() {
-  var projects = loadProjects();
-  var grid = document.getElementById('admin-grid');
-
-  if (!projects.length) {
-    grid.innerHTML = '<div class="admin-empty">'
-      + '<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>'
-      + '등록된 현장이 없습니다.<br>"새 현장 등록" 버튼을 눌러 첫 포트폴리오를 추가해 보세요.</div>';
+  const grid = document.getElementById('admin-grid');
+  if (!projectsCache.length) {
+    grid.innerHTML = '<div class="admin-empty"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>등록된 현장이 없습니다.<br>"새 현장 등록" 버튼을 눌러 주세요.</div>';
     return;
   }
-
-  grid.innerHTML = projects.map(function(p) {
-    var thumbHtml = p.coverImage
-      ? '<img class="admin-card__thumb" src="' + p.coverImage + '" alt="' + esc(p.siteName) + '">'
-      : '<div class="admin-card__thumb-placeholder">이미지 없음</div>';
-
-    return '<div class="admin-card">'
-      + thumbHtml
-      + '<div class="admin-card__body">'
-      + '<div class="admin-card__name">' + esc(p.siteName) + '</div>'
-      + '<div class="admin-card__meta">'
-        + (p.type     ? p.type : '')
-        + (p.area     ? ' · ' + p.area : '')
-        + (p.location ? '<br>' + p.location : '')
-      + '</div>'
-      + '<div class="admin-card__actions">'
-        + '<button class="btn--card-edit" onclick="editProject(\'' + esc(p.id) + '\')">수정</button>'
-        + '<button class="btn--card-del"  onclick="deleteProject(\'' + esc(p.id) + '\')">삭제</button>'
-      + '</div></div></div>';
+  grid.innerHTML = projectsCache.map(p => {
+    const thumb = p.coverImage
+      ? `<img class="admin-card__thumb" src="${p.coverImage}" alt="${esc(p.siteName)}">`
+      : `<div class="admin-card__thumb-placeholder">이미지 없음</div>`;
+    return `<div class="admin-card">${thumb}
+      <div class="admin-card__body">
+        <div class="admin-card__name">${esc(p.siteName)}</div>
+        <div class="admin-card__meta">${p.type||''}${p.area?' · '+p.area:''}${p.location?'<br>'+p.location:''}</div>
+        <div class="admin-card__actions">
+          <button class="btn--card-edit" onclick="editProject('${esc(p.id)}')">수정</button>
+          <button class="btn--card-del"  onclick="deleteProject('${esc(p.id)}')">삭제</button>
+        </div>
+      </div></div>`;
   }).join('');
 }
 
-/* =========================================
-   ADMIN MODAL — 열기/닫기
-   ========================================= */
-var modalMode = 'add'; // 'add' | 'edit'
-var editingId = null;
-var pendingImages = []; // {dataUrl, file} 배열
-var coverIndex = 0;
+/* ─── ADMIN 모달 ─── */
+let modalMode = 'add', editingId = null;
+let pendingImages = [], coverIndex = 0;
 
-function openModal() {
-  modalMode  = 'add';
-  editingId  = null;
-  pendingImages = [];
-  coverIndex = 0;
-  resetModalForm();
+window.openModal = function() {
+  modalMode = 'add'; editingId = null; pendingImages = []; coverIndex = 0;
+  resetForm();
   document.getElementById('modal-title').textContent = '현장 등록';
   document.getElementById('admin-modal-bg').classList.add('is-open');
   document.body.style.overflow = 'hidden';
-}
+};
 
-function editProject(id) {
-  var projects = loadProjects();
-  var p = null;
-  for (var i = 0; i < projects.length; i++) {
-    if (projects[i].id === id) { p = projects[i]; break; }
-  }
+window.editProject = function(id) {
+  const p = projectsCache.find(x => x.id === id);
   if (!p) return;
-
-  modalMode  = 'edit';
-  editingId  = id;
-  pendingImages = [];
-  coverIndex = 0;
-
+  modalMode = 'edit'; editingId = id; pendingImages = []; coverIndex = 0;
   document.getElementById('mf-sitename').value = p.siteName || '';
   document.getElementById('mf-type').value     = p.type     || '';
   document.getElementById('mf-location').value = p.location || '';
   document.getElementById('mf-area').value     = p.area     || '';
   document.getElementById('mf-period').value   = p.period   || '';
-
-  // 기존 이미지 불러오기
-  var allImgs = [];
-  if (p.coverImage) allImgs.push(p.coverImage);
-  if (p.images && p.images.length) {
-    p.images.forEach(function(img) { if (img !== p.coverImage) allImgs.push(img); });
-  }
-  allImgs.forEach(function(src) {
-    pendingImages.push({ dataUrl: src, file: null });
-  });
-  coverIndex = 0;
-
+  const imgs = [];
+  if (p.coverImage) imgs.push(p.coverImage);
+  if (p.images) p.images.forEach(img => { if (img !== p.coverImage) imgs.push(img); });
+  imgs.forEach(url => pendingImages.push({ url, file: null }));
   renderPreview();
   document.getElementById('modal-title').textContent = '현장 수정';
   document.getElementById('admin-modal-bg').classList.add('is-open');
   document.body.style.overflow = 'hidden';
-}
+};
 
-function closeModal() {
+window.closeModal = function() {
   document.getElementById('admin-modal-bg').classList.remove('is-open');
   document.body.style.overflow = '';
-}
+};
 
-function onModalBgClick(e) {
-  if (e.target === document.getElementById('admin-modal-bg')) closeModal();
-}
+window.onModalBgClick = function(e) {
+  if (e.target === document.getElementById('admin-modal-bg')) window.closeModal();
+};
 
-function resetModalForm() {
-  document.getElementById('mf-sitename').value = '';
-  document.getElementById('mf-type').value     = '';
-  document.getElementById('mf-location').value = '';
-  document.getElementById('mf-area').value     = '';
-  document.getElementById('mf-period').value   = '';
-  document.getElementById('mf-file-input').value = '';
-  pendingImages = [];
-  coverIndex    = 0;
-  renderPreview();
-}
-
-/* =========================================
-   ADMIN MODAL — 이미지 처리
-   ========================================= */
-function handleFileSelect(event) {
-  var files = Array.from(event.target.files);
-  if (!files.length) return;
-
-  var maxSize = 5 * 1024 * 1024; // 5MB
-  var validFiles = files.filter(function(f) {
-    if (f.size > maxSize) {
-      showToast(f.name + ' — 5MB를 초과하여 제외되었습니다.', 2800);
-      return false;
-    }
-    return true;
+function resetForm() {
+  ['mf-sitename','mf-type','mf-location','mf-area','mf-period'].forEach(id => {
+    document.getElementById(id).value = '';
   });
+  document.getElementById('mf-file-input').value = '';
+  pendingImages = []; coverIndex = 0;
+  setProgress(false, 0, ''); renderPreview();
+}
 
-  var remaining = validFiles.length;
-  if (!remaining) return;
-
-  validFiles.forEach(function(file) {
-    var reader = new FileReader();
-    reader.onload = function(e) {
-      pendingImages.push({ dataUrl: e.target.result, file: file });
-      remaining--;
-      if (remaining === 0) renderPreview();
-    };
+/* ─── 파일 선택 → 미리보기 ─── */
+window.handleFileSelect = function(event) {
+  const MAX = 10 * 1024 * 1024;
+  Array.from(event.target.files).forEach(file => {
+    if (file.size > MAX) { showToast(file.name + ' — 10MB 초과, 제외됨', 2800); return; }
+    const reader = new FileReader();
+    reader.onload = e => { pendingImages.push({ url: e.target.result, file }); renderPreview(); };
     reader.readAsDataURL(file);
   });
-
-  // 파일 input 초기화 (같은 파일 재선택 허용)
   event.target.value = '';
-}
+};
 
 function renderPreview() {
-  var grid = document.getElementById('mf-preview-grid');
-  var hint = document.getElementById('mf-cover-hint');
-
-  if (!pendingImages.length) {
-    grid.innerHTML = '';
-    hint.style.display = 'none';
-    return;
-  }
-
+  const grid = document.getElementById('mf-preview-grid');
+  const hint = document.getElementById('mf-cover-hint');
+  if (!pendingImages.length) { grid.innerHTML = ''; hint.style.display = 'none'; return; }
   hint.style.display = 'block';
-  grid.innerHTML = pendingImages.map(function(img, i) {
-    var isCover = i === coverIndex;
-    return '<div class="mf-preview-item' + (isCover ? ' is-cover' : '') + '" onclick="setCover(' + i + ')">'
-      + '<img src="' + img.dataUrl + '" alt="preview">'
-      + (isCover ? '<div class="mf-preview-item__cover-badge">대표</div>' : '')
-      + '<button class="mf-preview-item__del" onclick="removeImg(event,' + i + ')">'
-        + '<svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>'
-      + '</button>'
-      + '</div>';
+  grid.innerHTML = pendingImages.map((img, i) => {
+    const isCover = i === coverIndex;
+    return `<div class="mf-preview-item${isCover ? ' is-cover' : ''}" onclick="setCover(${i})">
+      <img src="${img.url}" alt="">
+      ${isCover ? '<div class="mf-preview-item__cover-badge">대표</div>' : ''}
+      <button class="mf-preview-item__del" onclick="removeImg(event,${i})">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button></div>`;
   }).join('');
 }
 
-function setCover(i) {
-  coverIndex = i;
-  renderPreview();
-}
-
-function removeImg(e, i) {
+window.setCover  = i => { coverIndex = i; renderPreview(); };
+window.removeImg = function(e, i) {
   e.stopPropagation();
   pendingImages.splice(i, 1);
   if (coverIndex >= pendingImages.length) coverIndex = Math.max(0, pendingImages.length - 1);
   renderPreview();
+};
+
+/* ─── 진행률 UI ─── */
+function setProgress(show, pct, txt) {
+  document.getElementById('mf-progress-wrap').classList.toggle('show', show);
+  document.getElementById('mf-progress-bar').style.width = pct + '%';
+  document.getElementById('mf-progress-txt').textContent = txt;
 }
 
-/* =========================================
-   ADMIN MODAL — 저장
-   ========================================= */
-function saveProject() {
-  var siteName = (document.getElementById('mf-sitename').value || '').trim();
-  var type     = document.getElementById('mf-type').value;
-  var location = (document.getElementById('mf-location').value || '').trim();
-  var area     = (document.getElementById('mf-area').value     || '').trim();
-  var period   = (document.getElementById('mf-period').value   || '').trim();
+/* ─── Cloudinary 업로드 ─── */
+async function compressImage(file, maxPx, quality) {
+  return new Promise(resolve => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      let [w, h] = [img.width, img.height];
+      if (w > maxPx || h > maxPx) {
+        if (w > h) { h = Math.round(h * maxPx / w); w = maxPx; }
+        else       { w = Math.round(w * maxPx / h); h = maxPx; }
+      }
+      const c = document.createElement('canvas');
+      c.width = w; c.height = h;
+      c.getContext('2d').drawImage(img, 0, 0, w, h);
+      URL.revokeObjectURL(url);
+      c.toBlob(blob => resolve(blob || file), 'image/jpeg', quality);
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); resolve(file); };
+    img.src = url;
+  });
+}
+
+async function uploadOne(file, onProg) {
+  const blob = await compressImage(file, 1920, 0.82);
+  const fd = new FormData();
+  fd.append('file', blob);
+  fd.append('upload_preset', CLD_PRESET);
+  fd.append('folder', CLD_FOLDER);
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', `https://api.cloudinary.com/v1_1/${CLD_CLOUD}/image/upload`);
+    xhr.upload.onprogress = e => { if (e.lengthComputable && onProg) onProg(Math.round(e.loaded / e.total * 100)); };
+    xhr.onload = () => xhr.status === 200 ? resolve(JSON.parse(xhr.responseText).secure_url) : reject(new Error('업로드 실패 ' + xhr.status));
+    xhr.onerror = () => reject(new Error('네트워크 오류'));
+    xhr.send(fd);
+  });
+}
+
+/* ─── 저장 (Cloudinary → Firestore) ─── */
+window.saveProject = async function() {
+  const siteName = (document.getElementById('mf-sitename').value || '').trim();
+  const type     = document.getElementById('mf-type').value;
+  const location = (document.getElementById('mf-location').value || '').trim();
+  const area     = (document.getElementById('mf-area').value     || '').trim();
+  const period   = (document.getElementById('mf-period').value   || '').trim();
 
   if (!siteName) { showToast('현장명을 입력해 주세요.'); return; }
   if (!type)     { showToast('유형을 선택해 주세요.'); return; }
-  if (!pendingImages.length) { showToast('사진을 1장 이상 업로드해 주세요.'); return; }
+  if (!pendingImages.length) { showToast('사진을 1장 이상 선택해 주세요.'); return; }
 
-  var coverImage = pendingImages[coverIndex] ? pendingImages[coverIndex].dataUrl : pendingImages[0].dataUrl;
-  var images = pendingImages.map(function(img) { return img.dataUrl; });
+  const toUpload = pendingImages.filter(img => img.file);
+  const saveBtn  = document.getElementById('btn-save');
+  saveBtn.disabled = true;
 
-  var projects = loadProjects();
-
-  if (modalMode === 'edit' && editingId) {
-    // 수정
-    for (var i = 0; i < projects.length; i++) {
-      if (projects[i].id === editingId) {
-        projects[i].siteName    = siteName;
-        projects[i].type        = type;
-        projects[i].location    = location;
-        projects[i].area        = area;
-        projects[i].period      = period;
-        projects[i].coverImage  = coverImage;
-        projects[i].images      = images;
-        break;
+  if (toUpload.length) {
+    setProgress(true, 0, `0 / ${toUpload.length} 업로드 중...`);
+    let done = 0;
+    for (const imgObj of toUpload) {
+      try {
+        imgObj.url = await uploadOne(imgObj.file, pct => {
+          setProgress(true,
+            Math.round((done + pct / 100) / toUpload.length * 100),
+            `${done + 1} / ${toUpload.length} 업로드 중... ${pct}%`
+          );
+        });
+        imgObj.file = null; done++;
+        setProgress(true, Math.round(done / toUpload.length * 100), `${done} / ${toUpload.length} 완료`);
+      } catch (err) {
+        showToast('사진 업로드 실패: ' + err.message, 3500);
+        saveBtn.disabled = false; setProgress(false, 0, ''); return;
       }
     }
-    if (!saveProjects(projects)) return;
-    showToast('현장 정보가 수정되었습니다.', 2400);
-  } else {
-    // 신규 등록
-    var newProject = {
-      id:          uid(),
-      siteName:    siteName,
-      type:        type,
-      location:    location,
-      area:        area,
-      period:      period,
-      coverImage:  coverImage,
-      images:      images,
-      createdAt:   Date.now(),
-    };
-    projects.push(newProject);
-    if (!saveProjects(projects)) return;
-    showToast('새 현장이 등록되었습니다.', 2400);
   }
 
-  closeModal();
-  buildAdminGrid();
-  buildHomeSlideshow(); // 홈 슬라이드쇼 즉시 갱신
-}
+  const images     = pendingImages.map(img => img.url);
+  const coverImage = images[coverIndex] || images[0];
 
-/* =========================================
-   ADMIN — 삭제
-   ========================================= */
-function deleteProject(id) {
+  try {
+    if (modalMode === 'edit' && editingId) {
+      await updateDoc(doc(db, COL, editingId), { siteName, type, location, area, period, coverImage, images, updatedAt: Date.now() });
+      showToast('현장 정보가 수정되었습니다.', 2400);
+    } else {
+      await addDoc(collection(db, COL), { siteName, type, location, area, period, coverImage, images, createdAt: Date.now() });
+      showToast('새 현장이 등록되었습니다.', 2400);
+    }
+    window.closeModal();
+  } catch (err) {
+    showToast('저장 오류: ' + err.message, 3500);
+  } finally {
+    saveBtn.disabled = false; setProgress(false, 0, '');
+  }
+};
+
+/* ─── 삭제 ─── */
+window.deleteProject = async function(id) {
   if (!confirm('이 현장을 삭제하시겠습니까?\n삭제된 데이터는 복구되지 않습니다.')) return;
-  var projects = loadProjects().filter(function(p) { return p.id !== id; });
-  if (saveProjects(projects)) {
+  try {
+    await deleteDoc(doc(db, COL, id));
     showToast('현장이 삭제되었습니다.');
-    buildAdminGrid();
-    buildHomeSlideshow(); // 홈 슬라이드쇼 즉시 갱신
+  } catch (err) {
+    showToast('삭제 오류: ' + err.message, 3000);
   }
-}
+};
 
-/* =========================================
-   관리자 페이지 진입
-   ?admin=1 로 접속하면 관리자 대시보드 표시
-   ========================================= */
+/* ─── 진입 처리 ─── */
 (function() {
-  var params = new URLSearchParams(window.location.search);
-  if (params.get('admin') === '1') {
-    goPage('admin');
-  } else {
-    buildHomeSlideshow();
-  }
+  const bar = document.getElementById('loading-bar');
+  if (bar) setTimeout(() => { bar.style.width = '55%'; }, 80);
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('admin') === '1') window.goPage('admin');
 })();
 
 </script>
