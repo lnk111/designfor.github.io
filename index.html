@@ -36,11 +36,23 @@ button { font-family: var(--ff-sans); }
 /* HEADER */
 #header { position: fixed; top: 0; left: 0; right: 0; height: var(--header-h); z-index: 500; display: flex; align-items: center; justify-content: space-between; padding: 0 var(--pad-x); background: transparent; border-bottom: 1px solid transparent; transition: background 0.4s, border-color 0.4s; }
 #header.is-solid { background: rgba(253,251,248,0.96); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom-color: var(--c-border); }
-.logo { display: flex; flex-direction: column; cursor: pointer; line-height: 1; user-select: none; }
-.logo__en { font-family: var(--ff-serif); font-size: 20px; font-weight: 400; letter-spacing: 0.16em; color: #fff; transition: color 0.4s; }
-.logo__ko { font-size: 9px; font-weight: 300; letter-spacing: 0.30em; color: rgba(255,255,255,0.55); margin-top: 4px; transition: color 0.4s; }
+.logo { display: flex; flex-direction: row; align-items: center; gap: 10px; cursor: pointer; user-select: none; }
+.logo__icon { width: 36px; height: 36px; flex-shrink: 0; }
+.logo__icon path, .logo__icon rect, .logo__icon line {
+  fill: none; stroke: #fff; transition: stroke 0.4s;
+}
+.logo__icon .logo-fill {
+  fill: #fff; stroke: none; transition: fill 0.4s;
+}
+.logo__texts { display: flex; flex-direction: column; line-height: 1; }
+.logo__en { font-family: var(--ff-serif); font-size: 18px; font-weight: 400; letter-spacing: 0.16em; color: #fff; transition: color 0.4s; }
+.logo__ko { font-size: 8px; font-weight: 300; letter-spacing: 0.28em; color: rgba(255,255,255,0.55); margin-top: 4px; transition: color 0.4s; }
 #header.is-solid .logo__en { color: var(--c-dark); }
 #header.is-solid .logo__ko { color: var(--c-stone); }
+#header.is-solid .logo__icon path,
+#header.is-solid .logo__icon rect,
+#header.is-solid .logo__icon line { stroke: var(--c-dark); }
+#header.is-solid .logo__icon .logo-fill { fill: var(--c-dark); }
 .nav { display: flex; align-items: center; list-style: none; }
 .nav__link { display: block; padding: 8px 20px; font-size: 11px; font-weight: 300; letter-spacing: 0.20em; color: rgba(255,255,255,0.75); cursor: pointer; transition: color 0.25s; white-space: nowrap; user-select: none; position: relative; }
 .nav__link::after { content: ''; position: absolute; bottom: 2px; left: 20px; right: 20px; height: 1px; background: #fff; transform: scaleX(0); transform-origin: left; transition: transform 0.3s var(--ease-out); }
@@ -319,8 +331,23 @@ button { font-family: var(--ff-sans); }
 <!-- HEADER -->
 <header id="header">
   <div class="logo" onclick="goPage('home')">
-    <span class="logo__en">DESIGN FOR</span>
-    <span class="logo__ko">쉬워지는 인테리어</span>
+    <!-- 건물 아이콘 SVG (배경 투명) -->
+    <svg class="logo__icon" viewBox="0 0 40 44" xmlns="http://www.w3.org/2000/svg" fill="none">
+      <!-- 기둥 7개: 중앙이 가장 길고 양쪽으로 갈수록 짧아짐 -->
+      <line x1="8"  y1="38" x2="8"  y2="26" stroke-width="1.8" stroke-linecap="butt"/>
+      <line x1="13" y1="38" x2="13" y2="19" stroke-width="1.8" stroke-linecap="butt"/>
+      <line x1="18" y1="38" x2="18" y2="14" stroke-width="1.8" stroke-linecap="butt"/>
+      <line x1="20" y1="38" x2="20" y2="12" stroke-width="1.8" stroke-linecap="butt"/>
+      <line x1="22" y1="38" x2="22" y2="14" stroke-width="1.8" stroke-linecap="butt"/>
+      <line x1="27" y1="38" x2="27" y2="19" stroke-width="1.8" stroke-linecap="butt"/>
+      <line x1="32" y1="38" x2="32" y2="26" stroke-width="1.8" stroke-linecap="butt"/>
+      <!-- 하단 베이스 -->
+      <line x1="5" y1="38" x2="35" y2="38" stroke-width="2" stroke-linecap="square"/>
+    </svg>
+    <div class="logo__texts">
+      <span class="logo__en">DESIGN FOR</span>
+      <span class="logo__ko">쉬워지는 인테리어</span>
+    </div>
   </div>
   <ul class="nav">
     <li><span class="nav__link" id="nl-portfolio" onclick="goPage('portfolio')">PORTFOLIO</span></li>
