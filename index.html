@@ -165,23 +165,117 @@ button { font-family: var(--ff-sans); }
 
 /* CONSULT */
 #pg-consult { background: var(--c-bg); }
-.consult__wrap { display: grid; grid-template-columns: 1fr 1fr; min-height: 100%; }
-.consult__left { padding: calc(80px + var(--header-h)) var(--pad-x) 80px; display: flex; flex-direction: column; justify-content: center; border-right: 1px solid var(--c-border); }
-.consult__right { background: var(--c-dark2); padding: calc(80px + var(--header-h)) var(--pad-x) 80px; display: flex; flex-direction: column; justify-content: center; }
-.info-list { margin-top: 40px; padding-top: 32px; border-top: 1px solid var(--c-border); display: flex; flex-direction: column; gap: 16px; }
-.info-row { display: flex; gap: 20px; align-items: baseline; }
-.info-row__label { font-size: 9px; letter-spacing: 0.26em; color: var(--c-gold); text-transform: uppercase; min-width: 52px; flex-shrink: 0; }
-.info-row__val { font-size: 12.5px; color: var(--c-stone); line-height: 1.8; }
-.form__title { font-family: var(--ff-serif); font-size: 26px; font-weight: 300; color: #F0EDE6; letter-spacing: 0.06em; margin-bottom: 36px; }
-.form-group { margin-bottom: 22px; }
-.form-group__label { display: block; font-size: 9px; letter-spacing: 0.28em; color: var(--c-stone-lt); text-transform: uppercase; margin-bottom: 10px; }
-.form-group__input, .form-group__select, .form-group__textarea { width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.12); padding: 10px 0; color: #F0EDE6; font-family: var(--ff-sans); font-size: 13px; font-weight: 300; outline: none; transition: border-color 0.3s; -webkit-appearance: none; border-radius: 0; }
-.form-group__select option { background: var(--c-dark2); }
-.form-group__input::placeholder, .form-group__textarea::placeholder { color: rgba(169,165,157,0.35); }
-.form-group__input:focus, .form-group__select:focus, .form-group__textarea:focus { border-bottom-color: var(--c-gold); }
-.form-group__textarea { resize: none; height: 68px; }
-.btn--submit { width: 100%; background: var(--c-gold); color: var(--c-dark); border: none; padding: 15px; font-family: var(--ff-sans); font-size: 10px; font-weight: 400; letter-spacing: 0.28em; text-transform: uppercase; cursor: pointer; margin-top: 8px; transition: background 0.3s; }
-.btn--submit:hover { background: var(--c-gold-lt); }
+.consult__page { max-width: 860px; margin: 0 auto; padding: calc(60px + var(--header-h)) var(--pad-x) 100px; }
+.consult__page-title { font-family: var(--ff-serif); font-size: clamp(28px,4vw,42px); font-weight: 300; color: var(--c-dark); letter-spacing: 0.06em; margin-bottom: 8px; }
+.consult__page-title em { font-style: italic; color: var(--c-gold); }
+
+/* 안내사항 */
+.consult__notice { background: var(--c-cream); border-left: 3px solid var(--c-gold); padding: 28px 32px; margin: 36px 0 48px; }
+.consult__notice-title { font-size: 10px; letter-spacing: 0.30em; color: var(--c-gold); text-transform: uppercase; margin-bottom: 16px; font-weight: 400; }
+.consult__notice-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.consult__notice-list li { font-size: 13px; font-weight: 300; color: var(--c-stone); line-height: 1.8; padding-left: 20px; position: relative; }
+.consult__notice-list li::before { content: attr(data-n); position: absolute; left: 0; color: var(--c-gold); font-size: 12px; font-weight: 400; }
+
+/* 섹션 제목 */
+.consult__section { margin-bottom: 48px; }
+.consult__section-title { font-size: 10px; letter-spacing: 0.30em; color: var(--c-dark); text-transform: uppercase; font-weight: 500; padding-bottom: 14px; border-bottom: 1px solid var(--c-border); margin-bottom: 28px; }
+
+/* 폼 필드 공통 */
+.cf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px 40px; margin-bottom: 24px; }
+.cf-row.full { grid-template-columns: 1fr; }
+.cf-group { display: flex; flex-direction: column; gap: 8px; }
+.cf-label { font-size: 9px; letter-spacing: 0.28em; color: var(--c-stone); text-transform: uppercase; font-weight: 400; }
+.cf-label span { color: var(--c-gold); margin-left: 2px; }
+.cf-input, .cf-select, .cf-textarea {
+  width: 100%; background: transparent; border: none;
+  border-bottom: 1px solid var(--c-border);
+  padding: 10px 0; font-family: var(--ff-sans); font-size: 13px;
+  font-weight: 300; color: var(--c-dark); outline: none;
+  transition: border-color 0.3s; -webkit-appearance: none; border-radius: 0;
+}
+.cf-input::placeholder, .cf-textarea::placeholder { color: var(--c-stone-lt); }
+.cf-input:focus, .cf-select:focus, .cf-textarea:focus { border-bottom-color: var(--c-gold); }
+.cf-select option { background: #fff; }
+.cf-textarea { resize: vertical; min-height: 100px; }
+
+/* 연락처 분할 */
+.cf-tel-wrap { display: flex; align-items: center; gap: 8px; }
+.cf-tel-wrap .cf-input { text-align: center; }
+.cf-tel-sep { color: var(--c-stone-lt); font-size: 16px; flex-shrink: 0; }
+
+/* 라디오/체크박스 그룹 */
+.cf-radio-group, .cf-check-group { display: flex; flex-wrap: wrap; gap: 10px 20px; padding: 8px 0; }
+.cf-radio-label, .cf-check-label {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; font-weight: 300; color: var(--c-stone);
+  cursor: pointer; transition: color 0.2s;
+}
+.cf-radio-label:hover, .cf-check-label:hover { color: var(--c-dark); }
+.cf-radio-label input[type="radio"],
+.cf-check-label input[type="checkbox"] { display: none; }
+.cf-radio-box, .cf-check-box {
+  width: 16px; height: 16px; border: 1px solid var(--c-stone-lt);
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color 0.2s, background 0.2s; flex-shrink: 0;
+}
+.cf-radio-box { border-radius: 50%; }
+.cf-radio-label input:checked ~ .cf-radio-box,
+.cf-check-label input:checked ~ .cf-check-box {
+  border-color: var(--c-gold); background: var(--c-gold);
+}
+.cf-radio-label input:checked ~ .cf-radio-box::after {
+  content: ''; width: 6px; height: 6px; border-radius: 50%; background: #fff;
+}
+.cf-check-label input:checked ~ .cf-check-box::after {
+  content: '✓'; font-size: 10px; color: #fff; line-height: 1;
+}
+.cf-radio-label input:checked ~ span:last-child,
+.cf-check-label input:checked ~ span:last-child { color: var(--c-dark); font-weight: 400; }
+
+/* 평수/방/욕실 인라인 */
+.cf-space-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; padding: 8px 0; }
+.cf-space-item { display: flex; align-items: center; gap: 8px; }
+.cf-space-input { width: 64px; border: none; border-bottom: 1px solid var(--c-border); padding: 6px 0; text-align: center; font-family: var(--ff-sans); font-size: 13px; color: var(--c-dark); outline: none; background: transparent; transition: border-color 0.3s; }
+.cf-space-input:focus { border-bottom-color: var(--c-gold); }
+.cf-space-unit { font-size: 12px; color: var(--c-stone); }
+
+/* 파일 첨부 */
+.cf-file-wrap { position: relative; }
+.cf-file-input { display: none; }
+.cf-file-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 11px; letter-spacing: 0.14em; color: var(--c-stone);
+  border: 1px solid var(--c-border); padding: 10px 20px;
+  cursor: pointer; transition: border-color 0.25s, color 0.25s; background: transparent;
+  font-family: var(--ff-sans);
+}
+.cf-file-btn:hover { border-color: var(--c-gold); color: var(--c-gold); }
+.cf-file-btn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.5; }
+.cf-file-name { margin-top: 8px; font-size: 11px; color: var(--c-stone-lt); }
+
+/* 개인정보 동의 */
+.consult__privacy { margin: 32px 0 40px; padding: 24px 28px; border: 1px solid var(--c-border); background: var(--c-cream); max-height: 180px; overflow-y: auto; }
+.consult__privacy p { font-size: 11px; color: var(--c-stone); line-height: 1.9; }
+.consult__privacy-agree { display: flex; align-items: center; gap: 12px; margin-top: 20px; cursor: pointer; }
+.consult__privacy-agree input { display: none; }
+.consult__privacy-agree-box { width: 18px; height: 18px; border: 1px solid var(--c-stone-lt); display: flex; align-items: center; justify-content: center; transition: border-color 0.2s, background 0.2s; flex-shrink: 0; }
+.consult__privacy-agree input:checked ~ .consult__privacy-agree-box { border-color: var(--c-gold); background: var(--c-gold); }
+.consult__privacy-agree input:checked ~ .consult__privacy-agree-box::after { content: '✓'; font-size: 11px; color: #fff; }
+.consult__privacy-agree-txt { font-size: 13px; color: var(--c-stone); }
+
+/* 제출 버튼 */
+.btn--consult-submit {
+  width: 100%; background: var(--c-dark); color: #F0EDE6;
+  border: none; padding: 18px; font-family: var(--ff-sans);
+  font-size: 10px; font-weight: 400; letter-spacing: 0.30em;
+  text-transform: uppercase; cursor: pointer; transition: background 0.3s;
+}
+.btn--consult-submit:hover { background: var(--c-gold); }
+
+@media (max-width: 900px) {
+  .consult__page { padding: calc(40px + var(--header-h)) var(--pad-x-sm) 80px; }
+  .cf-row { grid-template-columns: 1fr; gap: 20px; }
+}
 
 /* SNS */
 #pg-sns { background: var(--c-bg); display: flex; flex-direction: column; }
@@ -469,32 +563,177 @@ button { font-family: var(--ff-sans); }
 
   <!-- CONSULT -->
   <section class="page" id="pg-consult">
-    <div class="consult__wrap">
-      <div class="consult__left">
-        <p class="label">Consultation</p>
-        <h2 class="heading">상담 <em>문의</em></h2>
-        <div class="rule"></div>
-        <p class="body-text">인테리어를 생각하고 계신다면<br>지금 바로 연락 주세요.<br><br>부담 없는 첫 상담부터<br>디자인포가 함께합니다.</p>
-        <div class="info-list">
-          <div class="info-row"><span class="info-row__label">Tel</span><span class="info-row__val">010-0000-0000</span></div>
-          <div class="info-row"><span class="info-row__label">Kakao</span><span class="info-row__val">@디자인포 카카오 채널</span></div>
-          <div class="info-row"><span class="info-row__label">Email</span><span class="info-row__val"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="ef86818980af8b8a9c86888189809dc1849d">[email&#160;protected]</a></span></div>
-          <div class="info-row"><span class="info-row__label">시간</span><span class="info-row__val">평일 09:00 — 18:00</span></div>
+    <div class="consult__page">
+      <p class="label">Consultation</p>
+      <h2 class="consult__page-title">상담 <em>문의</em></h2>
+
+      <!-- 안내사항 -->
+      <div class="consult__notice">
+        <div class="consult__notice-title">안내사항</div>
+        <ul class="consult__notice-list">
+          <li data-n="1.">여건상 부분 공사는 진행이 불가하여 문의를 받지 않는 점 참고 바랍니다.</li>
+          <li data-n="2.">빠른 상담을 위해 해당 내용을 상세히 작성 부탁드립니다.</li>
+          <li data-n="3.">현재 견적 문의량이 급증하여 답변이 늦어지고 있습니다. (영업일 기준 2~3일 소요)</li>
+          <li data-n="4.">모든 답변은 카카오톡으로 확인 부탁드리며, 공사 가능할 경우 개별적으로 연락 드리고 있습니다.</li>
+        </ul>
+      </div>
+
+      <!-- 고객정보 -->
+      <div class="consult__section">
+        <div class="consult__section-title">고객정보</div>
+
+        <div class="cf-row">
+          <div class="cf-group">
+            <label class="cf-label">성함 <span>*</span></label>
+            <input id="c-name" class="cf-input" type="text" placeholder="홍길동">
+          </div>
+          <div class="cf-group">
+            <label class="cf-label">이메일</label>
+            <input id="c-email" class="cf-input" type="email" placeholder="example@email.com">
+          </div>
+        </div>
+
+        <div class="cf-row full">
+          <div class="cf-group">
+            <label class="cf-label">연락처 <span>*</span></label>
+            <div class="cf-tel-wrap">
+              <input id="c-tel1" class="cf-input" type="tel" maxlength="4" placeholder="010" oninput="this.value=this.value.replace(/\D/g,'')">
+              <span class="cf-tel-sep">—</span>
+              <input id="c-tel2" class="cf-input" type="tel" maxlength="4" placeholder="0000" oninput="this.value=this.value.replace(/\D/g,'')">
+              <span class="cf-tel-sep">—</span>
+              <input id="c-tel3" class="cf-input" type="tel" maxlength="4" placeholder="0000" oninput="this.value=this.value.replace(/\D/g,'')">
+            </div>
+          </div>
+        </div>
+
+        <div class="cf-row full">
+          <div class="cf-group">
+            <label class="cf-label">유입경로</label>
+            <div class="cf-check-group">
+              <label class="cf-check-label"><input type="checkbox" name="inflow" value="유튜브"><div class="cf-check-box"></div><span>유튜브</span></label>
+              <label class="cf-check-label"><input type="checkbox" name="inflow" value="인스타그램"><div class="cf-check-box"></div><span>인스타그램</span></label>
+              <label class="cf-check-label"><input type="checkbox" name="inflow" value="블로그"><div class="cf-check-box"></div><span>블로그</span></label>
+              <label class="cf-check-label"><input type="checkbox" name="inflow" value="지인소개"><div class="cf-check-box"></div><span>지인소개</span></label>
+              <label class="cf-check-label"><input type="checkbox" name="inflow" value="인터넷검색"><div class="cf-check-box"></div><span>인터넷검색</span></label>
+              <label class="cf-check-label"><input type="checkbox" name="inflow" value="기타"><div class="cf-check-box"></div><span>기타</span></label>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="consult__right">
-        <p class="form__title">빠른 상담 신청</p>
-        <div class="form-group"><label class="form-group__label">이름</label><input id="c-name" class="form-group__input" type="text" placeholder="홍길동"></div>
-        <div class="form-group"><label class="form-group__label">연락처</label><input id="c-tel" class="form-group__input" type="tel" placeholder="010-0000-0000"></div>
-        <div class="form-group"><label class="form-group__label">시공 유형</label>
-          <select id="c-type" class="form-group__select"><option value="">선택해 주세요</option><option>아파트 전체 리모델링</option><option>부분 시공 (주방 / 욕실)</option><option>신축 인테리어</option><option>기타</option></select>
+
+      <!-- 공간정보 -->
+      <div class="consult__section">
+        <div class="consult__section-title">공간정보</div>
+
+        <div class="cf-row full">
+          <div class="cf-group">
+            <label class="cf-label">공사예정지 주소 <span>*</span></label>
+            <input id="c-addr" class="cf-input" type="text" placeholder="동, 호수 상세하게 기재 부탁드립니다.">
+          </div>
         </div>
-        <div class="form-group"><label class="form-group__label">예상 평수</label>
-          <select id="c-size" class="form-group__select"><option value="">선택해 주세요</option><option>20평 미만</option><option>20평 — 30평</option><option>30평 — 40평</option><option>40평 이상</option></select>
+
+        <div class="cf-row full">
+          <div class="cf-group">
+            <label class="cf-label">공간구성</label>
+            <div class="cf-space-row">
+              <div class="cf-space-item">
+                <input id="c-pyeong" class="cf-space-input" type="number" min="1" placeholder="0">
+                <span class="cf-space-unit">평</span>
+              </div>
+              <div class="cf-space-item">
+                <input id="c-room" class="cf-space-input" type="number" min="0" placeholder="0">
+                <span class="cf-space-unit">방</span>
+              </div>
+              <div class="cf-space-item">
+                <input id="c-bath" class="cf-space-input" type="number" min="0" placeholder="0">
+                <span class="cf-space-unit">욕실</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="form-group"><label class="form-group__label">문의 내용 (선택)</label><textarea id="c-msg" class="form-group__textarea" placeholder="자유롭게 작성해 주세요"></textarea></div>
-        <button class="btn--submit" onclick="handleSubmit()">상담 신청하기</button>
+
+        <div class="cf-row">
+          <div class="cf-group">
+            <label class="cf-label">공사 시작 희망일</label>
+            <input id="c-start" class="cf-input" type="text" placeholder="예) 2025년 3월">
+          </div>
+          <div class="cf-group">
+            <label class="cf-label">입주 예정일</label>
+            <input id="c-movein" class="cf-input" type="text" placeholder="예) 2025년 5월">
+          </div>
+        </div>
+
+        <div class="cf-row full">
+          <div class="cf-group">
+            <label class="cf-label">공간유형 <span>*</span></label>
+            <div class="cf-radio-group">
+              <label class="cf-radio-label"><input type="radio" name="space-type" value="아파트"><div class="cf-radio-box"></div><span>아파트</span></label>
+              <label class="cf-radio-label"><input type="radio" name="space-type" value="단독주택"><div class="cf-radio-box"></div><span>단독주택</span></label>
+              <label class="cf-radio-label"><input type="radio" name="space-type" value="빌라"><div class="cf-radio-box"></div><span>빌라</span></label>
+              <label class="cf-radio-label"><input type="radio" name="space-type" value="주상복합"><div class="cf-radio-box"></div><span>주상복합</span></label>
+              <label class="cf-radio-label"><input type="radio" name="space-type" value="오피스텔"><div class="cf-radio-box"></div><span>오피스텔</span></label>
+              <label class="cf-radio-label"><input type="radio" name="space-type" value="기타"><div class="cf-radio-box"></div><span>기타</span></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="cf-row full">
+          <div class="cf-group">
+            <label class="cf-label">공사예산 <span>*</span></label>
+            <div class="cf-radio-group">
+              <label class="cf-radio-label"><input type="radio" name="budget" value="6000이상"><div class="cf-radio-box"></div><span>6,000만원 이상</span></label>
+              <label class="cf-radio-label"><input type="radio" name="budget" value="7000-8000"><div class="cf-radio-box"></div><span>7,000 ~ 8,000만원</span></label>
+              <label class="cf-radio-label"><input type="radio" name="budget" value="9000-1억"><div class="cf-radio-box"></div><span>9,000만원 ~ 1억</span></label>
+              <label class="cf-radio-label"><input type="radio" name="budget" value="1억이상"><div class="cf-radio-box"></div><span>1억 이상</span></label>
+              <label class="cf-radio-label"><input type="radio" name="budget" value="2억이상"><div class="cf-radio-box"></div><span>2억 이상</span></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="cf-row full">
+          <div class="cf-group">
+            <label class="cf-label">평면도 첨부</label>
+            <div class="cf-file-wrap">
+              <label class="cf-file-btn" for="c-file">
+                <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                파일 선택
+              </label>
+              <input type="file" id="c-file" class="cf-file-input" accept="image/*,.pdf" onchange="updateFileName(this)">
+              <div class="cf-file-name" id="c-file-name">평면도 미첨부 시 원활한 상담이 불가하오니 첨부 부탁드립니다.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cf-row full">
+          <div class="cf-group">
+            <label class="cf-label">문의사항</label>
+            <textarea id="c-msg" class="cf-textarea" placeholder="자유롭게 작성해 주세요."></textarea>
+          </div>
+        </div>
+
+        <div class="cf-row full">
+          <div class="cf-group">
+            <label class="cf-label">관심 프로젝트 URL <span style="color:var(--c-stone-lt);font-size:9px;">(선택)</span></label>
+            <input id="c-url" class="cf-input" type="url" placeholder="https://...">
+          </div>
+        </div>
       </div>
+
+      <!-- 개인정보 동의 -->
+      <div class="consult__privacy">
+        <p>디자인포는 고객님의 개인정보를 중요시하며 "정보통신망 이용촉진 및 정보보호"에 관한 법률을 준수합니다.<br><br>
+        <strong>수집항목</strong> : 이름, 연락처, 이메일<br>
+        <strong>수집목적</strong> : 상담 신청 접수 및 견적 안내<br>
+        <strong>보유기간</strong> : 상담 완료 후 즉시 파기<br><br>
+        위 개인정보 수집·이용에 동의하지 않으실 수 있으나, 동의 거부 시 상담 신청이 제한될 수 있습니다.</p>
+      </div>
+      <label class="consult__privacy-agree">
+        <input type="checkbox" id="c-agree">
+        <div class="consult__privacy-agree-box"></div>
+        <span class="consult__privacy-agree-txt">개인정보 수집 및 이용에 동의합니다.</span>
+      </label>
+
+      <button class="btn--consult-submit" style="margin-top:32px;" onclick="handleSubmit()">상담 신청하기</button>
     </div>
   </section>
 
@@ -852,12 +1091,37 @@ window.showPortDetail = function(id) {
 
 /* ─── CONSULT FORM ─── */
 window.handleSubmit = function() {
-  const name = (document.getElementById('c-name').value || '').trim();
-  const tel  = (document.getElementById('c-tel').value  || '').trim();
-  if (!name) { showToast('이름을 입력해 주세요.'); return; }
-  if (!tel)  { showToast('연락처를 입력해 주세요.'); return; }
-  showToast('상담 신청이 접수되었습니다. 곧 연락드리겠습니다.', 3000);
-  ['c-name','c-tel','c-type','c-size','c-msg'].forEach(id => { document.getElementById(id).value = ''; });
+  const name  = (document.getElementById('c-name')?.value  || '').trim();
+  const tel1  = (document.getElementById('c-tel1')?.value  || '').trim();
+  const tel2  = (document.getElementById('c-tel2')?.value  || '').trim();
+  const tel3  = (document.getElementById('c-tel3')?.value  || '').trim();
+  const addr  = (document.getElementById('c-addr')?.value  || '').trim();
+  const agree = document.getElementById('c-agree')?.checked;
+  const spaceType = document.querySelector('input[name="space-type"]:checked')?.value || '';
+  const budget    = document.querySelector('input[name="budget"]:checked')?.value || '';
+
+  if (!name)  { showToast('성함을 입력해 주세요.'); return; }
+  if (!tel1 || !tel2 || !tel3) { showToast('연락처를 입력해 주세요.'); return; }
+  if (!addr)  { showToast('공사예정지 주소를 입력해 주세요.'); return; }
+  if (!spaceType) { showToast('공간유형을 선택해 주세요.'); return; }
+  if (!budget)    { showToast('공사예산을 선택해 주세요.'); return; }
+  if (!agree) { showToast('개인정보 수집 및 이용에 동의해 주세요.'); return; }
+
+  showToast('상담 신청이 접수되었습니다. 영업일 기준 2~3일 내 연락드리겠습니다.', 4000);
+
+  // 폼 초기화
+  ['c-name','c-email','c-tel1','c-tel2','c-tel3','c-addr','c-pyeong','c-room','c-bath','c-start','c-movein','c-msg','c-url'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = '';
+  });
+  document.querySelectorAll('input[name="inflow"], input[name="space-type"], input[name="budget"], #c-agree').forEach(el => { el.checked = false; });
+  const fn = document.getElementById('c-file-name');
+  if (fn) fn.textContent = '평면도 미첨부 시 원활한 상담이 불가하오니 첨부 부탁드립니다.';
+};
+
+window.updateFileName = function(input) {
+  const el = document.getElementById('c-file-name');
+  if (!el) return;
+  el.textContent = input.files.length ? input.files[0].name : '평면도 미첨부 시 원활한 상담이 불가하오니 첨부 부탁드립니다.';
 };
 
 /* ─── ADMIN 그리드 ─── */
