@@ -676,7 +676,7 @@ button { font-family: var(--ff-sans); }
 
 <!-- HEADER -->
 <header id="header">
-  <div class="logo" onclick="goPage('home')">
+  <div class="logo" onclick="window.goPage('home')">
     <!-- 건물 아이콘 SVG (배경 투명) -->
     <svg class="logo__icon" viewBox="0 0 40 44" xmlns="http://www.w3.org/2000/svg" fill="none">
       <!-- 기둥 7개: 중앙이 가장 길고 양쪽으로 갈수록 짧아짐 -->
@@ -696,28 +696,28 @@ button { font-family: var(--ff-sans); }
     </div>
   </div>
   <ul class="nav">
-    <li><span class="nav__link" id="nl-portfolio" onclick="goPage('portfolio')">PORTFOLIO</span></li>
-    <li><span class="nav__link" id="nl-process"   onclick="goPage('process')">PROCESS</span></li>
-    <li><span class="nav__link" id="nl-consult"   onclick="goPage('consult')">CONSULTANT</span></li>
-    <li><span class="nav__link" id="nl-about"     onclick="goPage('about')">ABOUT</span></li>
-    <li><span class="nav__link" id="nl-blog"      onclick="openBlog()">BLOG</span></li>
-    <li><span class="nav__link" id="nl-instagram" onclick="openInstagram()">INSTAGRAM</span></li>
+    <li><span class="nav__link" id="nl-portfolio" onclick="window.goPage('portfolio')">PORTFOLIO</span></li>
+    <li><span class="nav__link" id="nl-process"   onclick="window.goPage('process')">PROCESS</span></li>
+    <li><span class="nav__link" id="nl-consult"   onclick="window.goPage('consult')">CONSULTANT</span></li>
+    <li><span class="nav__link" id="nl-about"     onclick="window.goPage('about')">ABOUT</span></li>
+    <li><span class="nav__link" id="nl-blog"      onclick="window.openBlog()">BLOG</span></li>
+    <li><span class="nav__link" id="nl-instagram" onclick="window.openInstagram()">INSTAGRAM</span></li>
   </ul>
-  <button class="header-cta" onclick="goPage('consult')">견적 문의하기</button>
-  <button class="hamburger" id="hamburger" onclick="toggleMob()" aria-label="메뉴">
+  <button class="header-cta" onclick="window.goPage('consult')">견적 문의하기</button>
+  <button class="hamburger" id="hamburger" onclick="window.toggleMob()" aria-label="메뉴">
     <span class="hamburger__bar"></span><span class="hamburger__bar"></span><span class="hamburger__bar"></span>
   </button>
 </header>
 
 <!-- MOBILE MENU -->
 <div id="mob-menu">
-  <span class="mob-menu__link" onclick="goPage('portfolio');closeMob()">PORTFOLIO</span>
-  <span class="mob-menu__link" onclick="goPage('process');  closeMob()">PROCESS</span>
-  <span class="mob-menu__link" onclick="goPage('consult');  closeMob()">CONSULTANT</span>
-  <span class="mob-menu__link" onclick="goPage('about');    closeMob()">ABOUT</span>
-  <span class="mob-menu__link" onclick="openBlog();          closeMob()">BLOG</span>
-  <span class="mob-menu__link" onclick="openInstagram();     closeMob()">INSTAGRAM</span>
-  <button class="mob-menu__cta" onclick="goPage('consult');closeMob()">견적 문의하기</button>
+  <span class="mob-menu__link" onclick="window.goPage('portfolio');closeMob()">PORTFOLIO</span>
+  <span class="mob-menu__link" onclick="window.goPage('process');  closeMob()">PROCESS</span>
+  <span class="mob-menu__link" onclick="window.goPage('consult');  closeMob()">CONSULTANT</span>
+  <span class="mob-menu__link" onclick="window.goPage('about');    closeMob()">ABOUT</span>
+  <span class="mob-menu__link" onclick="window.openBlog();          closeMob()">BLOG</span>
+  <span class="mob-menu__link" onclick="window.openInstagram();     closeMob()">INSTAGRAM</span>
+  <button class="mob-menu__cta" onclick="window.goPage('consult');closeMob()">견적 문의하기</button>
 </div>
 
 <div id="page-wrap">
@@ -733,11 +733,11 @@ button { font-family: var(--ff-sans); }
       <div id="home-slides"></div>
     </div>
     <div class="home__cta-center">
-      <button class="btn--consult" onclick="goPage('consult')">상담 문의하기</button>
+      <button class="btn--consult" onclick="window.goPage('consult')">상담 문의하기</button>
     </div>
     <div class="slide-dots" id="slide-dots"></div>
-    <button class="slide-arrow slide-arrow--prev" id="slide-prev" onclick="slideMove(-1)" style="display:none"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
-    <button class="slide-arrow slide-arrow--next" id="slide-next" onclick="slideMove(1)"  style="display:none"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
+    <button class="slide-arrow slide-arrow--prev" id="slide-prev" onclick="window.slideMove(-1)" style="display:none"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+    <button class="slide-arrow slide-arrow--next" id="slide-next" onclick="window.slideMove(1)"  style="display:none"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
     <div class="slide-counter" id="slide-counter"></div>
     <div class="slide-progress" id="slide-progress"></div>
   </section>
@@ -798,7 +798,7 @@ button { font-family: var(--ff-sans); }
       <div class="port-grid" id="port-grid"></div>
     </div>
     <div class="port-detail" id="port-detail-view">
-      <button class="port-detail__back" onclick="showPortList()"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>목록으로</button>
+      <button class="port-detail__back" onclick="window.showPortList()"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>목록으로</button>
       <div class="port-detail__info">
         <div class="port-detail__project-label">PROJECT INFO</div>
         <div class="port-detail__sitename" id="detail-sitename"></div>
@@ -950,7 +950,7 @@ button { font-family: var(--ff-sans); }
                 <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
                 파일 선택
               </label>
-              <input type="file" id="c-file" class="cf-file-input" accept="image/*,.pdf" onchange="updateFileName(this)">
+              <input type="file" id="c-file" class="cf-file-input" accept="image/*,.pdf" onchange="window.updateFileName(this)">
               <div class="cf-file-name" id="c-file-name">평면도 미첨부 시 원활한 상담이 불가하오니 첨부 부탁드립니다.</div>
             </div>
           </div>
@@ -985,7 +985,7 @@ button { font-family: var(--ff-sans); }
         <span class="consult__privacy-agree-txt">개인정보 수집 및 이용에 동의합니다.</span>
       </label>
 
-      <button class="btn--consult-submit" style="margin-top:32px;" onclick="handleSubmit()">상담 신청하기</button>
+      <button class="btn--consult-submit" style="margin-top:32px;" onclick="window.handleSubmit()">상담 신청하기</button>
     </div>
   </section>
 
@@ -1022,15 +1022,15 @@ button { font-family: var(--ff-sans); }
     <div class="admin__wrap">
       <div class="admin__header">
         <h2 class="admin__title">관리자 <span>대시보드</span></h2>
-        <button class="btn--admin-add" id="btn-add-project" onclick="openModal()" style="display:none">
+        <button class="btn--admin-add" id="btn-add-project" onclick="window.openModal()" style="display:none">
           <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           새 현장 등록
         </button>
       </div>
       <!-- 탭 -->
       <div class="admin__tabs">
-        <button class="admin__tab is-on" id="tab-portfolio" onclick="switchAdminTab('portfolio')">포트폴리오</button>
-        <button class="admin__tab" id="tab-inquiries" onclick="switchAdminTab('inquiries')">
+        <button class="admin__tab is-on" id="tab-portfolio" onclick="window.switchAdminTab('portfolio')">포트폴리오</button>
+        <button class="admin__tab" id="tab-inquiries" onclick="window.switchAdminTab('inquiries')">
           상담 문의 <span id="inq-new-count" style="display:none"></span>
         </button>
       </div>
@@ -1053,7 +1053,7 @@ button { font-family: var(--ff-sans); }
   <div class="admin-modal">
     <div class="admin-modal__header">
       <h3 class="admin-modal__title" id="modal-title">현장 등록</h3>
-      <button class="admin-modal__close" onclick="closeModal()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      <button class="admin-modal__close" onclick="window.closeModal()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
     </div>
     <div class="mf-row">
       <div class="mf-group"><label class="mf-label">현장명 *</label><input id="mf-sitename" class="mf-input" type="text" placeholder="예) 수원 망포동 아파트"></div>
@@ -1071,7 +1071,7 @@ button { font-family: var(--ff-sans); }
     <div class="mf-upload-section">
       <span class="mf-upload-label-text">사진 업로드 * (여러 장 선택 가능)</span>
       <label class="mf-upload-zone">
-        <input type="file" id="mf-file-input" accept="image/*" multiple onchange="handleFileSelect(event)">
+        <input type="file" id="mf-file-input" accept="image/*" multiple onchange="window.handleFileSelect(event)">
         <div class="mf-upload-zone__text"><strong>클릭하여 사진 선택</strong> 또는 드래그 앤 드롭<br>JPG, PNG, WEBP — 파일당 최대 10MB</div>
       </label>
       <div class="mf-progress-wrap" id="mf-progress-wrap">
@@ -1082,8 +1082,8 @@ button { font-family: var(--ff-sans); }
       <p class="mf-cover-hint" id="mf-cover-hint" style="display:none">※ 사진을 클릭하면 대표 이미지로 설정됩니다</p>
     </div>
     <div class="mf-actions">
-      <button class="btn--mf-save" id="btn-save" onclick="saveProject()">저장하기</button>
-      <button class="btn--mf-cancel" onclick="closeModal()">취소</button>
+      <button class="btn--mf-save" id="btn-save" onclick="window.saveProject()">저장하기</button>
+      <button class="btn--mf-cancel" onclick="window.closeModal()">취소</button>
     </div>
   </div>
 </div>
@@ -1093,7 +1093,7 @@ button { font-family: var(--ff-sans); }
 <!-- =====================================================
      Firebase SDK v10 (ES Module)
      ===================================================== -->
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="module">
+<script type="module">
 import { initializeApp }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
 import { getFirestore, collection, addDoc, updateDoc, deleteDoc,
@@ -1176,7 +1176,6 @@ const PAGE_MAP = {
   process:   { el:'pg-process',   nav:'nl-process' },
   consult:   { el:'pg-consult',   nav:'nl-consult' },
   about:     { el:'pg-about',     nav:'nl-about' },
-  admin:     { el:'pg-admin',     nav:null },
 };
 let current = 'home';
 window._page = 'home';
@@ -1194,7 +1193,6 @@ window.goPage = function(id) {
   if (next.nav) document.getElementById(next.nav).classList.add('is-active');
   if (id === 'home')      buildHomeSlideshow();
   if (id === 'portfolio') { showPortList(); buildPortGrid(); }
-  if (id === 'admin')     buildAdminGrid();
   const hdr = document.getElementById('header');
   id === 'home' ? hdr.classList.remove('is-solid') : hdr.classList.add('is-solid');
 };
@@ -1314,7 +1312,7 @@ function buildPortGrid() {
     return;
   }
   grid.innerHTML = filtered.map(p =>
-    `<div class="port-item" onclick="showPortDetail('${esc(p.id)}')">`
+    `<div class="port-item" onclick="window.showPortDetail('${esc(p.id)}')">`
     + (p.coverImage ? `<img class="port-item__img" src="${p.coverImage}" alt="${esc(p.siteName)}" loading="lazy" onerror="this.style.display='none'">` : '')
     + `<div class="port-item__overlay"><div class="port-item__name">${esc(p.siteName)}</div>`
     + (p.area ? `<div class="port-item__area">${esc(p.area)}</div>` : '')
@@ -1577,8 +1575,8 @@ function buildInqList() {
 
         <!-- 액션 -->
         <div class="inq-card__actions">
-          ${inq.isNew ? `<button class="btn--inq-read" onclick="markInqRead('${esc(inq.id)}')">확인 처리</button>` : ''}
-          <button class="btn--inq-del" onclick="deleteInq('${esc(inq.id)}')">삭제</button>
+          ${inq.isNew ? `<button class="btn--inq-read" onclick="window.markInqRead('${esc(inq.id)}')">확인 처리</button>` : ''}
+          <button class="btn--inq-del" onclick="window.deleteInq('${esc(inq.id)}')">삭제</button>
         </div>
 
       </div>
@@ -1621,8 +1619,8 @@ function buildAdminGrid() {
         <div class="admin-card__name">${esc(p.siteName)}</div>
         <div class="admin-card__meta">${p.type||''}${p.area?' · '+p.area:''}${p.location?'<br>'+p.location:''}</div>
         <div class="admin-card__actions">
-          <button class="btn--card-edit" onclick="editProject('${esc(p.id)}')">수정</button>
-          <button class="btn--card-del"  onclick="deleteProject('${esc(p.id)}')">삭제</button>
+          <button class="btn--card-edit" onclick="window.editProject('${esc(p.id)}')">수정</button>
+          <button class="btn--card-del"  onclick="window.deleteProject('${esc(p.id)}')">삭제</button>
         </div>
       </div></div>`;
   }).join('');
@@ -1696,10 +1694,10 @@ function renderPreview() {
   hint.style.display = 'block';
   grid.innerHTML = pendingImages.map((img, i) => {
     const isCover = i === coverIndex;
-    return `<div class="mf-preview-item${isCover ? ' is-cover' : ''}" onclick="setCover(${i})">
+    return `<div class="mf-preview-item${isCover ? ' is-cover' : ''}" onclick="window.setCover(${i})">
       <img src="${img.url}" alt="">
       ${isCover ? '<div class="mf-preview-item__cover-badge">대표</div>' : ''}
-      <button class="mf-preview-item__del" onclick="removeImg(event,${i})">
+      <button class="mf-preview-item__del" onclick="window.removeImg(event,${i})">
         <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button></div>`;
   }).join('');
@@ -1831,8 +1829,11 @@ window.deleteProject = async function(id) {
     setTimeout(() => { bar.style.width = '40%'; }, 100);
     setTimeout(() => { bar.style.width = '70%'; }, 600);
   }
+  // ?admin=1 로 접속하면 admin.html 로 이동
   const params = new URLSearchParams(window.location.search);
-  if (params.get('admin') === '1') window.goPage('admin');
+  if (params.get('admin') === '1') {
+    window.location.href = './admin.html';
+  }
 })();
 
 </script>
