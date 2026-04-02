@@ -1098,70 +1098,35 @@ window.showPortDetail = function(id) {
   document.getElementById('pg-portfolio').scrollTop = 0;
 };
 
-/* ─── 솔라피 알림톡 설정 ─── */
-const SOLAPI_API_KEY    = 'NCS0GH31S8THRCQM';
-const SOLAPI_API_SECRET = 'FVPXL2SOUVH86N7GO9H1Y5CHL1VR7LZS';
-const KAKAO_PFID        = 'KA01PF260331145934432QQ3Ied0Ac8i';
-const TEMPLATE_NEW_INQUIRY  = 'KA01TP260331150650039nm3VCo1TlxE'; // 새견적접수_직원알림
-const TEMPLATE_CUSTOMER_ACK = 'KA01TP2603311508497785BN4r7ih29V'; // 견적접수완료_고객알림
-const STAFF_PHONES = ['01074720065', '01087163073', '01041217976'];
+/* ─── 솔라피 알림톡 설정 (Cloudflare Worker 경유) ─── */
+const WORKER_URL = 'https://designfor-alimtalk.729497.workers.dev';
 
-async function makeSolapiHeaders() {
-  const date = new Date().toISOString();
-  const salt = Math.random().toString(36).substring(2, 18);
-  const key  = await crypto.subtle.importKey(
-    'raw',
-    new TextEncoder().encode(SOLAPI_API_SECRET),
-    { name: 'HMAC', hash: 'SHA-256' },
-    false, ['sign']
-  );
-  const sig = await crypto.subtle.sign(
-    'HMAC', key,
-    new TextEncoder().encode(date + salt)
-  );
-  const signature = Array.from(new Uint8Array(sig))
-    .map(b => b.toString(16).padStart(2, '0')).join('');
-  return {
-    'Content-Type': 'application/json',
-    'Authorization': `HMAC-SHA256 apiKey=${SOLAPI_API_KEY}, date=${date}, salt=${salt}, signature=${signature}`
-  };
-}
-
-async function sendAlimtalk(to, templateId, templateArgs) {
+async function sendNewInquiryAlimtalk(data) {
   try {
-    const headers = await makeSolapiHeaders();
-    const body = {
-      message: {
-        to,
-        from: '01074720065',
-        kakaoOptions: {
-          pfId: KAKAO_PFID,
-          templateId,
-          templateArgs,
-        }
-      }
-    };
-    const res = await fetch('https://api.solapi.com/messages/v4/send', {
+    const res = await fetch(WORKER_URL, {
       method: 'POST',
-      headers,
-      body: JSON.stringify(body)
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'new_inquiry', data })
     });
-    const data = await res.json();
-    if (!res.ok) {
-      console.warn('알림톡 발송 실패 [' + to + ']:', JSON.stringify(data));
-    } else {
-      console.log('알림톡 발송 성공 [' + to + ']');
-    }
-    return data;
+    const result = await res.json();
+    console.log('직원 알림톡 결과:', result);
   } catch(e) {
-    console.warn('알림톡 네트워크 오류:', e);
+    console.warn('Worker 오류:', e);
   }
 }
 
-async function sendStaffAlimtalk(templateId, templateArgs) {
-  await Promise.allSettled(
-    STAFF_PHONES.map(phone => sendAlimtalk(phone, templateId, templateArgs))
-  );
+async function sendCustomerAckAlimtalk(data) {
+  try {
+    const res = await fetch(WORKER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'customer_ack', data })
+    });
+    const result = await res.json();
+    console.log('고객 알림톡 결과:', result);
+  } catch(e) {
+    console.warn('Worker 오류:', e);
+  }
 }
 
 /* ─── CONSULT FORM 제출 ─── */
@@ -1225,20 +1190,21 @@ window.handleSubmit = async function() {
     ].filter(Boolean).join(' ');
 
     // 2) 직원 알림톡 발송
-    await sendStaffAlimtalk(TEMPLATE_NEW_INQUIRY, {
-      '고객명':   name,
-      '연락처':   telFull,
-      '평수':     spaceParts || '미입력',
-      '예산':     budget,
-      '문의내용': inquiry.msg || '내용 없음',
-      '접수일시': acceptedAt,
+    await sendNewInquiryAlimtalk({
+      name,
+      tel: telFull,
+      spaceParts: spaceParts || '미입력',
+      budget,
+      msg: inquiry.msg || '내용 없음',
+      acceptedAt,
     });
 
     // 3) 고객 알림톡 발송
-    await sendAlimtalk(telE164, TEMPLATE_CUSTOMER_ACK, {
-      '고객명':   name,
-      '접수번호': 'DF-' + Date.now().toString().slice(-6),
-      '접수일시': acceptedAt,
+    await sendCustomerAckAlimtalk({
+      tel: telE164,
+      name,
+      orderNo: 'DF-' + Date.now().toString().slice(-6),
+      acceptedAt,
     });
 
     showToast('상담 신청이 접수되었습니다. 영업일 기준 2~3일 내 연락드리겠습니다.', 4000);
