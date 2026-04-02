@@ -209,198 +209,63 @@ button { font-family: var(--ff-sans); }
 .port-detail__images { padding: 0 var(--pad-x) 80px; display: flex; flex-direction: column; gap: 3px; }
 .port-detail__img { width: 100%; display: block; max-height: 80vh; object-fit: cover; }
 
-/* CONSULT — 고가독성 UX 개선 버전 */
+/* CONSULT */
 #pg-consult { background: #F7F6F3; }
 .consult__page { max-width: 800px; margin: 0 auto; padding: calc(48px + var(--header-h)) var(--pad-x) 100px; }
 .consult__page-title { font-family: var(--ff-serif); font-size: clamp(26px,3.5vw,38px); font-weight: 400; color: var(--c-dark); letter-spacing: 0.04em; margin-bottom: 6px; }
 .consult__page-title em { font-style: italic; color: var(--c-gold); }
-
-/* 안내사항 */
 .consult__notice { background: #FFF8EE; border-left: 4px solid var(--c-gold); padding: 24px 28px; margin: 28px 0 44px; border-radius: 0 4px 4px 0; }
 .consult__notice-title { font-size: 11px; letter-spacing: 0.22em; color: var(--c-gold); text-transform: uppercase; margin-bottom: 14px; font-weight: 500; }
 .consult__notice-list { list-style: none; display: flex; flex-direction: column; gap: 9px; }
 .consult__notice-list li { font-size: 13.5px; font-weight: 400; color: #3D3B35; line-height: 1.7; padding-left: 22px; position: relative; }
 .consult__notice-list li::before { content: attr(data-n); position: absolute; left: 0; color: var(--c-gold); font-size: 13px; font-weight: 500; }
-
-/* 섹션 */
 .consult__section { margin-bottom: 44px; background: #fff; border: 1px solid rgba(26,26,23,0.10); padding: 32px 36px; }
-.consult__section-title {
-  font-size: 11px; letter-spacing: 0.22em; color: var(--c-dark);
-  text-transform: uppercase; font-weight: 600;
-  padding-bottom: 16px; border-bottom: 2px solid var(--c-dark);
-  margin-bottom: 28px;
-}
-
-/* 폼 그리드 */
+.consult__section-title { font-size: 11px; letter-spacing: 0.22em; color: var(--c-dark); text-transform: uppercase; font-weight: 600; padding-bottom: 16px; border-bottom: 2px solid var(--c-dark); margin-bottom: 28px; }
 .cf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 28px 36px; margin-bottom: 28px; }
 .cf-row.full { grid-template-columns: 1fr; }
 .cf-group { display: flex; flex-direction: column; gap: 7px; }
-
-/* 라벨 — 명확하게 */
-.cf-label {
-  font-size: 12px; letter-spacing: 0.06em;
-  color: #2A2A26; font-weight: 600;
-  font-family: var(--ff-sans);
-}
+.cf-label { font-size: 12px; letter-spacing: 0.06em; color: #2A2A26; font-weight: 600; font-family: var(--ff-sans); }
 .cf-label span { color: #C0392B; margin-left: 3px; font-weight: 700; }
-
-/* 입력 필드 — 박스형, 명확한 테두리 */
-.cf-input, .cf-select, .cf-textarea {
-  width: 100%;
-  background: #FDFCFA;
-  border: 1.5px solid #C8C6BF;
-  border-radius: 4px;
-  padding: 13px 16px;
-  font-family: var(--ff-sans);
-  font-size: 14px;
-  font-weight: 400;
-  color: #1A1A17;
-  outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  -webkit-appearance: none;
-}
-.cf-input::placeholder, .cf-textarea::placeholder {
-  color: #B0ADA6;
-  font-weight: 300;
-}
-.cf-input:focus, .cf-select:focus, .cf-textarea:focus {
-  border-color: var(--c-gold);
-  box-shadow: 0 0 0 3px rgba(181,145,85,0.12);
-  background: #FFFDF8;
-}
+.cf-input, .cf-select, .cf-textarea { width: 100%; background: #FDFCFA; border: 1.5px solid #C8C6BF; border-radius: 4px; padding: 13px 16px; font-family: var(--ff-sans); font-size: 14px; font-weight: 400; color: #1A1A17; outline: none; transition: border-color 0.2s, box-shadow 0.2s; -webkit-appearance: none; }
+.cf-input::placeholder, .cf-textarea::placeholder { color: #B0ADA6; font-weight: 300; }
+.cf-input:focus, .cf-select:focus, .cf-textarea:focus { border-color: var(--c-gold); box-shadow: 0 0 0 3px rgba(181,145,85,0.12); background: #FFFDF8; }
 .cf-select { cursor: pointer; }
 .cf-select option { background: #fff; color: #1A1A17; }
 .cf-textarea { resize: vertical; min-height: 110px; line-height: 1.7; }
-
-/* 연락처 분할 */
 .cf-tel-wrap { display: flex; align-items: center; gap: 10px; }
 .cf-tel-wrap .cf-input { text-align: center; flex: 1; }
 .cf-tel-sep { color: #888; font-size: 18px; font-weight: 300; flex-shrink: 0; }
-
-/* 라디오/체크박스 — 카드 버튼형 */
 .cf-radio-group, .cf-check-group { display: flex; flex-wrap: wrap; gap: 10px; padding: 4px 0; }
-.cf-radio-label, .cf-check-label {
-  display: flex; align-items: center; gap: 9px;
-  font-size: 13.5px; font-weight: 400; color: #3D3B35;
-  cursor: pointer;
-  background: #F4F3EF;
-  border: 1.5px solid #D4D2CB;
-  border-radius: 4px;
-  padding: 10px 16px;
-  transition: border-color 0.2s, background 0.2s, color 0.2s;
-  user-select: none;
-}
-.cf-radio-label:hover, .cf-check-label:hover {
-  border-color: var(--c-gold);
-  background: #FFF8EE;
-  color: #1A1A17;
-}
-.cf-radio-label input[type="radio"],
-.cf-check-label input[type="checkbox"] { display: none; }
-.cf-radio-box, .cf-check-box {
-  width: 18px; height: 18px;
-  border: 2px solid #C8C6BF;
-  display: flex; align-items: center; justify-content: center;
-  transition: border-color 0.2s, background 0.2s; flex-shrink: 0;
-  background: #fff;
-}
+.cf-radio-label, .cf-check-label { display: flex; align-items: center; gap: 9px; font-size: 13.5px; font-weight: 400; color: #3D3B35; cursor: pointer; background: #F4F3EF; border: 1.5px solid #D4D2CB; border-radius: 4px; padding: 10px 16px; transition: border-color 0.2s, background 0.2s, color 0.2s; user-select: none; }
+.cf-radio-label:hover, .cf-check-label:hover { border-color: var(--c-gold); background: #FFF8EE; color: #1A1A17; }
+.cf-radio-label input[type="radio"], .cf-check-label input[type="checkbox"] { display: none; }
+.cf-radio-box, .cf-check-box { width: 18px; height: 18px; border: 2px solid #C8C6BF; display: flex; align-items: center; justify-content: center; transition: border-color 0.2s, background 0.2s; flex-shrink: 0; background: #fff; }
 .cf-radio-box { border-radius: 50%; }
-.cf-radio-label input:checked ~ .cf-radio-box,
-.cf-check-label input:checked ~ .cf-check-box {
-  border-color: var(--c-gold); background: var(--c-gold);
-}
-.cf-radio-label input:checked ~ .cf-radio-box::after {
-  content: ''; width: 7px; height: 7px; border-radius: 50%; background: #fff;
-}
-.cf-check-label input:checked ~ .cf-check-box::after {
-  content: '✓'; font-size: 11px; color: #fff; line-height: 1; font-weight: 700;
-}
-/* 선택된 라디오/체크 카드 강조 */
-.cf-radio-label:has(input:checked),
-.cf-check-label:has(input:checked) {
-  border-color: var(--c-gold);
-  background: #FFF8EE;
-  color: #1A1A17;
-  font-weight: 500;
-}
-
-/* 평수/방/욕실 */
+.cf-radio-label input:checked ~ .cf-radio-box, .cf-check-label input:checked ~ .cf-check-box { border-color: var(--c-gold); background: var(--c-gold); }
+.cf-radio-label input:checked ~ .cf-radio-box::after { content: ''; width: 7px; height: 7px; border-radius: 50%; background: #fff; }
+.cf-check-label input:checked ~ .cf-check-box::after { content: '✓'; font-size: 11px; color: #fff; line-height: 1; font-weight: 700; }
+.cf-radio-label:has(input:checked), .cf-check-label:has(input:checked) { border-color: var(--c-gold); background: #FFF8EE; color: #1A1A17; font-weight: 500; }
 .cf-space-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 4px 0; }
 .cf-space-item { display: flex; align-items: center; gap: 8px; }
-.cf-space-input {
-  width: 72px;
-  border: 1.5px solid #C8C6BF; border-radius: 4px;
-  padding: 12px 0; text-align: center;
-  font-family: var(--ff-sans); font-size: 14px; font-weight: 400;
-  color: #1A1A17; outline: none; background: #FDFCFA;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-.cf-space-input:focus {
-  border-color: var(--c-gold);
-  box-shadow: 0 0 0 3px rgba(181,145,85,0.12);
-}
+.cf-space-input { width: 72px; border: 1.5px solid #C8C6BF; border-radius: 4px; padding: 12px 0; text-align: center; font-family: var(--ff-sans); font-size: 14px; font-weight: 400; color: #1A1A17; outline: none; background: #FDFCFA; transition: border-color 0.2s, box-shadow 0.2s; }
+.cf-space-input:focus { border-color: var(--c-gold); box-shadow: 0 0 0 3px rgba(181,145,85,0.12); }
 .cf-space-unit { font-size: 13px; font-weight: 500; color: #3D3B35; }
-
-/* 파일 첨부 */
 .cf-file-wrap { display: flex; flex-direction: column; gap: 10px; }
 .cf-file-input { display: none; }
-.cf-file-btn {
-  display: inline-flex; align-items: center; gap: 10px;
-  font-size: 13px; font-weight: 400; color: #3D3B35;
-  border: 1.5px solid #C8C6BF; border-radius: 4px;
-  padding: 13px 20px; cursor: pointer;
-  transition: border-color 0.25s, background 0.25s, color 0.25s;
-  background: #F4F3EF; font-family: var(--ff-sans);
-  align-self: flex-start;
-}
+.cf-file-btn { display: inline-flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 400; color: #3D3B35; border: 1.5px solid #C8C6BF; border-radius: 4px; padding: 13px 20px; cursor: pointer; transition: border-color 0.25s, background 0.25s, color 0.25s; background: #F4F3EF; font-family: var(--ff-sans); align-self: flex-start; }
 .cf-file-btn:hover { border-color: var(--c-gold); background: #FFF8EE; color: var(--c-gold); }
 .cf-file-btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.5; }
 .cf-file-name { font-size: 12px; color: #888; line-height: 1.6; }
-
-/* 개인정보 동의 */
-.consult__privacy {
-  margin: 28px 0 12px;
-  padding: 20px 24px;
-  border: 1px solid #D4D2CB;
-  background: #F7F6F3;
-  max-height: 160px; overflow-y: auto;
-  border-radius: 4px;
-}
+.consult__privacy { margin: 28px 0 12px; padding: 20px 24px; border: 1px solid #D4D2CB; background: #F7F6F3; max-height: 160px; overflow-y: auto; border-radius: 4px; }
 .consult__privacy p { font-size: 12px; color: #5A5852; line-height: 1.9; }
-.consult__privacy-agree {
-  display: flex; align-items: center; gap: 12px;
-  margin-top: 16px; cursor: pointer;
-  padding: 14px 18px;
-  border: 1.5px solid #C8C6BF;
-  border-radius: 4px;
-  background: #fff;
-  transition: border-color 0.2s, background 0.2s;
-}
+.consult__privacy-agree { display: flex; align-items: center; gap: 12px; margin-top: 16px; cursor: pointer; padding: 14px 18px; border: 1.5px solid #C8C6BF; border-radius: 4px; background: #fff; transition: border-color 0.2s, background 0.2s; }
 .consult__privacy-agree:hover { border-color: var(--c-gold); background: #FFF8EE; }
 .consult__privacy-agree input { display: none; }
-.consult__privacy-agree-box {
-  width: 20px; height: 20px; border: 2px solid #C8C6BF;
-  display: flex; align-items: center; justify-content: center;
-  transition: border-color 0.2s, background 0.2s; flex-shrink: 0;
-  background: #fff; border-radius: 3px;
-}
-.consult__privacy-agree input:checked ~ .consult__privacy-agree-box {
-  border-color: var(--c-gold); background: var(--c-gold);
-}
-.consult__privacy-agree input:checked ~ .consult__privacy-agree-box::after {
-  content: '✓'; font-size: 12px; color: #fff; font-weight: 700;
-}
+.consult__privacy-agree-box { width: 20px; height: 20px; border: 2px solid #C8C6BF; display: flex; align-items: center; justify-content: center; transition: border-color 0.2s, background 0.2s; flex-shrink: 0; background: #fff; border-radius: 3px; }
+.consult__privacy-agree input:checked ~ .consult__privacy-agree-box { border-color: var(--c-gold); background: var(--c-gold); }
+.consult__privacy-agree input:checked ~ .consult__privacy-agree-box::after { content: '✓'; font-size: 12px; color: #fff; font-weight: 700; }
 .consult__privacy-agree-txt { font-size: 14px; font-weight: 500; color: #2A2A26; }
-
-/* 제출 버튼 */
-.btn--consult-submit {
-  width: 100%; background: var(--c-dark); color: #F0EDE6;
-  border: none; border-radius: 4px;
-  padding: 20px; font-family: var(--ff-sans);
-  font-size: 14px; font-weight: 500; letter-spacing: 0.18em;
-  text-transform: uppercase; cursor: pointer;
-  transition: background 0.3s; margin-top: 24px;
-}
+.btn--consult-submit { width: 100%; background: var(--c-dark); color: #F0EDE6; border: none; border-radius: 4px; padding: 20px; font-family: var(--ff-sans); font-size: 14px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; cursor: pointer; transition: background 0.3s; margin-top: 24px; }
 .btn--consult-submit:hover { background: var(--c-gold); }
 .btn--consult-submit:disabled { background: #C8C6BF; cursor: not-allowed; }
 
@@ -459,163 +324,51 @@ button { font-family: var(--ff-sans); }
 .btn--card-del:hover { background: #C0392B; color: #fff; border-color: #C0392B; }
 .admin-empty { grid-column: 1 / -1; padding: 80px 0; text-align: center; color: var(--c-stone-lt); font-size: 13px; line-height: 2.2; }
 .admin-empty svg { display: block; margin: 0 auto 20px; width: 44px; height: 44px; stroke: var(--c-gold-pale); fill: none; stroke-width: 1; }
-
-/* ── 어드민 탭 ── */
-.admin__tabs {
-  display: flex; gap: 4px;
-  background: #ECEAE5; border-radius: 8px;
-  padding: 4px; margin-bottom: 36px;
-}
-.admin__tab {
-  flex: 1; font-size: 12px; letter-spacing: 0.12em; font-weight: 500;
-  color: var(--c-stone); background: transparent; border: none;
-  border-radius: 6px; padding: 12px 20px;
-  cursor: pointer; transition: background 0.2s, color 0.2s;
-  text-transform: uppercase;
-}
+.admin__tabs { display: flex; gap: 4px; background: #ECEAE5; border-radius: 8px; padding: 4px; margin-bottom: 36px; }
+.admin__tab { flex: 1; font-size: 12px; letter-spacing: 0.12em; font-weight: 500; color: var(--c-stone); background: transparent; border: none; border-radius: 6px; padding: 12px 20px; cursor: pointer; transition: background 0.2s, color 0.2s; text-transform: uppercase; }
 .admin__tab:hover { color: var(--c-dark); background: rgba(255,255,255,0.6); }
 .admin__tab.is-on { background: #fff; color: var(--c-dark); box-shadow: 0 1px 4px rgba(0,0,0,0.10); }
-
-/* ── 상담 문의 패널 ── */
-.inq-summary {
-  display: grid; grid-template-columns: repeat(3,1fr); gap: 12px;
-  margin-bottom: 28px;
-}
-.inq-stat {
-  background: #fff; border: 1px solid var(--c-border);
-  border-radius: 8px; padding: 18px 20px;
-  display: flex; flex-direction: column; gap: 4px;
-}
+.inq-summary { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 28px; }
+.inq-stat { background: #fff; border: 1px solid var(--c-border); border-radius: 8px; padding: 18px 20px; display: flex; flex-direction: column; gap: 4px; }
 .inq-stat__label { font-size: 10px; letter-spacing: 0.16em; color: var(--c-stone); text-transform: uppercase; }
 .inq-stat__num { font-family: var(--ff-serif); font-size: 32px; font-weight: 300; color: var(--c-dark); line-height: 1; }
 .inq-stat.highlight .inq-stat__num { color: var(--c-gold); }
-
-/* ── 문의 카드 리스트 ── */
 .inq-list { display: flex; flex-direction: column; gap: 12px; }
-
-.inq-card {
-  background: #fff;
-  border: 1px solid #DDD9D0;
-  border-radius: 8px;
-  overflow: hidden;
-  transition: box-shadow 0.25s, border-color 0.25s;
-}
+.inq-card { background: #fff; border: 1px solid #DDD9D0; border-radius: 8px; overflow: hidden; transition: box-shadow 0.25s, border-color 0.25s; }
 .inq-card:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.08); border-color: var(--c-gold-pale); }
 .inq-card.is-new { border-left: 4px solid var(--c-gold); }
-
-/* 카드 헤더 */
-.inq-card__head {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 16px 22px;
-  background: #FAFAF8;
-  border-bottom: 1px solid #ECEAE5;
-  gap: 12px;
-}
+.inq-card__head { display: flex; align-items: center; justify-content: space-between; padding: 16px 22px; background: #FAFAF8; border-bottom: 1px solid #ECEAE5; gap: 12px; }
 .inq-card__head-left { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-.inq-card__name {
-  font-size: 16px; font-weight: 600;
-  color: #1A1A17; letter-spacing: 0.02em;
-}
-.inq-new-badge {
-  font-size: 10px; font-weight: 600; letter-spacing: 0.10em;
-  color: #fff; background: var(--c-gold);
-  padding: 3px 9px; border-radius: 20px;
-}
-.inq-read-badge {
-  font-size: 10px; letter-spacing: 0.08em;
-  color: var(--c-stone-lt); background: #F0EEE9;
-  padding: 3px 9px; border-radius: 20px;
-}
-.inq-card__date {
-  font-size: 11px; color: var(--c-stone-lt);
-  letter-spacing: 0.06em; white-space: nowrap;
-}
-
-/* 카드 바디 */
+.inq-card__name { font-size: 16px; font-weight: 600; color: #1A1A17; letter-spacing: 0.02em; }
+.inq-new-badge { font-size: 10px; font-weight: 600; letter-spacing: 0.10em; color: #fff; background: var(--c-gold); padding: 3px 9px; border-radius: 20px; }
+.inq-read-badge { font-size: 10px; letter-spacing: 0.08em; color: var(--c-stone-lt); background: #F0EEE9; padding: 3px 9px; border-radius: 20px; }
+.inq-card__date { font-size: 11px; color: var(--c-stone-lt); letter-spacing: 0.06em; white-space: nowrap; }
 .inq-card__body { padding: 20px 22px; }
-
-/* 연락처 + 이메일 */
-.inq-card__contact {
-  display: flex; align-items: center; gap: 20px;
-  flex-wrap: wrap; margin-bottom: 16px;
-  padding-bottom: 16px; border-bottom: 1px solid #ECEAE5;
-}
+.inq-card__contact { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid #ECEAE5; }
 .inq-contact-item { display: flex; align-items: center; gap: 7px; }
 .inq-contact-icon { width: 15px; height: 15px; stroke: var(--c-stone-lt); fill: none; stroke-width: 1.5; flex-shrink: 0; }
 .inq-contact-val { font-size: 14px; font-weight: 500; color: var(--c-dark); }
 .inq-contact-email { font-size: 13px; font-weight: 400; color: var(--c-stone); }
-
-/* 정보 그리드 */
-.inq-card__grid {
-  display: grid; grid-template-columns: repeat(2,1fr);
-  gap: 14px 32px; margin-bottom: 16px;
-}
+.inq-card__grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px 32px; margin-bottom: 16px; }
 .inq-field { display: flex; flex-direction: column; gap: 3px; }
-.inq-field__label {
-  font-size: 10px; letter-spacing: 0.14em; font-weight: 600;
-  color: var(--c-stone); text-transform: uppercase;
-}
-.inq-field__val {
-  font-size: 13px; font-weight: 400; color: #1A1A17; line-height: 1.6;
-}
+.inq-field__label { font-size: 10px; letter-spacing: 0.14em; font-weight: 600; color: var(--c-stone); text-transform: uppercase; }
+.inq-field__val { font-size: 13px; font-weight: 400; color: #1A1A17; line-height: 1.6; }
 .inq-field__val.empty { color: var(--c-stone-lt); font-style: italic; }
-
-/* 뱃지 태그 */
 .inq-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
-.inq-tag {
-  font-size: 11px; font-weight: 500; color: #3D3B35;
-  background: #F0EEE9; border: 1px solid #DDD9D0;
-  padding: 4px 10px; border-radius: 4px;
-}
+.inq-tag { font-size: 11px; font-weight: 500; color: #3D3B35; background: #F0EEE9; border: 1px solid #DDD9D0; padding: 4px 10px; border-radius: 4px; }
 .inq-tag.gold { background: #FFF4E0; border-color: var(--c-gold-pale); color: #8A6830; }
-
-/* 주소 */
-.inq-card__addr {
-  display: flex; align-items: flex-start; gap: 7px;
-  padding: 12px 14px; background: #F7F6F3;
-  border-radius: 6px; margin-bottom: 14px;
-}
+.inq-card__addr { display: flex; align-items: flex-start; gap: 7px; padding: 12px 14px; background: #F7F6F3; border-radius: 6px; margin-bottom: 14px; }
 .inq-addr-icon { width: 14px; height: 14px; stroke: var(--c-stone-lt); fill: none; stroke-width: 1.5; flex-shrink: 0; margin-top: 1px; }
 .inq-addr-val { font-size: 13px; font-weight: 400; color: #1A1A17; line-height: 1.6; }
-
-/* 문의사항 */
-.inq-card__msg {
-  padding: 14px 16px;
-  background: #FAFAF8; border: 1px solid #ECEAE5;
-  border-radius: 6px; margin-bottom: 14px;
-}
-.inq-card__msg-label {
-  font-size: 10px; letter-spacing: 0.14em; font-weight: 600;
-  color: var(--c-stone); text-transform: uppercase; margin-bottom: 6px;
-}
+.inq-card__msg { padding: 14px 16px; background: #FAFAF8; border: 1px solid #ECEAE5; border-radius: 6px; margin-bottom: 14px; }
+.inq-card__msg-label { font-size: 10px; letter-spacing: 0.14em; font-weight: 600; color: var(--c-stone); text-transform: uppercase; margin-bottom: 6px; }
 .inq-card__msg-text { font-size: 13px; color: #1A1A17; line-height: 1.7; }
-
-/* 액션 버튼 */
-.inq-card__actions {
-  display: flex; gap: 8px; justify-content: flex-end;
-  padding-top: 14px; border-top: 1px solid #ECEAE5;
-}
-.btn--inq-read {
-  font-size: 11px; font-weight: 500; letter-spacing: 0.10em;
-  padding: 9px 18px; color: var(--c-dark);
-  border: 1.5px solid #C8C6BF; background: #fff;
-  border-radius: 4px; cursor: pointer;
-  transition: background 0.2s, border-color 0.2s;
-}
+.inq-card__actions { display: flex; gap: 8px; justify-content: flex-end; padding-top: 14px; border-top: 1px solid #ECEAE5; }
+.btn--inq-read { font-size: 11px; font-weight: 500; letter-spacing: 0.10em; padding: 9px 18px; color: var(--c-dark); border: 1.5px solid #C8C6BF; background: #fff; border-radius: 4px; cursor: pointer; transition: background 0.2s, border-color 0.2s; }
 .btn--inq-read:hover { background: var(--c-dark); color: #fff; border-color: var(--c-dark); }
-.btn--inq-del {
-  font-size: 11px; font-weight: 500; letter-spacing: 0.10em;
-  padding: 9px 18px; color: #C0392B;
-  border: 1.5px solid rgba(192,57,43,0.3); background: #fff;
-  border-radius: 4px; cursor: pointer;
-  transition: background 0.2s, border-color 0.2s;
-}
+.btn--inq-del { font-size: 11px; font-weight: 500; letter-spacing: 0.10em; padding: 9px 18px; color: #C0392B; border: 1.5px solid rgba(192,57,43,0.3); background: #fff; border-radius: 4px; cursor: pointer; transition: background 0.2s, border-color 0.2s; }
 .btn--inq-del:hover { background: #C0392B; color: #fff; border-color: #C0392B; }
-
-.inq-empty {
-  padding: 80px 0; text-align: center;
-  color: var(--c-stone-lt); font-size: 14px; line-height: 2.4;
-}
+.inq-empty { padding: 80px 0; text-align: center; color: var(--c-stone-lt); font-size: 14px; line-height: 2.4; }
 .inq-empty svg { display: block; margin: 0 auto 16px; width: 40px; height: 40px; stroke: #DDD9D0; fill: none; stroke-width: 1; }
 
 @media (max-width: 600px) {
@@ -672,7 +425,7 @@ button { font-family: var(--ff-sans); }
 #toast { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--c-dark); color: #F0EDE6; font-size: 12px; letter-spacing: 0.12em; padding: 14px 28px; z-index: 9999; opacity: 0; transition: opacity 0.3s, transform 0.3s; pointer-events: none; white-space: nowrap; }
 #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-/* 로딩 오버레이 — Firebase 연결 전 잠깐 표시 */
+/* 로딩 오버레이 */
 #loading-overlay { position: fixed; inset: 0; z-index: 9998; background: var(--c-dark2); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; transition: opacity 0.5s; }
 #loading-overlay.hide { opacity: 0; pointer-events: none; }
 .loading-logo { font-family: var(--ff-serif); font-size: 24px; font-weight: 300; letter-spacing: 0.2em; color: #fff; }
@@ -692,9 +445,6 @@ button { font-family: var(--ff-sans); }
   .port-detail__back { padding: calc(20px + var(--header-h)) var(--pad-x-sm) 0; }
   .port-detail__info { padding: 36px var(--pad-x-sm) 40px; }
   .port-detail__images { padding: 0 var(--pad-x-sm) 60px; }
-  .consult__wrap { grid-template-columns: 1fr; min-height: unset; }
-  .consult__left { padding: calc(52px + var(--header-h)) var(--pad-x-sm) 36px; border-right: none; border-bottom: 1px solid var(--c-border); }
-  .consult__right { padding: 36px var(--pad-x-sm) 52px; }
   .sns__inner { padding: calc(48px + var(--header-h)) var(--pad-x-sm) 48px; }
   .sns-grid { grid-template-columns: 1fr; max-width: 360px; }
   .site-footer { padding: 20px var(--pad-x-sm); }
@@ -723,9 +473,7 @@ button { font-family: var(--ff-sans); }
 <!-- HEADER -->
 <header id="header">
   <div class="logo" onclick="window.goPage('home')">
-    <!-- 건물 아이콘 SVG (배경 투명) -->
     <svg class="logo__icon" viewBox="0 0 40 44" xmlns="http://www.w3.org/2000/svg" fill="none">
-      <!-- 기둥 7개: 중앙이 가장 길고 양쪽으로 갈수록 짧아짐 -->
       <line x1="8"  y1="38" x2="8"  y2="26" stroke-width="1.8" stroke-linecap="butt"/>
       <line x1="13" y1="38" x2="13" y2="19" stroke-width="1.8" stroke-linecap="butt"/>
       <line x1="18" y1="38" x2="18" y2="14" stroke-width="1.8" stroke-linecap="butt"/>
@@ -733,7 +481,6 @@ button { font-family: var(--ff-sans); }
       <line x1="22" y1="38" x2="22" y2="14" stroke-width="1.8" stroke-linecap="butt"/>
       <line x1="27" y1="38" x2="27" y2="19" stroke-width="1.8" stroke-linecap="butt"/>
       <line x1="32" y1="38" x2="32" y2="26" stroke-width="1.8" stroke-linecap="butt"/>
-      <!-- 하단 베이스 -->
       <line x1="5" y1="38" x2="35" y2="38" stroke-width="2" stroke-linecap="square"/>
     </svg>
     <div class="logo__texts">
@@ -787,7 +534,6 @@ button { font-family: var(--ff-sans); }
     <div class="slide-counter" id="slide-counter"></div>
     <div class="slide-progress" id="slide-progress"></div>
   </section>
-
 
   <!-- PROCESS -->
   <section class="page" id="pg-process">
@@ -864,8 +610,6 @@ button { font-family: var(--ff-sans); }
     <div class="consult__page">
       <p class="label">Consultation</p>
       <h2 class="consult__page-title">상담 <em>문의</em></h2>
-
-      <!-- 안내사항 -->
       <div class="consult__notice">
         <div class="consult__notice-title">안내사항</div>
         <ul class="consult__notice-list">
@@ -875,11 +619,8 @@ button { font-family: var(--ff-sans); }
           <li data-n="4.">모든 답변은 카카오톡으로 확인 부탁드리며, 공사 가능할 경우 개별적으로 연락 드리고 있습니다.</li>
         </ul>
       </div>
-
-      <!-- 고객정보 -->
       <div class="consult__section">
         <div class="consult__section-title">고객정보</div>
-
         <div class="cf-row">
           <div class="cf-group">
             <label class="cf-label">성함 <span>*</span></label>
@@ -890,7 +631,6 @@ button { font-family: var(--ff-sans); }
             <input id="c-email" class="cf-input" type="email" placeholder="example@email.com">
           </div>
         </div>
-
         <div class="cf-row full">
           <div class="cf-group">
             <label class="cf-label">연락처 <span>*</span></label>
@@ -903,7 +643,6 @@ button { font-family: var(--ff-sans); }
             </div>
           </div>
         </div>
-
         <div class="cf-row full">
           <div class="cf-group">
             <label class="cf-label">유입경로</label>
@@ -918,18 +657,14 @@ button { font-family: var(--ff-sans); }
           </div>
         </div>
       </div>
-
-      <!-- 공간정보 -->
       <div class="consult__section">
         <div class="consult__section-title">공간정보</div>
-
         <div class="cf-row full">
           <div class="cf-group">
             <label class="cf-label">공사예정지 주소 <span>*</span></label>
             <input id="c-addr" class="cf-input" type="text" placeholder="동, 호수 상세하게 기재 부탁드립니다.">
           </div>
         </div>
-
         <div class="cf-row full">
           <div class="cf-group">
             <label class="cf-label">공간구성</label>
@@ -949,7 +684,6 @@ button { font-family: var(--ff-sans); }
             </div>
           </div>
         </div>
-
         <div class="cf-row">
           <div class="cf-group">
             <label class="cf-label">공사 시작 희망일</label>
@@ -960,7 +694,6 @@ button { font-family: var(--ff-sans); }
             <input id="c-movein" class="cf-input" type="text" placeholder="예) 2025년 5월">
           </div>
         </div>
-
         <div class="cf-row full">
           <div class="cf-group">
             <label class="cf-label">공간유형 <span>*</span></label>
@@ -974,14 +707,12 @@ button { font-family: var(--ff-sans); }
             </div>
           </div>
         </div>
-
         <div class="cf-row full">
           <div class="cf-group">
             <label class="cf-label">공사예산 <span>*</span></label>
             <input id="c-budget" class="cf-input" type="text" placeholder="예) 5,000만원 / 1억 2,000만원">
           </div>
         </div>
-
         <div class="cf-row full">
           <div class="cf-group">
             <label class="cf-label">평면도 첨부</label>
@@ -995,14 +726,12 @@ button { font-family: var(--ff-sans); }
             </div>
           </div>
         </div>
-
         <div class="cf-row full">
           <div class="cf-group">
             <label class="cf-label">문의사항</label>
             <textarea id="c-msg" class="cf-textarea" placeholder="자유롭게 작성해 주세요."></textarea>
           </div>
         </div>
-
         <div class="cf-row full">
           <div class="cf-group">
             <label class="cf-label">관심 프로젝트 URL <span style="color:var(--c-stone-lt);font-size:9px;">(선택)</span></label>
@@ -1010,8 +739,6 @@ button { font-family: var(--ff-sans); }
           </div>
         </div>
       </div>
-
-      <!-- 개인정보 동의 -->
       <div class="consult__privacy">
         <p>디자인포는 고객님의 개인정보를 중요시하며 "정보통신망 이용촉진 및 정보보호"에 관한 법률을 준수합니다.<br><br>
         <strong>수집항목</strong> : 이름, 연락처, 이메일<br>
@@ -1024,7 +751,6 @@ button { font-family: var(--ff-sans); }
         <div class="consult__privacy-agree-box"></div>
         <span class="consult__privacy-agree-txt">개인정보 수집 및 이용에 동의합니다.</span>
       </label>
-
       <button class="btn--consult-submit" style="margin-top:32px;" onclick="window.handleSubmit()">상담 신청하기</button>
     </div>
   </section>
@@ -1053,7 +779,7 @@ button { font-family: var(--ff-sans); }
     </div>
     <footer class="site-footer">
       <div><div class="footer__brand">DESIGN FOR</div><div class="footer__copy">© 2025 Design For. All Rights Reserved.</div></div>
-      <div class="footer__info">대표 : 남경 &nbsp;|&nbsp; 경기도 화성시<br>Tel : 010-0000-0000 &nbsp;|&nbsp; <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7811161e17381c1d0b111f161e170a56130a">[email&#160;protected]</a></div>
+      <div class="footer__info">대표 : 남경 &nbsp;|&nbsp; 경기도 화성시<br>Tel : 010-0000-0000 &nbsp;|&nbsp; designfor@email.com</div>
     </footer>
   </section>
 
@@ -1067,18 +793,15 @@ button { font-family: var(--ff-sans); }
           새 현장 등록
         </button>
       </div>
-      <!-- 탭 -->
       <div class="admin__tabs">
         <button class="admin__tab is-on" id="tab-portfolio" onclick="window.switchAdminTab('portfolio')">포트폴리오</button>
         <button class="admin__tab" id="tab-inquiries" onclick="window.switchAdminTab('inquiries')">
           상담 문의 <span id="inq-new-count" style="display:none"></span>
         </button>
       </div>
-      <!-- 포트폴리오 -->
       <div id="admin-portfolio-panel">
         <div class="admin-grid" id="admin-grid"></div>
       </div>
-      <!-- 상담 문의 -->
       <div id="admin-inquiries-panel" style="display:none">
         <div class="inq-summary" id="inq-summary"></div>
         <div class="inq-list" id="inq-list"></div>
@@ -1130,9 +853,6 @@ button { font-family: var(--ff-sans); }
 
 <div id="toast"></div>
 
-<!-- =====================================================
-     Firebase SDK v10 (ES Module)
-     ===================================================== -->
 <script type="module">
 import { initializeApp }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
@@ -1140,9 +860,6 @@ import { getFirestore, collection, addDoc, updateDoc, deleteDoc,
          doc, query, orderBy, onSnapshot }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
-/* ─── Firebase 설정 ───
-   ※ apiKey는 Firebase 콘솔 → 프로젝트 설정 → 웹 앱에서 복사하세요
-   ────────────────────── */
 const firebaseConfig = {
   apiKey:            "AIzaSyC0LNwrtehJ8BytnXL5-aiG2H_sTIgXgk4",
   authDomain:        "designfor-ef0ed.firebaseapp.com",
@@ -1152,20 +869,16 @@ const firebaseConfig = {
   appId:             "1:284384518635:web:62f4a1ce63e90ca7b2f9ae"
 };
 
-/* ─── Cloudinary 설정 ─── */
 const CLD_CLOUD  = 'dirocerek';
 const CLD_PRESET = 'designfor_upload';
 const CLD_FOLDER = 'designfor_portfolio';
 
-/* ─── 초기화 ─── */
 const app = initializeApp(firebaseConfig);
 const db  = getFirestore(app);
 const COL = 'projects';
 
-/* ─── 전역 캐시 ─── */
 let projectsCache = [];
 
-/* ─── 로딩 오버레이 ─── */
 let _loadingHidden = false;
 function hideLoading() {
   if (_loadingHidden) return;
@@ -1177,11 +890,8 @@ function hideLoading() {
     if (ol) ol.classList.add('hide');
   }, 500);
 }
-// 안전장치: 2.5초 안에 Firebase 응답 없으면 강제 해제
 setTimeout(hideLoading, 2500);
 
-/* ─── Firestore 실시간 리스너 ───
-   PC에서 저장 → 핸드폰에도 즉시 반영 */
 const q = query(collection(db, COL), orderBy('createdAt', 'asc'));
 onSnapshot(q, (snap) => {
   projectsCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
@@ -1192,11 +902,9 @@ onSnapshot(q, (snap) => {
 }, (err) => {
   console.error('Firestore 오류:', err);
   hideLoading();
-  // Firestore 읽기 오류 시에도 홈 화면은 정상 표시
   buildHomeSlideshow();
 });
 
-/* ─── 유틸 ─── */
 function esc(s) {
   return s == null ? '' : String(s)
     .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
@@ -1237,72 +945,9 @@ window.goPage = function(id) {
   id === 'home' ? hdr.classList.remove('is-solid') : hdr.classList.add('is-solid');
 };
 
-/* ─── 모바일 메뉴 ─── */
 let mobOpen = false;
-
-/* ─── 솔라피 알림톡 설정 ─── */
-const SOLAPI_API_KEY    = 'NCS0GH31S8THRCQM';
-const SOLAPI_API_SECRET = 'YOUR_API_SECRET'; // ← 본인 Secret 입력
-const KAKAO_PFID        = 'KA01PF260331145934432QQ3Ied0Ac8i';
-const TEMPLATE_NEW_INQUIRY  = 'KA01TP260331150650039nm3VCo1TlxE';
-const TEMPLATE_CUSTOMER_ACK = 'KA01TP2603311508497785BN4r7ih29V';
-const STAFF_PHONES = ['01074720065','01087163073','01041217976'];
-
-async function makeSolapiHeaders() {
-  const date = new Date().toISOString();
-  const salt = Math.random().toString(36).substring(2, 18);
-  const key  = await crypto.subtle.importKey(
-    'raw', new TextEncoder().encode(SOLAPI_API_SECRET),
-    { name:'HMAC', hash:'SHA-256' }, false, ['sign']
-  );
-  const sig = await crypto.subtle.sign(
-    'HMAC', key, new TextEncoder().encode(date + salt)
-  );
-  const signature = Array.from(new Uint8Array(sig))
-    .map(b => b.toString(16).padStart(2,'0')).join('');
-  return {
-    'Content-Type': 'application/json',
-    'Authorization': `HMAC-SHA256 apiKey=${SOLAPI_API_KEY}, date=${date}, salt=${salt}, signature=${signature}`
-  };
-}
-
-async function sendAlimtalk(to, templateId, templateArgs) {
-  try {
-    const headers = await makeSolapiHeaders();
-    const res = await fetch('https://api.solapi.com/messages/v4/send', {
-      method: 'POST',
-      headers,
-      body: JSON.stringify({
-        message: {
-          to,
-          from: '01074720065', // ← 솔라피에 등록된 발신번호로 변경
-          text: ' ',
-          kakaoOptions: {
-            pfId: KAKAO_PFID,
-            templateId,
-            templateArgs,
-          }
-        }
-      })
-    });
-    const data = await res.json();
-    if (!res.ok) console.warn('알림톡 발송 실패:', JSON.stringify(data));
-    return data;
-  } catch(e) {
-    console.warn('알림톡 오류:', e);
-  }
-}
-
-async function sendStaffAlimtalk(templateId, templateArgs) {
-  await Promise.allSettled(
-    STAFF_PHONES.map(p => sendAlimtalk(p, templateId, templateArgs))
-  );
-}
-  
-/* ─── 외부 링크 ─── */
 window.openBlog      = function() { window.open('https://blog.naver.com/lg1044', '_blank'); };
 window.openInstagram = function() { window.open('https://www.instagram.com/designfor_official', '_blank'); };
-
 window.toggleMob = () => mobOpen ? closeMob() : openMob();
 function openMob() {
   mobOpen = true;
@@ -1389,7 +1034,6 @@ function updateCounter() {
   el.textContent = slides.length > 1
     ? String(slideIdx + 1).padStart(2,'0') + ' / ' + String(slides.length).padStart(2,'0') : '';
 }
-// 터치 스와이프
 (function() {
   let tx = 0, s = document.getElementById('pg-home');
   s.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
@@ -1399,7 +1043,7 @@ function updateCounter() {
   }, { passive: true });
 })();
 
-/* ─── PORTFOLIO 목록 ─── */
+/* ─── PORTFOLIO ─── */
 let portFilter = 'all';
 
 function buildPortGrid() {
@@ -1454,8 +1098,73 @@ window.showPortDetail = function(id) {
   document.getElementById('pg-portfolio').scrollTop = 0;
 };
 
-/* ─── CONSULT FORM ─── */
+/* ─── 솔라피 알림톡 설정 ─── */
+const SOLAPI_API_KEY    = 'NCS0GH31S8THRCQM';
+const SOLAPI_API_SECRET = 'FVPXL2SOUVH86N7GO9H1Y5CHL1VR7LZS';
+const KAKAO_PFID        = 'KA01PF260331145934432QQ3Ied0Ac8i';
+const TEMPLATE_NEW_INQUIRY  = 'KA01TP260331150650039nm3VCo1TlxE'; // 새견적접수_직원알림
+const TEMPLATE_CUSTOMER_ACK = 'KA01TP2603311508497785BN4r7ih29V'; // 견적접수완료_고객알림
+const STAFF_PHONES = ['01074720065', '01087163073', '01041217976'];
 
+async function makeSolapiHeaders() {
+  const date = new Date().toISOString();
+  const salt = Math.random().toString(36).substring(2, 18);
+  const key  = await crypto.subtle.importKey(
+    'raw',
+    new TextEncoder().encode(SOLAPI_API_SECRET),
+    { name: 'HMAC', hash: 'SHA-256' },
+    false, ['sign']
+  );
+  const sig = await crypto.subtle.sign(
+    'HMAC', key,
+    new TextEncoder().encode(date + salt)
+  );
+  const signature = Array.from(new Uint8Array(sig))
+    .map(b => b.toString(16).padStart(2, '0')).join('');
+  return {
+    'Content-Type': 'application/json',
+    'Authorization': `HMAC-SHA256 apiKey=${SOLAPI_API_KEY}, date=${date}, salt=${salt}, signature=${signature}`
+  };
+}
+
+async function sendAlimtalk(to, templateId, templateArgs) {
+  try {
+    const headers = await makeSolapiHeaders();
+    const body = {
+      message: {
+        to,
+        from: '01074720065',
+        kakaoOptions: {
+          pfId: KAKAO_PFID,
+          templateId,
+          templateArgs,
+        }
+      }
+    };
+    const res = await fetch('https://api.solapi.com/messages/v4/send', {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(body)
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      console.warn('알림톡 발송 실패 [' + to + ']:', JSON.stringify(data));
+    } else {
+      console.log('알림톡 발송 성공 [' + to + ']');
+    }
+    return data;
+  } catch(e) {
+    console.warn('알림톡 네트워크 오류:', e);
+  }
+}
+
+async function sendStaffAlimtalk(templateId, templateArgs) {
+  await Promise.allSettled(
+    STAFF_PHONES.map(phone => sendAlimtalk(phone, templateId, templateArgs))
+  );
+}
+
+/* ─── CONSULT FORM 제출 ─── */
 window.handleSubmit = async function() {
   const name  = (document.getElementById('c-name')?.value  || '').trim();
   const tel1  = (document.getElementById('c-tel1')?.value  || '').trim();
@@ -1482,8 +1191,10 @@ window.handleSubmit = async function() {
   const pyeong  = document.getElementById('c-pyeong')?.value || '';
   const room    = document.getElementById('c-room')?.value   || '';
   const bath    = document.getElementById('c-bath')?.value   || '';
-  const now     = new Date();
-  const acceptedAt = now.getFullYear() + '.' +
+
+  const now = new Date();
+  const acceptedAt =
+    now.getFullYear() + '.' +
     String(now.getMonth()+1).padStart(2,'0') + '.' +
     String(now.getDate()).padStart(2,'0') + ' ' +
     String(now.getHours()).padStart(2,'0') + ':' +
@@ -1504,11 +1215,16 @@ window.handleSubmit = async function() {
   };
 
   try {
+    // 1) Firestore 저장
     await addDoc(collection(db, 'inquiries'), inquiry);
 
-    const spaceParts = [pyeong&&pyeong+'평', room&&room+'방', bath&&bath+'욕실'].filter(Boolean).join(' ');
+    const spaceParts = [
+      pyeong && pyeong + '평',
+      room   && room   + '방',
+      bath   && bath   + '욕실',
+    ].filter(Boolean).join(' ');
 
-    // 직원 알림톡
+    // 2) 직원 알림톡 발송
     await sendStaffAlimtalk(TEMPLATE_NEW_INQUIRY, {
       '고객명':   name,
       '연락처':   telFull,
@@ -1518,7 +1234,7 @@ window.handleSubmit = async function() {
       '접수일시': acceptedAt,
     });
 
-    // 고객 알림톡
+    // 3) 고객 알림톡 발송
     await sendAlimtalk(telE164, TEMPLATE_CUSTOMER_ACK, {
       '고객명':   name,
       '접수번호': 'DF-' + Date.now().toString().slice(-6),
@@ -1527,6 +1243,7 @@ window.handleSubmit = async function() {
 
     showToast('상담 신청이 접수되었습니다. 영업일 기준 2~3일 내 연락드리겠습니다.', 4000);
 
+    // 폼 초기화
     ['c-name','c-email','c-tel1','c-tel2','c-tel3','c-addr',
      'c-pyeong','c-room','c-bath','c-start','c-movein','c-msg','c-url'].forEach(id => {
       const el = document.getElementById(id); if (el) el.value = '';
@@ -1566,7 +1283,6 @@ const iqQuery = query(collection(db, 'inquiries'), orderBy('createdAt', 'desc'))
 let inquiriesCache = [];
 onSnapshot(iqQuery, (snap) => {
   inquiriesCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-  // 새 문의 배지 업신
   const newCount = inquiriesCache.filter(i => i.isNew).length;
   const badge = document.getElementById('inq-new-count');
   if (badge) {
@@ -1583,12 +1299,9 @@ onSnapshot(iqQuery, (snap) => {
   }
 });
 
-/* ─── 문의 목록 렌더링 ─── */
 function buildInqList() {
   const list = document.getElementById('inq-list');
   if (!list) return;
-
-  // 요약 통계 업데이트
   const total   = inquiriesCache.length;
   const newCnt  = inquiriesCache.filter(i => i.isNew).length;
   const todayCnt = inquiriesCache.filter(i => {
@@ -1612,7 +1325,6 @@ function buildInqList() {
         <div class="inq-stat__num">${total}</div>
       </div>`;
   }
-
   if (!inquiriesCache.length) {
     list.innerHTML = `<div class="inq-empty">
       <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
@@ -1621,7 +1333,6 @@ function buildInqList() {
     </div>`;
     return;
   }
-
   list.innerHTML = inquiriesCache.map(inq => {
     const d = new Date(inq.createdAt);
     const dateStr = d.getFullYear() + '.' +
@@ -1629,97 +1340,52 @@ function buildInqList() {
       String(d.getDate()).padStart(2,'0') + ' ' +
       String(d.getHours()).padStart(2,'0') + ':' +
       String(d.getMinutes()).padStart(2,'0');
-
-    // 공간구성 텍스트
     const spaceParts = [
       inq.pyeong && inq.pyeong + '평',
       inq.room   && inq.room + '방',
       inq.bath   && inq.bath + '욕실',
     ].filter(Boolean).join(' · ');
-
-    // 연락처 아이콘
     const phoneIcon = `<svg class="inq-contact-icon" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.36 2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.77a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2z"/></svg>`;
     const mailIcon  = `<svg class="inq-contact-icon" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>`;
     const pinIcon   = `<svg class="inq-addr-icon" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>`;
-
     return `<div class="inq-card${inq.isNew ? ' is-new' : ''}">
-
-      <!-- 헤더 -->
       <div class="inq-card__head">
         <div class="inq-card__head-left">
           <span class="inq-card__name">${esc(inq.name)}</span>
-          ${inq.isNew
-            ? '<span class="inq-new-badge">NEW</span>'
-            : '<span class="inq-read-badge">확인완료</span>'}
+          ${inq.isNew ? '<span class="inq-new-badge">NEW</span>' : '<span class="inq-read-badge">확인완료</span>'}
           ${inq.spaceType ? `<span style="font-size:11px;color:var(--c-stone);background:#F0EEE9;padding:3px 9px;border-radius:4px;">${esc(inq.spaceType)}</span>` : ''}
         </div>
         <span class="inq-card__date">${dateStr}</span>
       </div>
-
-      <!-- 바디 -->
       <div class="inq-card__body">
-
-        <!-- 연락처 -->
         <div class="inq-card__contact">
-          <div class="inq-contact-item">
-            ${phoneIcon}
-            <span class="inq-contact-val">${esc(inq.tel)}</span>
-          </div>
+          <div class="inq-contact-item">${phoneIcon}<span class="inq-contact-val">${esc(inq.tel)}</span></div>
           ${inq.email ? `<div class="inq-contact-item">${mailIcon}<span class="inq-contact-email">${esc(inq.email)}</span></div>` : ''}
         </div>
-
-        <!-- 주소 -->
         ${inq.addr ? `<div class="inq-card__addr">${pinIcon}<span class="inq-addr-val">${esc(inq.addr)}</span></div>` : ''}
-
-        <!-- 정보 그리드 -->
         <div class="inq-card__grid">
-          <div class="inq-field">
-            <div class="inq-field__label">공간구성</div>
-            <div class="inq-field__val ${spaceParts ? '' : 'empty'}">${spaceParts || '미입력'}</div>
-          </div>
-          <div class="inq-field">
-            <div class="inq-field__label">공사예산</div>
-            <div class="inq-field__val ${inq.budget ? '' : 'empty'}">${inq.budget ? `<span class="inq-tag gold">${esc(inq.budget)}</span>` : '미선택'}</div>
-          </div>
-          <div class="inq-field">
-            <div class="inq-field__label">공사 시작일</div>
-            <div class="inq-field__val ${inq.startDate ? '' : 'empty'}">${esc(inq.startDate) || '미입력'}</div>
-          </div>
-          <div class="inq-field">
-            <div class="inq-field__label">입주 예정일</div>
-            <div class="inq-field__val ${inq.moveIn ? '' : 'empty'}">${esc(inq.moveIn) || '미입력'}</div>
-          </div>
-          ${inq.inflow ? `<div class="inq-field" style="grid-column:1/-1">
-            <div class="inq-field__label">유입경로</div>
-            <div class="inq-field__val"><div class="inq-tags">${inq.inflow.split(',').map(s => `<span class="inq-tag">${esc(s.trim())}</span>`).join('')}</div></div>
-          </div>` : ''}
+          <div class="inq-field"><div class="inq-field__label">공간구성</div><div class="inq-field__val ${spaceParts ? '' : 'empty'}">${spaceParts || '미입력'}</div></div>
+          <div class="inq-field"><div class="inq-field__label">공사예산</div><div class="inq-field__val ${inq.budget ? '' : 'empty'}">${inq.budget ? `<span class="inq-tag gold">${esc(inq.budget)}</span>` : '미선택'}</div></div>
+          <div class="inq-field"><div class="inq-field__label">공사 시작일</div><div class="inq-field__val ${inq.startDate ? '' : 'empty'}">${esc(inq.startDate) || '미입력'}</div></div>
+          <div class="inq-field"><div class="inq-field__label">입주 예정일</div><div class="inq-field__val ${inq.moveIn ? '' : 'empty'}">${esc(inq.moveIn) || '미입력'}</div></div>
+          ${inq.inflow ? `<div class="inq-field" style="grid-column:1/-1"><div class="inq-field__label">유입경로</div><div class="inq-field__val"><div class="inq-tags">${inq.inflow.split(',').map(s => `<span class="inq-tag">${esc(s.trim())}</span>`).join('')}</div></div></div>` : ''}
         </div>
-
-        <!-- 문의사항 -->
-        ${inq.msg ? `<div class="inq-card__msg">
-          <div class="inq-card__msg-label">문의사항</div>
-          <div class="inq-card__msg-text">${esc(inq.msg)}</div>
-        </div>` : ''}
-
-        <!-- 액션 -->
+        ${inq.msg ? `<div class="inq-card__msg"><div class="inq-card__msg-label">문의사항</div><div class="inq-card__msg-text">${esc(inq.msg)}</div></div>` : ''}
         <div class="inq-card__actions">
           ${inq.isNew ? `<button class="btn--inq-read" onclick="window.markInqRead('${esc(inq.id)}')">확인 처리</button>` : ''}
           <button class="btn--inq-del" onclick="window.deleteInq('${esc(inq.id)}')">삭제</button>
         </div>
-
       </div>
     </div>`;
   }).join('');
 }
 
-/* ─── 문의 확인 처리 ─── */
 window.markInqRead = async function(id) {
   try {
     await updateDoc(doc(db, 'inquiries', id), { isNew: false });
   } catch(err) { showToast('오류: ' + err.message, 3000); }
 };
 
-/* ─── 문의 삭제 ─── */
 window.deleteInq = async function(id) {
   if (!confirm('이 문의를 삭제하시겠습니까?')) return;
   try {
@@ -1730,7 +1396,6 @@ window.deleteInq = async function(id) {
 
 /* ─── ADMIN 그리드 ─── */
 function buildAdminGrid() {
-  // 포트폴리오 탭일 때만 새 현장 등록 버튼 표시
   const addBtn = document.getElementById('btn-add-project');
   if (addBtn) addBtn.style.display = '';
   const grid = document.getElementById('admin-grid');
@@ -1803,7 +1468,6 @@ function resetForm() {
   setProgress(false, 0, ''); renderPreview();
 }
 
-/* ─── 파일 선택 → 미리보기 ─── */
 window.handleFileSelect = function(event) {
   const MAX = 10 * 1024 * 1024;
   Array.from(event.target.files).forEach(file => {
@@ -1839,14 +1503,12 @@ window.removeImg = function(e, i) {
   renderPreview();
 };
 
-/* ─── 진행률 UI ─── */
 function setProgress(show, pct, txt) {
   document.getElementById('mf-progress-wrap').classList.toggle('show', show);
   document.getElementById('mf-progress-bar').style.width = pct + '%';
   document.getElementById('mf-progress-txt').textContent = txt;
 }
 
-/* ─── Cloudinary 업로드 ─── */
 async function compressImage(file, maxPx, quality) {
   return new Promise(resolve => {
     const img = new Image();
@@ -1884,7 +1546,6 @@ async function uploadOne(file, onProg) {
   });
 }
 
-/* ─── 저장 (Cloudinary → Firestore) ─── */
 window.saveProject = async function() {
   const siteName = (document.getElementById('mf-sitename').value || '').trim();
   const type     = document.getElementById('mf-type').value;
@@ -1939,7 +1600,6 @@ window.saveProject = async function() {
   }
 };
 
-/* ─── 삭제 ─── */
 window.deleteProject = async function(id) {
   if (!confirm('이 현장을 삭제하시겠습니까?\n삭제된 데이터는 복구되지 않습니다.')) return;
   try {
@@ -1950,14 +1610,12 @@ window.deleteProject = async function(id) {
   }
 };
 
-/* ─── 진입 처리 ─── */
 (function() {
   const bar = document.getElementById('loading-bar');
   if (bar) {
     setTimeout(() => { bar.style.width = '40%'; }, 100);
     setTimeout(() => { bar.style.width = '70%'; }, 600);
   }
-  // ?admin=1 로 접속하면 admin.html 로 이동
   const params = new URLSearchParams(window.location.search);
   if (params.get('admin') === '1') {
     window.location.href = './admin.html';
