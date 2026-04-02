@@ -1242,7 +1242,7 @@ let mobOpen = false;
 
 /* ─── 솔라피 알림톡 설정 ─── */
 const SOLAPI_API_KEY    = 'NCS0GH31S8THRCQM';
-const SOLAPI_API_SECRET = 'FVPXL2SOUVH86N7GO9H1Y5CHL1VR7LZS'; // ← 솔라피 Secret 조회 후 입력
+const SOLAPI_API_SECRET = 'YOUR_API_SECRET'; // ← 본인 Secret 입력
 const KAKAO_PFID        = 'KA01PF260331145934432QQ3Ied0Ac8i';
 const TEMPLATE_NEW_INQUIRY  = 'KA01TP260331150650039nm3VCo1TlxE';
 const TEMPLATE_CUSTOMER_ACK = 'KA01TP2603311508497785BN4r7ih29V';
@@ -1255,34 +1255,49 @@ async function makeSolapiHeaders() {
     'raw', new TextEncoder().encode(SOLAPI_API_SECRET),
     { name:'HMAC', hash:'SHA-256' }, false, ['sign']
   );
-  const sig = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(date + salt));
-  const signature = Array.from(new Uint8Array(sig)).map(b=>b.toString(16).padStart(2,'0')).join('');
+  const sig = await crypto.subtle.sign(
+    'HMAC', key, new TextEncoder().encode(date + salt)
+  );
+  const signature = Array.from(new Uint8Array(sig))
+    .map(b => b.toString(16).padStart(2,'0')).join('');
   return {
     'Content-Type': 'application/json',
     'Authorization': `HMAC-SHA256 apiKey=${SOLAPI_API_KEY}, date=${date}, salt=${salt}, signature=${signature}`
   };
 }
 
-async function sendAlimtalk(to, templateId, variables) {
+async function sendAlimtalk(to, templateId, templateArgs) {
   try {
     const headers = await makeSolapiHeaders();
-    await fetch('https://api.solapi.com/messages/v4/send', {
-      method: 'POST', headers,
+    const res = await fetch('https://api.solapi.com/messages/v4/send', {
+      method: 'POST',
+      headers,
       body: JSON.stringify({
         message: {
           to,
-          from: '01074720065',
-          kakaoOptions: { pfId: KAKAO_PFID, templateId, variables }
+          from: '01074720065', // ← 솔라피에 등록된 발신번호로 변경
+          text: ' ',
+          kakaoOptions: {
+            pfId: KAKAO_PFID,
+            templateId,
+            templateArgs,
+          }
         }
       })
     });
-  } catch(e) { console.warn('알림톡 오류:', e); }
+    const data = await res.json();
+    if (!res.ok) console.warn('알림톡 발송 실패:', JSON.stringify(data));
+    return data;
+  } catch(e) {
+    console.warn('알림톡 오류:', e);
+  }
 }
 
-async function sendStaffAlimtalk(templateId, variables) {
-  await Promise.allSettled(STAFF_PHONES.map(p => sendAlimtalk(p, templateId, variables)));
-} 
-
+async function sendStaffAlimtalk(templateId, templateArgs) {
+  await Promise.allSettled(
+    STAFF_PHONES.map(p => sendAlimtalk(p, templateId, templateArgs))
+  );
+}
   
 /* ─── 외부 링크 ─── */
 window.openBlog      = function() { window.open('https://blog.naver.com/lg1044', '_blank'); };
