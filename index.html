@@ -1220,7 +1220,7 @@ const PAGE_MAP = {
 let current = 'home';
 window._page = 'home';
 
-window.goPage = function(id) {
+window.goPage = function(id, pushHistory) {
   if (!PAGE_MAP[id]) return;
   const old = PAGE_MAP[current];
   document.getElementById(old.el).classList.remove('is-active');
@@ -1235,7 +1235,18 @@ window.goPage = function(id) {
   if (id === 'portfolio') { showPortList(); buildPortGrid(); }
   const hdr = document.getElementById('header');
   id === 'home' ? hdr.classList.remove('is-solid') : hdr.classList.add('is-solid');
+  // URL hash 업데이트 (뒤로가기 지원)
+  const hash = id === 'home' ? '' : '#' + id;
+  if (window.location.hash !== hash) {
+    history.pushState({ page: id }, '', hash || window.location.pathname);
+  }
 };
+
+// 뒤로가기/앞으로가기 지원
+window.addEventListener('popstate', function(e) {
+  const id = e.state?.page || 'home';
+  if (PAGE_MAP[id]) window.goPage(id);
+});
 
 /* ─── 모바일 메뉴 ─── */
 let mobOpen = false;
@@ -1873,7 +1884,13 @@ window.deleteProject = async function(id) {
   // ?admin=1 로 접속하면 admin.html 로 이동
   const params = new URLSearchParams(window.location.search);
   if (params.get('admin') === '1') {
-    window.location.href = './admin.html';
+    window.location.href = '/admin/';
+    return;
+  }
+  // URL hash로 특정 탭 직접 진입 (예: designfor.kr/#consult)
+  const hash = window.location.hash.replace('#', '');
+  if (hash && PAGE_MAP[hash]) {
+    setTimeout(() => window.goPage(hash), 100);
   }
 })();
 
