@@ -652,7 +652,7 @@ const SLIDE_SEC=4.5;
 let slides=[],slideIdx=0,slideTimer=null;
 
 function buildHomeSlideshow(){
-  slides=allProjects.filter(p=>p.coverImage1).reverse();
+  slides=allProjects.filter(p=>p.coverImage1||p.coverImage2).reverse();
   const wrap=document.getElementById('home-slides'),dots=document.getElementById('slide-dots');
   const empty=document.getElementById('home-empty');
   const prev=document.getElementById('slide-prev'),next=document.getElementById('slide-next');
@@ -663,7 +663,7 @@ function buildHomeSlideshow(){
   slides.forEach((p,i)=>{
     const div=document.createElement('div');
     div.className='home-slide'+(i===0?' is-active':'');
-    div.innerHTML=`<img src="${esc(p.coverImage1)}" alt="${esc(p.siteName)}" loading="${i<2?'eager':'lazy'}"><div class="home-slide__dim"></div>`;
+    div.innerHTML=`<img src="${esc(p.coverImage2||p.coverImage1)}" alt="${esc(p.siteName)}" loading="${i<2?'eager':'lazy'}"><div class="home-slide__dim"></div>`;
     wrap.appendChild(div);
     if(slides.length>1){
       const dot=document.createElement('button');
