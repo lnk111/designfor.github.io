@@ -90,15 +90,13 @@ html,body{min-height:100%;font-family:var(--ff);font-weight:300;background:var(-
 .cover-slot__badge{font-size:8px;padding:2px 7px;border-radius:10px;letter-spacing:0.1em;}
 .badge-main{background:#E8D9BC;color:var(--gold);}
 .badge-hover{background:#E8F0FB;color:#3B7EE0;}
-.cover-slot__preview{width:100%;aspect-ratio:4/3;border:1.5px dashed var(--border);border-radius:var(--r);background:var(--bg);position:relative;overflow:hidden;cursor:pointer;transition:border-color .25s;}
+.cover-slot__preview{width:100%;aspect-ratio:4/3;border:1.5px dashed var(--border);border-radius:var(--r);background:var(--bg);position:relative;overflow:hidden;cursor:pointer;transition:border-color .25s;display:block;}
 .cover-slot__preview:hover{border-color:var(--gold);}
-.cover-slot__preview input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
 .cover-slot__img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0;}
-.cover-slot__placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:var(--stone-lt);}
+.cover-slot__placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:var(--stone-lt);pointer-events:none;}
 .cover-slot__placeholder svg{width:22px;height:22px;stroke:var(--stone-lt);fill:none;stroke-width:1.5;}
 .cover-slot__placeholder span{font-size:11px;letter-spacing:0.1em;}
-.cover-slot__remove{position:absolute;top:6px;right:6px;width:22px;height:22px;border-radius:50%;background:var(--red);color:#fff;border:none;cursor:pointer;font-size:12px;line-height:22px;text-align:center;padding:0;z-index:10;display:none;}
-.cover-slot__preview:hover .cover-slot__remove{display:block;}
+.cover-slot__remove{position:absolute;top:6px;right:6px;width:22px;height:22px;border-radius:50%;background:var(--red);color:#fff;border:none;cursor:pointer;font-size:12px;line-height:22px;text-align:center;padding:0;z-index:10;}
 
 /* 미리보기 strip */
 .preview-strip{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px;}
@@ -290,14 +288,14 @@ html,body{min-height:100%;font-family:var(--ff);font-weight:300;background:var(-
           <span class="cover-slot__badge badge-main">1번 기본</span>
           평소에 보이는 사진
         </div>
-        <div class="cover-slot__preview" id="cover1-preview">
-          <input type="file" id="cover1-file" accept="image/*" onchange="onCoverSelect(event,1)">
+        <label class="cover-slot__preview" id="cover1-preview" for="cover1-file">
+          <input type="file" id="cover1-file" accept="image/*" style="display:none">
           <div class="cover-slot__placeholder">
             <svg viewBox="0 0 24 24"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
             <span>클릭하여 업로드</span>
           </div>
-          <button class="cover-slot__remove" onclick="removeCover(1)">✕</button>
-        </div>
+          <button class="cover-slot__remove" id="cover1-remove" style="display:none" type="button">✕</button>
+        </label>
       </div>
       <!-- 2번 hover -->
       <div class="cover-slot">
@@ -305,14 +303,14 @@ html,body{min-height:100%;font-family:var(--ff);font-weight:300;background:var(-
           <span class="cover-slot__badge badge-hover">2번 hover</span>
           마우스 올렸을 때
         </div>
-        <div class="cover-slot__preview" id="cover2-preview">
-          <input type="file" id="cover2-file" accept="image/*" onchange="onCoverSelect(event,2)">
+        <label class="cover-slot__preview" id="cover2-preview" for="cover2-file">
+          <input type="file" id="cover2-file" accept="image/*" style="display:none">
           <div class="cover-slot__placeholder">
             <svg viewBox="0 0 24 24"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
             <span>클릭하여 업로드</span>
           </div>
-          <button class="cover-slot__remove" onclick="removeCover(2)">✕</button>
-        </div>
+          <button class="cover-slot__remove" id="cover2-remove" style="display:none" type="button">✕</button>
+        </label>
       </div>
     </div>
 
@@ -487,15 +485,21 @@ document.getElementById('modal-overlay').addEventListener('click',e=>{ if(e.targ
 
 /* ── COVER ── */
 function resetCoverSlot(n){
-  const el=document.getElementById(`cover${n}-preview`);
-  el.querySelectorAll('.cover-slot__img').forEach(i=>i.remove());
-  el.querySelector('.cover-slot__placeholder').style.display='flex';
+  const preview=document.getElementById(`cover${n}-preview`);
+  const removeBtn=document.getElementById(`cover${n}-remove`);
+  preview.querySelectorAll('.cover-slot__img').forEach(i=>i.remove());
+  preview.querySelector('.cover-slot__placeholder').style.display='flex';
+  if(removeBtn) removeBtn.style.display='none';
 }
 function setCoverPreview(n,src){
-  const el=document.getElementById(`cover${n}-preview`);
-  el.querySelectorAll('.cover-slot__img').forEach(i=>i.remove());
-  el.querySelector('.cover-slot__placeholder').style.display='none';
-  const img=document.createElement('img'); img.className='cover-slot__img'; img.src=src; el.appendChild(img);
+  const preview=document.getElementById(`cover${n}-preview`);
+  const removeBtn=document.getElementById(`cover${n}-remove`);
+  preview.querySelectorAll('.cover-slot__img').forEach(i=>i.remove());
+  preview.querySelector('.cover-slot__placeholder').style.display='none';
+  const img=document.createElement('img');
+  img.className='cover-slot__img'; img.src=src;
+  preview.appendChild(img);
+  if(removeBtn) removeBtn.style.display='block';
 }
 window.onCoverSelect=function(e,n){
   const file=e.target.files[0]; if(!file) return;
@@ -504,11 +508,24 @@ window.onCoverSelect=function(e,n){
   reader.onload=ev=>setCoverPreview(n,ev.target.result);
   reader.readAsDataURL(file);
 };
-window.removeCover=function(n){
-  if(n===1){ pendingCover1=null; existingCover1=''; document.getElementById('cover1-file').value=''; }
-  else { pendingCover2=null; existingCover2=''; document.getElementById('cover2-file').value=''; }
-  resetCoverSlot(n);
-};
+
+// 파일 input 이벤트 — script 로드 후 직접 연결
+document.getElementById('cover1-file').addEventListener('change',e=>window.onCoverSelect(e,1));
+document.getElementById('cover2-file').addEventListener('change',e=>window.onCoverSelect(e,2));
+
+// 삭제 버튼 이벤트
+document.getElementById('cover1-remove').addEventListener('click',e=>{
+  e.preventDefault(); e.stopPropagation();
+  pendingCover1=null; existingCover1='';
+  document.getElementById('cover1-file').value='';
+  resetCoverSlot(1);
+});
+document.getElementById('cover2-remove').addEventListener('click',e=>{
+  e.preventDefault(); e.stopPropagation();
+  pendingCover2=null; existingCover2='';
+  document.getElementById('cover2-file').value='';
+  resetCoverSlot(2);
+});
 
 /* ── DETAIL IMAGES ── */
 function loadExistingImages(images){
