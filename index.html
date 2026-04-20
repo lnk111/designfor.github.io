@@ -160,20 +160,119 @@ button{font-family:var(--ff-sans);}
 .space-img-wrap img{width:100%;display:block;object-fit:cover;transition:transform .5s var(--ease-out);}
 .space-card-item:hover .space-img-wrap img{transform:scale(1.06);}
 
-/* 포트폴리오 상세 */
-.port-detail{display:none;min-height:100%;}
-.port-detail.is-active{display:block;}
-.port-detail__back{display:inline-flex;align-items:center;gap:10px;font-size:10px;letter-spacing:0.22em;color:var(--c-stone);text-transform:uppercase;cursor:pointer;background:none;border:none;padding:28px var(--pad-x) 0;transition:color .25s;}
+/* =========================================
+   포트폴리오 상세 — 좌우 2분할 뷰어
+   ========================================= */
+.port-detail{display:none;position:absolute;inset:0;background:var(--c-bg);}
+.port-detail.is-active{display:flex;flex-direction:column;}
+
+/* 뒤로가기 */
+.port-detail__back{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:10px;letter-spacing:0.22em;color:var(--c-stone);
+  text-transform:uppercase;cursor:pointer;background:none;border:none;
+  padding:16px 32px;border-bottom:1px solid var(--c-border);
+  transition:color .25s;flex-shrink:0;
+}
 .port-detail__back:hover{color:var(--c-gold);}
-.port-detail__back svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5;}
-.port-detail__info{padding:48px var(--pad-x) 56px;border-bottom:1px solid var(--c-border);}
-.port-detail__project-label{font-size:11px;font-weight:500;letter-spacing:0.30em;color:var(--c-dark);text-transform:uppercase;margin-bottom:40px;}
-.port-detail__sitename{font-family:var(--ff-serif);font-size:clamp(24px,3.5vw,40px);font-weight:300;color:var(--c-dark);letter-spacing:0.04em;margin-bottom:40px;line-height:1.2;}
-.port-detail__meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px 40px;max-width:700px;}
-.port-detail__meta-label{font-size:12px;font-weight:500;color:var(--c-dark);letter-spacing:0.06em;margin-bottom:8px;}
-.port-detail__meta-value{font-size:13px;font-weight:300;color:var(--c-stone);line-height:1.7;}
-.port-detail__images{padding:0 var(--pad-x) 80px;display:flex;flex-direction:column;gap:3px;}
-.port-detail__img{width:100%;display:block;max-height:80vh;object-fit:cover;}
+.port-detail__back svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.5;}
+
+/* 메인 2분할 영역 */
+.port-detail__body{
+  display:grid;
+  grid-template-columns:420px 1fr;
+  flex:1;
+  min-height:0;
+  overflow:hidden;
+}
+
+/* 왼쪽 패널 — 정보 + 썸네일 */
+.port-detail__left{
+  overflow-y:auto;
+  padding:32px 32px 32px 32px;
+  border-right:1px solid var(--c-border);
+  display:flex;flex-direction:column;gap:0;
+}
+.port-detail__left::-webkit-scrollbar{width:4px;}
+.port-detail__left::-webkit-scrollbar-track{background:transparent;}
+.port-detail__left::-webkit-scrollbar-thumb{background:var(--c-border);border-radius:2px;}
+
+/* 현장명 */
+.pd-sitename{
+  font-family:var(--ff-serif);
+  font-size:clamp(20px,2.5vw,32px);
+  font-weight:300;color:var(--c-dark);
+  letter-spacing:0.02em;line-height:1.2;
+  margin-bottom:6px;
+}
+.pd-sub{font-size:12px;color:var(--c-stone-lt);margin-bottom:24px;}
+
+/* 메타 정보 테이블 */
+.pd-meta{display:grid;grid-template-columns:auto 1fr;gap:8px 20px;margin-bottom:28px;}
+.pd-meta-key{font-size:11px;font-weight:500;color:var(--c-dark);letter-spacing:0.04em;}
+.pd-meta-val{font-size:11px;font-weight:300;color:var(--c-stone);}
+
+/* 공간 필터 탭 */
+.pd-space-tabs{display:flex;gap:0;flex-wrap:wrap;margin-bottom:16px;border-bottom:1px solid var(--c-border);}
+.pd-space-tab{
+  font-size:12px;font-weight:300;color:var(--c-stone-lt);
+  padding:6px 14px 10px;cursor:pointer;background:none;border:none;
+  border-bottom:2px solid transparent;transition:color .2s,border-color .2s;
+  font-family:var(--ff-sans);white-space:nowrap;
+}
+.pd-space-tab.is-on{color:var(--c-dark);font-weight:500;border-bottom-color:var(--c-dark);}
+.pd-space-tab:hover{color:var(--c-dark);}
+
+/* 썸네일 그리드 */
+.pd-thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+.pd-thumb{
+  aspect-ratio:1;overflow:hidden;cursor:pointer;
+  border:2px solid transparent;border-radius:4px;transition:border-color .2s;
+}
+.pd-thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s;}
+.pd-thumb:hover img{transform:scale(1.06);}
+.pd-thumb.is-active{border-color:var(--c-dark);}
+
+/* 오른쪽 — 메인 이미지 뷰어 */
+.port-detail__right{
+  position:relative;overflow:hidden;background:#1A1A17;
+  display:flex;align-items:center;justify-content:center;
+}
+.pd-main-img{
+  max-width:100%;max-height:100%;
+  object-fit:contain;display:block;
+  transition:opacity .35s;
+}
+.pd-main-img.is-loading{opacity:0;}
+
+/* 좌우 화살표 */
+.pd-arrow{
+  position:absolute;top:50%;transform:translateY(-50%);
+  z-index:10;width:44px;height:44px;
+  background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:background .25s,border-color .25s;
+}
+.pd-arrow:hover{background:rgba(255,255,255,0.25);border-color:rgba(255,255,255,0.5);}
+.pd-arrow svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:1.5;}
+.pd-arrow--prev{left:16px;}
+.pd-arrow--next{right:16px;}
+
+/* 이미지 카운터 */
+.pd-counter{
+  position:absolute;bottom:16px;right:20px;
+  font-size:10px;letter-spacing:0.2em;
+  color:rgba(255,255,255,0.45);
+}
+
+/* 모바일 대응 */
+@media(max-width:900px){
+  .port-detail__body{grid-template-columns:1fr;grid-template-rows:auto 1fr;}
+  .port-detail__left{padding:20px;border-right:none;border-bottom:1px solid var(--c-border);max-height:45vh;overflow-y:auto;}
+  .port-detail__right{min-height:45vh;}
+  .pd-thumbs{grid-template-columns:repeat(5,1fr);}
+  .port-detail__back{padding:12px 20px;}
+}
 
 /* CONSULT */
 #pg-consult{background:var(--c-bg);}
@@ -245,9 +344,6 @@ button{font-family:var(--ff-sans);}
   .port-gallery{padding:28px var(--pad-x-sm) 60px;}
   .project-grid{grid-template-columns:1fr;gap:32px;}
   .space-grid{grid-template-columns:repeat(2,1fr);gap:16px;}
-  .port-detail__back{padding:20px var(--pad-x-sm) 0;}
-  .port-detail__info{padding:36px var(--pad-x-sm) 40px;}
-  .port-detail__images{padding:0 var(--pad-x-sm) 60px;}
   .consult__wrap{grid-template-columns:1fr;min-height:unset;}
   .consult__left{padding:52px var(--pad-x-sm) 36px;border-right:none;border-bottom:1px solid var(--c-border);}
   .consult__right{padding:36px var(--pad-x-sm) 52px;}
@@ -255,7 +351,6 @@ button{font-family:var(--ff-sans);}
   .sns-grid{grid-template-columns:1fr;max-width:360px;}
   .site-footer{padding:20px var(--pad-x-sm);}
   .footer__info{text-align:left;}
-  .port-detail__meta-grid{grid-template-columns:1fr;gap:24px;}
   .slide-counter{right:var(--pad-x-sm);}
   .float-consult{bottom:20px;right:20px;width:52px;height:52px;}
 }
@@ -388,23 +483,48 @@ button{font-family:var(--ff-sans);}
       </div>
     </div>
 
-    <!-- 상세 뷰 -->
+    <!-- 상세 뷰 — 좌우 2분할 -->
     <div class="port-detail" id="port-detail-view">
+
+      <!-- 뒤로가기 -->
       <button class="port-detail__back" onclick="showPortList()">
         <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
         목록으로
       </button>
-      <div class="port-detail__info">
-        <div class="port-detail__project-label">PROJECT INFO</div>
-        <div class="port-detail__sitename" id="detail-sitename"></div>
-        <div class="port-detail__meta-grid">
-          <div><div class="port-detail__meta-label">Location</div><div class="port-detail__meta-value" id="detail-location">—</div></div>
-          <div><div class="port-detail__meta-label">Space area</div><div class="port-detail__meta-value" id="detail-area">—</div></div>
-          <div><div class="port-detail__meta-label">Starts and Completion</div><div class="port-detail__meta-value" id="detail-period">—</div></div>
-          <div><div class="port-detail__meta-label">Type</div><div class="port-detail__meta-value" id="detail-type">—</div></div>
+
+      <!-- 2분할 바디 -->
+      <div class="port-detail__body">
+
+        <!-- 왼쪽: 정보 + 공간탭 + 썸네일 -->
+        <div class="port-detail__left">
+          <div class="pd-sitename" id="pd-sitename"></div>
+          <div class="pd-sub" id="pd-sub"></div>
+
+          <!-- 메타 정보 -->
+          <div class="pd-meta" id="pd-meta"></div>
+
+          <!-- 공간별 탭 -->
+          <div class="pd-space-tabs" id="pd-space-tabs"></div>
+
+          <!-- 썸네일 -->
+          <div class="pd-thumbs" id="pd-thumbs"></div>
         </div>
+
+        <!-- 오른쪽: 메인 이미지 -->
+        <div class="port-detail__right">
+          <img class="pd-main-img" id="pd-main-img" src="" alt="">
+
+          <button class="pd-arrow pd-arrow--prev" id="pd-arrow-prev" onclick="pdMove(-1)">
+            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <button class="pd-arrow pd-arrow--next" id="pd-arrow-next" onclick="pdMove(1)">
+            <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
+          </button>
+
+          <div class="pd-counter" id="pd-counter"></div>
+        </div>
+
       </div>
-      <div class="port-detail__images" id="detail-images"></div>
     </div>
   </section>
 
@@ -653,27 +773,119 @@ function buildSpaceGrid(){
     </div>`).join('');
 }
 
-/* ── 포트폴리오 상세 ── */
+/* ── 포트폴리오 상세 — 2분할 뷰어 ── */
+let pdAllImgs=[];   // {url, spaceTag} 전체 이미지
+let pdFiltered=[];  // 현재 필터된 이미지
+let pdIdx=0;        // 현재 메인에 보이는 인덱스
+let pdSpaceFilter='all';
+
 window.showPortList=function(){
   document.getElementById('port-list-view').style.display='block';
   document.getElementById('port-detail-view').classList.remove('is-active');
   document.getElementById('pg-portfolio').scrollTop=0;
 };
+
 window.showPortDetail=function(id){
   const p=allProjects.find(x=>x.id===id); if(!p) return;
-  document.getElementById('detail-sitename').textContent=p.siteName||'';
-  document.getElementById('detail-location').textContent=p.location||'—';
-  document.getElementById('detail-area').textContent=p.area||'—';
-  document.getElementById('detail-period').textContent=p.period||'—';
-  document.getElementById('detail-type').textContent=p.type||'—';
-  const allImgs=[];
-  if(p.coverImage1) allImgs.push(p.coverImage1);
-  if(p.images) p.images.forEach(img=>{ const url=img.url||img; if(url!==p.coverImage1) allImgs.push(url); });
-  document.getElementById('detail-images').innerHTML=allImgs.map(src=>`<img class="port-detail__img" src="${esc(src)}" loading="lazy">`).join('');
+
+  // 현장명, 서브
+  document.getElementById('pd-sitename').textContent=p.siteName||'';
+  document.getElementById('pd-sub').textContent=p.location||'';
+
+  // 메타 정보
+  const metaEl=document.getElementById('pd-meta');
+  const metas=[
+    {k:'유형', v:p.type},
+    {k:'면적', v:p.area},
+    {k:'기간', v:p.period},
+    {k:'위치', v:p.location},
+  ].filter(m=>m.v);
+  metaEl.innerHTML=metas.map(m=>`
+    <span class="pd-meta-key">${esc(m.k)}</span>
+    <span class="pd-meta-val">${esc(m.v)}</span>`).join('');
+
+  // 전체 이미지 수집 (coverImage1 + 상세)
+  pdAllImgs=[];
+  if(p.coverImage1) pdAllImgs.push({url:p.coverImage1, spaceTag:''});
+  if(p.images) p.images.forEach(img=>{
+    const url=img.url||img;
+    if(url!==p.coverImage1) pdAllImgs.push({url, spaceTag:img.spaceTag||''});
+  });
+
+  // 공간 탭 생성
+  const spaceTags=['all',...new Set(pdAllImgs.map(i=>i.spaceTag).filter(t=>t))];
+  const tabEl=document.getElementById('pd-space-tabs');
+  tabEl.innerHTML=spaceTags.map(t=>`
+    <button class="pd-space-tab${t==='all'?' is-on':''}"
+      onclick="pdSetSpace('${t}')">${t==='all'?'전체':esc(t)}</button>`).join('');
+
+  pdSpaceFilter='all';
+  pdIdx=0;
+  pdApplyFilter();
+
   document.getElementById('port-list-view').style.display='none';
   document.getElementById('port-detail-view').classList.add('is-active');
   document.getElementById('pg-portfolio').scrollTop=0;
 };
+
+window.pdSetSpace=function(tag){
+  pdSpaceFilter=tag; pdIdx=0;
+  document.querySelectorAll('.pd-space-tab').forEach(b=>{
+    b.classList.toggle('is-on',(b.textContent==='전체'&&tag==='all')||(b.textContent===tag));
+  });
+  pdApplyFilter();
+};
+
+function pdApplyFilter(){
+  pdFiltered=pdSpaceFilter==='all'?pdAllImgs:pdAllImgs.filter(i=>i.spaceTag===pdSpaceFilter);
+  pdRenderThumbs();
+  pdShowImg(pdIdx);
+}
+
+function pdRenderThumbs(){
+  const el=document.getElementById('pd-thumbs');
+  el.innerHTML=pdFiltered.map((img,i)=>`
+    <div class="pd-thumb${i===pdIdx?' is-active':''}" onclick="pdShowImg(${i})">
+      <img src="${esc(img.url)}" alt="" loading="lazy">
+    </div>`).join('');
+}
+
+function pdShowImg(idx){
+  if(!pdFiltered.length) return;
+  pdIdx=(idx+pdFiltered.length)%pdFiltered.length;
+
+  // 메인 이미지 교체
+  const mainImg=document.getElementById('pd-main-img');
+  mainImg.classList.add('is-loading');
+  const newImg=new Image();
+  newImg.onload=()=>{ mainImg.src=pdFiltered[pdIdx].url; mainImg.classList.remove('is-loading'); };
+  newImg.src=pdFiltered[pdIdx].url;
+
+  // 썸네일 active
+  document.querySelectorAll('.pd-thumb').forEach((t,i)=>t.classList.toggle('is-active',i===pdIdx));
+
+  // 카운터
+  document.getElementById('pd-counter').textContent=
+    pdFiltered.length>1?`${String(pdIdx+1).padStart(2,'0')} / ${String(pdFiltered.length).padStart(2,'0')}`:'';
+
+  // 화살표 표시
+  const show=pdFiltered.length>1;
+  document.getElementById('pd-arrow-prev').style.display=show?'flex':'none';
+  document.getElementById('pd-arrow-next').style.display=show?'flex':'none';
+
+  // 썸네일 스크롤
+  const thumbEl=document.querySelector(`.pd-thumb:nth-child(${pdIdx+1})`);
+  if(thumbEl) thumbEl.scrollIntoView({block:'nearest',behavior:'smooth'});
+}
+
+window.pdMove=function(dir){ pdShowImg(pdIdx+dir); };
+
+// 키보드 좌우 화살표
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('port-detail-view').classList.contains('is-active')) return;
+  if(e.key==='ArrowLeft') window.pdMove(-1);
+  if(e.key==='ArrowRight') window.pdMove(1);
+});
 
 /* ── FORM ── */
 window.handleSubmit=function(){
