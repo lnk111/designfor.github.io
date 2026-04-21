@@ -285,23 +285,117 @@ button{font-family:var(--ff-sans);}
 
 /* CONSULT */
 #pg-consult{background:var(--c-bg);}
-.consult__wrap{display:grid;grid-template-columns:1fr 1fr;min-height:100%;}
-.consult__left{padding:80px var(--pad-x);display:flex;flex-direction:column;justify-content:center;border-right:1px solid var(--c-border);}
-.consult__right{background:var(--c-dark2);padding:80px var(--pad-x);display:flex;flex-direction:column;justify-content:center;}
+.consult__wrap{display:grid;grid-template-columns:360px 1fr;min-height:100%;}
+.consult__left{padding:80px var(--pad-x);display:flex;flex-direction:column;justify-content:center;border-right:1px solid var(--c-border);flex-shrink:0;}
+.consult__right{overflow-y:auto;background:var(--c-cream);}
+.consult__right::-webkit-scrollbar{width:4px;}
+.consult__right::-webkit-scrollbar-thumb{background:var(--c-border);border-radius:2px;}
 .info-list{margin-top:40px;padding-top:32px;border-top:1px solid var(--c-border);display:flex;flex-direction:column;gap:16px;}
 .info-row{display:flex;gap:20px;align-items:baseline;}
 .info-row__label{font-size:9px;letter-spacing:0.26em;color:var(--c-gold);text-transform:uppercase;min-width:52px;flex-shrink:0;}
 .info-row__val{font-size:12.5px;color:var(--c-stone);line-height:1.8;}
-.form__title{font-family:var(--ff-serif);font-size:26px;font-weight:300;color:#F0EDE6;letter-spacing:0.06em;margin-bottom:36px;}
-.form-group{margin-bottom:22px;}
-.form-group__label{display:block;font-size:9px;letter-spacing:0.28em;color:var(--c-stone-lt);text-transform:uppercase;margin-bottom:10px;}
-.form-group__input,.form-group__select,.form-group__textarea{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,0.12);padding:10px 0;color:#F0EDE6;font-family:var(--ff-sans);font-size:13px;font-weight:300;outline:none;transition:border-color .3s;-webkit-appearance:none;border-radius:0;}
-.form-group__select option{background:var(--c-dark2);}
-.form-group__input::placeholder,.form-group__textarea::placeholder{color:rgba(169,165,157,0.35);}
-.form-group__input:focus,.form-group__select:focus,.form-group__textarea:focus{border-bottom-color:var(--c-gold);}
-.form-group__textarea{resize:none;height:68px;}
-.btn--submit{width:100%;background:var(--c-gold);color:var(--c-dark);border:none;padding:15px;font-family:var(--ff-sans);font-size:10px;font-weight:400;letter-spacing:0.28em;text-transform:uppercase;cursor:pointer;margin-top:8px;transition:background .3s;}
-.btn--submit:hover{background:var(--c-gold-lt);}
+
+/* 문의 폼 */
+.inquiry-form{padding:48px 52px;max-width:900px;}
+.form__title{font-family:var(--ff-serif);font-size:32px;font-weight:300;color:var(--c-dark);letter-spacing:0.06em;margin-bottom:4px;}
+.form__req-note{font-size:11px;color:var(--c-stone-lt);margin-bottom:36px;}
+.inq-section{margin-bottom:0;}
+.inq-section__title{font-size:15px;font-weight:500;color:var(--c-dark);margin-bottom:6px;letter-spacing:0.02em;}
+.inq-section__desc{font-size:11px;color:var(--c-stone-lt);margin-bottom:14px;}
+.inq-divider{height:1px;background:var(--c-border);margin:28px 0;}
+.req{color:var(--c-gold);font-size:13px;}
+
+/* 포트폴리오 선택 그리드 */
+.inq-portfolio-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:10px;
+  max-height:320px;overflow-y:auto;padding:4px 2px;
+}
+.inq-portfolio-grid::-webkit-scrollbar{width:4px;}
+.inq-portfolio-grid::-webkit-scrollbar-thumb{background:var(--c-border);border-radius:2px;}
+.inq-portfolio-loading{grid-column:1/-1;text-align:center;padding:32px;color:var(--c-stone-lt);font-size:12px;}
+.inq-port-card{
+  position:relative;aspect-ratio:4/3;border-radius:8px;overflow:hidden;
+  cursor:pointer;border:2px solid transparent;transition:border-color .2s,transform .2s;
+}
+.inq-port-card:hover{transform:scale(1.02);}
+.inq-port-card.is-sel{border-color:var(--c-gold);}
+.inq-port-card img{width:100%;height:100%;object-fit:cover;display:block;}
+.inq-port-card__name{
+  position:absolute;bottom:0;left:0;right:0;
+  background:linear-gradient(transparent,rgba(0,0,0,0.65));
+  color:#fff;font-size:10px;padding:12px 8px 6px;
+  letter-spacing:0.04em;
+}
+.inq-port-card__check{
+  position:absolute;top:6px;right:6px;width:20px;height:20px;
+  background:var(--c-gold);border-radius:50%;
+  display:none;align-items:center;justify-content:center;
+  color:#fff;font-size:11px;font-weight:700;
+}
+.inq-port-card.is-sel .inq-port-card__check{display:flex;}
+
+/* 입력 행 */
+.inq-row-3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.inq-row-4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+.inq-group{display:flex;flex-direction:column;gap:6px;}
+.inq-label{font-size:10px;letter-spacing:0.2em;color:var(--c-stone);text-transform:uppercase;}
+.inq-input{
+  border:none;border-bottom:1px solid var(--c-border);
+  background:transparent;padding:8px 0;
+  font-family:var(--ff-sans);font-size:13px;font-weight:300;color:var(--c-dark);
+  outline:none;transition:border-color .25s;width:100%;
+}
+.inq-input:focus{border-bottom-color:var(--c-gold);}
+.inq-input::placeholder{color:var(--c-stone-lt);}
+.inq-select{
+  border:none;border-bottom:1px solid var(--c-border);
+  background:transparent;padding:8px 0;
+  font-family:var(--ff-sans);font-size:13px;font-weight:300;color:var(--c-dark);
+  outline:none;transition:border-color .25s;width:100%;
+  -webkit-appearance:none;cursor:pointer;
+}
+.inq-select:focus{border-bottom-color:var(--c-gold);}
+.inq-textarea{
+  border:1px solid var(--c-border);border-radius:8px;
+  background:transparent;padding:12px 14px;
+  font-family:var(--ff-sans);font-size:13px;font-weight:300;color:var(--c-dark);
+  outline:none;transition:border-color .25s;width:100%;resize:none;height:100px;
+}
+.inq-textarea:focus{border-color:var(--c-gold);}
+.inq-textarea::placeholder{color:var(--c-stone-lt);}
+
+/* 라디오 */
+.inq-radio-group{display:flex;gap:20px;flex-wrap:wrap;margin-top:4px;}
+.inq-radio{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--c-stone);cursor:pointer;}
+.inq-radio input{accent-color:var(--c-gold);}
+
+/* 체크박스 */
+.inq-checkbox{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--c-stone);cursor:pointer;}
+.inq-checkbox input{accent-color:var(--c-gold);width:14px;height:14px;}
+
+/* 제출 버튼 */
+.inq-submit{
+  width:100%;background:var(--c-gold);color:var(--c-dark);border:none;
+  padding:16px;font-family:var(--ff-sans);font-size:11px;font-weight:400;
+  letter-spacing:0.28em;text-transform:uppercase;cursor:pointer;
+  transition:background .3s;margin-top:24px;border-radius:4px;
+}
+.inq-submit:hover{background:var(--c-gold-lt);}
+.inq-submit:disabled{background:var(--c-stone-lt);cursor:not-allowed;}
+
+/* 완료 메시지 */
+.inq-success{text-align:center;padding:60px 20px;}
+.inq-success__icon{font-size:48px;margin-bottom:16px;color:var(--c-gold);}
+.inq-success__title{font-family:var(--ff-serif);font-size:24px;font-weight:300;color:var(--c-dark);margin-bottom:12px;}
+.inq-success__desc{font-size:13px;color:var(--c-stone);line-height:2;}
+
+@media(max-width:900px){
+  .consult__wrap{grid-template-columns:1fr;min-height:unset;}
+  .consult__left{padding:52px var(--pad-x-sm) 36px;border-right:none;border-bottom:1px solid var(--c-border);}
+  .inquiry-form{padding:32px var(--pad-x-sm);}
+  .inq-row-3,.inq-row-4{grid-template-columns:1fr 1fr;}
+  .inq-portfolio-grid{grid-template-columns:repeat(2,1fr);}
+}
 
 /* SNS */
 #pg-sns{background:var(--c-bg);display:flex;flex-direction:column;}
@@ -540,31 +634,154 @@ button{font-family:var(--ff-sans);}
   <!-- CONSULT -->
   <section class="page" id="pg-consult">
     <div class="consult__wrap">
+
+      <!-- 왼쪽: 브랜드 정보 -->
       <div class="consult__left">
         <p class="label">Consultation</p>
         <h2 class="heading">상담 <em>문의</em></h2>
         <div class="rule"></div>
         <p class="body-text">인테리어를 생각하고 계신다면<br>지금 바로 연락 주세요.<br><br>부담 없는 첫 상담부터<br>디자인포가 함께합니다.</p>
         <div class="info-list">
-          <div class="info-row"><span class="info-row__label">Tel</span><span class="info-row__val">010-0000-0000</span></div>
-          <div class="info-row"><span class="info-row__label">Kakao</span><span class="info-row__val">@디자인포 카카오 채널</span></div>
+          <div class="info-row"><span class="info-row__label">Tel</span><span class="info-row__val">010-8716-3073</span></div>
+          <div class="info-row"><span class="info-row__label">Kakao</span><span class="info-row__val">@디자인포</span></div>
           <div class="info-row"><span class="info-row__label">Email</span><span class="info-row__val">designfor@naver.com</span></div>
           <div class="info-row"><span class="info-row__label">시간</span><span class="info-row__val">평일 09:00 — 18:00</span></div>
         </div>
       </div>
+
+      <!-- 오른쪽: 상담 폼 -->
       <div class="consult__right">
-        <p class="form__title">빠른 상담 신청</p>
-        <div class="form-group"><label class="form-group__label">이름</label><input class="form-group__input" type="text" placeholder="홍길동"></div>
-        <div class="form-group"><label class="form-group__label">연락처</label><input class="form-group__input" type="tel" placeholder="010-0000-0000"></div>
-        <div class="form-group"><label class="form-group__label">시공 유형</label>
-          <select class="form-group__select"><option value="">선택해 주세요</option><option>아파트 전체 리모델링</option><option>부분 시공</option><option>신축 인테리어</option><option>기타</option></select>
+        <div class="inquiry-form" id="inquiry-form">
+          <p class="form__title">Inquiry</p>
+          <p class="form__req-note">• 필수 입력 사항입니다.</p>
+
+          <!-- 1. 희망하는 인테리어 -->
+          <div class="inq-section">
+            <div class="inq-section__title">희망하는 인테리어</div>
+            <div class="inq-section__desc">원하시는 스타일의 포트폴리오를 선택해 주세요 (복수 선택 가능)</div>
+            <div class="inq-portfolio-grid" id="inq-portfolio-grid">
+              <div class="inq-portfolio-loading">포트폴리오 불러오는 중...</div>
+            </div>
+          </div>
+
+          <!-- 구분선 -->
+          <div class="inq-divider"></div>
+
+          <!-- 2. 기본정보 -->
+          <div class="inq-section">
+            <div class="inq-section__title">기본정보 <span class="req">•</span></div>
+            <div class="inq-row-3">
+              <div class="inq-group">
+                <label class="inq-label">이름</label>
+                <input class="inq-input" id="inq-name" type="text" placeholder="이름">
+              </div>
+              <div class="inq-group">
+                <label class="inq-label">연락처</label>
+                <input class="inq-input" id="inq-phone" type="tel" placeholder="연락처">
+              </div>
+              <div class="inq-group">
+                <label class="inq-label">이메일</label>
+                <input class="inq-input" id="inq-email" type="email" placeholder="이메일">
+              </div>
+            </div>
+            <div class="inq-group" style="margin-top:16px;">
+              <label class="inq-label">알게 된 경로 <span class="req">•</span></label>
+              <div class="inq-radio-group">
+                <label class="inq-radio"><input type="radio" name="inq-route" value="네이버 블로그"> 네이버 블로그</label>
+                <label class="inq-radio"><input type="radio" name="inq-route" value="유튜브"> 유튜브</label>
+                <label class="inq-radio"><input type="radio" name="inq-route" value="인스타그램"> 인스타그램</label>
+                <label class="inq-radio"><input type="radio" name="inq-route" value="기타"> 기타</label>
+              </div>
+              <input class="inq-input" id="inq-route-etc" type="text" placeholder="기타로 선택할 경우 입력 가능합니다." style="margin-top:8px;display:none;">
+            </div>
+          </div>
+
+          <div class="inq-divider"></div>
+
+          <!-- 3. 공사정보 -->
+          <div class="inq-section">
+            <div class="inq-section__title">공사정보 <span class="req">•</span></div>
+            <div class="inq-row-4">
+              <div class="inq-group">
+                <label class="inq-label">공사 유형</label>
+                <select class="inq-select" id="inq-type">
+                  <option value="">공사 유형</option>
+                  <option>아파트</option>
+                  <option>주택</option>
+                  <option>빌라</option>
+                  <option>상가</option>
+                </select>
+              </div>
+              <div class="inq-group">
+                <label class="inq-label">평수</label>
+                <input class="inq-input" id="inq-size" type="number" placeholder="숫자만 입력">
+              </div>
+              <div class="inq-group">
+                <label class="inq-label">방 (칸)</label>
+                <input class="inq-input" id="inq-rooms" type="number" placeholder="숫자만 입력">
+              </div>
+              <div class="inq-group">
+                <label class="inq-label">욕실 (칸)</label>
+                <input class="inq-input" id="inq-baths" type="number" placeholder="숫자만 입력">
+              </div>
+            </div>
+            <div class="inq-group" style="margin-top:16px;">
+              <label class="inq-label">공사 지역</label>
+              <input class="inq-input" id="inq-address" type="text" placeholder="주소를 입력해 주세요">
+            </div>
+            <div class="inq-row-3" style="margin-top:16px;">
+              <div class="inq-group">
+                <label class="inq-label">공사 시작일</label>
+                <input class="inq-input" id="inq-start" type="date">
+              </div>
+              <div class="inq-group">
+                <label class="inq-label">입주 예정일</label>
+                <input class="inq-input" id="inq-move" type="date">
+              </div>
+              <div class="inq-group">
+                <label class="inq-label">공사 예산 (만원)</label>
+                <input class="inq-input" id="inq-budget" type="number" placeholder="숫자만 입력">
+              </div>
+            </div>
+          </div>
+
+          <div class="inq-divider"></div>
+
+          <!-- 4. 의뢰정보 -->
+          <div class="inq-section">
+            <div class="inq-section__title">의뢰정보 <span class="req">•</span></div>
+            <div class="inq-group">
+              <label class="inq-label">의뢰 제목</label>
+              <input class="inq-input" id="inq-title" type="text" placeholder="제목">
+            </div>
+            <div class="inq-group" style="margin-top:16px;">
+              <label class="inq-label">의뢰 내용</label>
+              <textarea class="inq-textarea" id="inq-content" placeholder="의뢰 내용을 입력하세요."></textarea>
+            </div>
+          </div>
+
+          <div class="inq-divider"></div>
+
+          <!-- 5. 개인정보 동의 -->
+          <div class="inq-section">
+            <label class="inq-checkbox">
+              <input type="checkbox" id="inq-agree">
+              <span>개인정보 수집 및 이용에 동의합니다.</span>
+            </label>
+          </div>
+
+          <!-- 제출 버튼 -->
+          <button class="inq-submit" id="inq-submit-btn" onclick="submitInquiry()">문의 접수</button>
+
+          <!-- 완료 메시지 -->
+          <div class="inq-success" id="inq-success" style="display:none;">
+            <div class="inq-success__icon">✓</div>
+            <div class="inq-success__title">문의가 접수되었습니다!</div>
+            <div class="inq-success__desc">카카오톡 채널(@디자인포)로 접수 확인 메시지를 보내드렸어요.<br>빠른 시일 내에 연락드리겠습니다.</div>
+          </div>
         </div>
-        <div class="form-group"><label class="form-group__label">예상 평수</label>
-          <select class="form-group__select"><option value="">선택해 주세요</option><option>20평 미만</option><option>20평 — 30평</option><option>30평 — 40평</option><option>40평 이상</option></select>
-        </div>
-        <div class="form-group"><label class="form-group__label">문의 내용 (선택)</label><textarea class="form-group__textarea" placeholder="자유롭게 작성해 주세요"></textarea></div>
-        <button class="btn--submit" onclick="handleSubmit()">상담 신청하기</button>
       </div>
+
     </div>
   </section>
 
@@ -629,6 +846,7 @@ window.goPage=function(id){
   if(next.nav) document.getElementById(next.nav).classList.add('is-active');
   if(id==='home') setTimeout(buildHomeSlideshow,80);
   if(id==='portfolio'){ showPortList(); buildPortfolioView(); }
+  if(id==='consult') setTimeout(loadInquiryPortfolios,80);
   document.getElementById('header').classList.toggle('is-solid',id!=='home');
 };
 
@@ -645,6 +863,7 @@ onSnapshot(query(collection(db,'projects'),orderBy('createdAt','desc')),snap=>{
   allProjects=snap.docs.map(d=>({id:d.id,...d.data()}));
   if(current==='home') buildHomeSlideshow();
   if(current==='portfolio') buildPortfolioView();
+  if(current==='consult') loadInquiryPortfolios();
 });
 
 /* ── HOME SLIDESHOW ── */
@@ -896,11 +1115,148 @@ document.addEventListener('keydown',e=>{
   if(e.key==='ArrowRight') window.pdMove(1);
 });
 
-/* ── FORM ── */
-window.handleSubmit=function(){
-  const name=document.querySelector('.form-group__input[type="text"]');
-  if(name&&!name.value.trim()){alert('이름을 입력해 주세요.');return;}
-  alert('상담 신청이 접수되었습니다.\n빠른 시일 내에 연락드리겠습니다 :)');
+/* ── 문의 폼 ── */
+
+// 포트폴리오 카드 로드
+function loadInquiryPortfolios(){
+  const grid=document.getElementById('inq-portfolio-grid');
+  if(!grid) return;
+  if(!allProjects.length){
+    grid.innerHTML='<div class="inq-portfolio-loading">등록된 포트폴리오가 없습니다.</div>'; return;
+  }
+  grid.innerHTML=allProjects.map(p=>`
+    <div class="inq-port-card" data-id="${esc(p.id)}" onclick="togglePortCard(this)">
+      <img src="${esc(p.coverImage1||p.coverImage2||'')}" alt="${esc(p.siteName)}" loading="lazy">
+      <div class="inq-port-card__name">${esc(p.siteName)}${p.area?' · '+esc(p.area):''}</div>
+      <div class="inq-port-card__check">✓</div>
+    </div>`).join('');
+}
+window.togglePortCard=function(el){
+  el.classList.toggle('is-sel');
+};
+
+// 기타 경로 입력창 토글
+document.querySelectorAll('input[name="inq-route"]').forEach(r=>{
+  r.addEventListener('change',()=>{
+    const etc=document.getElementById('inq-route-etc');
+    if(etc) etc.style.display=r.value==='기타'?'block':'none';
+  });
+});
+
+// 솔라피 알림톡 발송
+async function sendSolapi(to, templateId, variables){
+  const ts=Date.now().toString();
+  const msgId='msg-'+ts+'-'+Math.random().toString(36).slice(2);
+  const apiKey='NCS3UR67AYGXGLPY';
+  const apiSecret='KQNMZJEECPLGGVEZQMQSIZ7SHGUCEFZA';
+
+  // HMAC-SHA256 서명
+  const enc=new TextEncoder();
+  const key=await crypto.subtle.importKey('raw',enc.encode(apiSecret),{name:'HMAC',hash:'SHA-256'},false,['sign']);
+  const sig=await crypto.subtle.sign('HMAC',key,enc.encode(ts+msgId));
+  const signature=Array.from(new Uint8Array(sig)).map(b=>b.toString(16).padStart(2,'0')).join('');
+  const authHeader='HMAC-SHA256 apiKey='+apiKey+', date='+ts+', salt='+msgId+', signature='+signature;
+
+  const body={
+    message:{
+      to,
+      from:'01087163073',
+      kakaoOptions:{
+        pfId:'CH_a91df41393e811ad40c9a0f53fa5a7c7',
+        templateId,
+        variables
+      }
+    }
+  };
+  try{
+    await fetch('https://api.solapi.com/messages/v4/send',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':authHeader},
+      body:JSON.stringify(body)
+    });
+  } catch(e){ console.warn('솔라피 발송 실패',e); }
+}
+
+// 문의 접수 제출
+window.submitInquiry=async function(){
+  const name=document.getElementById('inq-name').value.trim();
+  const phone=document.getElementById('inq-phone').value.trim();
+  const agree=document.getElementById('inq-agree').checked;
+  const routeEl=document.querySelector('input[name="inq-route"]:checked');
+
+  if(!name){alert('이름을 입력해 주세요.');return;}
+  if(!phone){alert('연락처를 입력해 주세요.');return;}
+  if(!routeEl){alert('알게 된 경로를 선택해 주세요.');return;}
+  if(!agree){alert('개인정보 수집 및 이용에 동의해 주세요.');return;}
+
+  const btn=document.getElementById('inq-submit-btn');
+  btn.disabled=true; btn.textContent='접수 중...';
+
+  const now=new Date();
+  const 접수일시=`${now.getFullYear()}.${String(now.getMonth()+1).padStart(2,'0')}.${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+
+  const route=routeEl.value==='기타'
+    ? (document.getElementById('inq-route-etc').value||'기타')
+    : routeEl.value;
+
+  // 선택한 포트폴리오
+  const selCards=[...document.querySelectorAll('.inq-port-card.is-sel')].map(c=>c.querySelector('.inq-port-card__name')?.textContent||'').join(', ');
+
+  const data={
+    name,
+    phone,
+    email:    document.getElementById('inq-email').value.trim(),
+    route,
+    type:     document.getElementById('inq-type').value,
+    size:     document.getElementById('inq-size').value,
+    rooms:    document.getElementById('inq-rooms').value,
+    baths:    document.getElementById('inq-baths').value,
+    address:  document.getElementById('inq-address').value.trim(),
+    start:    document.getElementById('inq-start').value,
+    move:     document.getElementById('inq-move').value,
+    budget:   document.getElementById('inq-budget').value,
+    title:    document.getElementById('inq-title').value.trim(),
+    content:  document.getElementById('inq-content').value.trim(),
+    portfolios: selCards,
+    접수일시,
+    createdAt: Date.now()
+  };
+
+  // 1. Firestore 저장
+  try{
+    const {getFirestore,collection,doc,setDoc}=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+    const db2=getFirestore();
+    await setDoc(doc(collection(db2,'inquiries')),data);
+  } catch(e){ console.warn('Firestore 저장 실패',e); }
+
+  // 2. 직원 3명 알림톡
+  const staffNums=['01087163073','01074720065','01041217976'];
+  const staffVars={
+    '#{고객명}': name,
+    '#{연락처}': phone,
+    '#{평수}':   data.size?data.size+'평':'미입력',
+    '#{예산}':   data.budget?data.budget+'만원':'미입력',
+    '#{문의내용}': data.content||data.title||'내용 없음',
+    '#{접수일시}': 접수일시
+  };
+  await Promise.all(staffNums.map(num=>
+    sendSolapi(num,'KA01TP260331150650039nm3VCo1TlxE',staffVars)
+  ));
+
+  // 3. 고객 접수 완료 알림톡
+  const custVars={
+    '#{고객명}': name,
+    '#{접수일시}': 접수일시
+  };
+  await sendSolapi(phone.replace(/-/g,''),'KA01TP2603311508497785BN4r7ih29V',custVars);
+
+  // 완료 화면
+  document.getElementById('inquiry-form').innerHTML=`
+    <div class="inq-success">
+      <div class="inq-success__icon">✓</div>
+      <div class="inq-success__title">문의가 접수되었습니다!</div>
+      <div class="inq-success__desc">카카오톡 채널(@디자인포)로<br>접수 확인 메시지를 보내드렸어요.<br><br>빠른 시일 내에 연락드리겠습니다.</div>
+    </div>`;
 };
 
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}

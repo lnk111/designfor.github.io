@@ -208,6 +208,7 @@ html,body{min-height:100%;font-family:var(--ff);font-weight:300;background:var(-
   </header>
   <div class="adm-tabs">
     <button class="adm-tab is-on" data-tab="portfolio" onclick="switchTab('portfolio')">포트폴리오 현장</button>
+    <button class="adm-tab" data-tab="inquiries" onclick="switchTab('inquiries')">문의 내역</button>
     <button class="adm-tab" data-tab="links" onclick="switchTab('links')">링크 관리</button>
   </div>
 
@@ -222,6 +223,22 @@ html,body{min-height:100%;font-family:var(--ff);font-weight:300;background:var(-
         </button>
       </div>
       <div class="project-list" id="project-list">
+        <div class="loading-state"><div class="loading-spinner"></div>불러오는 중...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 문의 내역 탭 -->
+  <div class="adm-view" id="tab-inquiries">
+    <div class="port-view">
+      <div class="port-view-header">
+        <div class="port-view-title">상담 문의 내역</div>
+        <button class="btn-add" onclick="fetchInquiries()" style="background:var(--bg);border:1px solid var(--border);color:var(--stone);">
+          <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:var(--stone);fill:none;stroke-width:2;"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+          새로고침
+        </button>
+      </div>
+      <div id="inquiry-list" style="display:flex;flex-direction:column;gap:12px;">
         <div class="loading-state"><div class="loading-spinner"></div>불러오는 중...</div>
       </div>
     </div>
@@ -403,9 +420,40 @@ window.doLogout=function(){
 window.switchTab=function(name){
   document.querySelectorAll('.adm-tab').forEach(t=>t.classList.toggle('is-on',t.dataset.tab===name));
   document.querySelectorAll('.adm-view').forEach(v=>v.classList.toggle('is-on',v.id===`tab-${name}`));
+  if(name==='inquiries') fetchInquiries();
 };
 
-/* ── FETCH PROJECTS ── */
+/* ── INQUIRIES ── */
+async function fetchInquiries(){
+  const el=document.getElementById('inquiry-list');
+  el.innerHTML='<div class="loading-state"><div class="loading-spinner"></div>불러오는 중...</div>';
+  try{
+    const snap=await getDocs(query(collection(db,'inquiries'),orderBy('createdAt','desc')));
+    const items=snap.docs.map(d=>({id:d.id,...d.data()}));
+    if(!items.length){ el.innerHTML='<div class="empty-state">접수된 문의가 없습니다.</div>'; return; }
+    el.innerHTML=items.map(inq=>`
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 24px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+          <span style="font-family:var(--serif);font-size:16px;font-weight:400;color:var(--dark);">${esc(inq.name||'이름없음')}</span>
+          <span style="font-size:10px;color:var(--stone-lt);letter-spacing:0.1em;">${esc(inq.접수일시||'')}</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px 16px;font-size:11px;">
+          <div><span style="color:var(--gold);margin-right:6px;">연락처</span>${esc(inq.phone||'—')}</div>
+          <div><span style="color:var(--gold);margin-right:6px;">이메일</span>${esc(inq.email||'—')}</div>
+          <div><span style="color:var(--gold);margin-right:6px;">경로</span>${esc(inq.route||'—')}</div>
+          <div><span style="color:var(--gold);margin-right:6px;">유형</span>${esc(inq.type||'—')}</div>
+          <div><span style="color:var(--gold);margin-right:6px;">평수</span>${inq.size?inq.size+'평':'—'}</div>
+          <div><span style="color:var(--gold);margin-right:6px;">예산</span>${inq.budget?inq.budget+'만원':'—'}</div>
+          <div><span style="color:var(--gold);margin-right:6px;">주소</span>${esc(inq.address||'—')}</div>
+          <div><span style="color:var(--gold);margin-right:6px;">공사시작</span>${esc(inq.start||'—')}</div>
+          <div><span style="color:var(--gold);margin-right:6px;">입주예정</span>${esc(inq.move||'—')}</div>
+        </div>
+        ${inq.title?`<div style="margin-top:10px;font-size:12px;font-weight:500;color:var(--dark);">${esc(inq.title)}</div>`:''}
+        ${inq.content?`<div style="margin-top:6px;font-size:12px;color:var(--stone);line-height:1.7;">${esc(inq.content)}</div>`:''}
+        ${inq.portfolios?`<div style="margin-top:8px;font-size:11px;color:var(--stone-lt);">희망 스타일: ${esc(inq.portfolios)}</div>`:''}
+      </div>`).join('');
+  } catch(e){ el.innerHTML=`<div class="empty-state">불러오기 실패: ${e.message}</div>`; }
+}
 async function fetchProjects(){
   const el=document.getElementById('project-list');
   el.innerHTML='<div class="loading-state"><div class="loading-spinner"></div>불러오는 중...</div>';
