@@ -292,51 +292,7 @@ button{font-family:var(--ff-sans);}
   background:rgba(0,0,0,0.35);padding:3px 10px;border-radius:20px;
 }
 
-/* 모바일 */
-@media(max-width:900px){
-  .port-detail__body{
-    grid-template-columns:1fr;
-    grid-template-rows:auto auto;
-    overflow-y:auto;
-    overflow-x:hidden;
-  }
-  .port-detail__left{
-    padding:16px 20px 20px;
-    border-right:none;
-    border-bottom:1px solid var(--c-border);
-    overflow-y:visible;
-    max-height:none;
-  }
-  /* 모바일 메인 이미지 — 고정 비율로 균일하게 */
-  .port-detail__right{
-    position:relative;
-    padding:0;
-    background:var(--c-cream);
-    display:block;
-  }
-  .pd-main-img{
-    width:100%;
-    height:72vw;
-    display:block;
-    object-fit:cover;
-    object-position:center;
-  }
-  /* 모바일 화살표 — 이미지 위 오버레이 */
-  .pd-arrow{
-    position:absolute;
-    top:40%;
-    transform:translateY(-50%);
-    width:40px;height:40px;
-    z-index:20;
-  }
-  .pd-arrow--prev{left:12px;}
-  .pd-arrow--next{right:12px;}
-  /* 모바일 카운터 */
-  .pd-counter{bottom:8px;right:12px;}
-  /* 모바일 썸네일 — 가로 직사각형 */
-  .pd-thumb{width:100px;height:70px;}
-  .port-detail__back{padding:12px 20px;}
-}
+/* 모바일 포트폴리오 상세는 아래 RESPONSIVE 블록에서 통합 관리 */
 
 /* CONSULT */
 #pg-consult{background:var(--c-bg);}
@@ -552,10 +508,15 @@ button{font-family:var(--ff-sans);}
   .project-grid{grid-template-columns:1fr;gap:28px;}
   .space-grid{grid-template-columns:repeat(2,1fr);gap:12px;}
   /* 상세 모바일 — 세로 레이아웃 */
-  .port-detail__body{grid-template-columns:1fr;grid-template-rows:auto 1fr;overflow-y:auto;}
+  .port-detail__body{grid-template-columns:1fr;grid-template-rows:auto auto;overflow-y:auto;overflow-x:hidden;}
   .port-detail__left{padding:20px var(--pad-x);border-right:none;border-bottom:1px solid var(--c-border);overflow-y:visible;max-height:none;}
-  .port-detail__right{padding:20px var(--pad-x) 60px;min-height:50vh;background:var(--c-cream);}
-  .pd-thumb{width:68px;height:68px;}
+  .port-detail__right{position:relative;padding:0;background:var(--c-cream);display:block;overflow:visible;}
+  .pd-main-img{width:100%;height:72vw;object-fit:cover;object-position:center;display:block;}
+  .pd-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:20;width:40px;height:40px;}
+  .pd-arrow--prev{left:12px;}
+  .pd-arrow--next{right:12px;}
+  .pd-counter{bottom:8px;right:12px;}
+  .pd-thumb{width:100px;height:70px;}
   .port-detail__back{padding:14px var(--pad-x);}
   /* CONSULT */
   .consult__wrap{grid-template-columns:1fr;min-height:unset;}
