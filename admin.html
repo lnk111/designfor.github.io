@@ -306,18 +306,22 @@ html,body{min-height:100%;font-family:var(--ff);font-weight:300;background:var(-
     <div class="mf-section">기본 정보</div>
     <div class="mf-row">
       <div class="mf-group"><label class="mf-label">현장명 *</label><input class="mf-input" id="mf-sitename" type="text" placeholder="예: 판교 TH212"></div>
-      <div class="mf-group"><label class="mf-label">평수</label><input class="mf-input" id="mf-area" type="text" placeholder="예: 43py"></div>
+      <div class="mf-group"><label class="mf-label">아파트명</label><input class="mf-input" id="mf-buildingname" type="text" placeholder="예: 반포자이"></div>
     </div>
     <div class="mf-row">
-      <div class="mf-group"><label class="mf-label">위치</label><input class="mf-input" id="mf-location" type="text" placeholder="예: 경기도 성남시 판교"></div>
       <div class="mf-group"><label class="mf-label">유형</label>
         <select class="mf-select" id="mf-type">
           <option value="">선택</option>
           <option>아파트</option><option>주택</option><option>상업공간</option><option>오피스</option><option>기타</option>
         </select>
       </div>
+      <div class="mf-group"><label class="mf-label">면적 (평수)</label><input class="mf-input" id="mf-area" type="text" placeholder="예: 34PY"></div>
     </div>
-    <div class="mf-group"><label class="mf-label">시작일 ~ 완료일</label><input class="mf-input" id="mf-period" type="text" placeholder="예: 2024.03.01 ~ 2024.06.30"></div>
+    <div class="mf-row">
+      <div class="mf-group"><label class="mf-label">준공연도</label><input class="mf-input" id="mf-builtyear" type="text" placeholder="예: 2009년"></div>
+      <div class="mf-group"><label class="mf-label">지역</label><input class="mf-input" id="mf-location" type="text" placeholder="예: 서울시 서초구 반포동"></div>
+    </div>
+    <div class="mf-group"><label class="mf-label">공사 기간</label><input class="mf-input" id="mf-period" type="text" placeholder="예: 10주"></div>
 
     <!-- 대표 이미지 2장 -->
     <div class="mf-section">대표 이미지</div>
@@ -571,7 +575,9 @@ window.openModal=function(id){
   detailItems=[];
   existingCover1=existingCover2='';
 
-  ['mf-sitename','mf-area','mf-location','mf-period'].forEach(i=>document.getElementById(i).value='');
+  ['mf-sitename','mf-buildingname','mf-area','mf-location','mf-period','mf-builtyear'].forEach(i=>{
+    const el=document.getElementById(i); if(el) el.value='';
+  });
   document.getElementById('mf-type').value='';
   resetCoverSlot(1); resetCoverSlot(2);
   document.getElementById('detail-preview').innerHTML='';
@@ -583,10 +589,12 @@ window.openModal=function(id){
   if(id){
     const p=cachedProjects.find(x=>x.id===id); if(!p) return;
     document.getElementById('modal-title').textContent='현장 수정';
-    document.getElementById('mf-sitename').value=p.siteName||'';
-    document.getElementById('mf-area').value=p.area||'';
-    document.getElementById('mf-location').value=p.location||'';
-    document.getElementById('mf-period').value=p.period||'';
+    document.getElementById('mf-sitename').value  = p.siteName     || '';
+    document.getElementById('mf-buildingname').value = p.buildingName||'';
+    document.getElementById('mf-area').value      = p.area         || '';
+    document.getElementById('mf-location').value  = p.location     || '';
+    document.getElementById('mf-period').value    = p.period       || '';
+    document.getElementById('mf-builtyear').value = p.builtYear    || '';
     document.getElementById('mf-type').value=p.type||'';
     existingCover1=p.coverImage1||''; existingCover2=p.coverImage2||'';
     if(existingCover1) setCoverPreview(1,existingCover1);
@@ -773,11 +781,13 @@ window.saveProject=async function(){
   bar.style.width='100%'; txt.textContent='저장 중...';
   const id=editingId||uid();
   const data={
-    siteName:document.getElementById('mf-sitename').value.trim(),
-    area:document.getElementById('mf-area').value.trim(),
-    location:document.getElementById('mf-location').value.trim(),
-    period:document.getElementById('mf-period').value.trim(),
-    type:document.getElementById('mf-type').value,
+    siteName:     document.getElementById('mf-sitename').value.trim(),
+    buildingName: document.getElementById('mf-buildingname').value.trim(),
+    area:         document.getElementById('mf-area').value.trim(),
+    location:     document.getElementById('mf-location').value.trim(),
+    period:       document.getElementById('mf-period').value.trim(),
+    builtYear:    document.getElementById('mf-builtyear').value.trim(),
+    type:         document.getElementById('mf-type').value,
     coverImage1:cover1Url, coverImage2:cover2Url,
     images:finalImages,
     updatedAt:Date.now(),

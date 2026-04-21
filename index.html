@@ -25,8 +25,9 @@ a{text-decoration:none;color:inherit;}
 button{font-family:var(--ff-sans);}
 
 /* HEADER */
-#header{position:fixed;top:0;left:0;right:0;height:var(--header-h);z-index:500;display:flex;align-items:center;justify-content:space-between;padding:0 var(--pad-x);background:rgba(253,251,248,0.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--c-border);pointer-events:all;transition:background .4s,border-color .4s;}
-#header.is-solid{background:rgba(253,251,248,0.97);border-bottom-color:var(--c-border);}
+#header{position:fixed;top:0;left:0;right:0;height:var(--header-h);z-index:500;display:flex;align-items:center;justify-content:space-between;padding:0 var(--pad-x);background:rgba(253,251,248,0.0);border-bottom:1px solid transparent;pointer-events:all;transition:background .4s,border-color .4s,backdrop-filter .4s;}
+#header.is-scrolled{background:rgba(253,251,248,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom-color:var(--c-border);}
+#header.is-solid{background:rgba(253,251,248,0.97);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom-color:var(--c-border);}
 .logo{display:flex;flex-direction:column;cursor:pointer;line-height:1;user-select:none;}
 .logo__en{font-family:var(--ff-serif);font-size:24px;font-weight:400;letter-spacing:0.16em;color:var(--c-dark);transition:color .4s;}
 .logo__ko{font-size:11px;font-weight:300;letter-spacing:0.30em;color:var(--c-stone);margin-top:4px;transition:color .4s;}
@@ -122,8 +123,8 @@ button{font-family:var(--ff-sans);}
 
 /* 보기 방식 탭 */
 .view-tabs{display:flex;gap:0;border-bottom:1px solid var(--c-border);margin-bottom:0;}
-.view-tab{font-size:16px;font-weight:300;letter-spacing:0.02em;color:var(--c-stone-lt);padding:0 0 14px;margin-right:36px;cursor:pointer;border:none;border-bottom:2px solid transparent;background:none;transition:color .25s,border-color .25s;font-family:var(--ff-sans);}
-.view-tab.is-on{color:var(--c-dark);font-weight:400;border-bottom-color:var(--c-dark);}
+.view-tab{font-size:16px;font-weight:700;letter-spacing:0.02em;color:var(--c-stone-lt);padding:0 0 14px;margin-right:36px;cursor:pointer;border:none;border-bottom:2px solid transparent;background:none;transition:color .25s,border-color .25s;font-family:var(--ff-sans);}
+.view-tab.is-on{color:var(--c-dark);font-weight:700;border-bottom-color:var(--c-dark);}
 .view-tab:hover{color:var(--c-dark);}
 
 /* 평수/공간 필터 바 */
@@ -161,7 +162,7 @@ button{font-family:var(--ff-sans);}
 .space-card-item:hover .space-img-wrap img{transform:scale(1.06);}
 
 /* =========================================
-   포트폴리오 상세 — 좌우 2분할 뷰어
+   포트폴리오 상세 — 모바일 2분할→세로 전환
    ========================================= */
 .port-detail{display:none;position:absolute;inset:0;background:var(--c-bg);}
 .port-detail.is-active{display:flex;flex-direction:column;}
@@ -202,17 +203,17 @@ button{font-family:var(--ff-sans);}
   font-weight:300;color:var(--c-dark);
   letter-spacing:0.02em;line-height:1.2;margin-bottom:4px;
 }
-.pd-sub{font-size:11px;color:var(--c-stone-lt);margin-bottom:20px;}
+.pd-sub{font-size:11px;color:var(--c-stone-lt);margin-bottom:16px;}
 
 /* 메타 정보 */
-.pd-meta{display:grid;grid-template-columns:auto 1fr;gap:7px 16px;margin-bottom:24px;}
-.pd-meta-key{font-size:11px;font-weight:500;color:var(--c-dark);letter-spacing:0.04em;}
-.pd-meta-val{font-size:11px;font-weight:300;color:var(--c-stone);}
+.pd-meta{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;margin-bottom:20px;}
+.pd-meta-key{font-size:12px;font-weight:500;color:var(--c-stone);letter-spacing:0.04em;}
+.pd-meta-val{font-size:12px;font-weight:400;color:var(--c-dark);}
 
-/* ── 공간 필터 탭 — 테두리 박스형 ── */
+/* 공간 필터 탭 — 테두리 박스형 */
 .pd-space-tabs{
   display:flex;gap:8px;flex-wrap:wrap;
-  margin-bottom:16px;padding-bottom:4px;
+  margin-bottom:14px;padding-bottom:4px;
 }
 .pd-space-tab{
   font-size:12px;font-weight:300;color:var(--c-stone);
@@ -227,23 +228,39 @@ button{font-family:var(--ff-sans);}
   border-color:var(--c-dark);background:transparent;
 }
 
-/* 썸네일 그리드 */
-.pd-thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;}
+/* 썸네일 — 가로 스크롤 */
+.pd-thumbs{
+  display:flex;
+  flex-direction:row;
+  gap:6px;
+  overflow-x:auto;
+  overflow-y:hidden;
+  padding-bottom:6px;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+}
+.pd-thumbs::-webkit-scrollbar{height:3px;}
+.pd-thumbs::-webkit-scrollbar-track{background:transparent;}
+.pd-thumbs::-webkit-scrollbar-thumb{background:var(--c-border);border-radius:2px;}
 .pd-thumb{
-  aspect-ratio:1;overflow:hidden;cursor:pointer;
-  border:2px solid transparent;border-radius:4px;transition:border-color .2s,opacity .2s;
+  flex-shrink:0;
+  width:80px;height:80px;
+  overflow:hidden;cursor:pointer;
+  border:2px solid transparent;border-radius:6px;
+  transition:border-color .2s,opacity .2s;
+  scroll-snap-align:start;
 }
 .pd-thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s;}
 .pd-thumb:hover img{transform:scale(1.06);}
 .pd-thumb:hover{opacity:0.85;}
 .pd-thumb.is-active{border-color:var(--c-dark);}
 
-/* ── 오른쪽 — 메인 이미지 뷰어 (여백 포함) ── */
+/* 오른쪽 — 메인 이미지 뷰어 */
 .port-detail__right{
   position:relative;overflow:hidden;
   background:var(--c-cream);
   display:flex;align-items:center;justify-content:center;
-  padding:40px 72px;  /* 사진 주변 여백 */
+  padding:40px 72px;
 }
 .pd-main-img{
   max-width:100%;max-height:100%;
@@ -253,7 +270,7 @@ button{font-family:var(--ff-sans);}
 }
 .pd-main-img.is-loading{opacity:0;}
 
-/* ── 좌우 화살표 — 사진 바로 옆 ── */
+/* 좌우 화살표 */
 .pd-arrow{
   position:absolute;top:50%;transform:translateY(-50%);
   z-index:10;width:40px;height:40px;
@@ -267,11 +284,10 @@ button{font-family:var(--ff-sans);}
 .pd-arrow--prev{left:16px;}
 .pd-arrow--next{right:16px;}
 
-/* 이미지 카운터 */
+/* 카운터 */
 .pd-counter{
   position:absolute;bottom:16px;right:20px;
-  font-size:10px;letter-spacing:0.2em;
-  color:var(--c-stone-lt);
+  font-size:10px;letter-spacing:0.2em;color:var(--c-stone-lt);
 }
 
 /* 모바일 */
@@ -480,32 +496,49 @@ button{font-family:var(--ff-sans);}
 
 /* RESPONSIVE */
 @media(max-width:900px){
-  :root{--pad-x:var(--pad-x-sm);}
+  :root{--pad-x:20px;--header-h:56px;}
   .nav,.header-cta{display:none;}
   .hamburger{display:flex;}
   .about__inner{grid-template-columns:1fr;min-height:unset;}
-  .about__left{padding:52px var(--pad-x-sm) 36px;border-right:none;border-bottom:1px solid var(--c-border);}
-  .about__right{padding:36px var(--pad-x-sm) 52px;}
-  .port-header{padding:40px var(--pad-x-sm) 0;}
-  .filter-bar{padding:16px var(--pad-x-sm) 20px;gap:16px;}
-  .port-gallery{padding:28px var(--pad-x-sm) 60px;}
-  .project-grid{grid-template-columns:1fr;gap:32px;}
-  .space-grid{grid-template-columns:repeat(2,1fr);gap:16px;}
-  .consult__wrap{grid-template-columns:1fr;min-height:unset;}
-  .consult__left{padding:52px var(--pad-x-sm) 36px;border-right:none;border-bottom:1px solid var(--c-border);}
-  .consult__right{padding:36px var(--pad-x-sm) 52px;}
-  .sns__inner{padding:48px var(--pad-x-sm);}
-  .sns-grid{grid-template-columns:1fr;max-width:360px;}
-  .site-footer{padding:20px var(--pad-x-sm);}
-  .footer__info{text-align:left;}
-  .slide-counter{right:var(--pad-x-sm);}
-  .float-consult{bottom:20px;right:20px;width:52px;height:52px;}
-}
-@media(max-width:560px){
+  .about__left{padding:48px var(--pad-x) 32px;border-right:none;border-bottom:1px solid var(--c-border);}
+  .about__right{padding:32px var(--pad-x) 48px;}
   .val-grid{grid-template-columns:1fr;}
-  .space-grid{grid-template-columns:1fr;}
-  .view-tabs{gap:0;}
-  .view-tab{font-size:13px;margin-right:20px;}
+  .port-header{padding:28px var(--pad-x) 0;}
+  .port-header__top{margin-bottom:20px;}
+  .view-tabs{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .view-tab{font-size:15px;margin-right:24px;white-space:nowrap;}
+  .filter-bar{padding:14px var(--pad-x) 16px;gap:16px;overflow-x:auto;-webkit-overflow-scrolling:touch;flex-wrap:nowrap;}
+  .filter-chip{font-size:14px;white-space:nowrap;}
+  .port-gallery{padding:20px var(--pad-x) 48px;}
+  .project-grid{grid-template-columns:1fr;gap:28px;}
+  .space-grid{grid-template-columns:repeat(2,1fr);gap:12px;}
+  /* 상세 모바일 — 세로 레이아웃 */
+  .port-detail__body{grid-template-columns:1fr;grid-template-rows:auto 1fr;overflow-y:auto;}
+  .port-detail__left{padding:20px var(--pad-x);border-right:none;border-bottom:1px solid var(--c-border);overflow-y:visible;max-height:none;}
+  .port-detail__right{padding:20px var(--pad-x) 60px;min-height:50vh;background:var(--c-cream);}
+  .pd-thumb{width:68px;height:68px;}
+  .port-detail__back{padding:14px var(--pad-x);}
+  /* CONSULT */
+  .consult__wrap{grid-template-columns:1fr;min-height:unset;}
+  .consult__left{border-right:none;border-bottom:1px solid var(--c-border);}
+  .consult__left-img{min-height:220px;}
+  .consult__left-info{padding:20px var(--pad-x);}
+  .inquiry-form{padding:24px var(--pad-x);}
+  .inq-row-3,.inq-row-4{grid-template-columns:1fr 1fr;}
+  .inq-portfolio-grid{grid-template-columns:repeat(2,1fr);}
+  .inq-section{padding:20px;}
+  .sns__inner{padding:40px var(--pad-x);}
+  .sns-grid{grid-template-columns:1fr;max-width:100%;}
+  .site-footer{padding:20px var(--pad-x);flex-direction:column;gap:8px;}
+  .footer__info{text-align:left;}
+  .slide-counter{right:var(--pad-x);}
+  .float-consult{bottom:20px;right:16px;width:52px;height:52px;}
+  .btn--consult{font-size:10px;padding:13px 32px;}
+}
+@media(max-width:480px){
+  .inq-row-3,.inq-row-4{grid-template-columns:1fr;}
+  .space-grid{grid-template-columns:repeat(2,1fr);gap:8px;}
+  .project-grid{gap:20px;}
 }
 </style>
 </head>
@@ -518,9 +551,9 @@ button{font-family:var(--ff-sans);}
     <span class="logo__ko">쉬워지는 인테리어</span>
   </div>
   <ul class="nav">
-    <li><span class="nav__link" id="nl-about"     onclick="goPage('about')">회사소개</span></li>
-    <li><span class="nav__link" id="nl-portfolio" onclick="goPage('portfolio')">포트폴리오</span></li>
-    <li><span class="nav__link" id="nl-consult"   onclick="goPage('consult')">견적문의</span></li>
+    <li><span class="nav__link" id="nl-about"     onclick="goPage('about')">OWL STORY</span></li>
+    <li><span class="nav__link" id="nl-portfolio" onclick="goPage('portfolio')">PORTFOLIO</span></li>
+    <li><span class="nav__link" id="nl-consult"   onclick="goPage('consult')">CONSULTANT</span></li>
     <li><span class="nav__link" id="nl-sns"       onclick="goPage('sns')">SNS</span></li>
   </ul>
   <button class="header-cta" onclick="goPage('consult')">견적 문의하기</button>
@@ -530,9 +563,9 @@ button{font-family:var(--ff-sans);}
 </header>
 
 <div id="mob-menu">
-  <span class="mob-menu__link" onclick="goPage('about');toggleMob()">회사소개</span>
-  <span class="mob-menu__link" onclick="goPage('portfolio');toggleMob()">포트폴리오</span>
-  <span class="mob-menu__link" onclick="goPage('consult');toggleMob()">견적문의</span>
+  <span class="mob-menu__link" onclick="goPage('about');toggleMob()">OWL STORY</span>
+  <span class="mob-menu__link" onclick="goPage('portfolio');toggleMob()">PORTFOLIO</span>
+  <span class="mob-menu__link" onclick="goPage('consult');toggleMob()">CONSULTANT</span>
   <span class="mob-menu__link" onclick="goPage('sns');toggleMob()">SNS</span>
   <button class="mob-menu__cta" onclick="goPage('consult');toggleMob()">견적 문의하기</button>
 </div>
@@ -595,7 +628,7 @@ button{font-family:var(--ff-sans);}
     <!-- 목록 뷰 -->
     <div id="port-list-view">
       <div class="port-header">
-        <div class="port-header__top">
+        <div class="port-header__top" style="display:none;">
           <h2 class="port-header__title">공간을 바꾼 <em>이야기들</em></h2>
         </div>
         <!-- 보기 방식 탭 -->
@@ -685,6 +718,16 @@ button{font-family:var(--ff-sans);}
           <div class="consult__left-img-empty" id="consult-img-empty">사진을 업로드해 주세요</div>
           <img id="consult-left-img" src="" alt="" style="display:none;">
         </div>
+        <div class="consult__left-info">
+          <p class="label">Consultation</p>
+          <h2 class="heading">상담 <em>문의</em></h2>
+          <div class="info-list">
+            <div class="info-row"><span class="info-row__label">Tel</span><span class="info-row__val">010-8716-3073</span></div>
+            <div class="info-row"><span class="info-row__label">Kakao</span><span class="info-row__val">@디자인포</span></div>
+            <div class="info-row"><span class="info-row__label">Email</span><span class="info-row__val">designfor@naver.com</span></div>
+            <div class="info-row"><span class="info-row__label">시간</span><span class="info-row__val">평일 09:00 — 18:00</span></div>
+          </div>
+        </div>
       </div>
 
       <!-- 오른쪽: 상담 폼 -->
@@ -708,11 +751,15 @@ button{font-family:var(--ff-sans);}
             <div class="inq-row-3">
               <div class="inq-group">
                 <label class="inq-label">이름</label>
-                <input class="inq-input" id="inq-name" type="text" placeholder="성함을 입력해주세">
+                <input class="inq-input" id="inq-name" type="text" placeholder="이름">
               </div>
               <div class="inq-group">
                 <label class="inq-label">연락처</label>
-                <input class="inq-input" id="inq-phone" type="tel" placeholder="010-0000-0000">
+                <input class="inq-input" id="inq-phone" type="tel" placeholder="연락처">
+              </div>
+              <div class="inq-group">
+                <label class="inq-label">이메일</label>
+                <input class="inq-input" id="inq-email" type="email" placeholder="이메일">
               </div>
             </div>
             <div class="inq-group">
@@ -848,6 +895,21 @@ const app = initializeApp({
   appId:"1:284384518635:web:62f4a1ce63e90ca7b2f9ae"
 });
 const db = getFirestore(app);
+
+/* ── 헤더 스크롤 블러 ── */
+(function(){
+  const header=document.getElementById('header');
+  // 페이지별 스크롤 감지
+  document.querySelectorAll('.page').forEach(page=>{
+    page.addEventListener('scroll',()=>{
+      if(page.scrollTop>20){
+        header.classList.add('is-scrolled');
+      } else {
+        header.classList.remove('is-scrolled');
+      }
+    },{passive:true});
+  });
+})();
 
 /* ── PAGE ROUTER ── */
 const PAGE_MAP={home:{el:'pg-home',nav:null},about:{el:'pg-about',nav:'nl-about'},portfolio:{el:'pg-portfolio',nav:'nl-portfolio'},consult:{el:'pg-consult',nav:'nl-consult'},sns:{el:'pg-sns',nav:'nl-sns'}};
@@ -1036,23 +1098,25 @@ window.showPortList=function(){
 window.showPortDetail=function(id){
   const p=allProjects.find(x=>x.id===id); if(!p) return;
 
-  // 현장명, 서브
+  // 현장명
   document.getElementById('pd-sitename').textContent=p.siteName||'';
-  document.getElementById('pd-sub').textContent=p.location||'';
+  document.getElementById('pd-sub').textContent=[p.buildingName,p.area].filter(Boolean).join(' · ');
 
-  // 메타 정보
+  // 메타 정보 — 아파트명/유형/면적/준공/지역/기간
   const metaEl=document.getElementById('pd-meta');
   const metas=[
-    {k:'유형', v:p.type},
-    {k:'면적', v:p.area},
-    {k:'기간', v:p.period},
-    {k:'위치', v:p.location},
+    {k:'아파트명', v:p.buildingName},
+    {k:'유형',    v:p.type},
+    {k:'면적',    v:p.area},
+    {k:'준공',    v:p.builtYear},
+    {k:'지역',    v:p.location},
+    {k:'기간',    v:p.period},
   ].filter(m=>m.v);
   metaEl.innerHTML=metas.map(m=>`
     <span class="pd-meta-key">${esc(m.k)}</span>
     <span class="pd-meta-val">${esc(m.v)}</span>`).join('');
 
-  // 전체 이미지 수집 (coverImage1 + 상세)
+  // 전체 이미지 수집
   pdAllImgs=[];
   if(p.coverImage1) pdAllImgs.push({url:p.coverImage1, spaceTag:''});
   if(p.images) p.images.forEach(img=>{
