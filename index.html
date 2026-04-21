@@ -307,7 +307,7 @@ button{font-family:var(--ff-sans);}
     overflow-y:visible;
     max-height:none;
   }
-  /* 모바일 메인 이미지 — 꽉 차게 */
+  /* 모바일 메인 이미지 — 고정 비율로 균일하게 */
   .port-detail__right{
     position:relative;
     padding:0;
@@ -316,10 +316,10 @@ button{font-family:var(--ff-sans);}
   }
   .pd-main-img{
     width:100%;
-    height:auto;
+    height:72vw;
     display:block;
     object-fit:cover;
-    min-height:60vw;
+    object-position:center;
   }
   /* 모바일 화살표 — 이미지 위 오버레이 */
   .pd-arrow{
