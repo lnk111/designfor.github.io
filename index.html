@@ -307,7 +307,7 @@ button{font-family:var(--ff-sans);}
   }
   .port-detail__right{
     min-height:55vw;
-    padding:16px 20px 60px;
+    padding:16px 20px 700px;
     background:var(--c-cream);
   }
   .port-detail__back{padding:12px 20px;}
@@ -1186,23 +1186,25 @@ function pdShowImg(idx){
   mainImg.classList.add('is-loading');
   const newImg=new Image();
   newImg.onload=()=>{ mainImg.src=pdFiltered[pdIdx].url; mainImg.classList.remove('is-loading'); };
+  newImg.onerror=()=>{ mainImg.src=pdFiltered[pdIdx].url; mainImg.classList.remove('is-loading'); };
   newImg.src=pdFiltered[pdIdx].url;
+  // 이미 캐시된 경우 즉시 표시
+  if(newImg.complete){ mainImg.src=pdFiltered[pdIdx].url; mainImg.classList.remove('is-loading'); }
 
-  // 썸네일 active
+  // 썸네일 active 업데이트
   document.querySelectorAll('.pd-thumb').forEach((t,i)=>t.classList.toggle('is-active',i===pdIdx));
 
   // 카운터
   document.getElementById('pd-counter').textContent=
     pdFiltered.length>1?`${String(pdIdx+1).padStart(2,'0')} / ${String(pdFiltered.length).padStart(2,'0')}`:'';
 
-  // 화살표 표시
-  const show=pdFiltered.length>1;
-  document.getElementById('pd-arrow-prev').style.display=show?'flex':'none';
-  document.getElementById('pd-arrow-next').style.display=show?'flex':'none';
+  // 화살표 — 항상 표시 (이미지가 1장이어도 표시)
+  document.getElementById('pd-arrow-prev').style.display='flex';
+  document.getElementById('pd-arrow-next').style.display='flex';
 
-  // 썸네일 스크롤
-  const thumbEl=document.querySelector(`.pd-thumb:nth-child(${pdIdx+1})`);
-  if(thumbEl) thumbEl.scrollIntoView({block:'nearest',behavior:'smooth'});
+  // 썸네일 선택된 것이 보이도록 가로 스크롤
+  const thumbEl=document.querySelector(`#pd-thumbs .pd-thumb:nth-child(${pdIdx+1})`);
+  if(thumbEl) thumbEl.scrollIntoView({inline:'nearest',block:'nearest',behavior:'smooth'});
 }
 
 window.pdMove=function(dir){ pdShowImg(pdIdx+dir); };
