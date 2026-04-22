@@ -1045,7 +1045,7 @@ button{font-family:var(--ff-sans);}
     </div>
     <footer class="site-footer">
       <div><div class="footer__brand">DESIGN FOR</div><div class="footer__copy">© 2025 Design For. All Rights Reserved.</div></div>
-      <div class="footer__info">대표 : 김영애 &nbsp;|&nbsp; 경기도 화성시<br>Tel : 0507-1319-3073 &nbsp;|&nbsp; designfor@naver.com</div>
+      <div class="footer__info">대표 : 남경 &nbsp;|&nbsp; 경기도 화성시<br>Tel : 010-0000-0000 &nbsp;|&nbsp; designfor@naver.com</div>
     </footer>
   </section>
 
@@ -1548,34 +1548,16 @@ document.querySelectorAll('input[name="inq-route"]').forEach(r=>{
   });
 });
 
-async function sendSolapi(to, templateId, variables){
-  const ts=Date.now().toString();
-  const msgId='msg-'+ts+'-'+Math.random().toString(36).slice(2);
-  const apiKey='NCS3UR67AYGXGLPY';
-  const apiSecret='KQNMZJEECPLGGVEZQMQSIZ7SHGUCEFZA';
-  const enc=new TextEncoder();
-  const key=await crypto.subtle.importKey('raw',enc.encode(apiSecret),{name:'HMAC',hash:'SHA-256'},false,['sign']);
-  const sig=await crypto.subtle.sign('HMAC',key,enc.encode(ts+msgId));
-  const signature=Array.from(new Uint8Array(sig)).map(b=>b.toString(16).padStart(2,'0')).join('');
-  const authHeader='HMAC-SHA256 apiKey='+apiKey+', date='+ts+', salt='+msgId+', signature='+signature;
-  const body={
-    message:{
-      to,
-      from:'0507-1319-3073',
-      kakaoOptions:{
-        pfId:'CH_a91df41393e811ad40c9a0f53fa5a7c7',
-        templateId,
-        variables
-      }
-    }
-  };
-  try{
-    await fetch('https://api.solapi.com/messages/v4/send',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':authHeader},
-      body:JSON.stringify(body)
+const WORKER_URL = 'https://designfor-alimtalk.729497.workers.dev';
+
+async function sendWorker(type, data) {
+  try {
+    await fetch(WORKER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type, data })
     });
-  } catch(e){ console.warn('솔라피 발송 실패',e); }
+  } catch(e) { console.warn('Worker 발송 실패', e); }
 }
 
 window.submitInquiry=async function(){
@@ -1618,23 +1600,23 @@ window.submitInquiry=async function(){
     const db2=getFirestore();
     await setDoc(doc(collection(db2,'inquiries')),data);
   } catch(e){ console.warn('Firestore 저장 실패',e); }
-  const staffNums=['01087163073','01074720065','01041217976'];
-  const staffVars={
-    '#{고객명}': name,
-    '#{연락처}': phone,
-    '#{평수}':   data.size?data.size+'평':'미입력',
-    '#{예산}':   data.budget?data.budget+'만원':'미입력',
-    '#{문의내용}': data.content||data.title||'내용 없음',
-    '#{접수일시}': 접수일시
-  };
-  await Promise.all(staffNums.map(num=>
-    sendSolapi(num,'KA01TP260331150650039nm3VCo1TlxE',staffVars)
-  ));
-  const custVars={
-    '#{고객명}': name,
-    '#{접수일시}': 접수일시
-  };
-  await sendSolapi(phone.replace(/-/g,''),'KA01TP2603311508497785BN4r7ih29V',custVars);
+  // 직원 알림톡
+  await sendWorker('new_inquiry', {
+    name:       name,
+    tel:        phone.replace(/-/g,''),
+    spaceParts: data.size ? data.size+'평' : '미입력',
+    budget:     data.budget ? data.budget+'만원' : '미입력',
+    msg:        data.content || data.title || '내용 없음',
+    acceptedAt: 접수일시
+  });
+
+  // 고객 접수완료 알림톡
+  await sendWorker('customer_ack', {
+    name:       name,
+    tel:        phone.replace(/-/g,''),
+    orderNo:    접수일시,
+    acceptedAt: 접수일시
+  });
   document.getElementById('inquiry-form').innerHTML=`
     <div class="inq-success">
       <div class="inq-success__icon">✓</div>
