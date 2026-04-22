@@ -1140,6 +1140,7 @@ window.toggleMob=function(){
   document.getElementById('mob-menu').classList.toggle('is-open',mobOpen);
   document.getElementById('mob-dim').classList.toggle('is-open',mobOpen);
   document.getElementById('hamburger').classList.toggle('is-open',mobOpen);
+  document.getElementById('header').style.display=mobOpen?'none':'';
   document.body.style.overflow=mobOpen?'hidden':'';
 };
 
