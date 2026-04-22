@@ -915,7 +915,16 @@ const db = getFirestore(app);
 const PAGE_MAP={home:{el:'pg-home',nav:null},about:{el:'pg-about',nav:'nl-about'},portfolio:{el:'pg-portfolio',nav:'nl-portfolio'},consult:{el:'pg-consult',nav:'nl-consult'},sns:{el:'pg-sns',nav:'nl-sns'}};
 let current='home';
 
-window.goPage=function(id){
+/* URL hash 매핑 */
+const HASH_MAP={
+  'home':    '',
+  'about':   'about',
+  'portfolio':'portfolio',
+  'consult': 'consult',
+  'sns':     'sns'
+};
+
+window.goPage=function(id, updateHistory=true){
   if(!PAGE_MAP[id]) return;
   const old=PAGE_MAP[current];
   document.getElementById(old.el).classList.remove('is-active');
@@ -930,7 +939,32 @@ window.goPage=function(id){
   if(id==='portfolio'){ showPortList(); buildPortfolioView(); }
   if(id==='consult'){ setTimeout(loadInquiryPortfolios,80); loadConsultImg(); }
   document.getElementById('header').classList.toggle('is-solid',id!=='home');
+
+  // URL hash 업데이트
+  if(updateHistory){
+    const hash=HASH_MAP[id];
+    history.pushState({page:id}, '', hash?'#'+hash:'#');
+  }
 };
+
+// 뒤로가기/앞으로가기 처리
+window.addEventListener('popstate', e=>{
+  if(e.state&&e.state.page) window.goPage(e.state.page, false);
+  else {
+    const hash=location.hash.replace('#','');
+    const id=Object.keys(HASH_MAP).find(k=>HASH_MAP[k]===hash)||'home';
+    window.goPage(id, false);
+  }
+});
+
+// 페이지 첫 로드 시 hash 읽어서 자동 이동
+(function(){
+  const hash=location.hash.replace('#','');
+  if(hash){
+    const id=Object.keys(HASH_MAP).find(k=>HASH_MAP[k]===hash);
+    if(id) setTimeout(()=>window.goPage(id, false), 100);
+  }
+})();
 
 let mobOpen=false;
 window.toggleMob=function(){
