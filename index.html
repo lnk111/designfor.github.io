@@ -52,12 +52,84 @@ button{font-family:var(--ff-sans);}
 .hamburger.is-open .hamburger__bar:nth-child(2){opacity:0;}
 .hamburger.is-open .hamburger__bar:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
 
-/* MOBILE MENU */
-#mob-menu{position:fixed;inset:0;z-index:400;background:var(--c-bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:36px;opacity:0;pointer-events:none;transition:opacity .4s var(--ease-out);}
-#mob-menu.is-open{opacity:1;pointer-events:all;}
-.mob-menu__link{font-family:var(--ff-serif);font-size:32px;font-weight:300;letter-spacing:0.10em;color:var(--c-dark);cursor:pointer;transition:color .25s;}
-.mob-menu__link:hover{color:var(--c-gold);}
-.mob-menu__cta{margin-top:8px;font-size:10px;letter-spacing:0.28em;color:var(--c-gold);border:1px solid var(--c-gold);padding:12px 32px;cursor:pointer;background:none;transition:background .3s,color .3s;}
+/* MOBILE DRAWER MENU */
+#mob-dim{
+  position:fixed;inset:0;z-index:400;
+  background:rgba(0,0,0,0.55);
+  opacity:0;pointer-events:none;
+  transition:opacity .35s var(--ease-out);
+}
+#mob-dim.is-open{opacity:1;pointer-events:all;}
+
+#mob-menu{
+  position:fixed;top:0;right:0;bottom:0;
+  width:75%;
+  z-index:410;
+  background:#fff;
+  display:flex;flex-direction:column;
+  transform:translateX(100%);
+  transition:transform .38s cubic-bezier(0.22,1,0.36,1);
+  box-shadow:-8px 0 32px rgba(0,0,0,0.18);
+}
+#mob-menu.is-open{transform:translateX(0);}
+
+.mob-menu__head{
+  display:flex;align-items:center;justify-content:space-between;
+  height:56px;padding:0 24px;
+  border-bottom:1px solid var(--c-border);
+  flex-shrink:0;
+}
+.mob-menu__head-logo{
+  font-family:var(--ff-serif);font-size:16px;
+  letter-spacing:0.14em;color:var(--c-dark);
+}
+.mob-menu__close{
+  width:36px;height:36px;border-radius:50%;
+  background:none;border:1px solid var(--c-border);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:var(--c-stone);font-size:15px;
+  transition:background .2s,border-color .2s;
+  font-family:var(--ff-sans);
+}
+.mob-menu__close:hover{background:#f5f3ef;border-color:var(--c-stone);}
+
+.mob-menu__nav{
+  flex:1;display:flex;flex-direction:column;
+  overflow-y:auto;
+}
+.mob-menu__link{
+  display:flex;align-items:center;justify-content:space-between;
+  height:72px;
+  padding:0 28px;
+  border-bottom:1px solid var(--c-border);
+  cursor:pointer;
+  transition:background .2s;
+  font-family:var(--ff-sans);
+  font-size:14px;font-weight:400;
+  letter-spacing:0.14em;
+  color:var(--c-dark);
+  text-transform:uppercase;
+  user-select:none;
+}
+.mob-menu__link:last-child{border-bottom:none;}
+.mob-menu__link:active{background:#f8f6f2;}
+.mob-menu__link svg{width:15px;height:15px;stroke:var(--c-stone-lt);fill:none;stroke-width:1.5;flex-shrink:0;}
+
+.mob-menu__foot{
+  padding:20px 24px 36px;
+  border-top:1px solid var(--c-border);
+  flex-shrink:0;
+}
+.mob-menu__cta{
+  width:100%;padding:14px;
+  background:transparent;
+  border:1px solid var(--c-gold);
+  color:var(--c-gold);
+  font-family:var(--ff-sans);font-size:12px;font-weight:300;
+  letter-spacing:0.22em;text-transform:uppercase;
+  cursor:pointer;
+  transition:background .3s,color .3s;
+}
 .mob-menu__cta:hover{background:var(--c-gold);color:#fff;}
 
 /* PAGE SYSTEM */
@@ -651,12 +723,36 @@ button{font-family:var(--ff-sans);}
   </button>
 </header>
 
+<!-- 딤 오버레이 -->
+<div id="mob-dim" onclick="toggleMob()"></div>
+
+<!-- 드로어 메뉴 -->
 <div id="mob-menu">
-  <span class="mob-menu__link" onclick="goPage('about');toggleMob()">회사소개</span>
-  <span class="mob-menu__link" onclick="goPage('portfolio');toggleMob()">포트폴리오</span>
-  <span class="mob-menu__link" onclick="goPage('consult');toggleMob()">견적문의</span>
-  <span class="mob-menu__link" onclick="goPage('sns');toggleMob()">SNS</span>
-  <button class="mob-menu__cta" onclick="goPage('consult');toggleMob()">견적 문의하기</button>
+  <div class="mob-menu__head">
+    <div class="mob-menu__head-logo">DESIGN FOR</div>
+    <button class="mob-menu__close" onclick="toggleMob()">✕</button>
+  </div>
+  <nav class="mob-menu__nav">
+    <div class="mob-menu__link" onclick="goPage('about');toggleMob()">
+      회사소개
+      <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
+    </div>
+    <div class="mob-menu__link" onclick="goPage('portfolio');toggleMob()">
+      포트폴리오
+      <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
+    </div>
+    <div class="mob-menu__link" onclick="goPage('consult');toggleMob()">
+      견적문의
+      <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
+    </div>
+    <div class="mob-menu__link" onclick="goPage('sns');toggleMob()">
+      SNS
+      <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
+    </div>
+  </nav>
+  <div class="mob-menu__foot">
+    <button class="mob-menu__cta" onclick="goPage('consult');toggleMob()">견적 문의하기</button>
+  </div>
 </div>
 
 <!-- 라이트박스 -->
@@ -1042,7 +1138,9 @@ let mobOpen=false;
 window.toggleMob=function(){
   mobOpen=!mobOpen;
   document.getElementById('mob-menu').classList.toggle('is-open',mobOpen);
+  document.getElementById('mob-dim').classList.toggle('is-open',mobOpen);
   document.getElementById('hamburger').classList.toggle('is-open',mobOpen);
+  document.body.style.overflow=mobOpen?'hidden':'';
 };
 
 /* ── FIRESTORE 실시간 ── */
