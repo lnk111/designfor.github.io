@@ -54,7 +54,7 @@ button{font-family:var(--ff-sans);}
 
 /* MOBILE DRAWER MENU */
 #mob-dim{
-  position:fixed;inset:0;z-index:400;
+  position:fixed;top:var(--header-h);left:0;right:0;bottom:0;z-index:400;
   background:rgba(0,0,0,0.55);
   opacity:0;pointer-events:none;
   transition:opacity .35s var(--ease-out);
@@ -62,7 +62,7 @@ button{font-family:var(--ff-sans);}
 #mob-dim.is-open{opacity:1;pointer-events:all;}
 
 #mob-menu{
-  position:fixed;top:0;right:0;bottom:0;
+  position:fixed;top:var(--header-h);right:0;bottom:0;
   width:75%;
   z-index:410;
   background:#fff;
@@ -73,12 +73,8 @@ button{font-family:var(--ff-sans);}
 }
 #mob-menu.is-open{transform:translateX(0);}
 
-.mob-menu__head{
-  display:flex;align-items:center;justify-content:space-between;
-  height:56px;padding:0 24px;
-  border-bottom:1px solid var(--c-border);
-  flex-shrink:0;
-}
+/* 드로어 헤더 — top이 헤더 아래로 내려가면서 불필요해지므로 숨김 */
+.mob-menu__head{display:none;}
 .mob-menu__head-logo{
   font-family:var(--ff-serif);font-size:16px;
   letter-spacing:0.14em;color:var(--c-dark);
@@ -1140,7 +1136,17 @@ window.toggleMob=function(){
   document.getElementById('mob-menu').classList.toggle('is-open',mobOpen);
   document.getElementById('mob-dim').classList.toggle('is-open',mobOpen);
   document.getElementById('hamburger').classList.toggle('is-open',mobOpen);
-  document.getElementById('header').style.display=mobOpen?'none':'';
+  // 드로어 열릴 때 헤더를 불투명하게 올려서 드로어 위에 덮이게 함
+  const header=document.getElementById('header');
+  if(mobOpen){
+    header.style.background='rgba(253,251,248,0.97)';
+    header.style.borderBottomColor='var(--c-border)';
+    header.style.backdropFilter='blur(12px)';
+  } else {
+    header.style.background='';
+    header.style.borderBottomColor='';
+    header.style.backdropFilter='';
+  }
   document.body.style.overflow=mobOpen?'hidden':'';
 };
 
