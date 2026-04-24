@@ -52,80 +52,12 @@ button{font-family:var(--ff-sans);}
 .hamburger.is-open .hamburger__bar:nth-child(2){opacity:0;}
 .hamburger.is-open .hamburger__bar:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
 
-/* MOBILE DRAWER MENU */
-#mob-dim{
-  position:fixed;top:var(--header-h);left:0;right:0;bottom:0;z-index:400;
-  background:rgba(0,0,0,0.55);
-  opacity:0;pointer-events:none;
-  transition:opacity .35s var(--ease-out);
-}
-#mob-dim.is-open{opacity:1;pointer-events:all;}
-
-#mob-menu{
-  position:fixed;top:var(--header-h);right:0;bottom:0;
-  width:75%;
-  z-index:410;
-  background:#fff;
-  display:flex;flex-direction:column;
-  transform:translateX(100%);
-  transition:transform .38s cubic-bezier(0.22,1,0.36,1);
-  box-shadow:-8px 0 32px rgba(0,0,0,0.18);
-}
-#mob-menu.is-open{transform:translateX(0);}
-
-/* 드로어 헤더 — top이 헤더 아래로 내려가면서 불필요해지므로 숨김 */
-.mob-menu__head{display:none;}
-.mob-menu__head-logo{
-  font-family:var(--ff-serif);font-size:16px;
-  letter-spacing:0.14em;color:var(--c-dark);
-}
-.mob-menu__close{
-  width:36px;height:36px;border-radius:50%;
-  background:none;border:1px solid var(--c-border);
-  display:flex;align-items:center;justify-content:center;
-  cursor:pointer;color:var(--c-stone);font-size:15px;
-  transition:background .2s,border-color .2s;
-  font-family:var(--ff-sans);
-}
-.mob-menu__close:hover{background:#f5f3ef;border-color:var(--c-stone);}
-
-.mob-menu__nav{
-  flex:1;display:flex;flex-direction:column;
-  overflow-y:auto;
-}
-.mob-menu__link{
-  display:flex;align-items:center;justify-content:space-between;
-  height:72px;
-  padding:0 28px;
-  border-bottom:1px solid var(--c-border);
-  cursor:pointer;
-  transition:background .2s;
-  font-family:var(--ff-sans);
-  font-size:14px;font-weight:400;
-  letter-spacing:0.14em;
-  color:var(--c-dark);
-  text-transform:uppercase;
-  user-select:none;
-}
-.mob-menu__link:last-child{border-bottom:none;}
-.mob-menu__link:active{background:#f8f6f2;}
-.mob-menu__link svg{width:15px;height:15px;stroke:var(--c-stone-lt);fill:none;stroke-width:1.5;flex-shrink:0;}
-
-.mob-menu__foot{
-  padding:20px 24px 36px;
-  border-top:1px solid var(--c-border);
-  flex-shrink:0;
-}
-.mob-menu__cta{
-  width:100%;padding:14px;
-  background:transparent;
-  border:1px solid var(--c-gold);
-  color:var(--c-gold);
-  font-family:var(--ff-sans);font-size:12px;font-weight:300;
-  letter-spacing:0.22em;text-transform:uppercase;
-  cursor:pointer;
-  transition:background .3s,color .3s;
-}
+/* MOBILE MENU */
+#mob-menu{position:fixed;inset:0;z-index:400;background:var(--c-bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:36px;opacity:0;pointer-events:none;transition:opacity .4s var(--ease-out);}
+#mob-menu.is-open{opacity:1;pointer-events:all;}
+.mob-menu__link{font-family:var(--ff-serif);font-size:32px;font-weight:300;letter-spacing:0.10em;color:var(--c-dark);cursor:pointer;transition:color .25s;}
+.mob-menu__link:hover{color:var(--c-gold);}
+.mob-menu__cta{margin-top:8px;font-size:10px;letter-spacing:0.28em;color:var(--c-gold);border:1px solid var(--c-gold);padding:12px 32px;cursor:pointer;background:none;transition:background .3s,color .3s;}
 .mob-menu__cta:hover{background:var(--c-gold);color:#fff;}
 
 /* PAGE SYSTEM */
@@ -183,27 +115,33 @@ button{font-family:var(--ff-sans);}
    ========================================= */
 #pg-portfolio{background:var(--c-bg);}
 
+/* ── 포트폴리오 목록 헤더 ── */
 .port-header{padding:52px var(--pad-x) 0;}
 .port-header__top{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:32px;}
 .port-header__title{font-family:var(--ff-serif);font-size:clamp(28px,4vw,44px);font-weight:300;color:var(--c-dark);line-height:1.12;}
 .port-header__title em{font-style:italic;color:var(--c-gold);}
 
+/* 보기 방식 탭 */
 .view-tabs{display:flex;gap:0;border-bottom:1px solid var(--c-border);margin-bottom:0;}
 .view-tab{font-size:16px;font-weight:700;letter-spacing:0.02em;color:var(--c-stone-lt);padding:0 0 14px;margin-right:36px;cursor:pointer;border:none;border-bottom:2px solid transparent;background:none;transition:color .25s,border-color .25s;font-family:var(--ff-sans);}
 .view-tab.is-on{color:var(--c-dark);font-weight:700;border-bottom-color:var(--c-dark);}
 .view-tab:hover{color:var(--c-dark);}
 
+/* 평수/공간 필터 바 */
 .filter-bar{padding:20px var(--pad-x) 24px;display:flex;align-items:center;gap:28px;flex-wrap:wrap;border-bottom:1px solid var(--c-border);}
 .filter-chip{font-size:15px;font-weight:300;color:var(--c-stone-lt);cursor:pointer;background:none;border:none;padding:0;transition:color .25s;font-family:var(--ff-sans);display:flex;align-items:center;gap:4px;}
 .filter-chip.is-on{color:var(--c-dark);font-weight:500;}
 .filter-chip.is-on::after{content:'✓';font-size:12px;color:var(--c-gold);}
 .filter-chip:hover{color:var(--c-dark);}
 
+/* 갤러리 영역 */
 .port-gallery{padding:40px var(--pad-x) 80px;}
 
+/* ── 프로젝트별 그리드 ── */
 .project-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:40px 32px;}
 .project-card-item{cursor:pointer;}
 
+/* 이미지 래퍼 — hover 전환 */
 .proj-img-wrap{position:relative;width:100%;overflow:hidden;background:var(--c-cream);}
 .proj-img-wrap img{width:100%;height:100%;object-fit:cover;display:block;transition:opacity .55s ease;}
 .proj-img-wrap .img-main{position:relative;z-index:1;}
@@ -211,85 +149,20 @@ button{font-family:var(--ff-sans);}
 .project-card-item:hover .img-hover{opacity:1;}
 .project-card-item:hover .img-main{opacity:0;}
 
+/* 카드 텍스트 */
 .proj-info{padding:16px 0 0;}
 .proj-name{font-size:18px;font-weight:400;color:var(--c-dark);letter-spacing:0.02em;margin-bottom:5px;line-height:1.3;}
 .proj-meta{font-size:14px;color:var(--c-stone-lt);font-weight:300;}
 
+/* ── 공간별 그리드 ── */
 .space-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px 20px;}
 .space-card-item{cursor:pointer;overflow:hidden;}
 .space-img-wrap{overflow:hidden;background:var(--c-cream);}
 .space-img-wrap img{width:100%;display:block;object-fit:cover;transition:transform .5s var(--ease-out);}
 .space-card-item:hover .space-img-wrap img{transform:scale(1.06);}
 
-/* ── 라이트박스 ── */
-#lightbox{
-  position:fixed;inset:0;z-index:800;
-  background:rgba(0,0,0,0.92);
-  display:flex;align-items:center;justify-content:center;
-  opacity:0;pointer-events:none;
-  transition:opacity .3s var(--ease-out);
-}
-#lightbox.is-open{opacity:1;pointer-events:all;}
-#lightbox img{
-  max-width:92vw;max-height:88vh;
-  object-fit:contain;display:block;
-  border-radius:2px;
-  transform:scale(0.96);
-  transition:transform .35s var(--ease-out);
-  user-select:none;-webkit-user-drag:none;
-}
-#lightbox.is-open img{transform:scale(1);}
-.lb-port-btn{
-  position:absolute;top:20px;left:24px;
-  display:flex;align-items:center;gap:6px;
-  font-family:var(--ff-sans);font-size:12px;font-weight:300;
-  letter-spacing:0.14em;color:rgba(255,255,255,0.85);
-  background:rgba(255,255,255,0.1);
-  border:1px solid rgba(255,255,255,0.25);
-  padding:9px 16px;border-radius:4px;
-  cursor:pointer;
-  transition:background .25s,border-color .25s,color .25s;
-  z-index:10;
-}
-.lb-port-btn:hover{
-  background:rgba(255,255,255,0.2);
-  border-color:rgba(255,255,255,0.5);
-  color:#fff;
-}
-.lb-port-btn svg{flex-shrink:0;}
-.lb-close{
-  position:absolute;top:20px;right:24px;
-  width:44px;height:44px;border-radius:50%;
-  background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);
-  color:#fff;font-size:20px;line-height:1;
-  cursor:pointer;display:flex;align-items:center;justify-content:center;
-  transition:background .25s;
-}
-.lb-close:hover{background:rgba(255,255,255,0.25);}
-.lb-arrow{
-  position:absolute;top:50%;transform:translateY(-50%);
-  width:48px;height:48px;border-radius:50%;
-  background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);
-  display:flex;align-items:center;justify-content:center;
-  cursor:pointer;transition:background .25s;
-}
-.lb-arrow:hover{background:rgba(255,255,255,0.25);}
-.lb-arrow svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2;}
-.lb-arrow--prev{left:20px;}
-.lb-arrow--next{right:20px;}
-.lb-counter{
-  position:absolute;bottom:22px;left:50%;transform:translateX(-50%);
-  font-size:11px;letter-spacing:0.18em;color:rgba(255,255,255,0.45);
-  white-space:nowrap;
-}
-@media(max-width:900px){
-  .lb-arrow--prev{left:8px;width:40px;height:40px;}
-  .lb-arrow--next{right:8px;width:40px;height:40px;}
-  #lightbox img{max-width:98vw;max-height:82vh;}
-}
-
 /* =========================================
-   포트폴리오 상세 뷰
+   포트폴리오 상세 — 모바일 2분할→세로 전환
    ========================================= */
 .port-detail{display:none;position:absolute;inset:0;background:var(--c-bg);}
 .port-detail.is-active{display:flex;flex-direction:column;}
@@ -305,17 +178,16 @@ button{font-family:var(--ff-sans);}
 .port-detail__back:hover{color:var(--c-gold);}
 .port-detail__back svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.5;}
 
-/* PC: 2분할 */
+/* 메인 2분할 영역 */
 .port-detail__body{
   display:grid;
-  grid-template-columns:360px 1fr;
+  grid-template-columns:380px 1fr;
   flex:1;min-height:0;
 }
 
 /* 왼쪽 패널 */
 .port-detail__left{
-  overflow-y:auto;
-  padding:32px 28px;
+  overflow-y:auto;padding:28px 24px;
   border-right:1px solid var(--c-border);
   display:flex;flex-direction:column;gap:0;
   background:var(--c-bg);
@@ -324,28 +196,24 @@ button{font-family:var(--ff-sans);}
 .port-detail__left::-webkit-scrollbar-track{background:transparent;}
 .port-detail__left::-webkit-scrollbar-thumb{background:var(--c-border);border-radius:2px;}
 
+/* 현장명 */
 .pd-sitename{
   font-family:var(--ff-serif);
   font-size:clamp(18px,2vw,26px);
   font-weight:300;color:var(--c-dark);
   letter-spacing:0.02em;line-height:1.2;margin-bottom:4px;
 }
-.pd-sub{font-size:11px;color:var(--c-stone-lt);margin-bottom:20px;}
+.pd-sub{font-size:11px;color:var(--c-stone-lt);margin-bottom:16px;}
 
-.pd-meta{
-  display:grid;grid-template-columns:auto 1fr;
-  gap:10px 20px;
-  margin-bottom:24px;
-  padding-bottom:24px;
-  border-bottom:1px solid var(--c-border);
-}
+/* 메타 정보 */
+.pd-meta{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;margin-bottom:20px;}
 .pd-meta-key{font-size:12px;font-weight:500;color:var(--c-stone);letter-spacing:0.04em;}
 .pd-meta-val{font-size:12px;font-weight:400;color:var(--c-dark);}
 
-/* 공간 탭 */
+/* 공간 필터 탭 — 테두리 박스형 */
 .pd-space-tabs{
   display:flex;gap:8px;flex-wrap:wrap;
-  margin-bottom:20px;
+  margin-bottom:14px;padding-bottom:4px;
 }
 .pd-space-tab{
   font-size:12px;font-weight:300;color:var(--c-stone);
@@ -360,156 +228,214 @@ button{font-family:var(--ff-sans);}
   border-color:var(--c-dark);background:transparent;
 }
 
-/* PC 썸네일: wrap 격자 (스크롤 없음) */
+/* 썸네일 — 가로 스크롤 */
 .pd-thumbs{
   display:flex;
   flex-direction:row;
-  flex-wrap:wrap;
   gap:6px;
-  overflow:visible;
-  padding-bottom:0;
+  overflow-x:auto;
+  overflow-y:hidden;
+  padding-bottom:6px;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
 }
+.pd-thumbs::-webkit-scrollbar{height:3px;}
+.pd-thumbs::-webkit-scrollbar-track{background:transparent;}
+.pd-thumbs::-webkit-scrollbar-thumb{background:var(--c-border);border-radius:2px;}
 .pd-thumb{
   flex-shrink:0;
-  width:76px;height:56px;
+  width:80px;height:80px;
   overflow:hidden;cursor:pointer;
-  border:2px solid transparent;
-  border-radius:4px;
+  border:2px solid transparent;border-radius:6px;
   transition:border-color .2s,opacity .2s;
+  scroll-snap-align:start;
 }
 .pd-thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s;}
 .pd-thumb:hover img{transform:scale(1.06);}
 .pd-thumb:hover{opacity:0.85;}
 .pd-thumb.is-active{border-color:var(--c-dark);}
 
-/* 오른쪽: 메인 이미지 뷰어 */
+/* 오른쪽 — 메인 이미지 뷰어 (데스크톱) */
 .port-detail__right{
   position:relative;overflow:hidden;
-  background:#fff;
+  background:var(--c-cream);
   display:flex;align-items:center;justify-content:center;
-  padding:48px 80px;
+  padding:40px 72px;
 }
 .pd-main-img{
   width:100%;
   height:auto;
-  max-height:calc(100vh - var(--header-h) - 100px);
-  object-fit:contain;
+  object-fit:cover;
   display:block;
   transition:opacity .35s;
-  border-radius:2px;
 }
 .pd-main-img.is-loading{opacity:0;}
 
-/* 좌우 화살표 */
+/* 좌우 화살표 — 이미지 위 오버레이 */
 .pd-arrow{
   position:absolute;top:50%;transform:translateY(-50%);
   z-index:10;width:44px;height:44px;
-  background:rgba(255,255,255,0.9);border:1px solid rgba(0,0,0,0.10);
+  background:rgba(255,255,255,0.85);border:1px solid rgba(0,0,0,0.08);
   border-radius:50%;display:flex;align-items:center;justify-content:center;
   cursor:pointer;transition:background .25s,box-shadow .25s;
-  box-shadow:0 2px 12px rgba(0,0,0,0.12);
+  box-shadow:0 2px 12px rgba(0,0,0,0.15);
 }
-.pd-arrow:hover{background:#fff;box-shadow:0 4px 20px rgba(0,0,0,0.18);}
+.pd-arrow:hover{background:#fff;box-shadow:0 4px 20px rgba(0,0,0,0.2);}
 .pd-arrow svg{width:16px;height:16px;stroke:var(--c-dark);fill:none;stroke-width:2;}
-.pd-arrow--prev{left:16px;}
-.pd-arrow--next{right:16px;}
+.pd-arrow--prev{left:12px;}
+.pd-arrow--next{right:12px;}
 
+/* 카운터 */
 .pd-counter{
-  position:absolute;bottom:16px;right:20px;
-  font-size:11px;letter-spacing:0.15em;color:var(--c-stone);
-  background:rgba(253,251,248,0.85);padding:4px 12px;border-radius:20px;
-  border:1px solid var(--c-border);
+  position:absolute;bottom:12px;right:16px;
+  font-size:11px;letter-spacing:0.15em;color:rgba(255,255,255,0.9);
+  background:rgba(0,0,0,0.35);padding:3px 10px;border-radius:20px;
 }
 
-/* 모바일 전용 다음/목록보기 버튼 — PC에서 숨김 */
-.pd-nav-btns{display:none;}
-@media(max-width:900px){
-  .pd-nav-btns{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:240px 20px 48px;
-    gap:12px;
-    background:var(--c-bg);
-  }
-  .pd-nav-btn{
-    flex:1;
-    padding:15px 0;
-    font-family:var(--ff-sans);
-    font-size:13px;font-weight:300;
-    letter-spacing:0.14em;
-    color:var(--c-stone);
-    background:transparent;
-    border:1px solid var(--c-border);
-    border-radius:4px;
-    cursor:pointer;
-    text-align:center;
-    transition:border-color .25s,color .25s;
-  }
-  .pd-nav-btn:active{border-color:var(--c-stone);color:var(--c-dark);}
-}
+/* 모바일 포트폴리오 상세는 아래 RESPONSIVE 블록에서 통합 관리 */
 
 /* CONSULT */
 #pg-consult{background:var(--c-bg);}
 .consult__wrap{display:grid;grid-template-columns:420px 1fr;min-height:100%;}
-.consult__left{position:relative;overflow:hidden;display:flex;flex-direction:column;border-right:1px solid var(--c-border);flex-shrink:0;}
-.consult__left-img{flex:1;min-height:0;position:relative;overflow:hidden;background:var(--c-dark2);}
-.consult__left-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 8s ease;}
+
+/* 왼쪽: 사진 + 정보 */
+.consult__left{
+  position:relative;overflow:hidden;
+  display:flex;flex-direction:column;
+  border-right:1px solid var(--c-border);
+  flex-shrink:0;
+}
+.consult__left-img{
+  flex:1;min-height:0;position:relative;overflow:hidden;
+  background:var(--c-dark2);
+}
+.consult__left-img img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform 8s ease;
+}
 .consult__left-img img:hover{transform:scale(1.04);}
-.consult__left-img-empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.2);font-size:12px;letter-spacing:0.2em;}
-.consult__left-info{padding:32px 40px;background:var(--c-bg);border-top:1px solid var(--c-border);flex-shrink:0;}
+.consult__left-img-empty{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  color:rgba(255,255,255,0.2);font-size:12px;letter-spacing:0.2em;
+}
+.consult__left-info{
+  padding:32px 40px;background:var(--c-bg);
+  border-top:1px solid var(--c-border);flex-shrink:0;
+}
 .consult__left-info .label{margin-bottom:8px;}
 .consult__left-info .heading{font-size:clamp(24px,3vw,36px);margin-bottom:0;}
 .info-list{margin-top:20px;padding-top:20px;border-top:1px solid var(--c-border);display:flex;flex-direction:column;gap:12px;}
 .info-row{display:flex;gap:16px;align-items:baseline;}
 .info-row__label{font-size:10px;letter-spacing:0.26em;color:var(--c-gold);text-transform:uppercase;min-width:52px;flex-shrink:0;}
 .info-row__val{font-size:13px;color:var(--c-stone);line-height:1.8;}
+
+/* 오른쪽 스크롤 */
 .consult__right{overflow-y:auto;background:var(--c-cream);}
 .consult__right::-webkit-scrollbar{width:4px;}
 .consult__right::-webkit-scrollbar-thumb{background:var(--c-border);border-radius:2px;}
 
+/* 문의 폼 */
 .inquiry-form{padding:48px 52px;max-width:860px;}
 .form__title{font-family:var(--ff-sans);font-size:28px;font-weight:500;color:var(--c-dark);letter-spacing:0.02em;margin-bottom:4px;}
 .form__req-note{font-size:12px;color:var(--c-stone-lt);margin-bottom:40px;}
 .req{color:var(--c-gold);font-size:14px;}
 
-.inq-section{background:var(--c-bg);border:1px solid var(--c-border);border-radius:16px;padding:28px 32px;margin-bottom:16px;}
-.inq-section__title{font-family:var(--ff-sans);font-size:16px;font-weight:500;color:var(--c-dark);margin-bottom:4px;letter-spacing:0.02em;}
+/* ── 섹션 박스 ── */
+.inq-section{
+  background:var(--c-bg);
+  border:1px solid var(--c-border);
+  border-radius:16px;
+  padding:28px 32px;
+  margin-bottom:16px;
+}
+.inq-section__title{
+  font-family:var(--ff-sans);font-size:16px;font-weight:500;color:var(--c-dark);
+  margin-bottom:4px;letter-spacing:0.02em;
+}
 .inq-section__desc{font-family:var(--ff-sans);font-size:12px;color:var(--c-stone-lt);margin-bottom:16px;}
 
-.inq-portfolio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-height:300px;overflow-y:auto;padding:2px;}
+/* 포트폴리오 선택 그리드 */
+.inq-portfolio-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:10px;
+  max-height:300px;overflow-y:auto;padding:2px;
+}
 .inq-portfolio-grid::-webkit-scrollbar{width:4px;}
 .inq-portfolio-grid::-webkit-scrollbar-thumb{background:var(--c-border);border-radius:2px;}
 .inq-portfolio-loading{grid-column:1/-1;text-align:center;padding:32px;color:var(--c-stone-lt);font-size:12px;}
-.inq-port-card{position:relative;aspect-ratio:4/3;border-radius:8px;overflow:hidden;cursor:pointer;border:2px solid transparent;transition:border-color .2s,transform .2s;}
+.inq-port-card{
+  position:relative;aspect-ratio:4/3;border-radius:8px;overflow:hidden;
+  cursor:pointer;border:2px solid transparent;transition:border-color .2s,transform .2s;
+}
 .inq-port-card:hover{transform:scale(1.02);}
 .inq-port-card.is-sel{border-color:var(--c-gold);}
 .inq-port-card img{width:100%;height:100%;object-fit:cover;display:block;}
-.inq-port-card__name{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.65));color:#fff;font-size:11px;padding:14px 8px 7px;letter-spacing:0.04em;}
-.inq-port-card__check{position:absolute;top:7px;right:7px;width:22px;height:22px;background:var(--c-gold);border-radius:50%;display:none;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700;}
+.inq-port-card__name{
+  position:absolute;bottom:0;left:0;right:0;
+  background:linear-gradient(transparent,rgba(0,0,0,0.65));
+  color:#fff;font-size:11px;padding:14px 8px 7px;letter-spacing:0.04em;
+}
+.inq-port-card__check{
+  position:absolute;top:7px;right:7px;width:22px;height:22px;
+  background:var(--c-gold);border-radius:50%;
+  display:none;align-items:center;justify-content:center;
+  color:#fff;font-size:12px;font-weight:700;
+}
 .inq-port-card.is-sel .inq-port-card__check{display:flex;}
 
+/* 입력 그룹 */
 .inq-row-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
 .inq-row-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
 .inq-group{display:flex;flex-direction:column;gap:8px;margin-bottom:20px;}
 .inq-group:last-child{margin-bottom:0;}
 .inq-label{font-size:11px;letter-spacing:0.18em;color:var(--c-stone);text-transform:uppercase;font-weight:400;}
-.inq-input{border:1px solid var(--c-border);border-radius:8px;background:var(--c-cream);padding:12px 14px;font-family:var(--ff-sans);font-size:15px;font-weight:300;color:var(--c-dark);outline:none;transition:border-color .25s,background .25s;width:100%;}
+
+.inq-input{
+  border:1px solid var(--c-border);border-radius:8px;
+  background:var(--c-cream);padding:12px 14px;
+  font-family:var(--ff-sans);font-size:15px;font-weight:300;color:var(--c-dark);
+  outline:none;transition:border-color .25s,background .25s;width:100%;
+}
 .inq-input:focus{border-color:var(--c-gold);background:#fff;}
 .inq-input::placeholder{color:var(--c-stone-lt);}
-.inq-select{border:1px solid var(--c-border);border-radius:8px;background:var(--c-cream);padding:12px 14px;font-family:var(--ff-sans);font-size:15px;font-weight:300;color:var(--c-dark);outline:none;transition:border-color .25s;width:100%;-webkit-appearance:none;cursor:pointer;}
+
+.inq-select{
+  border:1px solid var(--c-border);border-radius:8px;
+  background:var(--c-cream);padding:12px 14px;
+  font-family:var(--ff-sans);font-size:15px;font-weight:300;color:var(--c-dark);
+  outline:none;transition:border-color .25s;width:100%;
+  -webkit-appearance:none;cursor:pointer;
+}
 .inq-select:focus{border-color:var(--c-gold);background:#fff;}
-.inq-textarea{border:1px solid var(--c-border);border-radius:8px;background:var(--c-cream);padding:14px 16px;font-family:var(--ff-sans);font-size:15px;font-weight:300;color:var(--c-dark);outline:none;transition:border-color .25s;width:100%;resize:none;height:120px;}
+
+.inq-textarea{
+  border:1px solid var(--c-border);border-radius:8px;
+  background:var(--c-cream);padding:14px 16px;
+  font-family:var(--ff-sans);font-size:15px;font-weight:300;color:var(--c-dark);
+  outline:none;transition:border-color .25s;width:100%;resize:none;height:120px;
+}
 .inq-textarea:focus{border-color:var(--c-gold);background:#fff;}
 .inq-textarea::placeholder{color:var(--c-stone-lt);}
+
+/* 라디오 */
 .inq-radio-group{display:flex;gap:20px;flex-wrap:wrap;margin-top:4px;}
 .inq-radio{display:flex;align-items:center;gap:8px;font-size:15px;color:var(--c-stone);cursor:pointer;}
 .inq-radio input{accent-color:var(--c-gold);width:16px;height:16px;}
+
+/* 체크박스 */
 .inq-checkbox{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--c-stone);cursor:pointer;}
 .inq-checkbox input{accent-color:var(--c-gold);width:16px;height:16px;}
-.inq-submit{width:100%;background:var(--c-gold);color:var(--c-dark);border:none;padding:18px;font-family:var(--ff-sans);font-size:13px;font-weight:500;letter-spacing:0.24em;text-transform:uppercase;cursor:pointer;transition:background .3s;margin-top:8px;border-radius:12px;}
+
+/* 제출 버튼 */
+.inq-submit{
+  width:100%;background:var(--c-gold);color:var(--c-dark);border:none;
+  padding:18px;font-family:var(--ff-sans);font-size:13px;font-weight:500;
+  letter-spacing:0.24em;text-transform:uppercase;cursor:pointer;
+  transition:background .3s;margin-top:8px;border-radius:12px;
+}
 .inq-submit:hover{background:var(--c-gold-lt);}
 .inq-submit:disabled{background:var(--c-stone-lt);cursor:not-allowed;}
+
+/* 완료 메시지 */
 .inq-success{text-align:center;padding:80px 20px;}
 .inq-success__icon{font-size:52px;margin-bottom:20px;color:var(--c-gold);}
 .inq-success__title{font-family:var(--ff-serif);font-size:28px;font-weight:300;color:var(--c-dark);margin-bottom:14px;}
@@ -549,7 +475,7 @@ button{font-family:var(--ff-sans);}
 .footer__copy{font-size:11px;letter-spacing:0.12em;color:var(--c-stone);margin-top:5px;}
 .footer__info{font-size:12px;color:var(--c-stone);line-height:1.8;text-align:right;}
 
-/* 1:1 문의 고정 버튼 */
+/* ── 1:1 문의 고정 버튼 ── */
 .float-consult{
   position:fixed;bottom:32px;right:32px;z-index:300;
   width:60px;height:60px;border-radius:50%;
@@ -563,9 +489,7 @@ button{font-family:var(--ff-sans);}
 .float-consult:hover{background:var(--c-gold);transform:scale(1.08);}
 .float-consult span{font-size:10px;letter-spacing:0.06em;line-height:1.3;text-align:center;}
 
-/* =========================================
-   RESPONSIVE — 모바일 (<= 900px)
-   ========================================= */
+/* RESPONSIVE */
 @media(max-width:900px){
   :root{--pad-x:20px;--header-h:56px;}
   .nav,.header-cta{display:none;}
@@ -583,106 +507,26 @@ button{font-family:var(--ff-sans);}
   .port-gallery{padding:20px var(--pad-x) 48px;}
   .project-grid{grid-template-columns:1fr;gap:28px;}
   .space-grid{grid-template-columns:repeat(2,1fr);gap:12px;}
-
-  /* ── 모바일 상세 뷰 — 세로 레이아웃 ── */
-  .port-detail__body{
-    display:block;
-    overflow-y:auto;
-    overflow-x:hidden;
-    -webkit-overflow-scrolling:touch;
-  }
-
-  /* 왼쪽 패널 → 상단 정보 영역 */
-  .port-detail__left{
-    padding:20px var(--pad-x) 16px;
-    border-right:none;
-    border-bottom:none;
-    overflow-y:visible;
-    max-height:none;
-  }
-
-  /* 현장명 크기 모바일 */
-  .pd-sitename{font-size:20px;margin-bottom:4px;}
-  .pd-sub{font-size:11px;margin-bottom:14px;}
-
-  /* 메타 정보 */
-  .pd-meta{
-    gap:8px 16px;
-    margin-bottom:16px;
-    padding-bottom:16px;
-  }
-
-  /* 공간 탭 */
-  .pd-space-tabs{
-    display:flex;
-    flex-wrap:nowrap;
-    gap:8px;
-    overflow-x:auto;
-    -webkit-overflow-scrolling:touch;
-    padding-bottom:4px;
-    margin-bottom:14px;
-    scrollbar-width:none;
-  }
-  .pd-space-tabs::-webkit-scrollbar{display:none;}
-  .pd-space-tab{white-space:nowrap;font-size:13px;padding:6px 16px;}
-
-  /* 모바일 썸네일: 가로 스크롤 */
-  .pd-thumbs{
-    display:flex;
-    flex-direction:row;
-    flex-wrap:nowrap;
-    gap:8px;
-    overflow-x:auto;
-    overflow-y:hidden;
-    padding:0 var(--pad-x) 16px;
-    margin:0 calc(-1 * var(--pad-x));
-    scroll-snap-type:x mandatory;
-    -webkit-overflow-scrolling:touch;
-    scrollbar-width:none;
-  }
-  .pd-thumbs::-webkit-scrollbar{display:none;}
-  .pd-thumb{
-    flex-shrink:0;
-    width:100px;
-    height:72px;
-    border-radius:4px;
-    scroll-snap-align:start;
-  }
-  .pd-thumb:first-child{margin-left:var(--pad-x);}
-
-  /* 오른쪽 → 메인 이미지 풀블리드 */
-  .port-detail__right{
-    position:relative;
-    padding:0;
-    background:#f8f7f5;
-    display:block;
-    overflow:hidden;
-  }
-  .pd-main-img{
-    width:100%;
-    height:auto;
-    max-height:none;
-    aspect-ratio:4/3;
-    object-fit:cover;
-    object-position:center;
-    display:block;
-    border-radius:0;
-  }
-
-  /* 모바일 화살표 */
-  .pd-arrow{width:40px;height:40px;}
+  /* 상세 모바일 — 세로 레이아웃 */
+  .port-detail__body{grid-template-columns:1fr;grid-template-rows:auto auto;overflow-y:auto;overflow-x:hidden;}
+  .port-detail__left{padding:20px var(--pad-x);border-right:none;border-bottom:1px solid var(--c-border);overflow-y:visible;max-height:none;}
+  .port-detail__right{position:relative;padding:0;background:var(--c-cream);display:block;overflow:visible;}
+  .pd-main-img{width:100%;height:72vw;object-fit:cover;object-position:center;display:block;}
+  .pd-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:20;width:40px;height:40px;}
   .pd-arrow--prev{left:12px;}
   .pd-arrow--next{right:12px;}
-  .pd-counter{
-    bottom:10px;right:12px;
-    background:rgba(0,0,0,0.35);
-    color:rgba(255,255,255,0.9);
-    border:none;
-  }
-
+  .pd-counter{bottom:8px;right:12px;}
+  .pd-thumb{width:100px;height:70px;}
   .port-detail__back{padding:14px var(--pad-x);}
-
-  /* SNS */
+  /* CONSULT */
+  .consult__wrap{grid-template-columns:1fr;min-height:unset;}
+  .consult__left{border-right:none;border-bottom:1px solid var(--c-border);}
+  .consult__left-img{min-height:220px;}
+  .consult__left-info{padding:20px var(--pad-x);}
+  .inquiry-form{padding:24px var(--pad-x);}
+  .inq-row-3,.inq-row-4{grid-template-columns:1fr 1fr;}
+  .inq-portfolio-grid{grid-template-columns:repeat(2,1fr);}
+  .inq-section{padding:20px;}
   .sns__inner{padding:40px var(--pad-x);}
   .sns-grid{grid-template-columns:1fr;max-width:100%;}
   .site-footer{padding:20px var(--pad-x);flex-direction:column;gap:8px;}
@@ -691,7 +535,6 @@ button{font-family:var(--ff-sans);}
   .float-consult{bottom:20px;right:16px;width:52px;height:52px;}
   .btn--consult{font-size:10px;padding:13px 32px;}
 }
-
 @media(max-width:480px){
   .inq-row-3,.inq-row-4{grid-template-columns:1fr;}
   .space-grid{grid-template-columns:repeat(2,1fr);gap:8px;}
@@ -719,56 +562,16 @@ button{font-family:var(--ff-sans);}
   </button>
 </header>
 
-<!-- 딤 오버레이 -->
-<div id="mob-dim" onclick="toggleMob()"></div>
-
-<!-- 드로어 메뉴 -->
 <div id="mob-menu">
-  <div class="mob-menu__head">
-    <div class="mob-menu__head-logo">DESIGN FOR</div>
-    <button class="mob-menu__close" onclick="toggleMob()">✕</button>
-  </div>
-  <nav class="mob-menu__nav">
-    <div class="mob-menu__link" onclick="goPage('about');toggleMob()">
-      회사소개
-      <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
-    </div>
-    <div class="mob-menu__link" onclick="goPage('portfolio');toggleMob()">
-      포트폴리오
-      <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
-    </div>
-    <div class="mob-menu__link" onclick="goPage('consult');toggleMob()">
-      견적문의
-      <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
-    </div>
-    <div class="mob-menu__link" onclick="goPage('sns');toggleMob()">
-      SNS
-      <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
-    </div>
-  </nav>
-  <div class="mob-menu__foot">
-    <button class="mob-menu__cta" onclick="goPage('consult');toggleMob()">견적 문의하기</button>
-  </div>
+  <span class="mob-menu__link" onclick="goPage('about');toggleMob()">회사소개</span>
+  <span class="mob-menu__link" onclick="goPage('portfolio');toggleMob()">포트폴리오</span>
+  <span class="mob-menu__link" onclick="goPage('consult');toggleMob()">견적문의</span>
+  <span class="mob-menu__link" onclick="goPage('sns');toggleMob()">SNS</span>
+  <button class="mob-menu__cta" onclick="goPage('consult');toggleMob()">견적 문의하기</button>
 </div>
 
-<!-- 라이트박스 -->
-<div id="lightbox">
-  <button class="lb-port-btn" id="lb-port-btn">
-    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="9 6 15 12 9 18"/></svg>
-    포트폴리오 보기
-  </button>
-  <button class="lb-close" id="lb-close">✕</button>
-  <button class="lb-arrow lb-arrow--prev" id="lb-prev">
-    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-  </button>
-  <img id="lb-img" src="" alt="">
-  <button class="lb-arrow lb-arrow--next" id="lb-next">
-    <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
-  </button>
-  <div class="lb-counter" id="lb-counter"></div>
-</div>
-
-<button class="float-consult" onclick="window.open('http://pf.kakao.com/_sfSan/chat','_blank')">
+<!-- 1:1 문의 고정 버튼 -->
+<button class="float-consult" onclick="goPage('consult')">
   <span>1:1</span><span>문의</span>
 </button>
 
@@ -822,17 +625,20 @@ button{font-family:var(--ff-sans);}
   <!-- PORTFOLIO -->
   <section class="page" id="pg-portfolio">
 
+    <!-- 목록 뷰 -->
     <div id="port-list-view">
       <div class="port-header">
         <div class="port-header__top" style="display:none;">
           <h2 class="port-header__title">공간을 바꾼 <em>이야기들</em></h2>
         </div>
+        <!-- 보기 방식 탭 -->
         <div class="view-tabs">
           <button class="view-tab is-on" id="vtab-project" onclick="switchViewTab('project')">프로젝트별로 보기</button>
           <button class="view-tab" id="vtab-space" onclick="switchViewTab('space')">공간별로 보기</button>
         </div>
       </div>
 
+      <!-- 필터 바 -->
       <div class="filter-bar" id="filter-bar-project">
         <button class="filter-chip is-on" data-pf="all">전체</button>
         <button class="filter-chip" data-pf="20PY">20PY</button>
@@ -848,32 +654,43 @@ button{font-family:var(--ff-sans);}
         <button class="filter-chip" data-sf="안방">안방</button>
       </div>
 
+      <!-- 갤러리 -->
       <div class="port-gallery">
+        <!-- 프로젝트별 -->
         <div class="project-grid" id="project-grid"></div>
+        <!-- 공간별 -->
         <div class="space-grid" id="space-grid" style="display:none"></div>
       </div>
     </div>
 
-    <!-- 상세 뷰 -->
+    <!-- 상세 뷰 — 좌우 2분할 -->
     <div class="port-detail" id="port-detail-view">
 
+      <!-- 뒤로가기 -->
       <button class="port-detail__back" onclick="showPortList()">
         <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
         목록으로
       </button>
 
+      <!-- 2분할 바디 -->
       <div class="port-detail__body">
 
-        <!-- 왼쪽(PC) / 상단(모바일): 정보 + 공간탭 + 썸네일 -->
+        <!-- 왼쪽: 정보 + 공간탭 + 썸네일 -->
         <div class="port-detail__left">
           <div class="pd-sitename" id="pd-sitename"></div>
           <div class="pd-sub" id="pd-sub"></div>
+
+          <!-- 메타 정보 -->
           <div class="pd-meta" id="pd-meta"></div>
+
+          <!-- 공간별 탭 -->
           <div class="pd-space-tabs" id="pd-space-tabs"></div>
+
+          <!-- 썸네일 -->
           <div class="pd-thumbs" id="pd-thumbs"></div>
         </div>
 
-        <!-- 오른쪽(PC) / 하단(모바일): 메인 이미지 -->
+        <!-- 오른쪽: 메인 이미지 -->
         <div class="port-detail__right">
           <img class="pd-main-img" id="pd-main-img" src="" alt="">
 
@@ -887,12 +704,6 @@ button{font-family:var(--ff-sans);}
           <div class="pd-counter" id="pd-counter"></div>
         </div>
 
-        <!-- 모바일 전용: 다음 / 목록보기 버튼 -->
-        <div class="pd-nav-btns">
-          <button class="pd-nav-btn" id="pd-btn-next-project">다음</button>
-          <button class="pd-nav-btn" onclick="showPortList()">목록보기</button>
-        </div>
-
       </div>
     </div>
   </section>
@@ -900,17 +711,32 @@ button{font-family:var(--ff-sans);}
   <!-- CONSULT -->
   <section class="page" id="pg-consult">
     <div class="consult__wrap">
+
+      <!-- 왼쪽: 사진 + 정보 -->
       <div class="consult__left">
         <div class="consult__left-img">
           <div class="consult__left-img-empty" id="consult-img-empty">사진을 업로드해 주세요</div>
           <img id="consult-left-img" src="" alt="" style="display:none;">
         </div>
+        <div class="consult__left-info">
+          <p class="label">Consultation</p>
+          <h2 class="heading">상담 <em>문의</em></h2>
+          <div class="info-list">
+            <div class="info-row"><span class="info-row__label">Tel</span><span class="info-row__val">010-8716-3073</span></div>
+            <div class="info-row"><span class="info-row__label">Kakao</span><span class="info-row__val">@디자인포</span></div>
+            <div class="info-row"><span class="info-row__label">Email</span><span class="info-row__val">designfor@naver.com</span></div>
+            <div class="info-row"><span class="info-row__label">시간</span><span class="info-row__val">평일 09:00 — 18:00</span></div>
+          </div>
+        </div>
       </div>
+
+      <!-- 오른쪽: 상담 폼 -->
       <div class="consult__right">
         <div class="inquiry-form" id="inquiry-form">
           <p class="form__title">상담문의</p>
           <p class="form__req-note">• 필수 입력 사항입니다.</p>
 
+          <!-- 1. 희망하는 인테리어 -->
           <div class="inq-section">
             <div class="inq-section__title">희망하는 인테리어</div>
             <div class="inq-section__desc">원하시는 스타일의 포트폴리오를 선택해 주세요 (복수 선택 가능)</div>
@@ -919,6 +745,7 @@ button{font-family:var(--ff-sans);}
             </div>
           </div>
 
+          <!-- 2. 기본정보 -->
           <div class="inq-section">
             <div class="inq-section__title">기본정보 <span class="req">•</span></div>
             <div class="inq-row-3">
@@ -947,6 +774,7 @@ button{font-family:var(--ff-sans);}
             </div>
           </div>
 
+          <!-- 3. 공사정보 -->
           <div class="inq-section">
             <div class="inq-section__title">공사정보 <span class="req">•</span></div>
             <div class="inq-row-4">
@@ -990,6 +818,7 @@ button{font-family:var(--ff-sans);}
             </div>
           </div>
 
+          <!-- 4. 의뢰정보 -->
           <div class="inq-section">
             <div class="inq-section__title">의뢰정보 <span class="req">•</span></div>
             <div class="inq-group">
@@ -1002,6 +831,7 @@ button{font-family:var(--ff-sans);}
             </div>
           </div>
 
+          <!-- 5. 개인정보 동의 -->
           <div class="inq-section">
             <label class="inq-checkbox">
               <input type="checkbox" id="inq-agree">
@@ -1018,6 +848,7 @@ button{font-family:var(--ff-sans);}
           </div>
         </div>
       </div>
+
     </div>
   </section>
 
@@ -1068,6 +899,7 @@ const db = getFirestore(app);
 /* ── 헤더 스크롤 블러 ── */
 (function(){
   const header=document.getElementById('header');
+  // 페이지별 스크롤 감지
   document.querySelectorAll('.page').forEach(page=>{
     page.addEventListener('scroll',()=>{
       if(page.scrollTop>20){
@@ -1083,6 +915,7 @@ const db = getFirestore(app);
 const PAGE_MAP={home:{el:'pg-home',nav:null},about:{el:'pg-about',nav:'nl-about'},portfolio:{el:'pg-portfolio',nav:'nl-portfolio'},consult:{el:'pg-consult',nav:'nl-consult'},sns:{el:'pg-sns',nav:'nl-sns'}};
 let current='home';
 
+/* URL hash 매핑 */
 const HASH_MAP={
   'home':    '',
   'about':   'about',
@@ -1107,12 +940,14 @@ window.goPage=function(id, updateHistory=true){
   if(id==='consult'){ setTimeout(loadInquiryPortfolios,80); loadConsultImg(); }
   document.getElementById('header').classList.toggle('is-solid',id!=='home');
 
+  // URL hash 업데이트
   if(updateHistory){
     const hash=HASH_MAP[id];
     history.pushState({page:id}, '', hash?'#'+hash:'#');
   }
 };
 
+// 뒤로가기/앞으로가기 처리
 window.addEventListener('popstate', e=>{
   if(e.state&&e.state.page) window.goPage(e.state.page, false);
   else {
@@ -1122,6 +957,7 @@ window.addEventListener('popstate', e=>{
   }
 });
 
+// 페이지 첫 로드 시 hash 읽어서 자동 이동
 (function(){
   const hash=location.hash.replace('#','');
   if(hash){
@@ -1134,20 +970,7 @@ let mobOpen=false;
 window.toggleMob=function(){
   mobOpen=!mobOpen;
   document.getElementById('mob-menu').classList.toggle('is-open',mobOpen);
-  document.getElementById('mob-dim').classList.toggle('is-open',mobOpen);
   document.getElementById('hamburger').classList.toggle('is-open',mobOpen);
-  // 드로어 열릴 때 헤더를 불투명하게 올려서 드로어 위에 덮이게 함
-  const header=document.getElementById('header');
-  if(mobOpen){
-    header.style.background='rgba(253,251,248,0.97)';
-    header.style.borderBottomColor='var(--c-border)';
-    header.style.backdropFilter='blur(12px)';
-  } else {
-    header.style.background='';
-    header.style.borderBottomColor='';
-    header.style.backdropFilter='';
-  }
-  document.body.style.overflow=mobOpen?'hidden':'';
 };
 
 /* ── FIRESTORE 실시간 ── */
@@ -1200,10 +1023,9 @@ function updateCounter(){const el=document.getElementById('slide-counter');el.te
 (function(){let tx=0;const s=document.getElementById('pg-home');s.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});s.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>40)window.slideMove(dx<0?1:-1);},{passive:true});})();
 
 /* ── PORTFOLIO 보기 방식 탭 ── */
-let viewMode='project';
+let viewMode='project';  // 'project' | 'space'
 let projFilter='all';
 let spaceFilter='all';
-let lbCurrentImgs=[];  // 공간별 라이트박스용
 
 window.switchViewTab=function(mode){
   viewMode=mode;
@@ -1216,12 +1038,14 @@ window.switchViewTab=function(mode){
   buildPortfolioView();
 };
 
+/* 프로젝트 필터 */
 document.querySelectorAll('[data-pf]').forEach(btn=>{
   btn.addEventListener('click',()=>{
     document.querySelectorAll('[data-pf]').forEach(b=>b.classList.remove('is-on'));
     btn.classList.add('is-on'); projFilter=btn.dataset.pf; buildPortfolioView();
   });
 });
+/* 공간 필터 */
 document.querySelectorAll('[data-sf]').forEach(btn=>{
   btn.addEventListener('click',()=>{
     document.querySelectorAll('[data-sf]').forEach(b=>b.classList.remove('is-on'));
@@ -1243,6 +1067,7 @@ function buildPortfolioView(){
   else buildSpaceGrid();
 }
 
+/* ── 프로젝트별 그리드 ── */
 function buildProjectGrid(){
   let filtered=allProjects;
   if(projFilter!=='all'){
@@ -1269,7 +1094,9 @@ function buildProjectGrid(){
     </div>`).join('');
 }
 
+/* ── 공간별 그리드 ── */
 function buildSpaceGrid(){
+  // 모든 현장의 상세 이미지 flatten
   const allSpaceImgs=[];
   allProjects.forEach(p=>{
     if(!p.images||!p.images.length) return;
@@ -1280,21 +1107,20 @@ function buildSpaceGrid(){
     });
   });
   const filtered=spaceFilter==='all'?allSpaceImgs:allSpaceImgs.filter(i=>i.tag===spaceFilter);
-  lbCurrentImgs=filtered;  // 라이트박스용 저장
   const grid=document.getElementById('space-grid');
   if(!filtered.length){grid.innerHTML='<div style="grid-column:1/-1;padding:80px 0;text-align:center;color:var(--c-stone-lt);font-size:13px;">해당 공간의 이미지가 없습니다.</div>';return;}
-  grid.innerHTML=filtered.map((img,i)=>`
-    <div class="space-card-item" data-lb-idx="${i}" onclick="lbOpen(${i})">
+  grid.innerHTML=filtered.map(img=>`
+    <div class="space-card-item" onclick="showPortDetail('${esc(img.projectId)}')">
       <div class="space-img-wrap" style="aspect-ratio:4/3;">
         <img src="${esc(img.url)}" alt="${esc(img.siteName)}" loading="lazy" style="height:100%;">
       </div>
     </div>`).join('');
 }
 
-/* ── 포트폴리오 상세 뷰어 ── */
-let pdAllImgs=[];
-let pdFiltered=[];
-let pdIdx=0;
+/* ── 포트폴리오 상세 — 2분할 뷰어 ── */
+let pdAllImgs=[];   // {url, spaceTag} 전체 이미지
+let pdFiltered=[];  // 현재 필터된 이미지
+let pdIdx=0;        // 현재 메인에 보이는 인덱스
 let pdSpaceFilter='all';
 
 window.showPortList=function(){
@@ -1303,14 +1129,14 @@ window.showPortList=function(){
   document.getElementById('pg-portfolio').scrollTop=0;
 };
 
-let currentProjectId=null;
-
-window.showPortDetail=function(id, targetUrl){
+window.showPortDetail=function(id){
   const p=allProjects.find(x=>x.id===id); if(!p) return;
 
+  // 현장명
   document.getElementById('pd-sitename').textContent=p.siteName||'';
   document.getElementById('pd-sub').textContent=[p.buildingName,p.area].filter(Boolean).join(' · ');
 
+  // 메타 정보 — 아파트명/유형/면적/준공/지역/기간
   const metaEl=document.getElementById('pd-meta');
   const metas=[
     {k:'아파트명', v:p.buildingName},
@@ -1324,6 +1150,7 @@ window.showPortDetail=function(id, targetUrl){
     <span class="pd-meta-key">${esc(m.k)}</span>
     <span class="pd-meta-val">${esc(m.v)}</span>`).join('');
 
+  // 전체 이미지 수집
   pdAllImgs=[];
   if(p.coverImage1) pdAllImgs.push({url:p.coverImage1, spaceTag:''});
   if(p.images) p.images.forEach(img=>{
@@ -1331,6 +1158,7 @@ window.showPortDetail=function(id, targetUrl){
     if(url!==p.coverImage1) pdAllImgs.push({url, spaceTag:img.spaceTag||''});
   });
 
+  // 공간 탭 생성
   const spaceTags=['all',...new Set(pdAllImgs.map(i=>i.spaceTag).filter(t=>t))];
   const tabEl=document.getElementById('pd-space-tabs');
   tabEl.innerHTML=spaceTags.map(t=>`
@@ -1339,22 +1167,7 @@ window.showPortDetail=function(id, targetUrl){
 
   pdSpaceFilter='all';
   pdIdx=0;
-  // 라이트박스에서 특정 이미지로 진입한 경우 해당 인덱스 찾기
-  if(targetUrl){
-    const found=pdAllImgs.findIndex(i=>i.url===targetUrl);
-    if(found>=0) pdIdx=found;
-  }
   pdApplyFilter();
-
-  currentProjectId=id;  // 현재 프로젝트 ID 저장
-
-  // 다음 버튼 — 다음 프로젝트로 이동
-  const nextBtn=document.getElementById('pd-btn-next-project');
-  if(nextBtn){
-    const curIdx=allProjects.findIndex(p=>p.id===id);
-    const nextProject=allProjects[curIdx+1]||allProjects[0]; // 마지막이면 처음으로
-    nextBtn.onclick=()=>window.showPortDetail(nextProject.id);
-  }
 
   document.getElementById('port-list-view').style.display='none';
   document.getElementById('port-detail-view').classList.add('is-active');
@@ -1389,125 +1202,42 @@ function pdShowImg(idx){
 
   const url=pdFiltered[pdIdx].url;
   const mainImg=document.getElementById('pd-main-img');
+
+  // 즉시 표시 (loading 상태 없이 바로 src 교체)
   mainImg.src=url;
   mainImg.style.opacity='1';
 
+  // 썸네일 active 업데이트
   document.querySelectorAll('#pd-thumbs .pd-thumb').forEach((t,i)=>{
     t.classList.toggle('is-active',i===pdIdx);
   });
 
+  // 카운터
   const counter=document.getElementById('pd-counter');
   if(counter) counter.textContent=
     pdFiltered.length>1?`${String(pdIdx+1).padStart(2,'0')} / ${String(pdFiltered.length).padStart(2,'0')}`:'';
 
+  // 화살표 항상 표시
   const prev=document.getElementById('pd-arrow-prev');
   const next=document.getElementById('pd-arrow-next');
   if(prev) prev.style.display='flex';
   if(next) next.style.display='flex';
 
+  // 선택된 썸네일 가로 스크롤
   const thumbEl=document.querySelector(`#pd-thumbs .pd-thumb[data-i="${pdIdx}"]`);
   if(thumbEl) thumbEl.scrollIntoView({inline:'nearest',block:'nearest',behavior:'smooth'});
 }
 
 window.pdMove=function(dir){ pdShowImg(pdIdx+dir); };
-window.pdShowImg=pdShowImg;  // onclick에서 직접 호출 가능하도록 노출
 
-/* ── 라이트박스 ── */
-let lbImgs=[];  // 현재 공간 필터된 이미지 배열
-let lbIdx=0;
-
-window.lbOpen=function(idx){
-  // buildSpaceGrid에서 만든 filtered 배열을 재활용
-  lbImgs=lbCurrentImgs;
-  if(!lbImgs.length) return;
-  lbIdx=idx;
-  lbRender();
-  document.getElementById('lightbox').classList.add('is-open');
-  document.body.style.overflow='hidden';
-};
-
-function lbRender(){
-  const img=lbImgs[lbIdx];
-  document.getElementById('lb-img').src=img.url;
-  document.getElementById('lb-counter').textContent=
-    lbImgs.length>1?`${String(lbIdx+1).padStart(2,'0')} / ${String(lbImgs.length).padStart(2,'0')}`:'';
-  document.getElementById('lb-prev').style.display=lbImgs.length>1?'flex':'none';
-  document.getElementById('lb-next').style.display=lbImgs.length>1?'flex':'none';
-}
-
-function lbClose(){
-  document.getElementById('lightbox').classList.remove('is-open');
-  document.body.style.overflow='';
-}
-
-document.getElementById('lb-close').onclick=lbClose;
-document.getElementById('lb-port-btn').onclick=function(){
-  const img=lbImgs[lbIdx];
-  if(!img) return;
-  lbClose();
-  // 포트폴리오 탭으로 이동 후 해당 프로젝트 상세 열기
-  // 클릭한 이미지 URL을 기억해서 해당 인덱스로 이동
-  const targetUrl=img.url;
-  window.goPage('portfolio');
-  setTimeout(()=>{
-    window.showPortDetail(img.projectId, targetUrl);
-  }, 80);
-};
-document.getElementById('lightbox').onclick=function(e){
-  if(e.target===this) lbClose();
-};
-document.getElementById('lb-prev').onclick=function(e){
-  e.stopPropagation();
-  lbIdx=(lbIdx-1+lbImgs.length)%lbImgs.length;
-  lbRender();
-};
-document.getElementById('lb-next').onclick=function(e){
-  e.stopPropagation();
-  lbIdx=(lbIdx+1)%lbImgs.length;
-  lbRender();
-};
-
-// 키보드
-document.addEventListener('keydown',e=>{
-  if(!document.getElementById('lightbox').classList.contains('is-open')) return;
-  if(e.key==='Escape') lbClose();
-  if(e.key==='ArrowLeft'){lbIdx=(lbIdx-1+lbImgs.length)%lbImgs.length;lbRender();}
-  if(e.key==='ArrowRight'){lbIdx=(lbIdx+1)%lbImgs.length;lbRender();}
-});
-
-// 모바일 스와이프
-(function(){
-  let tx=0;
-  const lb=document.getElementById('lightbox');
-  lb.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
-  lb.addEventListener('touchend',e=>{
-    const dx=e.changedTouches[0].clientX-tx;
-    if(Math.abs(dx)>40){
-      lbIdx=dx<0?(lbIdx+1)%lbImgs.length:(lbIdx-1+lbImgs.length)%lbImgs.length;
-      lbRender();
-    }
-  },{passive:true});
-})();
-
+// 키보드 좌우 화살표
 document.addEventListener('keydown',e=>{
   if(!document.getElementById('port-detail-view').classList.contains('is-active')) return;
-  if(document.getElementById('lightbox').classList.contains('is-open')) return; // 라이트박스 우선
   if(e.key==='ArrowLeft') window.pdMove(-1);
   if(e.key==='ArrowRight') window.pdMove(1);
 });
 
-// 모바일 스와이프 (메인 이미지 영역)
-(function(){
-  let tx=0;
-  const detailRight=document.querySelector('.port-detail__right');
-  if(!detailRight) return;
-  detailRight.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
-  detailRight.addEventListener('touchend',e=>{
-    const dx=e.changedTouches[0].clientX-tx;
-    if(Math.abs(dx)>40) window.pdMove(dx<0?1:-1);
-  },{passive:true});
-})();
-
+// 상담 페이지 왼쪽 사진 로드 (Firestore settings/consultImg)
 async function loadConsultImg(){
   try{
     const {getFirestore,doc,getDoc}=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
@@ -1524,6 +1254,8 @@ async function loadConsultImg(){
 }
 
 /* ── 문의 폼 ── */
+
+// 포트폴리오 카드 로드
 function loadInquiryPortfolios(){
   const grid=document.getElementById('inq-portfolio-grid');
   if(!grid) return;
@@ -1541,6 +1273,7 @@ window.togglePortCard=function(el){
   el.classList.toggle('is-sel');
 };
 
+// 기타 경로 입력창 토글
 document.querySelectorAll('input[name="inq-route"]').forEach(r=>{
   r.addEventListener('change',()=>{
     const etc=document.getElementById('inq-route-etc');
@@ -1548,37 +1281,96 @@ document.querySelectorAll('input[name="inq-route"]').forEach(r=>{
   });
 });
 
-const WORKER_URL = 'https://designfor-alimtalk.729497.workers.dev';
+// 솔라피 알림톡 발송
+const SENDER_NUM='01074720065'; // 발신번호
 
-async function sendWorker(type, data) {
-  try {
-    await fetch(WORKER_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ type, data })
+async function sendSolapi(to, templateId, variables){
+  const ts=Date.now().toString();
+  const msgId='msg-'+ts+'-'+Math.random().toString(36).slice(2);
+  const apiKey='NCS3UR67AYGXGLPY';
+  const apiSecret='KQNMZJEECPLGGVEZQMQSIZ7SHGUCEFZA';
+
+  const enc=new TextEncoder();
+  const key=await crypto.subtle.importKey('raw',enc.encode(apiSecret),{name:'HMAC',hash:'SHA-256'},false,['sign']);
+  const sig=await crypto.subtle.sign('HMAC',key,enc.encode(ts+msgId));
+  const signature=Array.from(new Uint8Array(sig)).map(b=>b.toString(16).padStart(2,'0')).join('');
+  const authHeader='HMAC-SHA256 apiKey='+apiKey+', date='+ts+', salt='+msgId+', signature='+signature;
+
+  const body={
+    message:{
+      to,
+      from: SENDER_NUM,
+      kakaoOptions:{
+        pfId:'CH_a91df41393e811ad40c9a0f53fa5a7c7',
+        templateId,
+        variables
+      }
+    }
+  };
+  try{
+    await fetch('https://api.solapi.com/messages/v4/send',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':authHeader},
+      body:JSON.stringify(body)
     });
-  } catch(e) { console.warn('Worker 발송 실패', e); }
+  } catch(e){ console.warn('솔라피 알림톡 발송 실패',e); }
 }
 
+// SMS 문자 발송 (카카오 없는 고객 대비)
+async function sendSMS(to, text){
+  const ts=Date.now().toString();
+  const msgId='sms-'+ts+'-'+Math.random().toString(36).slice(2);
+  const apiKey='NCS3UR67AYGXGLPY';
+  const apiSecret='KQNMZJEECPLGGVEZQMQSIZ7SHGUCEFZA';
+
+  const enc=new TextEncoder();
+  const key=await crypto.subtle.importKey('raw',enc.encode(apiSecret),{name:'HMAC',hash:'SHA-256'},false,['sign']);
+  const sig=await crypto.subtle.sign('HMAC',key,enc.encode(ts+msgId));
+  const signature=Array.from(new Uint8Array(sig)).map(b=>b.toString(16).padStart(2,'0')).join('');
+  const authHeader='HMAC-SHA256 apiKey='+apiKey+', date='+ts+', salt='+msgId+', signature='+signature;
+
+  const body={
+    message:{
+      to,
+      from: SENDER_NUM,
+      text
+    }
+  };
+  try{
+    await fetch('https://api.solapi.com/messages/v4/send',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':authHeader},
+      body:JSON.stringify(body)
+    });
+  } catch(e){ console.warn('SMS 발송 실패',e); }
+}
+
+// 문의 접수 제출
 window.submitInquiry=async function(){
   const name=document.getElementById('inq-name').value.trim();
   const phone=document.getElementById('inq-phone').value.trim();
   const agree=document.getElementById('inq-agree').checked;
   const routeEl=document.querySelector('input[name="inq-route"]:checked');
+
   if(!name){alert('이름을 입력해 주세요.');return;}
   if(!phone){alert('연락처를 입력해 주세요.');return;}
   if(!routeEl){alert('알게 된 경로를 선택해 주세요.');return;}
   if(!agree){alert('개인정보 수집 및 이용에 동의해 주세요.');return;}
+
   const btn=document.getElementById('inq-submit-btn');
   btn.disabled=true; btn.textContent='접수 중...';
+
   const now=new Date();
   const 접수일시=`${now.getFullYear()}.${String(now.getMonth()+1).padStart(2,'0')}.${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+
   const route=routeEl.value==='기타'
     ? (document.getElementById('inq-route-etc').value||'기타')
     : routeEl.value;
+
   const selCards=[...document.querySelectorAll('.inq-port-card.is-sel')].map(c=>c.querySelector('.inq-port-card__name')?.textContent||'').join(', ');
+
   const data={
-    name,phone,
+    name, phone,
     email:    document.getElementById('inq-email').value.trim(),
     route,
     type:     document.getElementById('inq-type').value,
@@ -1595,33 +1387,33 @@ window.submitInquiry=async function(){
     접수일시,
     createdAt: Date.now()
   };
+
+  // 1. Firestore 저장
   try{
     const {getFirestore,collection,doc,setDoc}=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
     const db2=getFirestore();
     await setDoc(doc(collection(db2,'inquiries')),data);
   } catch(e){ console.warn('Firestore 저장 실패',e); }
-  // 직원 알림톡
-  await sendWorker('new_inquiry', {
-    name:       name,
-    tel:        phone.replace(/-/g,''),
-    spaceParts: data.size ? data.size+'평' : '미입력',
-    budget:     data.budget ? data.budget+'만원' : '미입력',
-    msg:        data.content || data.title || '내용 없음',
-    acceptedAt: 접수일시
-  });
 
-  // 고객 접수완료 알림톡
-  await sendWorker('customer_ack', {
-    name:       name,
-    tel:        phone.replace(/-/g,''),
-    orderNo:    접수일시,
-    acceptedAt: 접수일시
-  });
+  const cleanPhone=phone.replace(/-/g,'');
+
+  // 2. 직원 3명 — SMS 발송
+  const staffNums=['01087163073','01074720065','01041217976'];
+  const staffSmsText=`[디자인포] 새 견적문의\n고객명: ${name}\n연락처: ${phone}\n평수: ${data.size?data.size+'평':'미입력'}\n예산: ${data.budget?data.budget+'만원':'미입력'}\n접수일시: ${접수일시}\n관리자 페이지에서 확인하세요.`;
+
+  await Promise.all(staffNums.map(num=>sendSMS(num, staffSmsText)));
+
+  // 3. 고객 — SMS 발송
+  const custSmsText=`[디자인포] 상담 접수 완료\n${name} 고객님, 상담 문의가 접수되었습니다.\n접수일시: ${접수일시}\n빠른 시일 내에 연락드리겠습니다.\n문의: 010-7472-0065`;
+
+  await sendSMS(cleanPhone, custSmsText);
+
+  // 완료 화면
   document.getElementById('inquiry-form').innerHTML=`
     <div class="inq-success">
       <div class="inq-success__icon">✓</div>
       <div class="inq-success__title">문의가 접수되었습니다!</div>
-      <div class="inq-success__desc">카카오톡 채널(@디자인포)로<br>접수 확인 메시지를 보내드렸어요.<br><br>빠른 시일 내에 연락드리겠습니다.</div>
+      <div class="inq-success__desc">문자와 카카오톡으로<br>접수 확인 메시지를 보내드렸어요.<br><br>빠른 시일 내에 연락드리겠습니다.</div>
     </div>`;
 };
 
