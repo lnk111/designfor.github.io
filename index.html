@@ -538,10 +538,23 @@ button{font-family:var(--ff-sans);}
 .sns-card:hover .sns-card__name{color:var(--c-gold);}
 .sns-card__id{position:relative;z-index:1;font-size:14px;font-weight:400;color:var(--c-dark);transition:color .4s;}
 .sns-card:hover .sns-card__id{color:#F0EDE6;}
-.site-footer{background:var(--c-dark);padding:28px var(--pad-x);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;border-top:1px solid rgba(181,145,85,0.22);flex-shrink:0;}
+/* 모바일에서 견적문의 사진 숨기기 */
+@media(max-width:900px){
+  .consult__left-img--hide-mobile{display:none !important;}
+}
+
+/* 푸터 연락처 */
+.footer__contact{display:flex;flex-direction:column;gap:6px;}
+.footer__contact-row{display:flex;gap:12px;font-size:11px;color:var(--c-stone);}
+.footer__contact-label{color:var(--c-gold);letter-spacing:0.12em;min-width:44px;font-size:10px;}
+@media(max-width:900px){
+  .footer__contact{margin-top:12px;}
+  .footer__info{display:none;}
+}
 .footer__brand{font-family:var(--ff-serif);font-size:18px;font-weight:300;letter-spacing:0.14em;color:#F0EDE6;}
 .footer__copy{font-size:11px;letter-spacing:0.12em;color:var(--c-stone);margin-top:5px;}
 .footer__info{font-size:12px;color:var(--c-stone);line-height:1.8;text-align:right;}
+.site-footer{background:var(--c-dark);padding:28px var(--pad-x);display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:20px;border-top:1px solid rgba(181,145,85,0.22);flex-shrink:0;}
 
 /* ── 1:1 문의 고정 버튼 ── */
 .float-consult{
@@ -794,28 +807,22 @@ button{font-family:var(--ff-sans);}
   <section class="page" id="pg-consult">
     <div class="consult__wrap">
 
-      <!-- 왼쪽: 사진 + 정보 -->
+      <!-- 왼쪽: 사진 + 정보 (모바일에서 사진 숨김) -->
       <div class="consult__left">
-        <div class="consult__left-img">
+        <div class="consult__left-img consult__left-img--hide-mobile">
           <div class="consult__left-img-empty" id="consult-img-empty">사진을 업로드해 주세요</div>
           <img id="consult-left-img" src="" alt="" style="display:none;">
         </div>
         <div class="consult__left-info">
           <p class="label">Consultation</p>
-          <h2 class="heading">상담 <em>문의</em></h2>
-          <div class="info-list">
-            <div class="info-row"><span class="info-row__label">Tel</span><span class="info-row__val">010-8716-3073</span></div>
-            <div class="info-row"><span class="info-row__label">Kakao</span><span class="info-row__val">@디자인포</span></div>
-            <div class="info-row"><span class="info-row__label">Email</span><span class="info-row__val">designfor@naver.com</span></div>
-            <div class="info-row"><span class="info-row__label">시간</span><span class="info-row__val">평일 09:00 — 18:00</span></div>
-          </div>
+          <h2 class="heading">견적 <em>문의</em></h2>
         </div>
       </div>
 
       <!-- 오른쪽: 상담 폼 -->
       <div class="consult__right">
         <div class="inquiry-form" id="inquiry-form">
-          <p class="form__title">상담문의</p>
+          <p class="form__title">견적문의</p>
           <p class="form__req-note">• 필수 입력 사항입니다.</p>
 
           <!-- 1. 희망하는 인테리어 -->
@@ -957,8 +964,17 @@ button{font-family:var(--ff-sans);}
       </div>
     </div>
     <footer class="site-footer">
-      <div><div class="footer__brand">DESIGN FOR</div><div class="footer__copy">© 2025 Design For. All Rights Reserved.</div></div>
-      <div class="footer__info">대표 : 남경 &nbsp;|&nbsp; 경기도 화성시<br>Tel : 010-0000-0000 &nbsp;|&nbsp; designfor@naver.com</div>
+      <div>
+        <div class="footer__brand">DESIGN FOR</div>
+        <div class="footer__copy">© 2025 Design For. All Rights Reserved.</div>
+      </div>
+      <div class="footer__contact">
+        <div class="footer__contact-row"><span class="footer__contact-label">TEL</span><span>0507-1319-3073</span></div>
+        <div class="footer__contact-row"><span class="footer__contact-label">KAKAO</span><span>@디자인포</span></div>
+        <div class="footer__contact-row"><span class="footer__contact-label">EMAIL</span><span>designfor@naver.com</span></div>
+        <div class="footer__contact-row"><span class="footer__contact-label">시간</span><span>평일 09:00 — 18:00</span></div>
+      </div>
+      <div class="footer__info">대표 : 남경 &nbsp;|&nbsp; 경기도 화성시<br>Tel : 0507-1319-3073 &nbsp;|&nbsp; designfor@naver.com</div>
     </footer>
   </section>
 
