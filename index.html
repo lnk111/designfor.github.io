@@ -52,13 +52,79 @@ button{font-family:var(--ff-sans);}
 .hamburger.is-open .hamburger__bar:nth-child(2){opacity:0;}
 .hamburger.is-open .hamburger__bar:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
 
-/* MOBILE MENU */
-#mob-menu{position:fixed;inset:0;z-index:400;background:var(--c-bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:36px;opacity:0;pointer-events:none;transition:opacity .4s var(--ease-out);}
-#mob-menu.is-open{opacity:1;pointer-events:all;}
-.mob-menu__link{font-family:var(--ff-serif);font-size:32px;font-weight:300;letter-spacing:0.10em;color:var(--c-dark);cursor:pointer;transition:color .25s;}
-.mob-menu__link:hover{color:var(--c-gold);}
-.mob-menu__cta{margin-top:8px;font-size:10px;letter-spacing:0.28em;color:var(--c-gold);border:1px solid var(--c-gold);padding:12px 32px;cursor:pointer;background:none;transition:background .3s,color .3s;}
-.mob-menu__cta:hover{background:var(--c-gold);color:#fff;}
+/* ── 모바일 드로어 메뉴 ── */
+#mob-menu{
+  position:fixed;inset:0;z-index:400;
+  display:flex;
+  pointer-events:none;
+}
+#mob-menu.is-open{pointer-events:all;}
+
+/* 왼쪽 dim 영역 */
+.mob-menu__dim{
+  flex:1;
+  background:rgba(0,0,0,0.5);
+  opacity:0;
+  transition:opacity .35s var(--ease-out);
+}
+#mob-menu.is-open .mob-menu__dim{opacity:1;}
+
+/* 오른쪽 드로어 */
+.mob-menu__drawer{
+  width:72%;
+  max-width:320px;
+  background:#fff;
+  display:flex;
+  flex-direction:column;
+  transform:translateX(100%);
+  transition:transform .35s var(--ease-out);
+  overflow-y:auto;
+}
+#mob-menu.is-open .mob-menu__drawer{transform:translateX(0);}
+
+/* 드로어 헤더 */
+.mob-menu__header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 24px;
+  border-bottom:1px solid var(--c-border);
+}
+.mob-menu__logo{
+  font-family:var(--ff-serif);font-size:18px;font-weight:400;
+  letter-spacing:0.14em;color:var(--c-dark);
+}
+.mob-menu__logo span{
+  display:block;font-family:var(--ff-sans);font-size:9px;
+  letter-spacing:0.28em;color:var(--c-stone-lt);margin-top:3px;
+}
+.mob-menu__close{
+  width:36px;height:36px;background:none;border:none;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-size:20px;color:var(--c-stone);
+}
+
+/* 메뉴 항목 */
+.mob-menu__nav{flex:1;display:flex;flex-direction:column;}
+.mob-menu__link{
+  display:block;padding:20px 24px;
+  font-family:var(--ff-sans);font-size:16px;font-weight:400;
+  letter-spacing:0.06em;color:var(--c-dark);
+  cursor:pointer;border-bottom:1px solid var(--c-border);
+  transition:background .2s,color .2s;
+  background:none;border-left:none;border-right:none;border-top:none;
+  text-align:left;width:100%;
+}
+.mob-menu__link:hover{background:#F8F6F2;color:var(--c-gold);}
+.mob-menu__link:active{background:#F0EDE6;}
+
+/* 하단 상담 버튼 */
+.mob-menu__footer{padding:24px;}
+.mob-menu__cta{
+  width:100%;background:var(--c-dark);color:#fff;border:none;
+  padding:14px;font-family:var(--ff-sans);font-size:12px;
+  font-weight:400;letter-spacing:0.20em;cursor:pointer;
+  transition:background .25s;
+}
+.mob-menu__cta:hover{background:var(--c-gold);}
 
 /* PAGE SYSTEM */
 #page-wrap{position:fixed;top:var(--header-h);left:0;right:0;bottom:0;z-index:1;}
@@ -563,11 +629,25 @@ button{font-family:var(--ff-sans);}
 </header>
 
 <div id="mob-menu">
-  <span class="mob-menu__link" onclick="goPage('about');toggleMob()">회사소개</span>
-  <span class="mob-menu__link" onclick="goPage('portfolio');toggleMob()">포트폴리오</span>
-  <span class="mob-menu__link" onclick="goPage('consult');toggleMob()">견적문의</span>
-  <span class="mob-menu__link" onclick="goPage('sns');toggleMob()">SNS</span>
-  <button class="mob-menu__cta" onclick="goPage('consult');toggleMob()">견적 문의하기</button>
+  <div class="mob-menu__dim" onclick="toggleMob()"></div>
+  <div class="mob-menu__drawer">
+    <div class="mob-menu__header">
+      <div class="mob-menu__logo">
+        DESIGN FOR
+        <span>쉬워지는 인테리어</span>
+      </div>
+      <button class="mob-menu__close" onclick="toggleMob()">✕</button>
+    </div>
+    <nav class="mob-menu__nav">
+      <button class="mob-menu__link" onclick="goPage('about');toggleMob()">회사소개</button>
+      <button class="mob-menu__link" onclick="goPage('portfolio');toggleMob()">포트폴리오</button>
+      <button class="mob-menu__link" onclick="goPage('consult');toggleMob()">견적문의</button>
+      <button class="mob-menu__link" onclick="goPage('sns');toggleMob()">SNS</button>
+    </nav>
+    <div class="mob-menu__footer">
+      <button class="mob-menu__cta" onclick="goPage('consult');toggleMob()">견적 문의하기</button>
+    </div>
+  </div>
 </div>
 
 <!-- 1:1 문의 고정 버튼 -->
@@ -971,6 +1051,8 @@ window.toggleMob=function(){
   mobOpen=!mobOpen;
   document.getElementById('mob-menu').classList.toggle('is-open',mobOpen);
   document.getElementById('hamburger').classList.toggle('is-open',mobOpen);
+  // 드로어 열릴 때 배경 스크롤 방지
+  document.body.style.overflow=mobOpen?'hidden':'';
 };
 
 /* ── FIRESTORE 실시간 ── */
