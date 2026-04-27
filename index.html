@@ -805,18 +805,10 @@ button{font-family:var(--ff-sans);}
 
   <!-- CONSULT -->
   <section class="page" id="pg-consult">
-    <div class="consult__wrap">
+    <div class="consult__wrap" style="grid-template-columns:1fr;">
 
-      <!-- 왼쪽: 사진만 (텍스트 제거) -->
-      <div class="consult__left">
-        <div class="consult__left-img">
-          <div class="consult__left-img-empty" id="consult-img-empty">사진을 업로드해 주세요</div>
-          <img id="consult-left-img" src="" alt="" style="display:none;">
-        </div>
-      </div>
-
-      <!-- 오른쪽: 상담 폼 -->
-      <div class="consult__right">
+      <!-- 상담 폼 -->
+      <div class="consult__right" style="border-left:none;">
         <div class="inquiry-form" id="inquiry-form">
           <p class="form__title">견적문의</p>
           <p class="form__req-note">• 필수 입력 사항입니다.</p>
