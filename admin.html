@@ -842,22 +842,11 @@ async function uploadToCloudinary(file){
   if(!res.ok){const e=await res.json();throw new Error(e.error?.message||'실패');}
   return (await res.json()).secure_url;
 }
-function compressImage(file){
-  return new Promise(resolve=>{
-    if(file.size<300*1024){resolve(file);return;}
-    const img=new Image(), url=URL.createObjectURL(file);
-    img.onload=()=>{
-      URL.revokeObjectURL(url);
-      let{width:w,height:h}=img;
-      if(w>MAX_PX||h>MAX_PX){if(w>h){h=Math.round(h*MAX_PX/w);w=MAX_PX;}else{w=Math.round(w*MAX_PX/h);h=MAX_PX;}}
-      const c=document.createElement('canvas'); c.width=w; c.height=h;
-      c.getContext('2d').drawImage(img,0,0,w,h);
-      c.toBlob(b=>resolve(b||file),'image/jpeg',QUALITY);
-    };
-    img.onerror=()=>resolve(file); img.src=url;
-  });
+  
+function compressImage(file) {
+  // Cloudinary가 서버에서 자동 리사이즈/최적화 처리하므로 클라이언트 압축 생략
+  return Promise.resolve(file);
 }
-
 /* ── LINKS ── */
 async function fetchLinks(){
   try{
