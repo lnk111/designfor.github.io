@@ -458,8 +458,9 @@ const app = initializeApp({
 const db = getFirestore(app);
 
 const PASS='1212', CLOUD_NAME='dirocerek', UPLOAD_PRESET='designfor_upload';
-const PARALLEL=6, MAX_PX=1920, QUALITY=0.82;
+const PARALLEL=8, COMPRESS_PX=1600, COMPRESS_QUALITY=0.78, COMPRESS_MIN_SIZE=400*1024;
 
+let objectUrls=[];   // 메모리 회수를 위한 ObjectURL 추적
 let editingId=null;
 let pendingCover1=null, pendingCover2=null;
 let existingCover1='', existingCover2='';
@@ -467,6 +468,9 @@ let detailItems=[];   // {src, file, spaceTag}
 let cachedProjects=[];
 let dragSrcIdx=null;
 let tagTargetIdx=null;
+
+function makeObjectUrl(file){ const u=URL.createObjectURL(file); objectUrls.push(u); return u; }
+function clearObjectUrls(){ objectUrls.forEach(u=>{ try{URL.revokeObjectURL(u);}catch(e){} }); objectUrls=[]; }
 
 /* ── AUTH ── */
 window.doLogin=function(){
@@ -514,14 +518,10 @@ async function loadConsultImgAdmin(){
 document.getElementById('consult-img-file').addEventListener('change',e=>{
   const file=e.target.files[0]; if(!file) return;
   pendingConsultImg=file;
-  const reader=new FileReader();
-  reader.onload=ev=>{
-    const img=document.getElementById('consult-img-preview-img');
-    const ph=document.getElementById('consult-img-placeholder');
-    img.src=ev.target.result; img.style.display='block';
-    if(ph) ph.style.display='none';
-  };
-  reader.readAsDataURL(file);
+  const img=document.getElementById('consult-img-preview-img');
+  const ph=document.getElementById('consult-img-placeholder');
+  img.src=makeObjectUrl(file); img.style.display='block';
+  if(ph) ph.style.display='none';
 });
 
 window.saveConsultImg=async function(){
@@ -617,6 +617,7 @@ window.openModal=function(id){
   pendingCover1=pendingCover2=null;
   detailItems=[];
   existingCover1=existingCover2='';
+  clearObjectUrls();
 
   ['mf-sitename','mf-buildingname','mf-area','mf-location','mf-period','mf-builtyear'].forEach(i=>{
     const el=document.getElementById(i); if(el) el.value='';
@@ -656,7 +657,7 @@ window.openModal=function(id){
   }
   document.getElementById('modal-overlay').classList.add('show');
 };
-window.closeModal=function(){ document.getElementById('modal-overlay').classList.remove('show'); };
+window.closeModal=function(){ document.getElementById('modal-overlay').classList.remove('show'); clearObjectUrls(); };
 document.getElementById('modal-overlay').addEventListener('click',e=>{ if(e.target===document.getElementById('modal-overlay')) window.closeModal(); });
 
 /* ── COVER ── */
@@ -680,9 +681,7 @@ function setCoverPreview(n,src){
 window.onCoverSelect=function(e,n){
   const file=e.target.files[0]; if(!file) return;
   if(n===1) pendingCover1=file; else pendingCover2=file;
-  const reader=new FileReader();
-  reader.onload=ev=>setCoverPreview(n,ev.target.result);
-  reader.readAsDataURL(file);
+  setCoverPreview(n,makeObjectUrl(file));
 };
 
 // 파일 input 이벤트 — script 로드 후 직접 연결
@@ -706,9 +705,7 @@ function setupCoverDragDrop(n){
     const file=Array.from(e.dataTransfer.files).find(f=>f.type.startsWith('image/'));
     if(!file){ showToast('이미지 파일만 업로드 가능합니다.'); return; }
     if(n===1) pendingCover1=file; else pendingCover2=file;
-    const reader=new FileReader();
-    reader.onload=ev=>setCoverPreview(n,ev.target.result);
-    reader.readAsDataURL(file);
+    setCoverPreview(n,makeObjectUrl(file));
   });
 }
 setupCoverDragDrop(1);
@@ -736,13 +733,9 @@ function loadExistingImages(images){
 window.onDetailSelect=function(e){ addDetailFiles(Array.from(e.target.files).filter(f=>f.type.startsWith('image/'))); e.target.value=''; };
 function addDetailFiles(files){
   files.forEach(f=>{
-    const item={src:null,file:f,spaceTag:''};
-    detailItems.push(item);
-    const idx=detailItems.length-1;
-    const reader=new FileReader();
-    reader.onload=ev=>{ detailItems[idx].src=ev.target.result; renderDetailPreview(); };
-    reader.readAsDataURL(f);
+    detailItems.push({src:makeObjectUrl(f),file:f,spaceTag:''});
   });
+  renderDetailPreview();
 }
 function renderDetailPreview(){
   const hint=document.getElementById('detail-drag-hint');
@@ -835,10 +828,18 @@ window.saveProject=async function(){
   for(let i=0;i<uploadQueue.length;i+=PARALLEL){
     const chunk=uploadQueue.slice(i,i+PARALLEL);
     const res=await Promise.all(chunk.map(async item=>{
-      try{ const c=await compressImage(item.file); return {role:item.role,url:await uploadToCloudinary(c)}; }
-      catch(e){ showToast(`${item.file.name} 업로드 실패`); return {role:item.role,url:null}; }
+      try{
+        const c=await compressImage(item.file);
+        const url=await uploadToCloudinary(c);
+        updateBar();
+        return {role:item.role,url};
+      } catch(e){
+        updateBar();
+        showToast(`${item.file.name} 업로드 실패`);
+        return {role:item.role,url:null};
+      }
     }));
-    res.forEach(r=>uploadResults.push(r)); updateBar();
+    res.forEach(r=>uploadResults.push(r));
   }
 
   uploadResults.forEach(r=>{
@@ -889,9 +890,82 @@ async function uploadToCloudinary(file){
   return (await res.json()).secure_url;
 }
   
-function compressImage(file) {
-  // Cloudinary가 서버에서 자동 리사이즈/최적화 처리하므로 클라이언트 압축 생략
-  return Promise.resolve(file);
+/* ── 이미지 압축 (Web Worker + OffscreenCanvas) ── */
+const WORKER_SRC = `
+self.onmessage = async (e) => {
+  const { id, file, maxPx, quality } = e.data;
+  try {
+    const bitmap = await createImageBitmap(file);
+    let w = bitmap.width, h = bitmap.height;
+    if (w > maxPx || h > maxPx) {
+      if (w > h) { h = Math.round(h * maxPx / w); w = maxPx; }
+      else       { w = Math.round(w * maxPx / h); h = maxPx; }
+    }
+    const canvas = new OffscreenCanvas(w, h);
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(bitmap, 0, 0, w, h);
+    bitmap.close();
+    const blob = await canvas.convertToBlob({ type: 'image/jpeg', quality });
+    self.postMessage({ id, blob });
+  } catch (err) {
+    self.postMessage({ id, error: err.message || String(err) });
+  }
+};
+`;
+
+const WORKER_COUNT = 4;
+let workerPool = [];
+let workerQueue = [];
+let workerJobId = 0;
+const workerJobs = new Map();
+let workerSupported = (typeof OffscreenCanvas !== 'undefined' && typeof Worker !== 'undefined' && typeof createImageBitmap !== 'undefined');
+
+function initWorkerPool(){
+  if(workerPool.length>0 || !workerSupported) return;
+  try{
+    const blob=new Blob([WORKER_SRC],{type:'application/javascript'});
+    const url=URL.createObjectURL(blob);
+    for(let i=0;i<WORKER_COUNT;i++){
+      const w=new Worker(url);
+      const info={worker:w,busy:false};
+      w.onmessage=(e)=>{
+        const {id,blob,error}=e.data;
+        const job=workerJobs.get(id);
+        if(!job) return;
+        workerJobs.delete(id); info.busy=false;
+        if(error||!blob) job.resolve(job.file);  // 실패 시 원본 사용
+        else job.resolve(blob);
+        processWorkerQueue();
+      };
+      w.onerror=()=>{ info.busy=false; processWorkerQueue(); };
+      workerPool.push(info);
+    }
+  } catch(e){ workerSupported=false; }
+}
+
+function processWorkerQueue(){
+  while(workerQueue.length>0){
+    const free=workerPool.find(w=>!w.busy);
+    if(!free) break;
+    const task=workerQueue.shift();
+    free.busy=true;
+    workerJobs.set(task.id,task);
+    free.worker.postMessage({id:task.id,file:task.file,maxPx:task.maxPx,quality:task.quality});
+  }
+}
+
+function compressImage(file){
+  // 작은 파일은 압축 생략
+  if(!file || file.size < COMPRESS_MIN_SIZE) return Promise.resolve(file);
+  // Worker 미지원 환경에서는 Cloudinary 서버 압축에 위임 (원본 그대로 통과)
+  if(!workerSupported) return Promise.resolve(file);
+  initWorkerPool();
+  if(workerPool.length===0) return Promise.resolve(file);
+  return new Promise(resolve=>{
+    const id=++workerJobId;
+    workerQueue.push({id,file,maxPx:COMPRESS_PX,quality:COMPRESS_QUALITY,resolve});
+    processWorkerQueue();
+  });
 }
 /* ── LINKS ── */
 async function fetchLinks(){
