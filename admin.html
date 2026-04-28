@@ -459,6 +459,7 @@ const db = getFirestore(app);
 
 const PASS='1212', CLOUD_NAME='dirocerek', UPLOAD_PRESET='designfor_upload';
 const PARALLEL=8, COMPRESS_PX=1600, COMPRESS_QUALITY=0.78, COMPRESS_MIN_SIZE=400*1024;
+const THUMB_PX=240, THUMB_QUALITY=0.7;
 
 let objectUrls=[];   // 메모리 회수를 위한 ObjectURL 추적
 let editingId=null;
@@ -732,15 +733,33 @@ function loadExistingImages(images){
 }
 window.onDetailSelect=function(e){ addDetailFiles(Array.from(e.target.files).filter(f=>f.type.startsWith('image/'))); e.target.value=''; };
 function addDetailFiles(files){
+  if(!files.length) return;
+  const startIdx=detailItems.length;
   files.forEach(f=>{
-    detailItems.push({src:makeObjectUrl(f),file:f,spaceTag:''});
+    detailItems.push({src:makeObjectUrl(f),file:f,fullBlob:null,spaceTag:'',processing:true});
   });
-  renderDetailPreview();
+  appendDetailPreview(startIdx);
+
+  // 백그라운드로 썸네일+압축본 생성 (워커)
+  files.forEach((f,i)=>{
+    const idx=startIdx+i;
+    preprocessImage(f).then(({fullBlob,thumbBlob})=>{
+      const item=detailItems[idx]; if(!item) return;
+      // 임시 ObjectURL 해제 → 가벼운 썸네일로 교체 (GPU 메모리 절약)
+      if(thumbBlob){
+        try{URL.revokeObjectURL(item.src);}catch(e){}
+        const i2=objectUrls.indexOf(item.src); if(i2>=0) objectUrls.splice(i2,1);
+        item.src=makeObjectUrl(thumbBlob);
+        const imgEl=document.querySelector(`.preview-thumb-wrap[data-idx="${idx}"] img`);
+        if(imgEl) imgEl.src=item.src;
+      }
+      item.fullBlob=fullBlob;
+      item.processing=false;
+    });
+  });
 }
-function renderDetailPreview(){
-  const hint=document.getElementById('detail-drag-hint');
-  hint.classList.toggle('show',detailItems.length>0);
-  document.getElementById('detail-preview').innerHTML=detailItems.map((item,i)=>`
+function detailItemHTML(item,i){
+  return `
     <div class="preview-thumb-wrap" draggable="true" data-idx="${i}"
       ondragstart="onDragStart(event,${i})" ondragover="onDragOver(event,${i})"
       ondragleave="onDragLeave(event)" ondrop="onDrop(event,${i})" ondragend="onDragEnd(event)">
@@ -749,9 +768,39 @@ function renderDetailPreview(){
       <button class="preview-remove" onclick="removeDetailItem(${i})" title="삭제">✕</button>
       ${item.spaceTag?`<div class="preview-tag">${esc(item.spaceTag)}</div>`:'<div class="preview-tag" style="background:rgba(0,0,0,0.3);">태그없음</div>'}
       <button class="preview-tag-btn" onclick="openTagPopup(event,${i})">공간 태그 지정</button>
-    </div>`).join('');
+    </div>`;
 }
-window.removeDetailItem=function(idx){ detailItems.splice(idx,1); renderDetailPreview(); };
+function renderDetailPreview(){
+  const hint=document.getElementById('detail-drag-hint');
+  hint.classList.toggle('show',detailItems.length>0);
+  document.getElementById('detail-preview').innerHTML=detailItems.map((item,i)=>detailItemHTML(item,i)).join('');
+}
+function appendDetailPreview(startIdx){
+  const hint=document.getElementById('detail-drag-hint');
+  hint.classList.toggle('show',detailItems.length>0);
+  const wrap=document.getElementById('detail-preview');
+  let html='';
+  for(let i=startIdx;i<detailItems.length;i++) html+=detailItemHTML(detailItems[i],i);
+  wrap.insertAdjacentHTML('beforeend',html);
+}
+function updateDetailItemTag(idx){
+  const wrap=document.querySelector(`.preview-thumb-wrap[data-idx="${idx}"]`);
+  if(!wrap) return;
+  const tag=detailItems[idx]?.spaceTag||'';
+  const tagEl=wrap.querySelector('.preview-tag');
+  if(!tagEl) return;
+  if(tag){ tagEl.textContent=tag; tagEl.removeAttribute('style'); }
+  else   { tagEl.textContent='태그없음'; tagEl.setAttribute('style','background:rgba(0,0,0,0.3);'); }
+}
+window.removeDetailItem=function(idx){
+  const item=detailItems[idx];
+  if(item?.src){
+    try{URL.revokeObjectURL(item.src);}catch(e){}
+    const i2=objectUrls.indexOf(item.src); if(i2>=0) objectUrls.splice(i2,1);
+  }
+  detailItems.splice(idx,1);
+  renderDetailPreview();
+};
 
 /* ── SPACE TAG POPUP ── */
 window.openTagPopup=function(e,idx){
@@ -768,7 +817,10 @@ window.openTagPopup=function(e,idx){
 };
 document.getElementById('tag-popup').addEventListener('click',e=>{
   const item=e.target.closest('.tag-popup-item'); if(!item) return;
-  if(tagTargetIdx!==null){ detailItems[tagTargetIdx].spaceTag=item.dataset.tag; renderDetailPreview(); }
+  if(tagTargetIdx!==null){
+    detailItems[tagTargetIdx].spaceTag=item.dataset.tag;
+    updateDetailItemTag(tagTargetIdx);  // 부분 업데이트 (전체 재렌더 안 함)
+  }
   document.getElementById('tag-popup').classList.remove('show');
   tagTargetIdx=null;
 });
@@ -817,9 +869,9 @@ window.saveProject=async function(){
   let cover1Url=existingCover1, cover2Url=existingCover2;
   const newDetailFiles=detailItems.filter(d=>d.file!==null);
   const uploadQueue=[];
-  if(pendingCover1) uploadQueue.push({file:pendingCover1,role:'c1'});
-  if(pendingCover2) uploadQueue.push({file:pendingCover2,role:'c2'});
-  newDetailFiles.forEach(d=>uploadQueue.push({file:d.file,role:'detail'}));
+  if(pendingCover1) uploadQueue.push({file:pendingCover1,role:'c1',precompressed:null});
+  if(pendingCover2) uploadQueue.push({file:pendingCover2,role:'c2',precompressed:null});
+  newDetailFiles.forEach(d=>uploadQueue.push({file:d.file,role:'detail',precompressed:d.fullBlob}));
 
   const total=uploadQueue.length; let done=0;
   const updateBar=()=>{ done++; const p=Math.round(done/Math.max(total,1)*100); bar.style.width=p+'%'; txt.textContent=`업로드 중... ${done}/${total} (${p}%)`; };
@@ -829,7 +881,8 @@ window.saveProject=async function(){
     const chunk=uploadQueue.slice(i,i+PARALLEL);
     const res=await Promise.all(chunk.map(async item=>{
       try{
-        const c=await compressImage(item.file);
+        // 이미 워커가 압축해 둔 결과가 있으면 그대로 사용 (이중 압축 방지)
+        const c = item.precompressed || await compressImage(item.file);
         const url=await uploadToCloudinary(c);
         updateBar();
         return {role:item.role,url};
@@ -890,23 +943,36 @@ async function uploadToCloudinary(file){
   return (await res.json()).secure_url;
 }
   
-/* ── 이미지 압축 (Web Worker + OffscreenCanvas) ── */
+/* ── 이미지 전처리 (Web Worker + OffscreenCanvas) ── */
 const WORKER_SRC = `
 self.onmessage = async (e) => {
-  const { id, file, maxPx, quality } = e.data;
+  const { id, file, maxPx, quality, thumbPx, thumbQuality } = e.data;
   try {
     const bitmap = await createImageBitmap(file);
-    let w = bitmap.width, h = bitmap.height;
+    const ow = bitmap.width, oh = bitmap.height;
+
+    // 썸네일 (미리보기용 - GPU 메모리 절약)
+    let tw = ow, th = oh;
+    if (tw > thumbPx || th > thumbPx) {
+      if (tw > th) { th = Math.round(th * thumbPx / tw); tw = thumbPx; }
+      else         { tw = Math.round(tw * thumbPx / th); th = thumbPx; }
+    }
+    const tcv = new OffscreenCanvas(tw, th);
+    tcv.getContext('2d').drawImage(bitmap, 0, 0, tw, th);
+    const thumbBlob = await tcv.convertToBlob({ type: 'image/jpeg', quality: thumbQuality });
+
+    // 풀 압축본 (업로드용)
+    let w = ow, h = oh;
     if (w > maxPx || h > maxPx) {
       if (w > h) { h = Math.round(h * maxPx / w); w = maxPx; }
       else       { w = Math.round(w * maxPx / h); h = maxPx; }
     }
-    const canvas = new OffscreenCanvas(w, h);
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(bitmap, 0, 0, w, h);
+    const cv = new OffscreenCanvas(w, h);
+    cv.getContext('2d').drawImage(bitmap, 0, 0, w, h);
     bitmap.close();
-    const blob = await canvas.convertToBlob({ type: 'image/jpeg', quality });
-    self.postMessage({ id, blob });
+    const fullBlob = await cv.convertToBlob({ type: 'image/jpeg', quality });
+
+    self.postMessage({ id, fullBlob, thumbBlob });
   } catch (err) {
     self.postMessage({ id, error: err.message || String(err) });
   }
@@ -929,12 +995,12 @@ function initWorkerPool(){
       const w=new Worker(url);
       const info={worker:w,busy:false};
       w.onmessage=(e)=>{
-        const {id,blob,error}=e.data;
+        const {id,fullBlob,thumbBlob,error}=e.data;
         const job=workerJobs.get(id);
         if(!job) return;
         workerJobs.delete(id); info.busy=false;
-        if(error||!blob) job.resolve(job.file);  // 실패 시 원본 사용
-        else job.resolve(blob);
+        if(error||!fullBlob) job.resolve({fullBlob:job.file, thumbBlob:null});
+        else job.resolve({fullBlob, thumbBlob});
         processWorkerQueue();
       };
       w.onerror=()=>{ info.busy=false; processWorkerQueue(); };
@@ -950,22 +1016,32 @@ function processWorkerQueue(){
     const task=workerQueue.shift();
     free.busy=true;
     workerJobs.set(task.id,task);
-    free.worker.postMessage({id:task.id,file:task.file,maxPx:task.maxPx,quality:task.quality});
+    free.worker.postMessage({
+      id:task.id, file:task.file,
+      maxPx:COMPRESS_PX, quality:COMPRESS_QUALITY,
+      thumbPx:THUMB_PX, thumbQuality:THUMB_QUALITY
+    });
   }
 }
 
-function compressImage(file){
-  // 작은 파일은 압축 생략
-  if(!file || file.size < COMPRESS_MIN_SIZE) return Promise.resolve(file);
-  // Worker 미지원 환경에서는 Cloudinary 서버 압축에 위임 (원본 그대로 통과)
-  if(!workerSupported) return Promise.resolve(file);
+// 사진 추가 시 호출 — 썸네일 + 압축본 둘 다 받음
+function preprocessImage(file){
+  if(!file) return Promise.resolve({fullBlob:file, thumbBlob:null});
+  if(!workerSupported) return Promise.resolve({fullBlob:file, thumbBlob:null});
   initWorkerPool();
-  if(workerPool.length===0) return Promise.resolve(file);
+  if(workerPool.length===0) return Promise.resolve({fullBlob:file, thumbBlob:null});
   return new Promise(resolve=>{
     const id=++workerJobId;
-    workerQueue.push({id,file,maxPx:COMPRESS_PX,quality:COMPRESS_QUALITY,resolve});
+    workerQueue.push({id,file,resolve});
     processWorkerQueue();
   });
+}
+
+// 업로드 시 호출 — 이미 압축본이 있으면 그걸 쓰고, 없으면 새로 압축
+function compressImage(file){
+  if(!file || file.size < COMPRESS_MIN_SIZE) return Promise.resolve(file);
+  if(!workerSupported) return Promise.resolve(file);
+  return preprocessImage(file).then(r=>r.fullBlob||file);
 }
 /* ── LINKS ── */
 async function fetchLinks(){
