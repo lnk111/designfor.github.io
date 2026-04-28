@@ -92,6 +92,7 @@ html,body{min-height:100%;font-family:var(--ff);font-weight:300;background:var(-
 .badge-hover{background:#E8F0FB;color:#3B7EE0;}
 .cover-slot__preview{width:100%;aspect-ratio:4/3;border:1.5px dashed var(--border);border-radius:var(--r);background:var(--bg);position:relative;overflow:hidden;cursor:pointer;transition:border-color .25s;display:block;}
 .cover-slot__preview:hover{border-color:var(--gold);}
+.cover-slot__preview.drag-over{border-color:var(--gold);background:#FBF7F0;}
 .cover-slot__img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0;}
 .cover-slot__placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:var(--stone-lt);pointer-events:none;}
 .cover-slot__placeholder svg{width:22px;height:22px;stroke:var(--stone-lt);fill:none;stroke-width:1.5;}
@@ -184,6 +185,26 @@ html,body{min-height:100%;font-family:var(--ff);font-weight:300;background:var(-
   .project-list{grid-template-columns:1fr;}
   .cover-pair{grid-template-columns:1fr;}
 }
+
+/* 모달 안 글자 크기 +4px (가독성 향상) */
+.modal-box .modal-title{font-size:26px;}
+.modal-box .mf-label{font-size:14px;}
+.modal-box .mf-input,.modal-box .mf-select{font-size:17px;}
+.modal-box .mf-section{font-size:14px;}
+.modal-box .mf-desc{font-size:15px;}
+.modal-box .cover-slot__label{font-size:14px;}
+.modal-box .cover-slot__badge{font-size:12px;}
+.modal-box .cover-slot__placeholder span{font-size:15px;}
+.modal-box .preview-order-num{font-size:13px;}
+.modal-box .preview-tag,
+.modal-box .preview-tag-btn{font-size:12px;}
+.modal-box .preview-drag-hint{font-size:14px;}
+.modal-box .drop-zone__text{font-size:16px;}
+.modal-box .progress-text{font-size:15px;}
+.modal-box .btn-save,
+.modal-box .btn-cancel{font-size:14px;}
+.modal-box #style-tag-group label{font-size:17px !important;}
+.tag-popup .tag-popup-item{font-size:14px;}
 </style>
 </head>
 <body>
@@ -359,7 +380,7 @@ html,body{min-height:100%;font-family:var(--ff);font-weight:300;background:var(-
           <input type="file" id="cover1-file" accept="image/*" style="display:none">
           <div class="cover-slot__placeholder">
             <svg viewBox="0 0 24 24"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
-            <span>클릭하여 업로드</span>
+            <span>클릭 또는 끌어다 놓기</span>
           </div>
           <button class="cover-slot__remove" id="cover1-remove" style="display:none" type="button">✕</button>
         </label>
@@ -374,7 +395,7 @@ html,body{min-height:100%;font-family:var(--ff);font-weight:300;background:var(-
           <input type="file" id="cover2-file" accept="image/*" style="display:none">
           <div class="cover-slot__placeholder">
             <svg viewBox="0 0 24 24"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
-            <span>클릭하여 업로드</span>
+            <span>클릭 또는 끌어다 놓기</span>
           </div>
           <button class="cover-slot__remove" id="cover2-remove" style="display:none" type="button">✕</button>
         </label>
@@ -667,6 +688,31 @@ window.onCoverSelect=function(e,n){
 // 파일 input 이벤트 — script 로드 후 직접 연결
 document.getElementById('cover1-file').addEventListener('change',e=>window.onCoverSelect(e,1));
 document.getElementById('cover2-file').addEventListener('change',e=>window.onCoverSelect(e,2));
+
+// 대표 이미지 드래그앤드롭
+function setupCoverDragDrop(n){
+  const preview=document.getElementById(`cover${n}-preview`);
+  preview.addEventListener('dragover',e=>{
+    e.preventDefault(); e.stopPropagation();
+    preview.classList.add('drag-over');
+  });
+  preview.addEventListener('dragleave',e=>{
+    e.preventDefault(); e.stopPropagation();
+    preview.classList.remove('drag-over');
+  });
+  preview.addEventListener('drop',e=>{
+    e.preventDefault(); e.stopPropagation();
+    preview.classList.remove('drag-over');
+    const file=Array.from(e.dataTransfer.files).find(f=>f.type.startsWith('image/'));
+    if(!file){ showToast('이미지 파일만 업로드 가능합니다.'); return; }
+    if(n===1) pendingCover1=file; else pendingCover2=file;
+    const reader=new FileReader();
+    reader.onload=ev=>setCoverPreview(n,ev.target.result);
+    reader.readAsDataURL(file);
+  });
+}
+setupCoverDragDrop(1);
+setupCoverDragDrop(2);
 
 // 삭제 버튼 이벤트
 document.getElementById('cover1-remove').addEventListener('click',e=>{
