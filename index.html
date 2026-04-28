@@ -700,6 +700,23 @@ button{font-family:var(--ff-sans);}
   .space-grid{grid-template-columns:repeat(2,1fr);gap:8px;}
   .project-grid{gap:20px;}
 }
+
+/* ── 공간별 보기 라이트박스 ── */
+#space-lightbox{position:fixed;inset:0;z-index:9000;background:#0A0A09;display:none;flex-direction:column;}
+#space-lightbox.is-open{display:flex;}
+.sl-bar{flex-shrink:0;height:64px;background:#0A0A09;display:flex;align-items:center;justify-content:space-between;padding:0 20px;position:relative;z-index:2;}
+.sl-portfolio-btn{font-family:var(--ff-sans);font-size:13px;font-weight:300;letter-spacing:0.10em;color:#fff;background:transparent;border:1px solid rgba(255,255,255,0.6);border-radius:10px;padding:10px 22px;cursor:pointer;transition:background .25s,border-color .25s,color .25s;}
+.sl-portfolio-btn:hover{background:#fff;color:var(--c-dark);border-color:#fff;}
+.sl-close-btn{width:36px;height:36px;background:transparent;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;padding:0;}
+.sl-close-btn svg{width:24px;height:24px;stroke:#fff;fill:none;stroke-width:1.6;}
+.sl-stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#0A0A09;}
+.sl-stage img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block;user-select:none;-webkit-user-drag:none;}
+@media(max-width:600px){
+  .sl-bar{height:56px;padding:0 14px;}
+  .sl-portfolio-btn{font-size:12px;padding:8px 16px;letter-spacing:0.08em;}
+  .sl-close-btn{width:32px;height:32px;}
+  .sl-close-btn svg{width:22px;height:22px;}
+}
 </style>
 </head>
 <body>
@@ -1319,12 +1336,45 @@ function buildSpaceGrid(){
   const grid=document.getElementById('space-grid');
   if(!filtered.length){grid.innerHTML='<div style="grid-column:1/-1;padding:80px 0;text-align:center;color:var(--c-stone-lt);font-size:13px;">해당 공간의 이미지가 없습니다.</div>';return;}
   grid.innerHTML=filtered.map(img=>`
-    <div class="space-card-item" onclick="showPortDetail('${esc(img.projectId)}')">
+    <div class="space-card-item" onclick="openSpaceLightbox('${esc(img.url)}','${esc(img.projectId)}','${esc(img.siteName)}')">
       <div class="space-img-wrap" style="aspect-ratio:4/3;">
         <img src="${esc(img.url)}" alt="${esc(img.siteName)}" loading="lazy" style="height:100%;">
       </div>
     </div>`).join('');
 }
+
+/* ── 공간별 보기 라이트박스 ── */
+let slCurrentProjectId=null;
+
+window.openSpaceLightbox=function(url, projectId, alt){
+  slCurrentProjectId=projectId;
+  const lb=document.getElementById('space-lightbox');
+  const img=document.getElementById('sl-img');
+  img.src=url;
+  img.alt=alt||'';
+  lb.classList.add('is-open');
+  document.body.style.overflow='hidden';
+};
+
+window.closeSpaceLightbox=function(){
+  const lb=document.getElementById('space-lightbox');
+  lb.classList.remove('is-open');
+  document.body.style.overflow='';
+  document.getElementById('sl-img').src='';
+  slCurrentProjectId=null;
+};
+
+document.getElementById('sl-close-btn').addEventListener('click', window.closeSpaceLightbox);
+document.getElementById('sl-portfolio-btn').addEventListener('click', ()=>{
+  const id=slCurrentProjectId;
+  window.closeSpaceLightbox();
+  if(id) window.showPortDetail(id);
+});
+document.addEventListener('keydown', e=>{
+  if(e.key==='Escape' && document.getElementById('space-lightbox').classList.contains('is-open')){
+    window.closeSpaceLightbox();
+  }
+});
 
 /* ── 포트폴리오 상세 — 2분할 뷰어 ── */
 let pdAllImgs=[];   // {url, spaceTag} 전체 이미지
@@ -1619,5 +1669,19 @@ function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').
 
 buildHomeSlideshow();
 </script>
+
+<!-- 공간별 보기 라이트박스 -->
+<div id="space-lightbox" role="dialog" aria-modal="true" aria-label="사진 크게 보기">
+  <div class="sl-bar">
+    <button class="sl-portfolio-btn" id="sl-portfolio-btn" type="button">포트폴리오 보기</button>
+    <button class="sl-close-btn" id="sl-close-btn" type="button" aria-label="닫기">
+      <svg viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="sl-stage" id="sl-stage">
+    <img id="sl-img" src="" alt="">
+  </div>
+</div>
+
 </body>
 </html>
