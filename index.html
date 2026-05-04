@@ -189,6 +189,8 @@ button{font-family:var(--ff-sans);}
 
 /* HOME */
 #pg-home{background:var(--c-dark2);overflow:hidden;}
+/* 홈 페이지만 헤더 영역까지 슬라이드쇼가 채우도록 */
+#pg-home{top:calc(var(--header-h) * -1);height:calc(100% + var(--header-h));}
 .home-stage{position:absolute;inset:0;}
 .home-slide{position:absolute;inset:0;opacity:0;transition:opacity 1.2s cubic-bezier(0.4,0,0.2,1);pointer-events:none;overflow:hidden;background:var(--c-dark2);}
 .home-slide.is-active{opacity:1;pointer-events:all;}
