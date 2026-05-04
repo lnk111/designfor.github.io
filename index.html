@@ -194,10 +194,11 @@ button{font-family:var(--ff-sans);}
 .home-stage{position:absolute;inset:0;}
 .home-slide{position:absolute;inset:0;opacity:0;transition:opacity 1.2s cubic-bezier(0.4,0,0.2,1);pointer-events:none;overflow:hidden;background:var(--c-dark2);}
 .home-slide.is-active{opacity:1;pointer-events:all;}
-.home-slide img{width:100%;height:100%;object-fit:cover;object-position:center 45%;display:block;}
-.home-slide.is-active img{animation:kenburns 5s ease-out forwards;}
+.home-slide__bg{position:absolute;inset:-20px;width:calc(100% + 40px);height:calc(100% + 40px);object-fit:cover;display:block;filter:blur(28px) brightness(0.7);transform:scale(1.08);}
+.home-slide__main{position:relative;width:100%;height:100%;object-fit:contain;display:block;z-index:1;}
+.home-slide.is-active .home-slide__main{animation:kenburns 5s ease-out forwards;}
 @keyframes kenburns{from{transform:scale(1.0);}to{transform:scale(1.03);}}
-.home-slide__dim{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.05) 0%,rgba(0,0,0,0) 30%,rgba(0,0,0,0.15) 100%);pointer-events:none;}
+.home-slide__dim{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.08) 0%,rgba(0,0,0,0) 30%,rgba(0,0,0,0.12) 100%);pointer-events:none;z-index:2;}
 .home-bg-dark{position:absolute;inset:0;background:var(--c-dark2);}
 .home-texture{position:absolute;inset:0;opacity:0.03;background-image:repeating-linear-gradient(0deg,transparent,transparent 79px,rgba(255,255,255,1) 79px,rgba(255,255,255,1) 80px),repeating-linear-gradient(90deg,transparent,transparent 79px,rgba(255,255,255,1) 79px,rgba(255,255,255,1) 80px);}
 .home__cta-center{position:absolute;bottom:72px;left:50%;transform:translateX(-50%);z-index:10;}
@@ -1342,6 +1343,15 @@ function toHQ(url){
   return url.replace(/\/upload\/(?:[^/]+\/)?(v\d+\/)/, `/upload/${params}/$1`);
 }
 
+/* 흐린 배경 레이어용 — 어차피 blur 처리되므로 작은 크기로 보내 데이터 절약.
+   화질 옵션은 낮춰 트래픽 최소화. */
+function toBlurBg(url){
+  if(!url || typeof url !== 'string') return url;
+  if(!url.includes('res.cloudinary.com') || !url.includes('/upload/')) return url;
+  const params = `c_limit,w_640,q_auto:eco,f_auto,e_blur:300`;
+  return url.replace(/\/upload\/(?:[^/]+\/)?(v\d+\/)/, `/upload/${params}/$1`);
+}
+
 function buildHomeSlideshow(){
   // 홈 슬라이드 컬렉션의 사진을 우선 사용. 없으면 빈 상태 표시.
   slides=allHomeSlides.filter(s=>s.url).map(s=>({coverImage1:s.url,siteName:''}));
@@ -1355,8 +1365,10 @@ function buildHomeSlideshow(){
   slides.forEach((p,i)=>{
     const div=document.createElement('div');
     div.className='home-slide'+(i===0?' is-active':'');
-    const hqUrl = toHQ(p.coverImage2||p.coverImage1);
-    div.innerHTML=`<img src="${esc(hqUrl)}" alt="${esc(p.siteName)}" loading="${i<2?'eager':'lazy'}"><div class="home-slide__dim"></div>`;
+    const srcUrl=p.coverImage2||p.coverImage1;
+    const hqUrl=toHQ(srcUrl);
+    const bgUrl=toBlurBg(srcUrl);
+    div.innerHTML=`<img class="home-slide__bg" src="${esc(bgUrl)}" alt="" aria-hidden="true" loading="${i<2?'eager':'lazy'}"><img class="home-slide__main" src="${esc(hqUrl)}" alt="${esc(p.siteName)}" loading="${i<2?'eager':'lazy'}"><div class="home-slide__dim"></div>`;
     wrap.appendChild(div);
     if(slides.length>1){
       const dot=document.createElement('button');
