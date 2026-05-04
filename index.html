@@ -195,7 +195,7 @@ button{font-family:var(--ff-sans);}
 .home-slide img{width:100%;height:100%;object-fit:contain;display:block;}
 .home-slide.is-active img{animation:kenburns 5s ease-out forwards;}
 @keyframes kenburns{from{transform:scale(1.0);}to{transform:scale(1.03);}}
-.home-slide__dim{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.18) 0%,rgba(0,0,0,0.06) 40%,rgba(0,0,0,0.28) 100%);pointer-events:none;}
+.home-slide__dim{display:none;}
 .home-bg-dark{position:absolute;inset:0;background:var(--c-dark2);}
 .home-texture{position:absolute;inset:0;opacity:0.03;background-image:repeating-linear-gradient(0deg,transparent,transparent 79px,rgba(255,255,255,1) 79px,rgba(255,255,255,1) 80px),repeating-linear-gradient(90deg,transparent,transparent 79px,rgba(255,255,255,1) 79px,rgba(255,255,255,1) 80px);}
 .home__cta-center{position:absolute;bottom:72px;left:50%;transform:translateX(-50%);z-index:10;}
