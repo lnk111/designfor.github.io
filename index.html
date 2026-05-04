@@ -1326,14 +1326,17 @@ let slides=[],slideIdx=0,slideTimer=null;
 
 /* 홈 슬라이드 전용 — Cloudinary URL에 고화질 변환 옵션 삽입.
    화면 너비 + DPR을 고려해 적절한 이미지 너비를 요청한다.
+   윈도우 배율(125%, 150%)이나 레티나 환경에서도 선명하게 보이도록 DPR 최소 2 적용.
    비-Cloudinary URL은 그대로 반환. */
 function toHQ(url){
   if(!url || typeof url !== 'string') return url;
   if(!url.includes('res.cloudinary.com') || !url.includes('/upload/')) return url;
+  // DPR을 최소 2로 보정 — 윈도우 배율이나 레티나에서도 선명하게
+  const dpr = Math.max(2, window.devicePixelRatio || 1);
   // 화면 너비 × DPR을 기준으로 송출 너비 결정 (최대 3840 캡)
-  const w = Math.min(Math.round((window.innerWidth || 1920) * (window.devicePixelRatio || 1)), 3840);
+  const w = Math.min(Math.round((window.innerWidth || 1920) * dpr), 3840);
   // 200px 단위로 반올림하여 캐시 적중률 확보
-  const wRounded = Math.max(1280, Math.ceil(w / 200) * 200);
+  const wRounded = Math.max(1920, Math.ceil(w / 200) * 200);
   const params = `c_limit,w_${wRounded},q_auto:best,f_auto`;
   // 이미 변환 파라미터가 있으면 교체, 없으면 삽입
   return url.replace(/\/upload\/(?:[^/]+\/)?(v\d+\/)/, `/upload/${params}/$1`);
