@@ -174,6 +174,21 @@ html,body{min-height:100%;font-family:var(--ff);font-weight:300;background:var(-
 .link-del:hover{color:var(--red);}
 .link-del svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;}
 
+/* 홈 슬라이드 카드 */
+.hs-card{
+  position:relative;background:var(--bg);border:1px solid var(--border);
+  border-radius:12px;overflow:hidden;cursor:grab;user-select:none;
+  transition:border-color .2s,box-shadow .2s;
+}
+.hs-card:active{cursor:grabbing;}
+.hs-card.is-dragging{opacity:0.45;transform:scale(0.96);}
+.hs-card.drag-over-target{border-color:var(--gold);box-shadow:0 0 0 2px var(--gold);}
+.hs-card__img-wrap{aspect-ratio:16/9;background:#EDEBE6;}
+.hs-card__img-wrap img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;}
+.hs-card__order{position:absolute;top:8px;left:8px;background:rgba(0,0,0,0.6);color:#fff;font-size:13px;padding:3px 9px;border-radius:6px;letter-spacing:0.04em;}
+.hs-card__remove{position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:50%;background:var(--red);color:#fff;border:none;cursor:pointer;font-size:14px;line-height:28px;text-align:center;padding:0;box-shadow:0 2px 6px rgba(0,0,0,.25);transition:transform .15s;}
+.hs-card__remove:hover{transform:scale(1.1);}
+
 /* toast */
 #toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--dark);color:#F5F4F1;font-size:15px;letter-spacing:0.14em;padding:12px 28px;border-radius:100px;opacity:0;transition:opacity .3s,transform .3s;pointer-events:none;z-index:9999;white-space:nowrap;}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
@@ -217,6 +232,7 @@ html,body{min-height:100%;font-family:var(--ff);font-weight:300;background:var(-
   </header>
   <div class="adm-tabs">
     <button class="adm-tab is-on" data-tab="portfolio" onclick="switchTab('portfolio')">포트폴리오 현장</button>
+    <button class="adm-tab" data-tab="homeslides" onclick="switchTab('homeslides')">홈 슬라이드</button>
     <button class="adm-tab" data-tab="inquiries" onclick="switchTab('inquiries')">문의 내역</button>
     <button class="adm-tab" data-tab="settings" onclick="switchTab('settings')">사이트 설정</button>
     <button class="adm-tab" data-tab="links" onclick="switchTab('links')">링크 관리</button>
@@ -234,6 +250,41 @@ html,body{min-height:100%;font-family:var(--ff);font-weight:300;background:var(-
       </div>
       <div class="project-list" id="project-list">
         <div class="loading-state"><div class="loading-spinner"></div>불러오는 중...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 홈 슬라이드 탭 -->
+  <div class="adm-view" id="tab-homeslides">
+    <div class="port-view">
+      <div class="port-view-header">
+        <div class="port-view-title">홈 슬라이드 관리</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;">
+        <div style="font-size:14px;color:var(--stone-lt);margin-bottom:16px;line-height:1.7;">
+          홈 화면에 자동으로 보여줄 슬라이드 사진입니다. 1장이든 10장이든 자유롭게 추가할 수 있고, 드래그로 순서를 바꿀 수 있어요.<br>
+          <strong style="color:var(--gold);">가로 사진</strong>이 가장 잘 어울리며, 권장 비율은 <strong>16:9</strong>입니다.
+        </div>
+
+        <!-- 등록된 슬라이드 목록 -->
+        <div class="preview-drag-hint show" id="hs-drag-hint" style="margin-bottom:14px;">
+          <svg viewBox="0 0 24 24"><path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/></svg>
+          드래그로 순서 변경 · ✕ 삭제
+        </div>
+        <div id="hs-list" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin-bottom:18px;">
+          <div class="loading-state" style="grid-column:1/-1;"><div class="loading-spinner"></div>불러오는 중...</div>
+        </div>
+
+        <!-- 새 사진 추가 -->
+        <div class="drop-zone" id="hs-drop">
+          <input type="file" id="hs-files" accept="image/*" multiple>
+          <svg class="drop-zone__icon" viewBox="0 0 24 24"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+          <div class="drop-zone__text"><strong>클릭하거나 끌어다 놓기</strong><br>JPG, PNG, WEBP · 여러 장 가능</div>
+        </div>
+        <div class="upload-progress" id="hs-prog">
+          <div class="progress-text" id="hs-prog-text">업로드 중...</div>
+          <div class="progress-bar-wrap"><div class="progress-bar-fill" id="hs-prog-bar"></div></div>
+        </div>
       </div>
     </div>
   </div>
@@ -486,6 +537,7 @@ window.switchTab=function(name){
   document.querySelectorAll('.adm-view').forEach(v=>v.classList.toggle('is-on',v.id===`tab-${name}`));
   if(name==='inquiries') fetchInquiries();
   if(name==='settings') loadConsultImgAdmin();
+  if(name==='homeslides') fetchHomeSlides();
 };
 
 /* ── 상담 페이지 사진 ── */
@@ -527,6 +579,132 @@ window.saveConsultImg=async function(){
   } catch(e){ status.textContent='실패: '+e.message; showToast('저장 실패: '+e.message); }
   btn.disabled=false;
 };
+
+/* ── 홈 슬라이드 관리 ── */
+let homeSlides=[];
+let hsDragSrcIdx=null;
+
+async function fetchHomeSlides(){
+  const list=document.getElementById('hs-list');
+  list.innerHTML='<div class="loading-state" style="grid-column:1/-1;"><div class="loading-spinner"></div>불러오는 중...</div>';
+  try{
+    const snap=await getDocs(query(collection(db,'homeSlides'),orderBy('order','asc')));
+    homeSlides=snap.docs.map(d=>({id:d.id,...d.data()}));
+    renderHomeSlides();
+  } catch(e){
+    list.innerHTML=`<div class="empty-state" style="grid-column:1/-1;">불러오기 실패: ${esc(e.message)}</div>`;
+  }
+}
+
+function renderHomeSlides(){
+  const list=document.getElementById('hs-list');
+  const hint=document.getElementById('hs-drag-hint');
+  if(!homeSlides.length){
+    hint.style.display='none';
+    list.innerHTML='<div class="empty-state" style="grid-column:1/-1;">등록된 슬라이드 사진이 없습니다.<br>아래에서 사진을 추가해 주세요.</div>';
+    return;
+  }
+  hint.style.display='flex';
+  list.innerHTML=homeSlides.map((s,i)=>`
+    <div class="hs-card" draggable="true" data-idx="${i}"
+      ondragstart="hsDragStart(event,${i})" ondragover="hsDragOver(event,${i})"
+      ondragleave="hsDragLeave(event)" ondrop="hsDrop(event,${i})" ondragend="hsDragEnd(event)">
+      <div class="hs-card__img-wrap"><img src="${esc(s.url)}" alt="슬라이드 ${i+1}" loading="lazy"></div>
+      <div class="hs-card__order">${i+1}</div>
+      <button class="hs-card__remove" onclick="removeHomeSlide('${esc(s.id)}')" title="삭제">✕</button>
+    </div>`).join('');
+}
+
+window.removeHomeSlide=async function(id){
+  if(!confirm('이 슬라이드를 삭제하시겠습니까?')) return;
+  try{
+    await deleteDoc(doc(db,'homeSlides',id));
+    homeSlides=homeSlides.filter(s=>s.id!==id);
+    // 삭제 후 남은 슬라이드들의 order 재정렬
+    await Promise.all(homeSlides.map((s,i)=>setDoc(doc(db,'homeSlides',s.id),{...s,order:i},{merge:true})));
+    homeSlides.forEach((s,i)=>{ s.order=i; });
+    renderHomeSlides();
+    showToast('슬라이드가 삭제되었습니다.');
+  } catch(e){ showToast('삭제 실패: '+e.message); }
+};
+
+window.hsDragStart=function(e,idx){
+  hsDragSrcIdx=idx; e.dataTransfer.effectAllowed='move';
+  setTimeout(()=>{ const el=document.querySelector(`.hs-card[data-idx="${idx}"]`); if(el) el.classList.add('is-dragging'); },0);
+};
+window.hsDragOver=function(e,idx){
+  e.preventDefault(); e.dataTransfer.dropEffect='move';
+  if(idx===hsDragSrcIdx) return;
+  document.querySelectorAll('.hs-card').forEach(el=>el.classList.remove('drag-over-target'));
+  const el=document.querySelector(`.hs-card[data-idx="${idx}"]`); if(el) el.classList.add('drag-over-target');
+};
+window.hsDragLeave=function(e){ e.currentTarget.classList.remove('drag-over-target'); };
+window.hsDrop=async function(e,targetIdx){
+  e.preventDefault();
+  if(hsDragSrcIdx===null||hsDragSrcIdx===targetIdx) return;
+  const moved=homeSlides.splice(hsDragSrcIdx,1)[0];
+  homeSlides.splice(targetIdx,0,moved);
+  hsDragSrcIdx=null;
+  // order 재정렬 후 일괄 저장
+  homeSlides.forEach((s,i)=>{ s.order=i; });
+  renderHomeSlides();
+  try{
+    await Promise.all(homeSlides.map((s,i)=>setDoc(doc(db,'homeSlides',s.id),{...s,order:i},{merge:true})));
+    showToast('순서가 저장되었습니다.');
+  } catch(e){ showToast('순서 저장 실패: '+e.message); fetchHomeSlides(); }
+};
+window.hsDragEnd=function(){
+  hsDragSrcIdx=null;
+  document.querySelectorAll('.hs-card').forEach(el=>el.classList.remove('is-dragging','drag-over-target'));
+};
+
+// 파일 입력 + 드래그앤드롭으로 새 사진 추가
+document.getElementById('hs-files').addEventListener('change',e=>{
+  const files=Array.from(e.target.files).filter(f=>f.type.startsWith('image/'));
+  uploadHomeSlides(files); e.target.value='';
+});
+const hsDrop=document.getElementById('hs-drop');
+hsDrop.addEventListener('dragover',e=>{ e.preventDefault(); hsDrop.classList.add('drag-over'); });
+hsDrop.addEventListener('dragleave',()=>hsDrop.classList.remove('drag-over'));
+hsDrop.addEventListener('drop',e=>{
+  e.preventDefault(); hsDrop.classList.remove('drag-over');
+  const files=Array.from(e.dataTransfer.files).filter(f=>f.type.startsWith('image/'));
+  uploadHomeSlides(files);
+});
+
+async function uploadHomeSlides(files){
+  if(!files.length) return;
+  const prog=document.getElementById('hs-prog');
+  const bar=document.getElementById('hs-prog-bar');
+  const txt=document.getElementById('hs-prog-text');
+  prog.classList.add('show'); bar.style.width='0%';
+  let done=0;
+  const startOrder=homeSlides.length;
+
+  // Worker로 압축 + 업로드 (파일 추가 = 순서대로 끝에 붙음)
+  for(let i=0;i<files.length;i+=PARALLEL){
+    const chunk=files.slice(i,i+PARALLEL);
+    await Promise.all(chunk.map(async (f,j)=>{
+      try{
+        const c=await compressImage(f);
+        const url=await uploadToCloudinary(c);
+        const id=uid();
+        const order=startOrder+i+j;
+        await setDoc(doc(db,'homeSlides',id),{url,order,createdAt:Date.now()});
+        homeSlides.push({id,url,order,createdAt:Date.now()});
+      } catch(e){ showToast(`${f.name} 업로드 실패`); }
+      done++;
+      const p=Math.round(done/files.length*100);
+      bar.style.width=p+'%'; txt.textContent=`업로드 중... ${done}/${files.length} (${p}%)`;
+    }));
+  }
+  bar.style.width='100%'; txt.textContent='완료!';
+  // 정렬 안정화
+  homeSlides.sort((a,b)=>(a.order||0)-(b.order||0));
+  renderHomeSlides();
+  showToast(`${files.length}장 업로드 완료 ✓`);
+  setTimeout(()=>{ prog.classList.remove('show'); bar.style.width='0%'; },1000);
+}
 
 /* ── INQUIRIES ── */
 async function fetchInquiries(){

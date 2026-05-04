@@ -1234,11 +1234,17 @@ window.toggleMob=function(){
 
 /* ── FIRESTORE 실시간 ── */
 let allProjects=[];
+let allHomeSlides=[];
 onSnapshot(query(collection(db,'projects'),orderBy('createdAt','desc')),snap=>{
   allProjects=snap.docs.map(d=>({id:d.id,...d.data()}));
-  if(current==='home') buildHomeSlideshow();
   if(current==='portfolio') buildPortfolioView();
   if(current==='consult') loadInquiryPortfolios();
+});
+
+/* 홈 슬라이드 — 관리자가 직접 등록한 사진들 (order 오름차순) */
+onSnapshot(query(collection(db,'homeSlides'),orderBy('order','asc')),snap=>{
+  allHomeSlides=snap.docs.map(d=>({id:d.id,...d.data()}));
+  if(current==='home') buildHomeSlideshow();
 });
 
 /* SNS 카드 링크 동기화 — 관리자 페이지에서 등록한 링크가 자동 반영됨 */
@@ -1264,7 +1270,8 @@ const SLIDE_SEC=4.5;
 let slides=[],slideIdx=0,slideTimer=null;
 
 function buildHomeSlideshow(){
-  slides=allProjects.filter(p=>p.coverImage1||p.coverImage2).reverse();
+  // 홈 슬라이드 컬렉션의 사진을 우선 사용. 없으면 빈 상태 표시.
+  slides=allHomeSlides.filter(s=>s.url).map(s=>({coverImage1:s.url,siteName:''}));
   const wrap=document.getElementById('home-slides'),dots=document.getElementById('slide-dots');
   const empty=document.getElementById('home-empty');
   const prev=document.getElementById('slide-prev'),next=document.getElementById('slide-next');
