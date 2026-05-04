@@ -1324,6 +1324,21 @@ onSnapshot(query(collection(db,'links'),orderBy('createdAt','desc')),snap=>{
 const SLIDE_SEC=4.5;
 let slides=[],slideIdx=0,slideTimer=null;
 
+/* 홈 슬라이드 전용 — Cloudinary URL에 고화질 변환 옵션 삽입.
+   화면 너비 + DPR을 고려해 적절한 이미지 너비를 요청한다.
+   비-Cloudinary URL은 그대로 반환. */
+function toHQ(url){
+  if(!url || typeof url !== 'string') return url;
+  if(!url.includes('res.cloudinary.com') || !url.includes('/upload/')) return url;
+  // 화면 너비 × DPR을 기준으로 송출 너비 결정 (최대 3840 캡)
+  const w = Math.min(Math.round((window.innerWidth || 1920) * (window.devicePixelRatio || 1)), 3840);
+  // 200px 단위로 반올림하여 캐시 적중률 확보
+  const wRounded = Math.max(1280, Math.ceil(w / 200) * 200);
+  const params = `c_limit,w_${wRounded},q_auto:best,f_auto`;
+  // 이미 변환 파라미터가 있으면 교체, 없으면 삽입
+  return url.replace(/\/upload\/(?:[^/]+\/)?(v\d+\/)/, `/upload/${params}/$1`);
+}
+
 function buildHomeSlideshow(){
   // 홈 슬라이드 컬렉션의 사진을 우선 사용. 없으면 빈 상태 표시.
   slides=allHomeSlides.filter(s=>s.url).map(s=>({coverImage1:s.url,siteName:''}));
@@ -1337,7 +1352,8 @@ function buildHomeSlideshow(){
   slides.forEach((p,i)=>{
     const div=document.createElement('div');
     div.className='home-slide'+(i===0?' is-active':'');
-    div.innerHTML=`<img src="${esc(p.coverImage2||p.coverImage1)}" alt="${esc(p.siteName)}" loading="${i<2?'eager':'lazy'}"><div class="home-slide__dim"></div>`;
+    const hqUrl = toHQ(p.coverImage2||p.coverImage1);
+    div.innerHTML=`<img src="${esc(hqUrl)}" alt="${esc(p.siteName)}" loading="${i<2?'eager':'lazy'}"><div class="home-slide__dim"></div>`;
     wrap.appendChild(div);
     if(slides.length>1){
       const dot=document.createElement('button');
