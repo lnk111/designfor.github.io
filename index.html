@@ -92,11 +92,14 @@ button{font-family:var(--ff-sans);}
 .nav__link::after{content:'';position:absolute;bottom:2px;left:20px;right:20px;height:1px;background:var(--c-gold);transform:scaleX(0);transform-origin:left;transition:transform .3s var(--ease-out);}
 .nav__link:hover,.nav__link.is-active{color:var(--c-dark);}
 .nav__link:hover::after,.nav__link.is-active::after{transform:scaleX(1);}
+/* 홈 페이지에서만 메뉴 글씨 키우고 굵게 */
+#header:not(.is-solid) .nav__link{font-size:15px;font-weight:500;}
 #header.is-solid .nav__link{color:var(--c-stone);}
 #header.is-solid .nav__link::after{background:var(--c-gold);}
 #header.is-solid .nav__link:hover,#header.is-solid .nav__link.is-active{color:var(--c-dark);}
 .header-cta{font-size:12px;font-weight:300;letter-spacing:0.18em;color:var(--c-gold);border:1px solid var(--c-gold);padding:10px 22px;background:transparent;cursor:pointer;transition:background .3s,color .3s,border-color .3s;white-space:nowrap;}
 .header-cta:hover{background:var(--c-gold);color:#fff;border-color:var(--c-gold);}
+#header:not(.is-solid) .header-cta{display:none;}
 #header.is-solid .header-cta{color:var(--c-gold);border-color:var(--c-gold);}
 #header.is-solid .header-cta:hover{background:var(--c-gold);color:#fff;}
 .hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;width:32px;height:32px;background:none;border:none;cursor:pointer;padding:4px;}
@@ -200,7 +203,7 @@ button{font-family:var(--ff-sans);}
 .home-slide__dim{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.05) 0%,rgba(0,0,0,0) 30%,rgba(0,0,0,0.15) 100%);pointer-events:none;}
 .home-bg-dark{position:absolute;inset:0;background:var(--c-dark2);}
 .home-texture{position:absolute;inset:0;opacity:0.03;background-image:repeating-linear-gradient(0deg,transparent,transparent 79px,rgba(255,255,255,1) 79px,rgba(255,255,255,1) 80px),repeating-linear-gradient(90deg,transparent,transparent 79px,rgba(255,255,255,1) 79px,rgba(255,255,255,1) 80px);}
-.home__cta-center{position:absolute;bottom:72px;left:50%;transform:translateX(-50%);z-index:10;}
+.home__cta-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:10;}
 .btn--consult{font-size:11px;font-weight:300;letter-spacing:0.28em;text-transform:uppercase;color:rgba(255,255,255,0.9);border:1px solid rgba(255,255,255,0.5);background:transparent;padding:16px 48px;cursor:pointer;transition:background .35s,color .35s,border-color .35s;white-space:nowrap;}
 .btn--consult:hover{background:#fff;color:var(--c-dark);border-color:#fff;}
 .slide-dots{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:10;}
@@ -868,7 +871,7 @@ button{font-family:var(--ff-sans);}
       <div id="home-slides"></div>
     </div>
     <div class="home__cta-center">
-      <button class="btn--consult" onclick="goPage('consult')">상담 문의하기</button>
+      <button class="btn--consult" onclick="goPage('consult')">견적문의하기</button>
     </div>
     <div class="slide-dots" id="slide-dots"></div>
     <button class="slide-arrow slide-arrow--prev" id="slide-prev" onclick="slideMove(-1)" style="display:none">
