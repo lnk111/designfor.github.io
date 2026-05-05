@@ -1338,8 +1338,10 @@ function toHQ(url){
 
 
 function buildHomeSlideshow(){
-  // 포트폴리오 현장의 대표이미지(coverImage2 우선, 없으면 coverImage1)를 슬라이드로 사용
-  slides=allProjects.filter(p=>p.coverImage2||p.coverImage1).reverse();
+  // homeShow=true 인 현장만, homeOrder 오름차순으로 정렬
+  slides=allProjects
+    .filter(p=>p.homeShow===true && (p.coverImage2||p.coverImage1))
+    .sort((a,b)=>(a.homeOrder??9999)-(b.homeOrder??9999));
   const wrap=document.getElementById('home-slides'),dots=document.getElementById('slide-dots');
   const empty=document.getElementById('home-empty');
   const prev=document.getElementById('slide-prev'),next=document.getElementById('slide-next');

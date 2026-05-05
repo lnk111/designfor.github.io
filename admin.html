@@ -174,6 +174,67 @@ html,body{min-height:100%;font-family:var(--ff);font-weight:300;background:var(-
 .link-del:hover{color:var(--red);}
 .link-del svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;}
 
+/* 홈 슬라이드 순서 영역 (포트폴리오 탭 상단) */
+.home-strip{
+  background:#FAEEDA;border:1px solid #EF9F27;border-radius:16px;
+  padding:18px 22px;margin-bottom:24px;
+}
+.home-strip__h{display:flex;align-items:center;gap:12px;margin-bottom:6px;}
+.home-strip__title{font-size:15px;font-weight:500;color:#412402;display:flex;align-items:center;gap:6px;}
+.home-strip__count{background:var(--gold);color:#fff;font-size:12px;letter-spacing:0.06em;padding:3px 10px;border-radius:999px;font-weight:500;}
+.home-strip__help{font-size:13px;color:#633806;margin-bottom:14px;line-height:1.6;}
+.home-strip__grid{display:flex;gap:10px;overflow-x:auto;padding:4px 2px;min-height:120px;}
+.home-strip__grid::-webkit-scrollbar{height:6px;}
+.home-strip__grid::-webkit-scrollbar-thumb{background:#EF9F27;border-radius:3px;}
+.home-thumb{position:relative;flex-shrink:0;width:120px;cursor:grab;user-select:none;}
+.home-thumb:active{cursor:grabbing;}
+.home-thumb.is-dragging{opacity:0.4;transform:scale(0.95);}
+.home-thumb.drag-over-target{box-shadow:0 0 0 2px var(--gold);border-radius:8px;}
+.home-thumb__img{width:120px;aspect-ratio:4/3;border-radius:8px;object-fit:cover;display:block;border:1px solid rgba(0,0,0,0.08);background:#EDEBE6;pointer-events:none;}
+.home-thumb__num{position:absolute;top:6px;left:6px;background:rgba(0,0,0,0.65);color:#fff;font-size:13px;padding:2px 8px;border-radius:5px;font-weight:500;pointer-events:none;}
+.home-thumb__name{font-size:13px;color:#412402;margin-top:6px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none;}
+.home-strip__empty{font-size:14px;color:#854F0B;padding:24px;text-align:center;background:#fff8e8;border:1px dashed #EF9F27;border-radius:12px;}
+
+/* 카드 위 HOME 배지 */
+.project-card{position:relative;}
+.bg-home, .bg-home-add{
+  position:absolute;top:10px;left:10px;z-index:5;
+  font-size:13px;font-weight:500;letter-spacing:0.1em;
+  padding:5px 12px;border-radius:8px;cursor:pointer;
+  transition:all .2s;
+}
+.bg-home{background:var(--gold);color:#fff;box-shadow:0 1px 4px rgba(0,0,0,0.2);}
+.bg-home:hover{background:var(--gold-lt);}
+.bg-home-add{
+  background:rgba(255,255,255,0.85);color:var(--stone);
+  border:1px dashed rgba(0,0,0,0.25);
+  opacity:0;
+}
+.project-card:hover .bg-home-add{opacity:1;}
+.bg-home-add:hover{background:#fff;color:var(--gold);border-color:var(--gold);}
+
+/* 모달 안 홈 노출 토글 */
+.home-toggle-row{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  background:#FAEEDA;border:1px solid #EF9F27;border-radius:12px;
+  padding:14px 16px;margin-bottom:20px;
+}
+.home-toggle-info{display:flex;flex-direction:column;gap:3px;}
+.home-toggle-label{font-size:15px;font-weight:500;color:#412402;display:flex;align-items:center;gap:6px;}
+.home-toggle-help{font-size:13px;color:#633806;}
+.toggle-switch{
+  position:relative;width:52px;height:28px;background:#D3D1C7;
+  border-radius:999px;cursor:pointer;flex-shrink:0;border:none;
+  transition:background .2s;
+}
+.toggle-switch::after{
+  content:'';position:absolute;top:3px;left:3px;
+  width:22px;height:22px;background:#fff;border-radius:50%;
+  transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,0.2);
+}
+.toggle-switch.is-on{background:var(--gold);}
+.toggle-switch.is-on::after{left:27px;}
+
 /* toast */
 #toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--dark);color:#F5F4F1;font-size:15px;letter-spacing:0.14em;padding:12px 28px;border-radius:100px;opacity:0;transition:opacity .3s,transform .3s;pointer-events:none;z-index:9999;white-space:nowrap;}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
@@ -232,6 +293,17 @@ html,body{min-height:100%;font-family:var(--ff);font-weight:300;background:var(-
           새 현장 추가
         </button>
       </div>
+
+      <!-- 홈 슬라이드 순서 영역 -->
+      <div class="home-strip" id="home-strip">
+        <div class="home-strip__h">
+          <span class="home-strip__title">⭐ 홈 슬라이드 순서</span>
+          <span class="home-strip__count" id="home-strip-count">0개 노출 중</span>
+        </div>
+        <div class="home-strip__help">홈 화면에 노출되는 사진들. 드래그로 순서를 바꾸면 즉시 반영됩니다.</div>
+        <div class="home-strip__grid" id="home-strip-grid"></div>
+      </div>
+
       <div class="project-list" id="project-list">
         <div class="loading-state"><div class="loading-spinner"></div>불러오는 중...</div>
       </div>
@@ -311,6 +383,15 @@ html,body{min-height:100%;font-family:var(--ff);font-weight:300;background:var(-
   <div class="modal-box">
     <button class="modal-close" onclick="closeModal()">✕</button>
     <div class="modal-title" id="modal-title">새 현장 추가</div>
+
+    <!-- 홈 화면 노출 토글 -->
+    <div class="home-toggle-row">
+      <div class="home-toggle-info">
+        <span class="home-toggle-label">⭐ 홈 화면 노출</span>
+        <span class="home-toggle-help">켜면 홈 슬라이드쇼에 이 현장의 대표사진이 표시됩니다</span>
+      </div>
+      <button type="button" class="toggle-switch" id="mf-homeshow" aria-label="홈 화면 노출 토글" onclick="toggleHomeShow()"></button>
+    </div>
 
     <div class="mf-section">기본 정보</div>
     <div class="mf-row">
@@ -433,7 +514,7 @@ html,body{min-height:100%;font-family:var(--ff);font-weight:300;background:var(-
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, doc, getDocs, setDoc, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, collection, doc, getDocs, setDoc, updateDoc, deleteDoc, query, orderBy, writeBatch } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const app = initializeApp({
   apiKey:"AIzaSyC0LNwrtehJ8BytnXL5-aiG2H_sTIgXgk4",
@@ -452,6 +533,7 @@ const THUMB_PX=240, THUMB_QUALITY=0.7;
 let objectUrls=[];   // 메모리 회수를 위한 ObjectURL 추적
 let editingId=null;
 let pendingCover1=null, pendingCover2=null;
+let modalHomeShow=false;
 let existingCover1='', existingCover2='';
 let detailItems=[];   // {src, file, spaceTag}
 let cachedProjects=[];
@@ -573,11 +655,17 @@ async function fetchProjects(){
 function renderProjectList(){
   const el=document.getElementById('project-list');
   if(!cachedProjects.length){ el.innerHTML='<div class="empty-state">등록된 현장이 없습니다.</div>'; return; }
-  el.innerHTML=cachedProjects.map(p=>`
+  el.innerHTML=cachedProjects.map(p=>{
+    const isHome=p.homeShow===true;
+    const badge=isHome
+      ? `<button class="bg-home" onclick="event.stopPropagation();toggleProjectHome('${esc(p.id)}',false)" title="홈 노출 끄기">HOME</button>`
+      : `<button class="bg-home-add" onclick="event.stopPropagation();toggleProjectHome('${esc(p.id)}',true)" title="홈에 추가">+ HOME</button>`;
+    return `
     <div class="project-card">
       <div class="project-card__cover">
         ${p.coverImage1?`<img src="${esc(p.coverImage1)}" alt="${esc(p.siteName)}" loading="lazy">`
           :`<div class="project-card__cover-empty">대표 이미지 없음</div>`}
+        ${badge}
       </div>
       <div class="project-card__body">
         <div class="project-card__name">${esc(p.siteName)}</div>
@@ -592,8 +680,95 @@ function renderProjectList(){
         <button class="btn-edit" onclick="openModal('${esc(p.id)}')">수정</button>
         <button class="btn-del" onclick="deleteProject('${esc(p.id)}')">삭제</button>
       </div>
+    </div>`;
+  }).join('');
+  renderHomeStrip();
+}
+
+/* ── 홈 슬라이드 순서 영역 렌더 ── */
+function getHomeProjects(){
+  return cachedProjects
+    .filter(p=>p.homeShow===true)
+    .sort((a,b)=>(a.homeOrder??9999)-(b.homeOrder??9999));
+}
+
+function renderHomeStrip(){
+  const grid=document.getElementById('home-strip-grid');
+  const count=document.getElementById('home-strip-count');
+  if(!grid) return;
+  const homes=getHomeProjects();
+  count.textContent=`${homes.length}개 노출 중`;
+  if(!homes.length){
+    grid.innerHTML='<div class="home-strip__empty">홈에 노출되는 사진이 없습니다.<br>아래 카드에서 <strong>+ HOME</strong> 배지를 눌러 추가하세요.</div>';
+    return;
+  }
+  grid.innerHTML=homes.map((p,i)=>`
+    <div class="home-thumb" draggable="true" data-id="${esc(p.id)}" data-idx="${i}"
+      ondragstart="hsDragStart(event,${i})" ondragover="hsDragOver(event,${i})"
+      ondragleave="hsDragLeave(event)" ondrop="hsDrop(event,${i})" ondragend="hsDragEnd(event)">
+      <img class="home-thumb__img" src="${esc(p.coverImage1||'')}" alt="${esc(p.siteName)}" loading="lazy">
+      <div class="home-thumb__num">${i+1}</div>
+      <div class="home-thumb__name">${esc(p.siteName)}</div>
     </div>`).join('');
 }
+
+/* ── HOME 배지 토글 ── */
+window.toggleProjectHome=async function(id,turnOn){
+  const p=cachedProjects.find(x=>x.id===id); if(!p) return;
+  try{
+    if(turnOn){
+      // 켜기: 현재 ON된 것들의 마지막 순서 + 1
+      const homes=getHomeProjects();
+      const newOrder=homes.length>0?(homes[homes.length-1].homeOrder??homes.length-1)+1:0;
+      await updateDoc(doc(db,'projects',id),{homeShow:true,homeOrder:newOrder});
+      p.homeShow=true; p.homeOrder=newOrder;
+      showToast('홈 슬라이드에 추가되었습니다 ✓');
+    } else {
+      await updateDoc(doc(db,'projects',id),{homeShow:false});
+      p.homeShow=false;
+      showToast('홈 슬라이드에서 제외되었습니다');
+    }
+    renderProjectList();
+  } catch(e){ showToast('변경 실패: '+e.message); }
+};
+
+/* ── 홈 썸네일 드래그 정렬 ── */
+let hsDragSrcIdx=null;
+window.hsDragStart=function(e,idx){
+  hsDragSrcIdx=idx; e.dataTransfer.effectAllowed='move';
+  setTimeout(()=>{ const el=document.querySelector(`.home-thumb[data-idx="${idx}"]`); if(el) el.classList.add('is-dragging'); },0);
+};
+window.hsDragOver=function(e,idx){
+  e.preventDefault(); e.dataTransfer.dropEffect='move';
+  if(idx===hsDragSrcIdx) return;
+  document.querySelectorAll('.home-thumb').forEach(el=>el.classList.remove('drag-over-target'));
+  const el=document.querySelector(`.home-thumb[data-idx="${idx}"]`); if(el) el.classList.add('drag-over-target');
+};
+window.hsDragLeave=function(e){ e.currentTarget.classList.remove('drag-over-target'); };
+window.hsDrop=async function(e,targetIdx){
+  e.preventDefault();
+  if(hsDragSrcIdx===null||hsDragSrcIdx===targetIdx) return;
+  const homes=getHomeProjects();
+  const moved=homes.splice(hsDragSrcIdx,1)[0];
+  homes.splice(targetIdx,0,moved);
+  hsDragSrcIdx=null;
+  // 새 순서를 Firestore에 일괄 저장
+  try{
+    const batch=writeBatch(db);
+    homes.forEach((p,i)=>{
+      batch.update(doc(db,'projects',p.id),{homeOrder:i});
+      const cached=cachedProjects.find(x=>x.id===p.id);
+      if(cached) cached.homeOrder=i;
+    });
+    await batch.commit();
+    renderProjectList();
+    showToast('순서가 저장되었습니다 ✓');
+  } catch(e){ showToast('순서 저장 실패: '+e.message); fetchProjects(); }
+};
+window.hsDragEnd=function(){
+  hsDragSrcIdx=null;
+  document.querySelectorAll('.home-thumb').forEach(el=>el.classList.remove('is-dragging','drag-over-target'));
+};
 
 window.deleteProject=async function(id){
   if(!confirm('이 현장을 삭제하시겠습니까?')) return;
@@ -607,6 +782,7 @@ window.openModal=function(id){
   pendingCover1=pendingCover2=null;
   detailItems=[];
   existingCover1=existingCover2='';
+  modalHomeShow=false;
   clearObjectUrls();
 
   ['mf-sitename','mf-buildingname','mf-area','mf-location','mf-period','mf-builtyear'].forEach(i=>{
@@ -622,6 +798,7 @@ window.openModal=function(id){
   document.getElementById('cover1-file').value='';
   document.getElementById('cover2-file').value='';
   document.getElementById('detail-files').value='';
+  document.getElementById('mf-homeshow').classList.remove('is-on');
 
   if(id){
     const p=cachedProjects.find(x=>x.id===id); if(!p) return;
@@ -642,10 +819,18 @@ window.openModal=function(id){
     if(existingCover1) setCoverPreview(1,existingCover1);
     if(existingCover2) setCoverPreview(2,existingCover2);
     if(p.images&&p.images.length) loadExistingImages(p.images);
+    // 홈 노출 상태 복원
+    modalHomeShow=p.homeShow===true;
+    if(modalHomeShow) document.getElementById('mf-homeshow').classList.add('is-on');
   } else {
     document.getElementById('modal-title').textContent='새 현장 추가';
   }
   document.getElementById('modal-overlay').classList.add('show');
+};
+
+window.toggleHomeShow=function(){
+  modalHomeShow=!modalHomeShow;
+  document.getElementById('mf-homeshow').classList.toggle('is-on',modalHomeShow);
 };
 window.closeModal=function(){ document.getElementById('modal-overlay').classList.remove('show'); clearObjectUrls(); };
 document.getElementById('modal-overlay').addEventListener('click',e=>{ if(e.target===document.getElementById('modal-overlay')) window.closeModal(); });
@@ -899,6 +1084,29 @@ window.saveProject=async function(){
 
   bar.style.width='100%'; txt.textContent='저장 중...';
   const id=editingId||uid();
+
+  // 홈 노출 처리: 기존 현장 수정 시 OFF→ON이면 끝번 부여, ON→OFF는 homeShow만 false
+  let homeShowVal=modalHomeShow;
+  let homeOrderVal=0;
+  if(editingId){
+    const existing=cachedProjects.find(p=>p.id===editingId);
+    const wasOn=existing?.homeShow===true;
+    if(modalHomeShow && !wasOn){
+      // 새로 켜짐 → 끝 순서 부여
+      const homes=cachedProjects.filter(p=>p.homeShow===true && p.id!==editingId)
+        .sort((a,b)=>(a.homeOrder??9999)-(b.homeOrder??9999));
+      homeOrderVal=homes.length>0?(homes[homes.length-1].homeOrder??homes.length-1)+1:0;
+    } else if(modalHomeShow && wasOn){
+      // 그대로 ON → 기존 순서 유지
+      homeOrderVal=existing.homeOrder??0;
+    }
+  } else if(modalHomeShow){
+    // 새 현장이 ON으로 시작 → 끝 순서
+    const homes=cachedProjects.filter(p=>p.homeShow===true)
+      .sort((a,b)=>(a.homeOrder??9999)-(b.homeOrder??9999));
+    homeOrderVal=homes.length>0?(homes[homes.length-1].homeOrder??homes.length-1)+1:0;
+  }
+
   const data={
     siteName:     document.getElementById('mf-sitename').value.trim(),
     buildingName: document.getElementById('mf-buildingname').value.trim(),
@@ -910,6 +1118,8 @@ window.saveProject=async function(){
     styleTag:     document.querySelector('input[name="mf-style"]:checked')?.value||'',
     coverImage1:cover1Url, coverImage2:cover2Url,
     images:finalImages,
+    homeShow:     homeShowVal,
+    homeOrder:    homeOrderVal,
     updatedAt:Date.now(),
     createdAt:editingId?(cachedProjects.find(p=>p.id===editingId)?.createdAt||Date.now()):Date.now(),
   };
