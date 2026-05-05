@@ -92,8 +92,6 @@ button{font-family:var(--ff-sans);}
 .nav__link::after{content:'';position:absolute;bottom:2px;left:20px;right:20px;height:1px;background:var(--c-gold);transform:scaleX(0);transform-origin:left;transition:transform .3s var(--ease-out);}
 .nav__link:hover,.nav__link.is-active{color:var(--c-dark);}
 .nav__link:hover::after,.nav__link.is-active::after{transform:scaleX(1);}
-/* 홈 페이지에서만 메뉴 글씨 키우고 굵게 */
-#header:not(.is-solid) .nav__link{font-size:15px;font-weight:500;}
 #header.is-solid .nav__link{color:var(--c-stone);}
 #header.is-solid .nav__link::after{background:var(--c-gold);}
 #header.is-solid .nav__link:hover,#header.is-solid .nav__link.is-active{color:var(--c-dark);}
