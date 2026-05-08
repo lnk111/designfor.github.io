@@ -607,6 +607,76 @@ button{font-family:var(--ff-sans);}
 .inq-checkbox{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--c-stone);cursor:pointer;}
 .inq-checkbox input{accent-color:var(--c-gold);width:16px;height:16px;}
 
+/* 공사 범위 — "잘 모르겠어요" 옵션 */
+.scope-unsure{
+  display:flex;align-items:center;gap:10px;cursor:pointer;
+  background:#FAEEDA;border:1px solid #EFC891;border-radius:10px;
+  padding:14px 16px;margin-bottom:14px;
+  transition:background .2s;
+}
+.scope-unsure:hover{background:#F8E4C5;}
+.scope-unsure input{display:none;}
+.scope-unsure__check{
+  width:18px;height:18px;border:1.5px solid #B59155;border-radius:5px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  background:#fff;
+}
+.scope-unsure input:checked + .scope-unsure__check{background:#B59155;border-color:#B59155;}
+.scope-unsure input:checked + .scope-unsure__check::after{content:'✓';color:#fff;font-size:11px;line-height:1;}
+.scope-unsure__text{font-size:14px;color:#412402;}
+
+/* 공사 범위 — 카테고리 박스 */
+.scope-block{background:#fff;border:1px solid var(--c-border);border-radius:12px;padding:6px 18px;}
+.scope-block.is-disabled{opacity:0.4;pointer-events:none;}
+
+.scope-cat{border-bottom:1px solid #ECE6D8;}
+.scope-cat:last-child{border-bottom:none;}
+.scope-cat__head{
+  width:100%;display:flex;align-items:center;justify-content:space-between;
+  padding:14px 0;cursor:pointer;user-select:none;background:none;border:none;
+  font-family:inherit;text-align:left;
+}
+.scope-cat__title-wrap{display:flex;align-items:center;gap:10px;}
+.scope-cat__icon{
+  width:24px;height:24px;display:flex;align-items:center;justify-content:center;
+  background:#FAEEDA;border-radius:6px;font-size:13px;flex-shrink:0;
+}
+.scope-cat__title{font-size:15px;font-weight:500;color:var(--c-dark);}
+.scope-cat__count{
+  font-size:11px;color:#B4B2A9;background:#F0EDE6;padding:3px 9px;
+  border-radius:999px;letter-spacing:0.04em;
+}
+.scope-cat__count.has-checked{color:#B59155;background:#FAEEDA;}
+.scope-cat__chevron{font-size:11px;color:var(--c-stone-lt);transition:transform .25s;}
+.scope-cat.is-open .scope-cat__chevron{transform:rotate(180deg);}
+
+.scope-items{
+  display:none;padding:4px 0 16px 34px;flex-wrap:wrap;gap:6px 16px;
+}
+.scope-cat.is-open .scope-items{display:flex;}
+
+.scope-item{
+  display:flex;align-items:center;gap:8px;font-size:14px;color:var(--c-stone);
+  cursor:pointer;padding:6px 0;min-width:calc(50% - 8px);
+  user-select:none;
+}
+.scope-item input{display:none;}
+.scope-check{
+  width:17px;height:17px;border:1.5px solid #C6BFAE;border-radius:4px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  background:#fff;transition:all .15s;
+}
+.scope-item input:checked + .scope-check{background:#B59155;border-color:#B59155;}
+.scope-item input:checked + .scope-check::after{content:'✓';color:#fff;font-size:11px;line-height:1;font-weight:700;}
+.scope-item input:checked ~ .scope-item__label{color:var(--c-dark);font-weight:500;}
+.scope-item:has(input:checked){color:var(--c-dark);font-weight:500;}
+
+@media (max-width: 760px){
+  .scope-item{min-width:100%;}
+  .scope-cat__title{font-size:14px;}
+  .scope-items{padding-left:0;}
+}
+
 /* 제출 버튼 */
 .inq-submit{
   width:100%;background:var(--c-gold);color:var(--c-dark);border:none;
@@ -1094,6 +1164,134 @@ button{font-family:var(--ff-sans);}
               <div class="inq-group">
                 <label class="inq-label">공사 예산 (만원)</label>
                 <input class="inq-input" id="inq-budget" type="number" placeholder="숫자만 입력">
+              </div>
+            </div>
+          </div>
+
+          <!-- 공사 범위 -->
+          <div class="inq-section">
+            <div class="inq-section__title">희망 공사 범위</div>
+            <div class="inq-section__desc">시공을 원하시는 항목을 모두 선택해 주세요. 대분류를 클릭하면 세부 항목이 펼쳐집니다.</div>
+
+            <!-- "잘 모르겠어요" 옵션 -->
+            <label class="scope-unsure">
+              <input type="checkbox" id="scope-unsure">
+              <span class="scope-unsure__check"></span>
+              <span class="scope-unsure__text">잘 모르겠어요 — 상담 시 안내를 받고 싶습니다</span>
+            </label>
+
+            <div class="scope-block" id="scope-block">
+              <!-- 1. 철거 · 폐기 -->
+              <div class="scope-cat is-open" data-cat="철거·폐기">
+                <button type="button" class="scope-cat__head" onclick="toggleScopeCat(this)">
+                  <span class="scope-cat__title-wrap">
+                    <span class="scope-cat__icon">🔨</span>
+                    <span class="scope-cat__title">철거 · 폐기</span>
+                    <span class="scope-cat__count">선택 안 함</span>
+                  </span>
+                  <span class="scope-cat__chevron">▼</span>
+                </button>
+                <div class="scope-items">
+                  <label class="scope-item"><input type="checkbox" name="scope-item" data-cat="철거·폐기" value="전체 철거"><span class="scope-check"></span><span class="scope-item__label">전체 철거</span></label>
+                  <label class="scope-item"><input type="checkbox" name="scope-item" data-cat="철거·폐기" value="부분 철거"><span class="scope-check"></span><span class="scope-item__label">부분 철거</span></label>
+                </div>
+              </div>
+
+              <!-- 2. 목공 · 가구 -->
+              <div class="scope-cat is-open" data-cat="목공·가구">
+                <button type="button" class="scope-cat__head" onclick="toggleScopeCat(this)">
+                  <span class="scope-cat__title-wrap">
+                    <span class="scope-cat__icon">🪵</span>
+                    <span class="scope-cat__title">목공 · 가구</span>
+                    <span class="scope-cat__count">선택 안 함</span>
+                  </span>
+                  <span class="scope-cat__chevron">▼</span>
+                </button>
+                <div class="scope-items">
+                  <label class="scope-item"><input type="checkbox" name="scope-item" data-cat="목공·가구" value="천장 · 우물천장"><span class="scope-check"></span><span class="scope-item__label">천장 · 우물천장</span></label>
+                  <label class="scope-item"><input type="checkbox" name="scope-item" data-cat="목공·가구" value="아트월"><span class="scope-check"></span><span class="scope-item__label">아트월</span></label>
+                  <label class="scope-item"><input type="checkbox" name="scope-item" data-cat="목공·가구" value="붙박이장"><span class="scope-check"></span><span class="scope-item__label">붙박이장</span></label>
+                  <label class="scope-item"><input type="checkbox" name="scope-item" data-cat="목공·가구" value="주방가구 (싱크대)"><span class="scope-check"></span><span class="scope-item__label">주방가구 (싱크대)</span></label>
+                  <label class="scope-item"><input type="checkbox" name="scope-item" data-cat="목공·가구" value="중문 · 도어 교체"><span class="scope-check"></span><span class="scope-item__label">중문 · 도어 교체</span></label>
+                  <label class="scope-item"><input type="checkbox" name="scope-item" data-cat="목공·가구" value="몰딩 교체"><span class="scope-check"></span><span class="scope-item__label">몰딩 교체</span></label>
+                </div>
+              </div>
+
+              <!-- 3. 마감 -->
+              <div class="scope-cat" data-cat="마감">
+                <button type="button" class="scope-cat__head" onclick="toggleScopeCat(this)">
+                  <span class="scope-cat__title-wrap">
+                    <span class="scope-cat__icon">🎨</span>
+                    <span class="scope-cat__title">마감 (도배 · 장판 · 페인트)</span>
+                    <span class="scope-cat__count">선택 안 함</span>
+                  </span>
+                  <span class="scope-cat__chevron">▼</span>
+                </button>
+                <div class="scope-items">
+                  <label class="scope-item"><input type="checkbox" name="scope-item" data-cat="마감" value="도배 (실크/합지)"><span class="scope-check"></span><span class="scope-item__label">도배 (실크/합지)</span></label>
+                  <label class="scope-item"><input type="checkbox" name="scope-item" data-cat="마감" value="장판 / 강마루"><span class="scope-check"></span><span class="scope-item__label">장판 / 강마루</span></label>
+                  <label class="scope-item"><input type="checkbox" name="scope-item" data-cat="마감" value="페인트 도장"><span class="scope-check"></span><span class="scope-item__label">페인트 도장</span></label>
+                  <label class="scope-item"><input type="checkbox" name="scope-item" data-cat="마감" value="친환경 마감재"><span class="scope-check"></span><span class="scope-item__label">친환경 마감재</span></label>
+                  <label class="scope-item"><input type="checkbox" name="scope-item" data-cat="마감" value="걸레받이 교체"><span class="scope-check"></span><span class="scope-item__label">걸레받이 교체</span></label>
+                </div>
+              </div>
+
+              <!-- 4. 타일 · 욕실 -->
+              <div class="scope-cat" data-cat="타일·욕실">
+                <button type="button" class="scope-cat__head" onclick="toggleScopeCat(this)">
+                  <span class="scope-cat__title-wrap">
+                    <span class="scope-cat__icon">⬜</span>
+                    <span class="scope-cat__title">타일 · 욕실</span>
+                    <span class="scope-cat__count">선택 안 함</span>
+                  </span>
+                  <span class="scope-cat__chevron">▼</span>
+                </button>
+                <div class="scope-items">
+                  <label class="scope-item"><input type="checkbox" name="scope-item" data-cat="타일·욕실" value="욕실 전체 리모델링"><span class="scope-check"></span><span class="scope-item__label">욕실 전체 리모델링</span></label>
+                  <label class="scope-item"><input type="checkbox" name="scope-item" data-cat="타일·욕실" value="주방 타일"><span class="scope-check"></span><span class="scope-item__label">주방 타일</span></label>
+                  <label class="scope-item"><input type="checkbox" name="scope-item" data-cat="타일·욕실" value="현관 타일"><span class="scope-check"></span><span class="scope-item__label">현관 타일</span></label>
+                  <label class="scope-item"><input type="checkbox" name="scope-item" data-cat="타일·욕실" value="위생도기 (변기·세면대)"><span class="scope-check"></span><span class="scope-item__label">위생도기 (변기·세면대)</span></label>
+                  <label class="scope-item"><input type="checkbox" name="scope-item" data-cat="타일·욕실" value="샤워부스 / 욕조"><span class="scope-check"></span><span class="scope-item__label">샤워부스 / 욕조</span></label>
+                  <label class="scope-item"><input type="checkbox" name="scope-item" data-cat="타일·욕실" value="방수 작업"><span class="scope-check"></span><span class="scope-item__label">방수 작업</span></label>
+                </div>
+              </div>
+
+              <!-- 5. 전기 · 조명 -->
+              <div class="scope-cat" data-cat="전기·조명">
+                <button type="button" class="scope-cat__head" onclick="toggleScopeCat(this)">
+                  <span class="scope-cat__title-wrap">
+                    <span class="scope-cat__icon">💡</span>
+                    <span class="scope-cat__title">전기 · 조명</span>
+                    <span class="scope-cat__count">선택 안 함</span>
+                  </span>
+                  <span class="scope-cat__chevron">▼</span>
+                </button>
+                <div class="scope-items">
+                  <label class="scope-item"><input type="checkbox" name="scope-item" data-cat="전기·조명" value="조명 교체 (전체)"><span class="scope-check"></span><span class="scope-item__label">조명 교체 (전체)</span></label>
+                  <label class="scope-item"><input type="checkbox" name="scope-item" data-cat="전기·조명" value="매입등 · 다운라이트"><span class="scope-check"></span><span class="scope-item__label">매입등 · 다운라이트</span></label>
+                  <label class="scope-item"><input type="checkbox" name="scope-item" data-cat="전기·조명" value="스위치 · 콘센트 교체"><span class="scope-check"></span><span class="scope-item__label">스위치 · 콘센트 교체</span></label>
+                  <label class="scope-item"><input type="checkbox" name="scope-item" data-cat="전기·조명" value="분전반 교체"><span class="scope-check"></span><span class="scope-item__label">분전반 교체</span></label>
+                  <label class="scope-item"><input type="checkbox" name="scope-item" data-cat="전기·조명" value="인터폰 · CCTV"><span class="scope-check"></span><span class="scope-item__label">인터폰 · CCTV</span></label>
+                </div>
+              </div>
+
+              <!-- 6. 설비 · 기타 -->
+              <div class="scope-cat" data-cat="설비·기타">
+                <button type="button" class="scope-cat__head" onclick="toggleScopeCat(this)">
+                  <span class="scope-cat__title-wrap">
+                    <span class="scope-cat__icon">🔧</span>
+                    <span class="scope-cat__title">설비 · 기타</span>
+                    <span class="scope-cat__count">선택 안 함</span>
+                  </span>
+                  <span class="scope-cat__chevron">▼</span>
+                </button>
+                <div class="scope-items">
+                  <label class="scope-item"><input type="checkbox" name="scope-item" data-cat="설비·기타" value="샷시 · 창호 교체"><span class="scope-check"></span><span class="scope-item__label">샷시 · 창호 교체</span></label>
+                  <label class="scope-item"><input type="checkbox" name="scope-item" data-cat="설비·기타" value="발코니 확장"><span class="scope-check"></span><span class="scope-item__label">발코니 확장</span></label>
+                  <label class="scope-item"><input type="checkbox" name="scope-item" data-cat="설비·기타" value="난방 · 보일러"><span class="scope-check"></span><span class="scope-item__label">난방 · 보일러</span></label>
+                  <label class="scope-item"><input type="checkbox" name="scope-item" data-cat="설비·기타" value="에어컨 · 환기"><span class="scope-check"></span><span class="scope-item__label">에어컨 · 환기</span></label>
+                  <label class="scope-item"><input type="checkbox" name="scope-item" data-cat="설비·기타" value="입주 청소"><span class="scope-check"></span><span class="scope-item__label">입주 청소</span></label>
+                </div>
               </div>
             </div>
           </div>
@@ -1764,6 +1962,8 @@ window.submitInquiry=async function(){
     title:    document.getElementById('inq-title').value.trim(),
     content:  document.getElementById('inq-content').value.trim(),
     portfolios: selCards,
+    scopeUnsure: document.getElementById('scope-unsure')?.checked || false,
+    scope:    collectScope(),
     접수일시,
     createdAt: Date.now()
   };
@@ -1779,7 +1979,9 @@ window.submitInquiry=async function(){
 
   // 2. 직원 3명 — SMS 발송
   const staffNums=['01087163073','01074720065','01041217976'];
-  const staffSmsText=`[디자인포] 새 견적문의\n고객명: ${name}\n연락처: ${phone}\n평수: ${data.size?data.size+'평':'미입력'}\n예산: ${data.budget?data.budget+'만원':'미입력'}\n접수일시: ${접수일시}\n관리자 페이지에서 확인하세요.`;
+  const scopeSummary=data.scopeUnsure?'잘 모르겠음 (안내 요청)'
+    : (data.scope.length?data.scope.length+'개 항목':'선택 없음');
+  const staffSmsText=`[디자인포] 새 견적문의\n고객명: ${name}\n연락처: ${phone}\n평수: ${data.size?data.size+'평':'미입력'}\n예산: ${data.budget?data.budget+'만원':'미입력'}\n공사범위: ${scopeSummary}\n접수일시: ${접수일시}\n관리자 페이지에서 확인하세요.`;
 
   await Promise.all(staffNums.map(num=>sendSMS(num, staffSmsText)));
 
@@ -1796,6 +1998,60 @@ window.submitInquiry=async function(){
       <div class="inq-success__desc">문자와 카카오톡으로<br>접수 확인 메시지를 보내드렸어요.<br><br>빠른 시일 내에 연락드리겠습니다.</div>
     </div>`;
 };
+
+/* ── 공사 범위 토글 / 카운터 / 수집 ── */
+window.toggleScopeCat=function(headEl){
+  const cat=headEl.closest('.scope-cat');
+  if(cat) cat.classList.toggle('is-open');
+};
+
+function updateScopeCount(catEl){
+  const checks=catEl.querySelectorAll('input[type="checkbox"]:checked');
+  const countEl=catEl.querySelector('.scope-cat__count');
+  if(checks.length){
+    countEl.textContent=`${checks.length}개 선택`;
+    countEl.classList.add('has-checked');
+  } else {
+    countEl.textContent='선택 안 함';
+    countEl.classList.remove('has-checked');
+  }
+}
+
+function collectScope(){
+  const arr=[];
+  document.querySelectorAll('input[name="scope-item"]:checked').forEach(cb=>{
+    arr.push({category:cb.dataset.cat, item:cb.value});
+  });
+  return arr;
+}
+
+// 카운터 자동 업데이트 + "잘 모르겠어요" 연동
+document.addEventListener('change',e=>{
+  if(e.target.matches('input[name="scope-item"]')){
+    const cat=e.target.closest('.scope-cat');
+    if(cat) updateScopeCount(cat);
+    // 항목 체크하면 "잘 모르겠어요" 자동 해제
+    const unsure=document.getElementById('scope-unsure');
+    if(e.target.checked && unsure?.checked){
+      unsure.checked=false;
+      document.getElementById('scope-block').classList.remove('is-disabled');
+    }
+  }
+  if(e.target.id==='scope-unsure'){
+    const block=document.getElementById('scope-block');
+    if(e.target.checked){
+      // "잘 모르겠어요" 켜면 모든 체크박스 해제 + 영역 비활성화
+      document.querySelectorAll('input[name="scope-item"]:checked').forEach(cb=>{
+        cb.checked=false;
+        const cat=cb.closest('.scope-cat');
+        if(cat) updateScopeCount(cat);
+      });
+      block.classList.add('is-disabled');
+    } else {
+      block.classList.remove('is-disabled');
+    }
+  }
+});
 
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 

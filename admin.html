@@ -639,8 +639,31 @@ async function fetchInquiries(){
         ${inq.title?`<div style="margin-top:10px;font-size:15px;font-weight:500;color:var(--dark);">${esc(inq.title)}</div>`:''}
         ${inq.content?`<div style="margin-top:6px;font-size:15px;color:var(--stone);line-height:1.7;">${esc(inq.content)}</div>`:''}
         ${inq.portfolios?`<div style="margin-top:8px;font-size:14px;color:var(--stone-lt);">희망 스타일: ${esc(inq.portfolios)}</div>`:''}
+        ${renderScopeForAdmin(inq)}
       </div>`).join('');
   } catch(e){ el.innerHTML=`<div class="empty-state">불러오기 실패: ${e.message}</div>`; }
+}
+
+function renderScopeForAdmin(inq){
+  if(inq.scopeUnsure){
+    return `<div style="margin-top:10px;background:#FAEEDA;border:1px solid #EFC891;border-radius:8px;padding:10px 14px;font-size:14px;color:#412402;">
+      <strong style="color:#854F0B;">공사 범위 ‧ 잘 모르겠음</strong> — 상담 시 안내 요청
+    </div>`;
+  }
+  if(!inq.scope || !inq.scope.length) return '';
+  // 카테고리별로 그룹
+  const grouped={};
+  inq.scope.forEach(s=>{
+    if(!grouped[s.category]) grouped[s.category]=[];
+    grouped[s.category].push(s.item);
+  });
+  const lines=Object.entries(grouped).map(([cat,items])=>
+    `<div style="margin-bottom:4px;"><strong style="color:var(--gold);">${esc(cat)}</strong> · ${items.map(esc).join(', ')}</div>`
+  ).join('');
+  return `<div style="margin-top:10px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:14px;color:var(--stone);line-height:1.6;">
+    <div style="font-size:12px;letter-spacing:0.1em;color:var(--stone-lt);margin-bottom:6px;">희망 공사 범위 (${inq.scope.length}개)</div>
+    ${lines}
+  </div>`;
 }
 async function fetchProjects(){
   const el=document.getElementById('project-list');
