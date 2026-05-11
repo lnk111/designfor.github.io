@@ -417,6 +417,77 @@ button{font-family:var(--ff-sans);}
 /* 모바일 포트폴리오 상세는 아래 RESPONSIVE 블록에서 통합 관리 */
 
 /* CONSULT */
+/* PROCESS — 진행 절차 페이지 */
+#pg-process{background:var(--c-bg);overflow-y:auto;}
+.process__wrap{padding:60px var(--pad-x) 80px;min-height:100%;}
+.process__inner{max-width:980px;margin:0 auto;}
+
+.process__h{text-align:center;margin-bottom:32px;}
+.process__sub{font-size:12px;color:var(--c-stone-lt);letter-spacing:0.24em;margin:0 0 10px;}
+.process__title{font-family:var(--ff-serif);font-size:42px;font-weight:300;color:var(--c-dark);letter-spacing:0.06em;margin:0;}
+
+.proc-sec{margin-top:36px;padding:36px 36px;border-radius:16px;border:1px solid;}
+.proc-sec--consulting{background:#FAEEDA;border-color:#EFC891;}
+.proc-sec--construction{background:#F0EAE0;border-color:#D8CCB5;}
+
+.proc-sec__h{display:flex;align-items:center;gap:16px;margin-bottom:28px;padding-bottom:18px;border-bottom:1px solid rgba(133,79,11,0.15);flex-wrap:wrap;}
+.proc-sec__badge{font-size:11px;letter-spacing:0.2em;padding:6px 14px;border-radius:999px;font-weight:500;color:#fff;}
+.proc-sec__badge--gold{background:#B59155;}
+.proc-sec__badge--gray{background:#5F5E5A;}
+.proc-sec__title{font-family:var(--ff-serif);font-size:26px;font-weight:400;color:var(--c-dark);letter-spacing:0.04em;}
+.proc-sec__count{font-size:13px;margin-left:auto;letter-spacing:0.1em;}
+.proc-sec--consulting .proc-sec__count{color:#854F0B;}
+.proc-sec--construction .proc-sec__count{color:#5F5E5A;}
+
+.proc-step{display:flex;gap:20px;padding:12px 0;align-items:flex-start;}
+.proc-step__left{display:flex;flex-direction:column;align-items:center;flex-shrink:0;}
+.proc-step__num{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--ff-serif);font-size:18px;font-weight:500;background:#fff;}
+.proc-sec--consulting .proc-step__num{color:#854F0B;border:1px solid #EFC891;}
+.proc-sec--construction .proc-step__num{color:#5F5E5A;border:1px solid #B4B2A9;}
+.proc-step__line{flex:1;width:1px;margin-top:8px;min-height:20px;}
+.proc-sec--consulting .proc-step__line{background:rgba(133,79,11,0.2);}
+.proc-sec--construction .proc-step__line{background:rgba(95,94,90,0.2);}
+.proc-step:last-child .proc-step__line{display:none;}
+
+.proc-step__body{flex:1;padding-top:8px;padding-bottom:16px;min-width:0;}
+.proc-step__title{font-size:17px;font-weight:500;color:var(--c-dark);margin:0 0 8px;letter-spacing:0.02em;}
+.proc-step__desc{font-size:14px;line-height:1.75;margin:0;}
+.proc-sec--consulting .proc-step__desc{color:#5F4A2A;}
+.proc-sec--construction .proc-step__desc{color:#444441;}
+
+.proc-step__cta{
+  flex-shrink:0;align-self:flex-start;margin-top:10px;
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--c-dark);color:#fff;
+  font-size:13px;font-weight:500;letter-spacing:0.1em;
+  padding:10px 20px;border-radius:6px;
+  cursor:pointer;border:none;font-family:inherit;
+  transition:background .2s;text-decoration:none;
+}
+.proc-step__cta:hover{background:#3A3937;}
+
+.proc-bottom{margin-top:48px;text-align:center;padding:36px 24px;background:#F5F1E8;border-radius:14px;}
+.proc-bottom__text{font-size:15px;color:var(--c-stone);margin:0 0 18px;}
+.proc-bottom__btn{
+  display:inline-block;background:#B59155;color:#fff;
+  font-family:inherit;font-size:13px;letter-spacing:0.22em;
+  padding:16px 38px;border-radius:6px;cursor:pointer;border:none;
+  transition:background .2s;
+}
+.proc-bottom__btn:hover{background:#CDA96E;}
+
+/* 모바일 */
+@media (max-width: 760px){
+  .process__wrap{padding:40px var(--pad-x-sm) 60px;}
+  .process__title{font-size:32px;}
+  .proc-sec{padding:24px 20px;border-radius:12px;}
+  .proc-sec__title{font-size:21px;}
+  .proc-sec__count{width:100%;margin-left:0;}
+  .proc-step{flex-wrap:wrap;gap:14px;}
+  .proc-step__cta{width:100%;justify-content:center;margin-top:4px;margin-left:62px;}
+  .proc-step__num{width:36px;height:36px;font-size:16px;}
+}
+
 #pg-consult{background:var(--c-bg);}
 .consult__wrap{display:grid;grid-template-columns:420px 1fr;min-height:100%;}
 
@@ -889,7 +960,7 @@ button{font-family:var(--ff-sans);}
   <ul class="nav">
     <li><span class="nav__link" id="nl-about"     onclick="goPage('about')">회사소개</span></li>
     <li><span class="nav__link" id="nl-portfolio" onclick="goPage('portfolio')">포트폴리오</span></li>
-    <li><span class="nav__link" id="nl-consult"   onclick="goPage('consult')">견적문의</span></li>
+    <li><span class="nav__link" id="nl-process"   onclick="goPage('process')">진행절차</span></li>
     <li><span class="nav__link" id="nl-sns"       onclick="goPage('sns')">SNS</span></li>
   </ul>
   <button class="header-cta" onclick="goPage('consult')">견적 문의하기</button>
@@ -911,7 +982,7 @@ button{font-family:var(--ff-sans);}
     <nav class="mob-menu__nav">
       <button class="mob-menu__link" onclick="goPage('about');toggleMob()">회사소개</button>
       <button class="mob-menu__link" onclick="goPage('portfolio');toggleMob()">포트폴리오</button>
-      <button class="mob-menu__link" onclick="goPage('consult');toggleMob()">견적문의</button>
+      <button class="mob-menu__link" onclick="goPage('process');toggleMob()">진행절차</button>
       <button class="mob-menu__link" onclick="goPage('sns');toggleMob()">SNS</button>
     </nav>
     <div class="mob-menu__footer">
@@ -1053,6 +1124,204 @@ button{font-family:var(--ff-sans);}
           </button>
 
           <div class="pd-counter" id="pd-counter"></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS — 진행 절차 -->
+  <section class="page" id="pg-process">
+    <div class="process__wrap">
+      <div class="process__inner">
+
+        <!-- 헤더 -->
+        <div class="process__h">
+          <p class="process__sub">PROCESS</p>
+          <h1 class="process__title">진행 절차</h1>
+        </div>
+
+        <!-- 상담 절차 (베이지 톤) -->
+        <div class="proc-sec proc-sec--consulting">
+          <div class="proc-sec__h">
+            <span class="proc-sec__badge proc-sec__badge--gold">CONSULTING</span>
+            <span class="proc-sec__title">1. 상담 절차</span>
+            <span class="proc-sec__count">6단계</span>
+          </div>
+
+          <div class="proc-steps">
+            <div class="proc-step">
+              <div class="proc-step__left">
+                <div class="proc-step__num">01</div>
+                <div class="proc-step__line"></div>
+              </div>
+              <div class="proc-step__body">
+                <p class="proc-step__title">상담 신청</p>
+                <p class="proc-step__desc">견적문의 폼을 작성해 주세요.</p>
+              </div>
+              <a class="proc-step__cta" onclick="goPage('consult')">견적 문의하기 <span>→</span></a>
+            </div>
+
+            <div class="proc-step">
+              <div class="proc-step__left">
+                <div class="proc-step__num">02</div>
+                <div class="proc-step__line"></div>
+              </div>
+              <div class="proc-step__body">
+                <p class="proc-step__title">방문 상담</p>
+                <p class="proc-step__desc">디자인포 사무실에서 진행되며, 1시간 30분 소요됩니다.</p>
+              </div>
+            </div>
+
+            <div class="proc-step">
+              <div class="proc-step__left">
+                <div class="proc-step__num">03</div>
+                <div class="proc-step__line"></div>
+              </div>
+              <div class="proc-step__body">
+                <p class="proc-step__title">스케치업 디자인 미팅</p>
+                <p class="proc-step__desc">원하시는 공사 범위와 내용을 토대로 디자인 미팅을 진행합니다.</p>
+              </div>
+            </div>
+
+            <div class="proc-step">
+              <div class="proc-step__left">
+                <div class="proc-step__num">04</div>
+                <div class="proc-step__line"></div>
+              </div>
+              <div class="proc-step__body">
+                <p class="proc-step__title">자재 미팅</p>
+                <p class="proc-step__desc">고객님이 원하시는 집 분위기를 맞추는 단계입니다.<br>여러 자재들과 재료를 보면서 선택해보는 시간입니다.</p>
+              </div>
+            </div>
+
+            <div class="proc-step">
+              <div class="proc-step__left">
+                <div class="proc-step__num">05</div>
+                <div class="proc-step__line"></div>
+              </div>
+              <div class="proc-step__body">
+                <p class="proc-step__title">견적서 송부</p>
+                <p class="proc-step__desc">상담 당일, 디자인과 견적서가 제공됩니다.<br>고객님이 선택하신 재료를 바탕으로 견적서가 산출되며, 의논하여 수정해볼 수 있게 각각의 금액들을 비고란에 안내해 드리고 있습니다.</p>
+              </div>
+            </div>
+
+            <div class="proc-step">
+              <div class="proc-step__left">
+                <div class="proc-step__num">06</div>
+                <div class="proc-step__line"></div>
+              </div>
+              <div class="proc-step__body">
+                <p class="proc-step__title">계약 진행</p>
+                <p class="proc-step__desc">고객님의 집을 완성하기 위해 A팀 작업자로 빠르게 픽스해 드리고 있습니다.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 공사 절차 (다른 베이지 톤) -->
+        <div class="proc-sec proc-sec--construction">
+          <div class="proc-sec__h">
+            <span class="proc-sec__badge proc-sec__badge--gray">CONSTRUCTION</span>
+            <span class="proc-sec__title">2. 공사 절차</span>
+            <span class="proc-sec__count">8단계</span>
+          </div>
+
+          <div class="proc-steps">
+            <div class="proc-step">
+              <div class="proc-step__left">
+                <div class="proc-step__num">01</div>
+                <div class="proc-step__line"></div>
+              </div>
+              <div class="proc-step__body">
+                <p class="proc-step__title">계약 진행</p>
+                <p class="proc-step__desc">상담 절차에서 결정된 내용으로 계약을 진행합니다.</p>
+              </div>
+            </div>
+
+            <div class="proc-step">
+              <div class="proc-step__left">
+                <div class="proc-step__num">02</div>
+                <div class="proc-step__line"></div>
+              </div>
+              <div class="proc-step__body">
+                <p class="proc-step__title">타일 쇼룸</p>
+                <p class="proc-step__desc">쇼룸에 방문하여 타일 자재를 픽스하는 시간입니다.</p>
+              </div>
+            </div>
+
+            <div class="proc-step">
+              <div class="proc-step__left">
+                <div class="proc-step__num">03</div>
+                <div class="proc-step__line"></div>
+              </div>
+              <div class="proc-step__body">
+                <p class="proc-step__title">자재 &amp; 디자인 미팅</p>
+                <p class="proc-step__desc">고객님 집에 들어가는 자재들을 살펴보며 픽스하는 시간입니다.</p>
+              </div>
+            </div>
+
+            <div class="proc-step">
+              <div class="proc-step__left">
+                <div class="proc-step__num">04</div>
+                <div class="proc-step__line"></div>
+              </div>
+              <div class="proc-step__body">
+                <p class="proc-step__title">공사 전 PDF</p>
+                <p class="proc-step__desc">공사가 시작하기 전에, 고객님 댁의 렌더링 이미지를 정리하여 받아보는 시간입니다.<br>PDF를 보시며 크로스 체크 및 수정 가능합니다.</p>
+              </div>
+            </div>
+
+            <div class="proc-step">
+              <div class="proc-step__left">
+                <div class="proc-step__num">05</div>
+                <div class="proc-step__line"></div>
+              </div>
+              <div class="proc-step__body">
+                <p class="proc-step__title">공사 시작</p>
+                <p class="proc-step__desc">계획된 일정에 따라 시공을 시작합니다.</p>
+              </div>
+            </div>
+
+            <div class="proc-step">
+              <div class="proc-step__left">
+                <div class="proc-step__num">06</div>
+                <div class="proc-step__line"></div>
+              </div>
+              <div class="proc-step__body">
+                <p class="proc-step__title">제작가구 PDF</p>
+                <p class="proc-step__desc">디자인포는 전체 제작가구로 진행되며, 구매하시는 가전기기들에 맞춰 하나뿐인 가구를 만들고 있습니다.</p>
+              </div>
+            </div>
+
+            <div class="proc-step">
+              <div class="proc-step__left">
+                <div class="proc-step__num">07</div>
+                <div class="proc-step__line"></div>
+              </div>
+              <div class="proc-step__body">
+                <p class="proc-step__title">공사 완료 및 촬영</p>
+                <p class="proc-step__desc">시공이 완료된 후 완성 사진을 촬영합니다.</p>
+              </div>
+            </div>
+
+            <div class="proc-step">
+              <div class="proc-step__left">
+                <div class="proc-step__num">08</div>
+                <div class="proc-step__line"></div>
+              </div>
+              <div class="proc-step__body">
+                <p class="proc-step__title">사후 관리</p>
+                <p class="proc-step__desc">공사 완료 시점부터 1년까지 A/S 진행합니다.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 하단 CTA -->
+        <div class="proc-bottom">
+          <p class="proc-bottom__text">디자인포와 함께 시작해 보세요</p>
+          <button class="proc-bottom__btn" onclick="goPage('consult')">견적 문의하기</button>
         </div>
 
       </div>
@@ -1424,7 +1693,7 @@ const db = getFirestore(app);
 })();
 
 /* ── PAGE ROUTER ── */
-const PAGE_MAP={home:{el:'pg-home',nav:null},about:{el:'pg-about',nav:'nl-about'},portfolio:{el:'pg-portfolio',nav:'nl-portfolio'},consult:{el:'pg-consult',nav:'nl-consult'},sns:{el:'pg-sns',nav:'nl-sns'}};
+const PAGE_MAP={home:{el:'pg-home',nav:null},about:{el:'pg-about',nav:'nl-about'},portfolio:{el:'pg-portfolio',nav:'nl-portfolio'},process:{el:'pg-process',nav:'nl-process'},consult:{el:'pg-consult',nav:null},sns:{el:'pg-sns',nav:'nl-sns'}};
 let current='home';
 
 /* URL hash 매핑 */
@@ -1432,6 +1701,7 @@ const HASH_MAP={
   'home':    '',
   'about':   'about',
   'portfolio':'portfolio',
+  'process': 'process',
   'consult': 'consult',
   'sns':     'sns'
 };
