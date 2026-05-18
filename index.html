@@ -455,6 +455,20 @@ button{font-family:var(--ff-sans);}
 .proc-sec--consulting .proc-step__desc{color:#5F4A2A;}
 .proc-sec--construction .proc-step__desc{color:#444441;}
 
+/* 방문 상담 하위 단계 박스 */
+.proc-substeps{margin:14px 0 6px;padding:20px 24px;background:rgba(255,255,255,0.5);border:1px dashed #D9B978;border-radius:12px;}
+.proc-substeps__label{font-size:13px;color:#854F0B;letter-spacing:0.08em;margin:0 0 16px;font-weight:500;}
+.proc-sub{display:flex;gap:16px;padding:10px 0;align-items:flex-start;}
+.proc-sub__dot{width:26px;height:26px;border-radius:50%;background:#FAEEDA;border:1px solid #E2BE7F;color:#854F0B;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+.proc-sub__body{flex:1;min-width:0;}
+.proc-sub__title{font-size:15px;font-weight:500;color:#1A1A17;margin:0 0 5px;}
+.proc-sub__desc{font-size:13px;line-height:1.7;color:#6B5638;margin:0;}
+
+@media (max-width: 760px){
+  .proc-substeps{padding:16px 16px;}
+  .proc-sub{gap:12px;}
+}
+
 .proc-step__cta{
   flex-shrink:0;align-self:flex-start;margin-top:10px;
   display:inline-flex;align-items:center;gap:8px;
@@ -1146,7 +1160,7 @@ button{font-family:var(--ff-sans);}
           <div class="proc-sec__h">
             <span class="proc-sec__badge proc-sec__badge--gold">CONSULTING</span>
             <span class="proc-sec__title">1. 상담 절차</span>
-            <span class="proc-sec__count">6단계</span>
+            <span class="proc-sec__count">3단계</span>
           </div>
 
           <div class="proc-steps">
@@ -1170,45 +1184,40 @@ button{font-family:var(--ff-sans);}
               <div class="proc-step__body">
                 <p class="proc-step__title">방문 상담</p>
                 <p class="proc-step__desc">디자인포 사무실에서 진행되며, 1시간 30분 소요됩니다.</p>
+
+                <div class="proc-substeps">
+                  <p class="proc-substeps__label">방문 상담 시 아래 순서로 진행됩니다</p>
+
+                  <div class="proc-sub">
+                    <div class="proc-sub__dot">1</div>
+                    <div class="proc-sub__body">
+                      <p class="proc-sub__title">스케치업 디자인 미팅</p>
+                      <p class="proc-sub__desc">원하시는 공사 범위와 내용을 토대로 디자인 미팅을 진행합니다.</p>
+                    </div>
+                  </div>
+
+                  <div class="proc-sub">
+                    <div class="proc-sub__dot">2</div>
+                    <div class="proc-sub__body">
+                      <p class="proc-sub__title">자재 미팅</p>
+                      <p class="proc-sub__desc">고객님이 원하시는 집 분위기를 맞추는 단계입니다.<br>여러 자재들과 재료를 보면서 선택해보는 시간입니다.</p>
+                    </div>
+                  </div>
+
+                  <div class="proc-sub">
+                    <div class="proc-sub__dot">3</div>
+                    <div class="proc-sub__body">
+                      <p class="proc-sub__title">견적서 송부</p>
+                      <p class="proc-sub__desc">상담 당일, 디자인과 견적서가 제공됩니다.<br>고객님이 선택하신 재료를 바탕으로 견적서가 산출되며, 의논하여 수정해볼 수 있게 각각의 금액들을 비고란에 안내해 드리고 있습니다.</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
             <div class="proc-step">
               <div class="proc-step__left">
                 <div class="proc-step__num">03</div>
-                <div class="proc-step__line"></div>
-              </div>
-              <div class="proc-step__body">
-                <p class="proc-step__title">스케치업 디자인 미팅</p>
-                <p class="proc-step__desc">원하시는 공사 범위와 내용을 토대로 디자인 미팅을 진행합니다.</p>
-              </div>
-            </div>
-
-            <div class="proc-step">
-              <div class="proc-step__left">
-                <div class="proc-step__num">04</div>
-                <div class="proc-step__line"></div>
-              </div>
-              <div class="proc-step__body">
-                <p class="proc-step__title">자재 미팅</p>
-                <p class="proc-step__desc">고객님이 원하시는 집 분위기를 맞추는 단계입니다.<br>여러 자재들과 재료를 보면서 선택해보는 시간입니다.</p>
-              </div>
-            </div>
-
-            <div class="proc-step">
-              <div class="proc-step__left">
-                <div class="proc-step__num">05</div>
-                <div class="proc-step__line"></div>
-              </div>
-              <div class="proc-step__body">
-                <p class="proc-step__title">견적서 송부</p>
-                <p class="proc-step__desc">상담 당일, 디자인과 견적서가 제공됩니다.<br>고객님이 선택하신 재료를 바탕으로 견적서가 산출되며, 의논하여 수정해볼 수 있게 각각의 금액들을 비고란에 안내해 드리고 있습니다.</p>
-              </div>
-            </div>
-
-            <div class="proc-step">
-              <div class="proc-step__left">
-                <div class="proc-step__num">06</div>
                 <div class="proc-step__line"></div>
               </div>
               <div class="proc-step__body">
