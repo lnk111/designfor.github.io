@@ -1761,6 +1761,14 @@ window.toggleMob=function(){
 let allProjects=[];
 onSnapshot(query(collection(db,'projects'),orderBy('createdAt','desc')),snap=>{
   allProjects=snap.docs.map(d=>({id:d.id,...d.data()}));
+  // 관리자가 지정한 sortOrder 우선, 없으면 등록일 역순
+  allProjects.sort((a,b)=>{
+    const ao=a.sortOrder, bo=b.sortOrder;
+    if(ao!=null && bo!=null) return ao-bo;
+    if(ao!=null) return -1;
+    if(bo!=null) return 1;
+    return (b.createdAt||0)-(a.createdAt||0);
+  });
   if(current==='home') buildHomeSlideshow();
   if(current==='portfolio') buildPortfolioView();
   if(current==='consult') loadInquiryPortfolios();

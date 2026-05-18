@@ -196,7 +196,18 @@ html,body{min-height:100%;font-family:var(--ff);font-weight:300;background:var(-
 .home-strip__empty{font-size:14px;color:#854F0B;padding:24px;text-align:center;background:#fff8e8;border:1px dashed #EF9F27;border-radius:12px;}
 
 /* 카드 위 HOME 배지 */
-.project-card{position:relative;}
+.project-card{position:relative;cursor:grab;}
+.project-card:active{cursor:grabbing;}
+.project-card.pc-dragging{opacity:0.4;transform:scale(0.97);}
+.project-card.pc-drag-over{box-shadow:0 0 0 2px var(--gold);}
+.pc-drag-handle{
+  position:absolute;bottom:10px;right:10px;z-index:5;
+  background:rgba(0,0,0,0.55);color:#fff;
+  font-size:12px;letter-spacing:0.04em;
+  padding:5px 10px;border-radius:6px;
+  opacity:0;transition:opacity .2s;pointer-events:none;
+}
+.project-card:hover .pc-drag-handle{opacity:1;}
 .bg-home, .bg-home-add{
   position:absolute;top:10px;left:10px;z-index:5;
   font-size:13px;font-weight:500;letter-spacing:0.1em;
@@ -671,6 +682,14 @@ async function fetchProjects(){
   try{
     const snap=await getDocs(query(collection(db,'projects'),orderBy('createdAt','desc')));
     cachedProjects=snap.docs.map(d=>({id:d.id,...d.data()}));
+    // sortOrder가 있으면 그 순서로, 없으면 기존 등록일 역순 유지
+    cachedProjects.sort((a,b)=>{
+      const ao=a.sortOrder, bo=b.sortOrder;
+      if(ao!=null && bo!=null) return ao-bo;
+      if(ao!=null) return -1;
+      if(bo!=null) return 1;
+      return (b.createdAt||0)-(a.createdAt||0);
+    });
     renderProjectList();
   } catch(e){ el.innerHTML=`<div class="loading-state">불러오기 실패: ${e.message}</div>`; }
 }
@@ -678,17 +697,20 @@ async function fetchProjects(){
 function renderProjectList(){
   const el=document.getElementById('project-list');
   if(!cachedProjects.length){ el.innerHTML='<div class="empty-state">등록된 현장이 없습니다.</div>'; return; }
-  el.innerHTML=cachedProjects.map(p=>{
+  el.innerHTML=cachedProjects.map((p,idx)=>{
     const isHome=p.homeShow===true;
     const badge=isHome
       ? `<button class="bg-home" onclick="event.stopPropagation();toggleProjectHome('${esc(p.id)}',false)" title="홈 노출 끄기">HOME</button>`
       : `<button class="bg-home-add" onclick="event.stopPropagation();toggleProjectHome('${esc(p.id)}',true)" title="홈에 추가">+ HOME</button>`;
     return `
-    <div class="project-card">
+    <div class="project-card" draggable="true" data-id="${esc(p.id)}" data-idx="${idx}"
+      ondragstart="pcDragStart(event,${idx})" ondragover="pcDragOver(event,${idx})"
+      ondragleave="pcDragLeave(event)" ondrop="pcDrop(event,${idx})" ondragend="pcDragEnd(event)">
       <div class="project-card__cover">
         ${p.coverImage1?`<img src="${esc(p.coverImage1)}" alt="${esc(p.siteName)}" loading="lazy">`
           :`<div class="project-card__cover-empty">대표 이미지 없음</div>`}
         ${badge}
+        <div class="pc-drag-handle" title="드래그하여 순서 변경">⠿ 순서 변경</div>
       </div>
       <div class="project-card__body">
         <div class="project-card__name">${esc(p.siteName)}</div>
@@ -707,6 +729,42 @@ function renderProjectList(){
   }).join('');
   renderHomeStrip();
 }
+
+/* ── 포트폴리오 카드 드래그 정렬 ── */
+let pcDragSrcIdx=null;
+window.pcDragStart=function(e,idx){
+  pcDragSrcIdx=idx; e.dataTransfer.effectAllowed='move';
+  setTimeout(()=>{ const el=document.querySelector(`.project-card[data-idx="${idx}"]`); if(el) el.classList.add('pc-dragging'); },0);
+};
+window.pcDragOver=function(e,idx){
+  e.preventDefault(); e.dataTransfer.dropEffect='move';
+  if(idx===pcDragSrcIdx) return;
+  document.querySelectorAll('.project-card').forEach(el=>el.classList.remove('pc-drag-over'));
+  const el=document.querySelector(`.project-card[data-idx="${idx}"]`); if(el) el.classList.add('pc-drag-over');
+};
+window.pcDragLeave=function(e){ e.currentTarget.classList.remove('pc-drag-over'); };
+window.pcDrop=async function(e,targetIdx){
+  e.preventDefault();
+  if(pcDragSrcIdx===null||pcDragSrcIdx===targetIdx) return;
+  const moved=cachedProjects.splice(pcDragSrcIdx,1)[0];
+  cachedProjects.splice(targetIdx,0,moved);
+  pcDragSrcIdx=null;
+  // 새 순서를 sortOrder로 일괄 저장
+  try{
+    const batch=writeBatch(db);
+    cachedProjects.forEach((p,i)=>{
+      batch.update(doc(db,'projects',p.id),{sortOrder:i});
+      p.sortOrder=i;
+    });
+    await batch.commit();
+    renderProjectList();
+    showToast('포트폴리오 순서가 저장되었습니다 ✓');
+  } catch(err){ showToast('순서 저장 실패: '+err.message); fetchProjects(); }
+};
+window.pcDragEnd=function(){
+  pcDragSrcIdx=null;
+  document.querySelectorAll('.project-card').forEach(el=>el.classList.remove('pc-dragging','pc-drag-over'));
+};
 
 /* ── 홈 슬라이드 순서 영역 렌더 ── */
 function getHomeProjects(){
