@@ -218,6 +218,112 @@ button{font-family:var(--ff-sans);}
 
 /* ABOUT */
 #pg-about{background:var(--c-cream);}
+
+/* ABOUT — 새 디자인 */
+.about-new__wrap{padding:60px var(--pad-x);height:100%;overflow-y:auto;display:flex;align-items:center;justify-content:center;}
+.about-new__inner{max-width:1180px;width:100%;display:grid;grid-template-columns:1.05fr 1fr;gap:60px;align-items:center;}
+
+.about-new__tag{font-size:12px;color:#B59155;letter-spacing:0.24em;margin:0 0 20px;font-weight:500;}
+
+/* 알약 배지 */
+.about-new__pill{
+  display:inline-flex;align-items:center;gap:8px;
+  background:#FAEEDA;border:1px solid #EFC891;color:#854F0B;
+  font-size:13px;font-weight:500;letter-spacing:0.02em;
+  padding:9px 18px;border-radius:999px;
+  margin-bottom:20px;
+}
+.about-new__pill-icon{color:#B59155;font-size:12px;}
+
+.about-new__h1{
+  font-family:var(--ff-serif);font-size:42px;font-weight:300;
+  color:var(--c-dark);line-height:1.4;letter-spacing:0.01em;margin:0;
+}
+.about-new__hl{
+  background:linear-gradient(transparent 70%, #FAEEDA 70%);
+  padding:0 6px;
+}
+
+.about-new__divider{width:42px;height:1px;background:#B59155;margin:26px 0;}
+.about-new__desc{font-size:15px;color:var(--c-stone);line-height:1.85;margin:0 0 24px;}
+.about-new__desc strong{color:var(--c-dark);}
+.about-new__quote{
+  font-size:14px;color:var(--c-stone-lt);font-style:italic;
+  border-left:2px solid #E2BE7F;padding:8px 0 8px 16px;margin:0 0 28px;
+}
+
+.about-new__meta{display:flex;flex-wrap:wrap;gap:10px 18px;margin-bottom:36px;}
+.about-new__meta-item{font-size:13px;color:#5F4A2A;display:flex;align-items:center;gap:7px;}
+.about-new__meta-dot{width:5px;height:5px;border-radius:50%;background:#B59155;}
+
+.about-new__cta{display:flex;gap:12px;flex-wrap:wrap;}
+.about-new__btn{
+  padding:14px 28px;font-size:13px;letter-spacing:0.16em;border-radius:6px;
+  cursor:pointer;border:none;font-family:inherit;
+  transition:background .2s,color .2s,border-color .2s;
+}
+.about-new__btn--primary{background:var(--c-dark);color:#fff;}
+.about-new__btn--primary:hover{background:#3A3937;}
+.about-new__btn--outline{background:transparent;color:var(--c-dark);border:1px solid #C6BFAE;}
+.about-new__btn--outline:hover{border-color:#B59155;color:#B59155;}
+
+/* 우측 비주얼 */
+.about-new__visual{position:relative;}
+.about-new__photo{
+  aspect-ratio:4/5;background:linear-gradient(135deg,#E8E2D5,#D8CCB5);
+  border-radius:16px;overflow:hidden;position:relative;
+  display:flex;align-items:center;justify-content:center;
+}
+.about-new__photo img{width:100%;height:100%;object-fit:cover;}
+.about-new__photo-placeholder{text-align:center;color:#A39A85;}
+.about-new__photo-icon{font-size:42px;margin-bottom:10px;}
+.about-new__photo-text{font-size:13px;letter-spacing:0.1em;margin:0;}
+.about-new__photo-caption{
+  position:absolute;bottom:16px;left:16px;right:16px;
+  background:rgba(255,255,255,0.95);backdrop-filter:blur(8px);
+  padding:13px 18px;border-radius:10px;z-index:2;
+}
+.about-new__caption-name{font-size:15px;font-weight:500;color:var(--c-dark);margin:0;}
+.about-new__caption-role{font-size:12px;color:#888780;margin:3px 0 0;}
+
+/* 떠 있는 카드 */
+.about-new__card{
+  position:absolute;background:#fff;padding:13px 16px;border-radius:11px;
+  box-shadow:0 4px 18px rgba(0,0,0,0.10);
+  display:flex;align-items:center;gap:11px;z-index:3;
+}
+.about-new__card-icon{
+  width:36px;height:36px;border-radius:8px;background:#FAEEDA;
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;flex-shrink:0;
+}
+.about-new__card-body{display:flex;flex-direction:column;}
+.about-new__card-label{font-size:11px;color:#888780;letter-spacing:0.04em;}
+.about-new__card-value{font-size:14px;color:var(--c-dark);font-weight:500;}
+
+.about-new__card--1{top:6%;left:-12%;}
+.about-new__card--2{top:14%;right:-10%;}
+.about-new__card--3{bottom:28%;left:-14%;}
+.about-new__card--4{bottom:8%;right:-12%;}
+
+/* 모바일 반응형 */
+@media (max-width: 900px){
+  .about-new__wrap{padding:40px var(--pad-x-sm);}
+  .about-new__inner{grid-template-columns:1fr;gap:50px;}
+  .about-new__h1{font-size:32px;}
+  .about-new__card--1{left:-4%;}
+  .about-new__card--2{right:-4%;}
+  .about-new__card--3{left:-4%;}
+  .about-new__card--4{right:-4%;}
+}
+@media (max-width: 520px){
+  .about-new__card{padding:10px 12px;}
+  .about-new__card-icon{width:30px;height:30px;font-size:13px;}
+  .about-new__card-label{font-size:10px;}
+  .about-new__card-value{font-size:12px;}
+  .about-new__h1{font-size:28px;}
+  .about-new__pill{font-size:12px;padding:7px 14px;}
+}
 .about__inner{display:grid;grid-template-columns:1fr 1fr;min-height:100%;}
 .about__left{padding:80px var(--pad-x);display:flex;flex-direction:column;justify-content:center;border-right:1px solid var(--c-border);}
 .about__right{padding:80px var(--pad-x);display:flex;flex-direction:column;justify-content:center;}
@@ -227,13 +333,6 @@ button{font-family:var(--ff-sans);}
 .rule{width:32px;height:1px;background:var(--c-gold);margin:24px 0;}
 .body-text{font-size:15px;font-weight:300;color:var(--c-stone);line-height:2.1;}
 .val-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--c-border);}
-.val-card{background:var(--c-bg);padding:36px 28px;position:relative;overflow:hidden;transition:background .3s;}
-.val-card:hover{background:#FAF8F3;}
-.val-card::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--c-gold);transition:width .6s var(--ease-out);}
-.val-card:hover::after{width:100%;}
-.val-card__num{font-family:var(--ff-serif);font-size:40px;font-weight:300;color:var(--c-gold-pale);line-height:1;margin-bottom:16px;}
-.val-card__title{font-family:var(--ff-kr);font-size:15px;font-weight:400;color:var(--c-dark);letter-spacing:0.04em;margin-bottom:10px;}
-.val-card__desc{font-size:13px;color:var(--c-stone);line-height:1.9;}
 
 /* =========================================
    PORTFOLIO
@@ -1039,20 +1138,86 @@ button{font-family:var(--ff-sans);}
 
   <!-- ABOUT -->
   <section class="page" id="pg-about">
-    <div class="about__inner">
-      <div class="about__left">
-        <p class="label">Our Philosophy</p>
-        <h2 class="heading">디자인포가<br>지키는 <em>가치</em></h2>
-        <div class="rule"></div>
-        <p class="body-text">인테리어는 단순한 공사가 아닙니다.<br>삶의 방식을 바꾸는 일입니다.<br><br>디자인포는 고객이<br>진심으로 편안한 공간을 누릴 수 있도록<br>처음부터 끝까지 함께합니다.</p>
-      </div>
-      <div class="about__right">
-        <div class="val-grid">
-          <div class="val-card"><div class="val-card__num">01</div><h3 class="val-card__title">투명한 소통</h3><p class="val-card__desc">견적부터 시공까지, 숨겨진 비용 없이 모든 과정을 공유합니다.</p></div>
-          <div class="val-card"><div class="val-card__num">02</div><h3 class="val-card__title">합리적인 설계</h3><p class="val-card__desc">실제 생활에 맞는 최적의 공간을 제안합니다.</p></div>
-          <div class="val-card"><div class="val-card__num">03</div><h3 class="val-card__title">감각적인 디자인</h3><p class="val-card__desc">고객의 취향을 중심에 둔 개성 있는 공간을 완성합니다.</p></div>
-          <div class="val-card"><div class="val-card__num">04</div><h3 class="val-card__title">책임 있는 마감</h3><p class="val-card__desc">시공 후에도 계속되는 사후 관리를 약속합니다.</p></div>
+    <div class="about-new__wrap">
+      <div class="about-new__inner">
+
+        <!-- 좌측: 텍스트 -->
+        <div class="about-new__left">
+          <p class="about-new__tag">ABOUT DESIGN FOR</p>
+
+          <div class="about-new__pill">
+            <span class="about-new__pill-icon">✦</span>
+            상담부터 현장실측, 계약, 공사, 마감까지
+          </div>
+
+          <h1 class="about-new__h1">
+            <span class="about-new__hl">대표가 직접</span><br>
+            설계하고 실행합니다
+          </h1>
+
+          <div class="about-new__divider"></div>
+
+          <p class="about-new__desc">
+            디자인포는 단순한 시공 업체가 아닙니다. <strong>20년 경력의 대표가 처음부터 끝까지</strong> 책임지고 진행합니다. 상담의 깊이, 설계의 정확함, 시공의 마감까지—작은 디테일 하나도 놓치지 않습니다.
+          </p>
+
+          <p class="about-new__quote">"고객님의 집은 단 하나뿐입니다."</p>
+
+          <div class="about-new__meta">
+            <div class="about-new__meta-item"><span class="about-new__meta-dot"></span>경기 남부 전 지역 시공</div>
+            <div class="about-new__meta-item"><span class="about-new__meta-dot"></span>평균 공사 기간 30일</div>
+          </div>
+
+          <div class="about-new__cta">
+            <button class="about-new__btn about-new__btn--primary" onclick="goPage('consult')">견적 문의하기 →</button>
+            <button class="about-new__btn about-new__btn--outline" onclick="goPage('portfolio')">포트폴리오 보기</button>
+          </div>
         </div>
+
+        <!-- 우측: 대표님 사진 + 카드 -->
+        <div class="about-new__visual">
+          <div class="about-new__photo" id="about-photo">
+            <div class="about-new__photo-placeholder" id="about-photo-placeholder">
+              <div class="about-new__photo-icon">👤</div>
+              <p class="about-new__photo-text">대표님 사진</p>
+            </div>
+            <img id="about-photo-img" alt="디자인포 대표 김영애" style="display:none;">
+            <div class="about-new__photo-caption">
+              <p class="about-new__caption-name">김영애</p>
+              <p class="about-new__caption-role">디자인포 대표 · 20년 경력</p>
+            </div>
+          </div>
+
+          <div class="about-new__card about-new__card--1">
+            <div class="about-new__card-icon">🏠</div>
+            <div class="about-new__card-body">
+              <span class="about-new__card-label">누적 시공</span>
+              <span class="about-new__card-value">500건+</span>
+            </div>
+          </div>
+          <div class="about-new__card about-new__card--2">
+            <div class="about-new__card-icon">🛠️</div>
+            <div class="about-new__card-body">
+              <span class="about-new__card-label">100% 제작가구</span>
+              <span class="about-new__card-value">맞춤 설계</span>
+            </div>
+          </div>
+          <div class="about-new__card about-new__card--3">
+            <div class="about-new__card-icon">✓</div>
+            <div class="about-new__card-body">
+              <span class="about-new__card-label">사후 관리</span>
+              <span class="about-new__card-value">A/S 1년 보장</span>
+            </div>
+          </div>
+          <div class="about-new__card about-new__card--4">
+            <div class="about-new__card-icon">⭐</div>
+            <div class="about-new__card-body">
+              <span class="about-new__card-label">대표 경력</span>
+              <span class="about-new__card-value">20년차 인테리어</span>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
@@ -2143,6 +2308,23 @@ async function loadConsultImg(){
     }
   } catch(e){}
 }
+
+// 회사소개 페이지 대표 사진 로드 (Firestore settings/aboutPhoto)
+async function loadAboutPhoto(){
+  try{
+    const {getFirestore,doc,getDoc}=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+    const db2=getFirestore();
+    const snap=await getDoc(doc(db2,'settings','aboutPhoto'));
+    const imgEl=document.getElementById('about-photo-img');
+    const phEl=document.getElementById('about-photo-placeholder');
+    if(snap.exists()&&snap.data().url&&imgEl){
+      imgEl.src=snap.data().url;
+      imgEl.style.display='block';
+      if(phEl) phEl.style.display='none';
+    }
+  } catch(e){}
+}
+loadAboutPhoto();
 
 /* ── 문의 폼 ── */
 
