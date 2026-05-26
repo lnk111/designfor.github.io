@@ -268,8 +268,9 @@ button{font-family:var(--ff-sans);}
 .about-new__btn--outline:hover{border-color:#B59155;color:#B59155;}
 
 /* 우측 비주얼 */
-.about-new__visual{position:relative;}
+.about-new__visual{position:relative;display:flex;justify-content:center;align-items:center;}
 .about-new__photo{
+  width:60%;
   aspect-ratio:4/5;background:linear-gradient(135deg,#E8E2D5,#D8CCB5);
   border-radius:16px;overflow:hidden;position:relative;
   display:flex;align-items:center;justify-content:center;
@@ -286,7 +287,7 @@ button{font-family:var(--ff-sans);}
 .about-new__caption-name{font-size:15px;font-weight:500;color:var(--c-dark);margin:0;}
 .about-new__caption-role{font-size:12px;color:#888780;margin:3px 0 0;}
 
-/* 떠 있는 카드 */
+/* 떠 있는 카드 — 사진 모서리에 살짝 겹쳐 보이도록 */
 .about-new__card{
   position:absolute;background:#fff;padding:13px 16px;border-radius:11px;
   box-shadow:0 4px 18px rgba(0,0,0,0.10);
@@ -301,28 +302,35 @@ button{font-family:var(--ff-sans);}
 .about-new__card-label{font-size:11px;color:#888780;letter-spacing:0.04em;}
 .about-new__card-value{font-size:14px;color:var(--c-dark);font-weight:500;}
 
-.about-new__card--1{top:6%;left:-12%;}
-.about-new__card--2{top:14%;right:-10%;}
-.about-new__card--3{bottom:28%;left:-14%;}
-.about-new__card--4{bottom:8%;right:-12%;}
+/* 사진은 visual 영역의 가운데 60% 폭. 카드는 visual 영역 기준 위치 → 자연스럽게 사진 가장자리에 겹침 */
+.about-new__card--1{top:8%;left:5%;}
+.about-new__card--2{top:18%;right:3%;}
+.about-new__card--3{bottom:30%;left:3%;}
+.about-new__card--4{bottom:10%;right:5%;}
 
 /* 모바일 반응형 */
 @media (max-width: 900px){
   .about-new__wrap{padding:40px var(--pad-x-sm);}
   .about-new__inner{grid-template-columns:1fr;gap:50px;}
   .about-new__h1{font-size:32px;}
-  .about-new__card--1{left:-4%;}
-  .about-new__card--2{right:-4%;}
-  .about-new__card--3{left:-4%;}
-  .about-new__card--4{right:-4%;}
+  .about-new__photo{width:75%;}
+  .about-new__card--1{top:6%;left:8%;}
+  .about-new__card--2{top:16%;right:6%;}
+  .about-new__card--3{bottom:28%;left:6%;}
+  .about-new__card--4{bottom:8%;right:8%;}
 }
 @media (max-width: 520px){
+  .about-new__photo{width:80%;}
   .about-new__card{padding:10px 12px;}
   .about-new__card-icon{width:30px;height:30px;font-size:13px;}
   .about-new__card-label{font-size:10px;}
   .about-new__card-value{font-size:12px;}
   .about-new__h1{font-size:28px;}
   .about-new__pill{font-size:12px;padding:7px 14px;}
+  .about-new__card--1{left:0;}
+  .about-new__card--2{right:0;}
+  .about-new__card--3{left:0;}
+  .about-new__card--4{right:0;}
 }
 .about__inner{display:grid;grid-template-columns:1fr 1fr;min-height:100%;}
 .about__left{padding:80px var(--pad-x);display:flex;flex-direction:column;justify-content:center;border-right:1px solid var(--c-border);}
