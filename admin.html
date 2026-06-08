@@ -64,6 +64,22 @@ html,body{min-height:100%;font-family:var(--ff);font-weight:300;background:var(-
 .btn-del{font-size:13px;letter-spacing:0.16em;color:var(--stone-lt);background:none;border:1px solid var(--border);border-radius:8px;padding:8px 14px;cursor:pointer;transition:all .2s;font-family:var(--ff);}
 .btn-del:hover{border-color:var(--red);color:var(--red);}
 .empty-state{padding:80px 24px;text-align:center;color:var(--stone-lt);font-size:16px;line-height:2;grid-column:1/-1;}
+
+/* 문의 확인 상태 토글 버튼 */
+.inq-status{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:var(--ff);font-size:12px;font-weight:500;letter-spacing:0.06em;
+  padding:6px 14px;border-radius:999px;cursor:pointer;
+  border:1px solid;transition:background .2s,border-color .2s,color .2s;
+}
+.inq-status--pending{
+  background:#FAEEDA;border-color:#EFC891;color:#854F0B;
+}
+.inq-status--pending:hover{background:#F2E2C0;}
+.inq-status--done{
+  background:#EEF0EC;border-color:#D2D6CE;color:#5A6357;
+}
+.inq-status--done:hover{background:#E2E6DD;}
 .loading-state{padding:60px 24px;text-align:center;color:var(--stone-lt);font-size:16px;grid-column:1/-1;}
 .loading-spinner{width:24px;height:24px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 12px;}
 @keyframes spin{to{transform:rotate(360deg);}}
@@ -686,10 +702,20 @@ async function fetchInquiries(){
     const snap=await getDocs(query(collection(db,'inquiries'),orderBy('createdAt','desc')));
     const items=snap.docs.map(d=>({id:d.id,...d.data()}));
     if(!items.length){ el.innerHTML='<div class="empty-state">접수된 문의가 없습니다.</div>'; return; }
-    el.innerHTML=items.map(inq=>`
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 24px;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-          <span style="font-family:var(--serif);font-size:19px;font-weight:400;color:var(--dark);">${esc(inq.name||'이름없음')}</span>
+    el.innerHTML=items.map(inq=>{
+      const done=inq.contactStatus==='done';
+      const doneAt=inq.contactStatusAt?new Date(inq.contactStatusAt):null;
+      const doneAtStr=doneAt?`${doneAt.getFullYear()}.${String(doneAt.getMonth()+1).padStart(2,'0')}.${String(doneAt.getDate()).padStart(2,'0')} ${String(doneAt.getHours()).padStart(2,'0')}:${String(doneAt.getMinutes()).padStart(2,'0')}`:'';
+      const btn=done
+        ? `<button class="inq-status inq-status--done" onclick="toggleInquiryStatus('${esc(inq.id)}',false)" title="클릭하여 미확인으로 변경">✓ 확인완료${doneAtStr?` <span style="opacity:0.65;font-size:11px;margin-left:4px;">${doneAtStr}</span>`:''}</button>`
+        : `<button class="inq-status inq-status--pending" onclick="toggleInquiryStatus('${esc(inq.id)}',true)" title="연락 완료 시 클릭">● 미확인</button>`;
+      return `
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 24px;${done?'opacity:0.78;':''}">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:12px;flex-wrap:wrap;">
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+            <span style="font-family:var(--serif);font-size:19px;font-weight:400;color:var(--dark);">${esc(inq.name||'이름없음')}</span>
+            ${btn}
+          </div>
           <span style="font-size:13px;color:var(--stone-lt);letter-spacing:0.1em;">${esc(inq.접수일시||'')}</span>
         </div>
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px 16px;font-size:14px;">
@@ -707,9 +733,22 @@ async function fetchInquiries(){
         ${inq.content?`<div style="margin-top:6px;font-size:15px;color:var(--stone);line-height:1.7;">${esc(inq.content)}</div>`:''}
         ${inq.portfolios?`<div style="margin-top:8px;font-size:14px;color:var(--stone-lt);">희망 스타일: ${esc(inq.portfolios)}</div>`:''}
         ${renderScopeForAdmin(inq)}
-      </div>`).join('');
+      </div>`;
+    }).join('');
   } catch(e){ el.innerHTML=`<div class="empty-state">불러오기 실패: ${e.message}</div>`; }
 }
+
+/* ── 연락 확인 상태 토글 ── */
+window.toggleInquiryStatus=async function(id, makeDone){
+  try{
+    await updateDoc(doc(db,'inquiries',id),{
+      contactStatus: makeDone?'done':'pending',
+      contactStatusAt: makeDone?Date.now():null
+    });
+    showToast(makeDone?'확인 완료로 변경되었습니다 ✓':'미확인으로 되돌렸습니다');
+    fetchInquiries();
+  } catch(e){ showToast('변경 실패: '+e.message); }
+};
 
 function renderScopeForAdmin(inq){
   if(inq.scopeUnsure){
