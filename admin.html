@@ -7,13 +7,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500&family=Cormorant+Garamond:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
   --bg:#F5F4F1;--surface:#fff;--dark:#1A1A17;--stone:#68665E;
   --stone-lt:#B0ADA5;--gold:#B59155;--gold-lt:#CDA96E;
   --border:rgba(26,26,23,0.10);--red:#C0392B;
-  --ff:'Noto Sans KR',sans-serif;--serif:'Cormorant Garamond',Georgia,serif;--r:12px;
+  --ff:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFont,system-ui,Roboto,'Helvetica Neue','Segoe UI','Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic','Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol',sans-serif;--serif:'Cormorant Garamond',Georgia,serif;--r:12px;
 }
 html,body{min-height:100%;font-family:var(--ff);font-weight:300;background:var(--bg);color:var(--dark);}
 
@@ -89,7 +90,7 @@ html,body{min-height:100%;font-family:var(--ff);font-weight:300;background:var(-
 .inq-card.is-done{opacity:0.78;}
 .inq-card__top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:12px;flex-wrap:wrap;}
 .inq-card__name-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
-.inq-card__name{font-family:var(--serif);font-size:21px;font-weight:400;color:var(--dark);}
+.inq-card__name{font-family:var(--ff);font-size:21px;font-weight:600;color:var(--dark);}
 .inq-card__date{font-size:15px;color:var(--stone);letter-spacing:0.1em;}
 .inq-card__fields{display:grid;grid-template-columns:repeat(3,1fr);gap:8px 16px;font-size:16px;}
 .inq-card__fields span.fl{color:#5F4A2A;margin-right:6px;}
@@ -374,7 +375,7 @@ html,body{min-height:100%;font-family:var(--ff);font-weight:300;background:var(-
   <div class="adm-view" id="tab-inquiries">
     <div class="port-view">
       <div class="port-view-header">
-        <div class="port-view-title">상담 문의 내역</div>
+        <div class="port-view-title" style="font-family:var(--ff);font-weight:600;">상담 문의 내역</div>
         <button class="btn-add" onclick="fetchInquiries()" style="background:var(--bg);border:1px solid var(--border);color:var(--stone);">
           <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:var(--stone);fill:none;stroke-width:2;"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
           새로고침
