@@ -722,6 +722,7 @@ async function fetchInquiries(){
           <div><span style="color:var(--gold);margin-right:6px;">연락처</span>${esc(inq.phone||'—')}</div>
           <div><span style="color:var(--gold);margin-right:6px;">이메일</span>${esc(inq.email||'—')}</div>
           <div><span style="color:var(--gold);margin-right:6px;">경로</span>${esc(inq.route||'—')}</div>
+          ${inq.consultMethod?`<div><span style="color:var(--gold);margin-right:6px;">상담 방식</span><strong>${inq.consultMethod==='kakao'?'예상견적 카톡상담':'프리미엄 방문상담'}</strong></div>`:''}
           <div><span style="color:var(--gold);margin-right:6px;">유형</span>${esc(inq.type||'—')}</div>
           <div><span style="color:var(--gold);margin-right:6px;">평수</span>${inq.size?inq.size+'평':'—'}</div>
           <div><span style="color:var(--gold);margin-right:6px;">예산</span>${inq.budget?inq.budget+'만원':'—'}</div>
