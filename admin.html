@@ -713,26 +713,26 @@ async function fetchInquiries(){
       <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 24px;${done?'opacity:0.78;':''}">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:12px;flex-wrap:wrap;">
           <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
-            <span style="font-family:var(--serif);font-size:19px;font-weight:400;color:var(--dark);">${esc(inq.name||'이름없음')}</span>
+            <span style="font-family:var(--serif);font-size:21px;font-weight:400;color:var(--dark);">${esc(inq.name||'이름없음')}</span>
             ${btn}
           </div>
-          <span style="font-size:13px;color:var(--stone-lt);letter-spacing:0.1em;">${esc(inq.접수일시||'')}</span>
+          <span style="font-size:15px;color:var(--stone);letter-spacing:0.1em;">${esc(inq.접수일시||'')}</span>
         </div>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px 16px;font-size:14px;">
-          <div><span style="color:var(--gold);margin-right:6px;">연락처</span>${esc(inq.phone||'—')}</div>
-          <div><span style="color:var(--gold);margin-right:6px;">이메일</span>${esc(inq.email||'—')}</div>
-          <div><span style="color:var(--gold);margin-right:6px;">경로</span>${esc(inq.route||'—')}</div>
-          ${inq.consultMethod?`<div><span style="color:var(--gold);margin-right:6px;">상담 방식</span><strong>${inq.consultMethod==='kakao'?'예상견적 카톡상담':'프리미엄 방문상담'}</strong></div>`:''}
-          <div><span style="color:var(--gold);margin-right:6px;">유형</span>${esc(inq.type||'—')}</div>
-          <div><span style="color:var(--gold);margin-right:6px;">평수</span>${inq.size?inq.size+'평':'—'}</div>
-          <div><span style="color:var(--gold);margin-right:6px;">예산</span>${inq.budget?inq.budget+'만원':'—'}</div>
-          <div><span style="color:var(--gold);margin-right:6px;">주소</span>${esc(inq.address||'—')}</div>
-          <div><span style="color:var(--gold);margin-right:6px;">공사시작</span>${esc(inq.start||'—')}</div>
-          <div><span style="color:var(--gold);margin-right:6px;">입주예정</span>${esc(inq.move||'—')}</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px 16px;font-size:16px;">
+          <div><span style="color:#5F4A2A;margin-right:6px;">연락처</span>${esc(inq.phone||'—')}</div>
+          <div><span style="color:#5F4A2A;margin-right:6px;">이메일</span>${esc(inq.email||'—')}</div>
+          <div><span style="color:#5F4A2A;margin-right:6px;">경로</span>${esc(inq.route||'—')}</div>
+          ${inq.consultMethod?`<div><span style="color:#5F4A2A;margin-right:6px;">상담 방식</span><strong>${inq.consultMethod==='kakao'?'예상견적 카톡상담':'프리미엄 방문상담'}</strong></div>`:''}
+          <div><span style="color:#5F4A2A;margin-right:6px;">유형</span>${esc(inq.type||'—')}</div>
+          <div><span style="color:#5F4A2A;margin-right:6px;">평수</span>${inq.size?inq.size+'평':'—'}</div>
+          <div><span style="color:#5F4A2A;margin-right:6px;">예산</span>${inq.budget?inq.budget+'만원':'—'}</div>
+          <div><span style="color:#5F4A2A;margin-right:6px;">주소</span>${esc(inq.address||'—')}</div>
+          <div><span style="color:#5F4A2A;margin-right:6px;">공사시작</span>${esc(inq.start||'—')}</div>
+          <div><span style="color:#5F4A2A;margin-right:6px;">입주예정</span>${esc(inq.move||'—')}</div>
         </div>
-        ${inq.title?`<div style="margin-top:10px;font-size:15px;font-weight:500;color:var(--dark);">${esc(inq.title)}</div>`:''}
-        ${inq.content?`<div style="margin-top:6px;font-size:15px;color:var(--stone);line-height:1.7;">${esc(inq.content)}</div>`:''}
-        ${inq.portfolios?`<div style="margin-top:8px;font-size:14px;color:var(--stone-lt);">희망 스타일: ${esc(inq.portfolios)}</div>`:''}
+        ${inq.title?`<div style="margin-top:10px;font-size:17px;font-weight:500;color:var(--dark);">${esc(inq.title)}</div>`:''}
+        ${inq.content?`<div style="margin-top:6px;font-size:17px;color:var(--dark);line-height:1.7;">${esc(inq.content)}</div>`:''}
+        ${inq.portfolios?`<div style="margin-top:8px;font-size:16px;color:var(--stone);">희망 스타일: ${esc(inq.portfolios)}</div>`:''}
         ${renderScopeForAdmin(inq)}
       </div>`;
     }).join('');
@@ -753,7 +753,7 @@ window.toggleInquiryStatus=async function(id, makeDone){
 
 function renderScopeForAdmin(inq){
   if(inq.scopeUnsure){
-    return `<div style="margin-top:10px;background:#FAEEDA;border:1px solid #EFC891;border-radius:8px;padding:10px 14px;font-size:14px;color:#412402;">
+    return `<div style="margin-top:10px;background:#FAEEDA;border:1px solid #EFC891;border-radius:8px;padding:10px 14px;font-size:16px;color:#412402;">
       <strong style="color:#854F0B;">공사 범위 ‧ 잘 모르겠음</strong> — 상담 시 안내 요청
     </div>`;
   }
@@ -765,10 +765,10 @@ function renderScopeForAdmin(inq){
     grouped[s.category].push(s.item);
   });
   const lines=Object.entries(grouped).map(([cat,items])=>
-    `<div style="margin-bottom:4px;"><strong style="color:var(--gold);">${esc(cat)}</strong> · ${items.map(esc).join(', ')}</div>`
+    `<div style="margin-bottom:4px;"><strong style="color:#5F4A2A;">${esc(cat)}</strong> · ${items.map(esc).join(', ')}</div>`
   ).join('');
-  return `<div style="margin-top:10px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:14px;color:var(--stone);line-height:1.6;">
-    <div style="font-size:12px;letter-spacing:0.1em;color:var(--stone-lt);margin-bottom:6px;">희망 공사 범위 (${inq.scope.length}개)</div>
+  return `<div style="margin-top:10px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:16px;color:var(--dark);line-height:1.6;">
+    <div style="font-size:14px;letter-spacing:0.1em;color:var(--stone);margin-bottom:6px;">희망 공사 범위 (${inq.scope.length}개)</div>
     ${lines}
   </div>`;
 }
