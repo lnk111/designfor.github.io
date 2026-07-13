@@ -780,6 +780,13 @@ button{font-family:var(--ff-sans);}
 .inq-input:focus{border-color:var(--c-gold);background:#fff;}
 .inq-input::placeholder{color:var(--c-stone-lt);}
 
+.budget-display{
+  font-size:13px;color:var(--c-gold);
+  opacity:0;transition:opacity .3s ease;
+  margin-top:-4px;
+}
+.budget-display.is-visible{opacity:1;}
+
 .inq-select{
   border:1px solid var(--c-border);border-radius:8px;
   background:var(--c-cream);padding:12px 14px;
@@ -1643,6 +1650,7 @@ if(window.wcs) {
               <div class="inq-group">
                 <label class="inq-label">공사 예산 (만원)</label>
                 <input class="inq-input" id="inq-budget" type="number" placeholder="숫자만 입력">
+                <span id="budget-display" class="budget-display"></span>
               </div>
             </div>
           </div>
@@ -2561,6 +2569,20 @@ document.addEventListener('change',e=>{
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
 buildHomeSlideshow();
+
+document.getElementById('inq-budget').addEventListener('input',function(){
+  var val=parseInt(this.value,10);
+  var el=document.getElementById('budget-display');
+  if(!val||val<=0){el.textContent='';el.classList.remove('is-visible');return;}
+  var eok=Math.floor(val/10000);
+  var man=val%10000;
+  var t='→ ';
+  if(eok>0&&man>0){t+=eok.toLocaleString()+'억 '+man.toLocaleString()+'만원';}
+  else if(eok>0){t+=eok.toLocaleString()+'억원';}
+  else{t+=man.toLocaleString()+'만원';}
+  el.textContent=t;
+  el.classList.add('is-visible');
+});
 </script>
 
 <!-- 공간별 보기 라이트박스 -->
