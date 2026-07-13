@@ -84,6 +84,39 @@ html,body{min-height:100%;font-family:var(--ff);font-weight:300;background:var(-
 .loading-spinner{width:24px;height:24px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 12px;}
 @keyframes spin{to{transform:rotate(360deg);}}
 
+/* 문의 카드 */
+.inq-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 24px;}
+.inq-card.is-done{opacity:0.78;}
+.inq-card__top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:12px;flex-wrap:wrap;}
+.inq-card__name-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.inq-card__name{font-family:var(--serif);font-size:21px;font-weight:400;color:var(--dark);}
+.inq-card__date{font-size:15px;color:var(--stone);letter-spacing:0.1em;}
+.inq-card__fields{display:grid;grid-template-columns:repeat(3,1fr);gap:8px 16px;font-size:16px;}
+.inq-card__fields span.fl{color:#5F4A2A;margin-right:6px;}
+.inq-card__title{margin-top:10px;font-size:17px;font-weight:500;color:var(--dark);}
+.inq-card__content{margin-top:6px;font-size:17px;color:var(--dark);line-height:1.7;}
+.inq-card__style{margin-top:8px;font-size:16px;color:var(--stone);}
+.inq-card__scope{margin-top:10px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:16px;color:var(--dark);line-height:1.6;}
+.inq-card__scope-header{font-size:14px;letter-spacing:0.1em;color:var(--stone);margin-bottom:6px;}
+.inq-card__scope--unsure{margin-top:10px;background:#FAEEDA;border:1px solid #EFC891;border-radius:8px;padding:10px 14px;font-size:16px;color:#412402;}
+
+@media(max-width:768px){
+  .inq-card__fields{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:480px){
+  .inq-card{padding:16px 18px;}
+  .inq-card__top{flex-direction:column;align-items:flex-start;gap:8px;}
+  .inq-card__name-row{flex-direction:row;gap:10px;}
+  .inq-card__name{font-size:19px;}
+  .inq-card__date{font-size:14px;}
+  .inq-card__fields{grid-template-columns:1fr;gap:6px;}
+  .inq-card__fields>div{padding:4px 0;border-bottom:1px solid var(--border);}
+  .inq-card__fields>div:last-child{border-bottom:none;}
+  .inq-status{min-height:44px;min-width:44px;font-size:13px;padding:8px 16px;}
+  .inq-card__scope{padding:8px 12px;font-size:15px;}
+  .inq-card__scope--unsure{padding:8px 12px;font-size:15px;}
+}
+
 /* MODAL */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;display:none;align-items:flex-start;justify-content:center;overflow-y:auto;padding:40px 20px;}
 .modal-overlay.show{display:flex;}
@@ -710,29 +743,29 @@ async function fetchInquiries(){
         ? `<button class="inq-status inq-status--done" onclick="toggleInquiryStatus('${esc(inq.id)}',false)" title="클릭하여 미확인으로 변경">✓ 확인완료${doneAtStr?` <span style="opacity:0.65;font-size:11px;margin-left:4px;">${doneAtStr}</span>`:''}</button>`
         : `<button class="inq-status inq-status--pending" onclick="toggleInquiryStatus('${esc(inq.id)}',true)" title="연락 완료 시 클릭">● 미확인</button>`;
       return `
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 24px;${done?'opacity:0.78;':''}">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:12px;flex-wrap:wrap;">
-          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
-            <span style="font-family:var(--serif);font-size:21px;font-weight:400;color:var(--dark);">${esc(inq.name||'이름없음')}</span>
+      <div class="inq-card${done?' is-done':''}">
+        <div class="inq-card__top">
+          <div class="inq-card__name-row">
+            <span class="inq-card__name">${esc(inq.name||'이름없음')}</span>
             ${btn}
           </div>
-          <span style="font-size:15px;color:var(--stone);letter-spacing:0.1em;">${esc(inq.접수일시||'')}</span>
+          <span class="inq-card__date">${esc(inq.접수일시||'')}</span>
         </div>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px 16px;font-size:16px;">
-          <div><span style="color:#5F4A2A;margin-right:6px;">연락처</span>${esc(inq.phone||'—')}</div>
-          <div><span style="color:#5F4A2A;margin-right:6px;">이메일</span>${esc(inq.email||'—')}</div>
-          <div><span style="color:#5F4A2A;margin-right:6px;">경로</span>${esc(inq.route||'—')}</div>
-          ${inq.consultMethod?`<div><span style="color:#5F4A2A;margin-right:6px;">상담 방식</span><strong>${inq.consultMethod==='kakao'?'예상견적 카톡상담':'프리미엄 방문상담'}</strong></div>`:''}
-          <div><span style="color:#5F4A2A;margin-right:6px;">유형</span>${esc(inq.type||'—')}</div>
-          <div><span style="color:#5F4A2A;margin-right:6px;">평수</span>${inq.size?inq.size+'평':'—'}</div>
-          <div><span style="color:#5F4A2A;margin-right:6px;">예산</span>${inq.budget?inq.budget+'만원':'—'}</div>
-          <div><span style="color:#5F4A2A;margin-right:6px;">주소</span>${esc(inq.address||'—')}</div>
-          <div><span style="color:#5F4A2A;margin-right:6px;">공사시작</span>${esc(inq.start||'—')}</div>
-          <div><span style="color:#5F4A2A;margin-right:6px;">입주예정</span>${esc(inq.move||'—')}</div>
+        <div class="inq-card__fields">
+          <div><span class="fl">연락처</span>${esc(inq.phone||'—')}</div>
+          <div><span class="fl">이메일</span>${esc(inq.email||'—')}</div>
+          <div><span class="fl">경로</span>${esc(inq.route||'—')}</div>
+          ${inq.consultMethod?`<div><span class="fl">상담 방식</span><strong>${inq.consultMethod==='kakao'?'예상견적 카톡상담':'프리미엄 방문상담'}</strong></div>`:''}
+          <div><span class="fl">유형</span>${esc(inq.type||'—')}</div>
+          <div><span class="fl">평수</span>${inq.size?inq.size+'평':'—'}</div>
+          <div><span class="fl">예산</span>${inq.budget?inq.budget+'만원':'—'}</div>
+          <div><span class="fl">주소</span>${esc(inq.address||'—')}</div>
+          <div><span class="fl">공사시작</span>${esc(inq.start||'—')}</div>
+          <div><span class="fl">입주예정</span>${esc(inq.move||'—')}</div>
         </div>
-        ${inq.title?`<div style="margin-top:10px;font-size:17px;font-weight:500;color:var(--dark);">${esc(inq.title)}</div>`:''}
-        ${inq.content?`<div style="margin-top:6px;font-size:17px;color:var(--dark);line-height:1.7;">${esc(inq.content)}</div>`:''}
-        ${inq.portfolios?`<div style="margin-top:8px;font-size:16px;color:var(--stone);">희망 스타일: ${esc(inq.portfolios)}</div>`:''}
+        ${inq.title?`<div class="inq-card__title">${esc(inq.title)}</div>`:''}
+        ${inq.content?`<div class="inq-card__content">${esc(inq.content)}</div>`:''}
+        ${inq.portfolios?`<div class="inq-card__style">희망 스타일: ${esc(inq.portfolios)}</div>`:''}
         ${renderScopeForAdmin(inq)}
       </div>`;
     }).join('');
@@ -753,7 +786,7 @@ window.toggleInquiryStatus=async function(id, makeDone){
 
 function renderScopeForAdmin(inq){
   if(inq.scopeUnsure){
-    return `<div style="margin-top:10px;background:#FAEEDA;border:1px solid #EFC891;border-radius:8px;padding:10px 14px;font-size:16px;color:#412402;">
+    return `<div class="inq-card__scope--unsure">
       <strong style="color:#854F0B;">공사 범위 ‧ 잘 모르겠음</strong> — 상담 시 안내 요청
     </div>`;
   }
@@ -767,8 +800,8 @@ function renderScopeForAdmin(inq){
   const lines=Object.entries(grouped).map(([cat,items])=>
     `<div style="margin-bottom:4px;"><strong style="color:#5F4A2A;">${esc(cat)}</strong> · ${items.map(esc).join(', ')}</div>`
   ).join('');
-  return `<div style="margin-top:10px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:16px;color:var(--dark);line-height:1.6;">
-    <div style="font-size:14px;letter-spacing:0.1em;color:var(--stone);margin-bottom:6px;">희망 공사 범위 (${inq.scope.length}개)</div>
+  return `<div class="inq-card__scope">
+    <div class="inq-card__scope-header">희망 공사 범위 (${inq.scope.length}개)</div>
     ${lines}
   </div>`;
 }
