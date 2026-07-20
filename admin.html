@@ -791,18 +791,39 @@ function renderScopeForAdmin(inq){
       <strong style="color:#854F0B;">공사 범위 ‧ 잘 모르겠음</strong> — 상담 시 안내 요청
     </div>`;
   }
-  if(!inq.scope || !inq.scope.length) return '';
-  // 카테고리별로 그룹
-  const grouped={};
-  inq.scope.forEach(s=>{
-    if(!grouped[s.category]) grouped[s.category]=[];
-    grouped[s.category].push(s.item);
-  });
-  const lines=Object.entries(grouped).map(([cat,items])=>
-    `<div style="margin-bottom:4px;"><strong style="color:#5F4A2A;">${esc(cat)}</strong> · ${items.map(esc).join(', ')}</div>`
-  ).join('');
+  if(!inq.scope) return '';
+  // 이전 배열 형태 호환
+  if(Array.isArray(inq.scope)){
+    const grouped={};
+    inq.scope.forEach(s=>{
+      if(!grouped[s.category]) grouped[s.category]=[];
+      grouped[s.category].push(s.item);
+    });
+    const oldLines=Object.entries(grouped).map(([cat,items])=>
+      `<div style="margin-bottom:4px;"><strong style="color:#5F4A2A;">${esc(cat)}</strong> · ${items.map(esc).join(', ')}</div>`
+    ).join('');
+    return oldLines?`<div class="inq-card__scope">
+      <div class="inq-card__scope-header">희망 공사 범위</div>
+      ${oldLines}
+    </div>`:'';
+  }
+  const sc=inq.scope;
+  const rows=[];
+  if(sc.currentExpansion&&sc.currentExpansion.length) rows.push({label:'현재 확장된 공간',val:sc.currentExpansion.join(', ')});
+  if(sc.expansionWork&&sc.expansionWork.length) rows.push({label:'확장공사 할 공간',val:sc.expansionWork.join(', ')});
+  if(sc['샷시공사']) rows.push({label:'샷시공사',val:sc['샷시공사']});
+  if(sc['벽마감']) rows.push({label:'벽 마감',val:sc['벽마감']});
+  if(sc['바닥공사']) rows.push({label:'바닥공사',val:sc['바닥공사']});
+  if(sc['욕실공사']) rows.push({label:'욕실공사',val:sc['욕실공사']});
+  if(sc.middleDoor) rows.push({label:'중문',val:sc.middleDoor});
+  if(sc.newFurniture&&sc.newFurniture.length) rows.push({label:'신규 설치 가구',val:sc.newFurniture.join(', ')});
+  if(sc.filmFurniture&&sc.filmFurniture.length) rows.push({label:'필름시공 가구',val:sc.filmFurniture.join(', ')});
+  if(sc.airConditioner) rows.push({label:'에어컨',val:sc.airConditioner});
+  if(sc.entranceDoor) rows.push({label:'방문',val:sc.entranceDoor});
+  if(!rows.length) return '';
+  const lines=rows.map(r=>`<div style="margin-bottom:4px;"><strong style="color:#5F4A2A;">${esc(r.label)}</strong> · ${esc(r.val)}</div>`).join('');
   return `<div class="inq-card__scope">
-    <div class="inq-card__scope-header">희망 공사 범위 (${inq.scope.length}개)</div>
+    <div class="inq-card__scope-header">희망 공사 범위 (${rows.length}개)</div>
     ${lines}
   </div>`;
 }

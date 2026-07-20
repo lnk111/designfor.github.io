@@ -180,6 +180,7 @@
   --c-bg:#FDFBF8;--c-cream:#F5F1EA;--c-dark:#1A1A17;--c-dark2:#252520;
   --c-stone:#68665E;--c-stone-lt:#A9A59D;--c-gold:#B59155;--c-gold-lt:#CDA96E;
   --c-gold-pale:#E8D9BC;--c-border:rgba(26,26,23,0.10);--c-border-dk:rgba(255,255,255,0.10);
+  --pill-active:#5F4A2A;
   --pad-x:60px;--pad-x-sm:24px;--header-h:64px;
   --ff-serif:'Cormorant Garamond',Georgia,serif;
   --ff-sans:'Noto Sans KR',sans-serif;
@@ -1003,33 +1004,33 @@ button{font-family:var(--ff-sans);}
 
 .scope-cat{display:flex;flex-direction:column;gap:10px;}
 .scope-cat + .scope-cat{border-top:1px solid #ECE6D8;padding-top:20px;}
-.scope-cat__title{font-size:15px;font-weight:500;color:var(--c-dark);display:flex;align-items:center;gap:10px;}
-.scope-cat__icon{
-  width:24px;height:24px;display:flex;align-items:center;justify-content:center;
-  background:#FAEEDA;border-radius:6px;font-size:13px;flex-shrink:0;
-}
-.scope-radios{display:flex;flex-wrap:wrap;gap:8px;padding-left:34px;}
+.scope-cat__title{font-size:15px;font-weight:500;color:var(--c-dark);display:flex;align-items:center;gap:6px;}
+.scope-cat__badge{font-size:12px;font-weight:400;color:#888780;}
 
-.scope-radio{
-  display:flex;align-items:center;gap:8px;font-size:14px;color:var(--c-dark);
-  cursor:pointer;padding:7px 14px;border:1px solid #E0DBD0;border-radius:8px;
-  background:#FAFAF7;user-select:none;transition:all .2s;
+/* 알약 버튼 공통 */
+.scope-pills{display:flex;flex-wrap:wrap;gap:10px;}
+.scope-pill{
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:14px;color:var(--c-dark);
+  cursor:pointer;padding:6px 22px;min-height:30px;
+  border:1.5px solid #D5D0C7;border-radius:999px;
+  background:#fff;user-select:none;
+  transition:background .2s,border-color .2s,color .2s;
 }
-.scope-radio:hover{border-color:#CDA96E;background:#FDF8F0;}
-.scope-radio input{display:none;}
-.scope-radio__dot{
-  width:16px;height:16px;border:1.5px solid #C6BFAE;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;
-  background:#fff;transition:all .15s;
+.scope-pill:hover{background:#F5F1E8;}
+.scope-pill input{display:none;}
+.scope-pill:has(input:checked){
+  background:#1A1A17;border-color:transparent;color:#fff;
 }
-.scope-radio input:checked ~ .scope-radio__dot{border-color:#B59155;border-width:2px;}
-.scope-radio input:checked ~ .scope-radio__dot::after{content:'';width:8px;height:8px;border-radius:50%;background:#B59155;}
-.scope-radio input:checked ~ .scope-radio__label{color:var(--c-dark);font-weight:500;}
-.scope-radio:has(input:checked){border-color:#B59155;background:#FDF8F0;}
+
+.scope-cat__hint{
+  font-size:12.5px;color:#9E9688;font-style:italic;
+  margin-top:2px;
+}
 
 @media (max-width: 760px){
-  .scope-radios{padding-left:0;flex-direction:column;}
-  .scope-radio{min-width:100%;}
+  .scope-pills{gap:10px;}
+  .scope-pill{padding:10px 18px;font-size:13px;}
   .scope-cat__title{font-size:14px;}
 }
 
@@ -1942,43 +1943,129 @@ if(window.wcs) {
             </label>
 
             <div class="scope-block" id="scope-block">
-              <!-- 1. 샷시공사 -->
+              <!-- 현재 확장된 공간 -->
               <div class="scope-cat">
-                <div class="scope-cat__title"><span class="scope-cat__icon">🪟</span>샷시공사</div>
-                <div class="scope-radios">
-                  <label class="scope-radio"><input type="radio" name="scope-sashi" value="전체 교체"><span class="scope-radio__dot"></span><span class="scope-radio__label">전체 교체</span></label>
-                  <label class="scope-radio"><input type="radio" name="scope-sashi" value="부분 교체"><span class="scope-radio__dot"></span><span class="scope-radio__label">부분 교체</span></label>
-                  <label class="scope-radio"><input type="radio" name="scope-sashi" value="샷시 리폼"><span class="scope-radio__dot"></span><span class="scope-radio__label">샷시 리폼</span></label>
-                  <label class="scope-radio"><input type="radio" name="scope-sashi" value="불필요"><span class="scope-radio__dot"></span><span class="scope-radio__label">불필요</span></label>
+                <div class="scope-cat__title">현재 확장된 공간 <span class="scope-cat__badge">(중복 가능)</span></div>
+                <div class="scope-pills">
+                  <label class="scope-pill"><input type="checkbox" name="scope-cur-expansion" value="거실">거실</label>
+                  <label class="scope-pill"><input type="checkbox" name="scope-cur-expansion" value="주방">주방</label>
+                  <label class="scope-pill"><input type="checkbox" name="scope-cur-expansion" value="방">방</label>
+                  <label class="scope-pill"><input type="checkbox" name="scope-cur-expansion" value="안방">안방</label>
+                  <label class="scope-pill"><input type="checkbox" name="scope-cur-expansion" value="기타">기타</label>
                 </div>
               </div>
 
-              <!-- 2. 벽 마감 -->
+              <!-- 확장공사 할 공간 -->
               <div class="scope-cat">
-                <div class="scope-cat__title"><span class="scope-cat__icon">🎨</span>벽 마감</div>
-                <div class="scope-radios">
-                  <label class="scope-radio"><input type="radio" name="scope-wall" value="전체 페인트"><span class="scope-radio__dot"></span><span class="scope-radio__label">전체 페인트</span></label>
-                  <label class="scope-radio"><input type="radio" name="scope-wall" value="전체 도배"><span class="scope-radio__dot"></span><span class="scope-radio__label">전체 도배</span></label>
-                  <label class="scope-radio"><input type="radio" name="scope-wall" value="혼합형 (공용부 페인트 / 방 도배)"><span class="scope-radio__dot"></span><span class="scope-radio__label">혼합형 (공용부 페인트 / 방 도배)</span></label>
+                <div class="scope-cat__title">확장공사 할 공간 <span class="scope-cat__badge">(중복 가능)</span></div>
+                <div class="scope-pills">
+                  <label class="scope-pill"><input type="checkbox" name="scope-expansion-work" value="거실">거실</label>
+                  <label class="scope-pill"><input type="checkbox" name="scope-expansion-work" value="주방">주방</label>
+                  <label class="scope-pill"><input type="checkbox" name="scope-expansion-work" value="방">방</label>
+                  <label class="scope-pill"><input type="checkbox" name="scope-expansion-work" value="안방">안방</label>
+                  <label class="scope-pill"><input type="checkbox" name="scope-expansion-work" value="기타">기타</label>
+                  <label class="scope-pill"><input type="checkbox" name="scope-expansion-work" value="확장 공사없음">확장 공사없음</label>
                 </div>
               </div>
 
-              <!-- 3. 바닥공사 -->
+              <!-- 샷시공사 -->
               <div class="scope-cat">
-                <div class="scope-cat__title"><span class="scope-cat__icon">🪵</span>바닥공사</div>
-                <div class="scope-radios">
-                  <label class="scope-radio"><input type="radio" name="scope-floor" value="전체 마루 (원목마루 또는 강마루)"><span class="scope-radio__dot"></span><span class="scope-radio__label">전체 마루 (원목마루 또는 강마루)</span></label>
-                  <label class="scope-radio"><input type="radio" name="scope-floor" value="전체 타일"><span class="scope-radio__dot"></span><span class="scope-radio__label">전체 타일</span></label>
-                  <label class="scope-radio"><input type="radio" name="scope-floor" value="혼합형 (공용부 타일 / 방 마루)"><span class="scope-radio__dot"></span><span class="scope-radio__label">혼합형 (공용부 타일 / 방 마루)</span></label>
+                <div class="scope-cat__title">샷시공사 <span class="scope-cat__badge">(하나 선택)</span></div>
+                <div class="scope-pills">
+                  <label class="scope-pill"><input type="radio" name="scope-sashi" value="전체 교체">전체 교체</label>
+                  <label class="scope-pill"><input type="radio" name="scope-sashi" value="부분 교체">부분 교체</label>
+                  <label class="scope-pill"><input type="radio" name="scope-sashi" value="샷시 리폼">샷시 리폼</label>
+                  <label class="scope-pill"><input type="radio" name="scope-sashi" value="불필요">불필요</label>
                 </div>
               </div>
 
-              <!-- 4. 욕실공사 -->
+              <!-- 벽 마감 -->
               <div class="scope-cat">
-                <div class="scope-cat__title"><span class="scope-cat__icon">🚿</span>욕실공사</div>
-                <div class="scope-radios">
-                  <label class="scope-radio"><input type="radio" name="scope-bath" value="상급 (호텔형)"><span class="scope-radio__dot"></span><span class="scope-radio__label">상급 (호텔형)</span></label>
-                  <label class="scope-radio"><input type="radio" name="scope-bath" value="중급 (일반형)"><span class="scope-radio__dot"></span><span class="scope-radio__label">중급 (일반형)</span></label>
+                <div class="scope-cat__title">벽 마감 <span class="scope-cat__badge">(하나 선택)</span></div>
+                <div class="scope-pills">
+                  <label class="scope-pill"><input type="radio" name="scope-wall" value="전체 페인트">전체 페인트</label>
+                  <label class="scope-pill"><input type="radio" name="scope-wall" value="전체 도배">전체 도배</label>
+                  <label class="scope-pill"><input type="radio" name="scope-wall" value="혼합형 (공용부 페인트 / 방 도배)">혼합형 (공용부 페인트 / 방 도배)</label>
+                </div>
+              </div>
+
+              <!-- 바닥공사 -->
+              <div class="scope-cat">
+                <div class="scope-cat__title">바닥공사 <span class="scope-cat__badge">(하나 선택)</span></div>
+                <div class="scope-pills">
+                  <label class="scope-pill"><input type="radio" name="scope-floor" value="전체 마루 (원목마루 또는 강마루)">전체 마루 (원목마루 또는 강마루)</label>
+                  <label class="scope-pill"><input type="radio" name="scope-floor" value="전체 타일">전체 타일</label>
+                  <label class="scope-pill"><input type="radio" name="scope-floor" value="혼합형 (공용부 타일 / 방 마루)">혼합형 (공용부 타일 / 방 마루)</label>
+                </div>
+              </div>
+
+              <!-- 욕실공사 -->
+              <div class="scope-cat">
+                <div class="scope-cat__title">욕실공사 <span class="scope-cat__badge">(하나 선택)</span></div>
+                <div class="scope-pills">
+                  <label class="scope-pill"><input type="radio" name="scope-bath" value="상급 (호텔형)">상급 (호텔형)</label>
+                  <label class="scope-pill"><input type="radio" name="scope-bath" value="중급 (일반형)">중급 (일반형)</label>
+                </div>
+              </div>
+
+              <!-- 중문 -->
+              <div class="scope-cat">
+                <div class="scope-cat__title">중문 <span class="scope-cat__badge">(하나 선택)</span></div>
+                <div class="scope-pills">
+                  <label class="scope-pill"><input type="radio" name="scope-middle-door" value="공사 없음">공사 없음</label>
+                  <label class="scope-pill"><input type="radio" name="scope-middle-door" value="기존 중문 철거">기존 중문 철거</label>
+                  <label class="scope-pill"><input type="radio" name="scope-middle-door" value="교체">교체</label>
+                </div>
+              </div>
+
+              <!-- 신규 설치 원하는 가구항목 -->
+              <div class="scope-cat">
+                <div class="scope-cat__title"><span style="color:#D32F2F;font-weight:700;">신규 설치</span> 원하는 가구항목 <span class="scope-cat__badge">(중복 가능)</span></div>
+                <div class="scope-pills">
+                  <label class="scope-pill"><input type="checkbox" name="scope-new-furniture" value="신발장">신발장</label>
+                  <label class="scope-pill"><input type="checkbox" name="scope-new-furniture" value="주방">주방</label>
+                  <label class="scope-pill"><input type="checkbox" name="scope-new-furniture" value="냉장고장">냉장고장</label>
+                  <label class="scope-pill"><input type="checkbox" name="scope-new-furniture" value="카페장">카페장</label>
+                  <label class="scope-pill"><input type="checkbox" name="scope-new-furniture" value="붙박이장">붙박이장</label>
+                  <label class="scope-pill"><input type="checkbox" name="scope-new-furniture" value="드레스룸">드레스룸</label>
+                  <label class="scope-pill"><input type="checkbox" name="scope-new-furniture" value="창고문">창고문</label>
+                  <label class="scope-pill"><input type="checkbox" name="scope-new-furniture" value="기타">기타</label>
+                </div>
+                <div class="scope-cat__hint">상세 내용은 상담을 통해 구체화할 예정입니다</div>
+              </div>
+
+              <!-- 필름시공 원하는 가구항목 -->
+              <div class="scope-cat">
+                <div class="scope-cat__title"><span style="color:#D32F2F;font-weight:700;">필름시공</span> 원하는 가구항목 <span class="scope-cat__badge">(중복 가능)</span></div>
+                <div class="scope-pills">
+                  <label class="scope-pill"><input type="checkbox" name="scope-film-furniture" value="신발장">신발장</label>
+                  <label class="scope-pill"><input type="checkbox" name="scope-film-furniture" value="주방">주방</label>
+                  <label class="scope-pill"><input type="checkbox" name="scope-film-furniture" value="냉장고장">냉장고장</label>
+                  <label class="scope-pill"><input type="checkbox" name="scope-film-furniture" value="카페장">카페장</label>
+                  <label class="scope-pill"><input type="checkbox" name="scope-film-furniture" value="붙박이장">붙박이장</label>
+                  <label class="scope-pill"><input type="checkbox" name="scope-film-furniture" value="드레스룸">드레스룸</label>
+                  <label class="scope-pill"><input type="checkbox" name="scope-film-furniture" value="창고문">창고문</label>
+                  <label class="scope-pill"><input type="checkbox" name="scope-film-furniture" value="기타">기타</label>
+                </div>
+                <div class="scope-cat__hint">상세 내용은 상담을 통해 구체화할 예정입니다</div>
+              </div>
+
+              <!-- 에어컨 -->
+              <div class="scope-cat">
+                <div class="scope-cat__title">에어컨 <span class="scope-cat__badge">(하나 선택)</span></div>
+                <div class="scope-pills">
+                  <label class="scope-pill"><input type="radio" name="scope-aircon" value="스탠드에어컨">스탠드에어컨</label>
+                  <label class="scope-pill"><input type="radio" name="scope-aircon" value="시스템에어컨">시스템에어컨</label>
+                </div>
+                <div class="scope-cat__hint">저희는 에어컨 공사를 하지 않습니다. 단내림 공사 여부를 확인하기 위함입니다</div>
+              </div>
+
+              <!-- 방문 -->
+              <div class="scope-cat">
+                <div class="scope-cat__title">방문 <span class="scope-cat__badge">(하나 선택)</span></div>
+                <div class="scope-pills">
+                  <label class="scope-pill"><input type="radio" name="scope-entrance-door" value="교체">교체</label>
+                  <label class="scope-pill"><input type="radio" name="scope-entrance-door" value="필름">필름</label>
                 </div>
               </div>
             </div>
@@ -2675,6 +2762,28 @@ window.submitInquiry=async function(){
   if(!consultEl){alert('상담 방식을 선택해 주세요.');return;}
   if(!agree){alert('개인정보 수집 및 이용에 동의해 주세요.');return;}
 
+  // 공사 범위 유효성 검사 (잘 모르겠어요 미체크 시)
+  if(!document.getElementById('scope-unsure').checked){
+    var scopeCheckValidation=[
+      {name:'scope-cur-expansion',label:'현재 확장된 공간'},
+      {name:'scope-expansion-work',label:'확장공사 할 공간'},
+      {name:'scope-sashi',label:'샷시공사'},
+      {name:'scope-wall',label:'벽 마감'},
+      {name:'scope-floor',label:'바닥공사'},
+      {name:'scope-bath',label:'욕실공사'},
+      {name:'scope-middle-door',label:'중문'},
+      {name:'scope-new-furniture',label:'신규 설치 원하는 가구항목'},
+      {name:'scope-film-furniture',label:'필름시공 원하는 가구항목'},
+      {name:'scope-aircon',label:'에어컨'},
+      {name:'scope-entrance-door',label:'방문'}
+    ];
+    for(var vi=0;vi<scopeCheckValidation.length;vi++){
+      var sv=scopeCheckValidation[vi];
+      var selected=document.querySelectorAll('input[name="'+sv.name+'"]:checked');
+      if(!selected.length){alert('희망 공사 범위의 "'+sv.label+'"을(를) 선택해 주세요.');return;}
+    }
+  }
+
   const btn=document.getElementById('inq-submit-btn');
   btn.disabled=true; btn.textContent='접수 중...';
 
@@ -2722,13 +2831,25 @@ window.submitInquiry=async function(){
   const staffNums=['01087163073','01074720065','01041217976'];
   let scopeSummary='';
   if(data.scopeUnsure){
-    scopeSummary='잘 모르겠음 (안내 요청)';
+    scopeSummary='공사범위: 잘 모르겠음 (안내 요청)';
   } else {
-    const parts=Object.entries(data.scope).filter(([,v])=>v).map(([k,v])=>k+':'+v);
-    scopeSummary=parts.length?parts.join(' / '):'선택 없음';
+    var smsLines=[];
+    var sc=data.scope;
+    if(sc.currentExpansion&&sc.currentExpansion.length) smsLines.push('확장된 공간: '+sc.currentExpansion.join(', '));
+    if(sc.expansionWork&&sc.expansionWork.length) smsLines.push('확장공사: '+sc.expansionWork.join(', '));
+    if(sc['샷시공사']) smsLines.push('샷시: '+sc['샷시공사']);
+    if(sc['벽마감']) smsLines.push('벽: '+sc['벽마감']);
+    if(sc['바닥공사']) smsLines.push('바닥: '+sc['바닥공사']);
+    if(sc['욕실공사']) smsLines.push('욕실: '+sc['욕실공사']);
+    if(sc.middleDoor) smsLines.push('중문: '+sc.middleDoor);
+    if(sc.newFurniture&&sc.newFurniture.length) smsLines.push('신규 가구: '+sc.newFurniture.join(', '));
+    if(sc.filmFurniture&&sc.filmFurniture.length) smsLines.push('필름시공: '+sc.filmFurniture.join(', '));
+    if(sc.airConditioner) smsLines.push('에어컨: '+sc.airConditioner);
+    if(sc.entranceDoor) smsLines.push('방문: '+sc.entranceDoor);
+    scopeSummary=smsLines.length?'공사범위:\n- '+smsLines.join('\n- '):'공사범위: 선택 없음';
   }
   const consultLabel=data.consultMethod==='kakao'?'예상견적 카톡상담':'프리미엄 방문상담';
-  const staffSmsText=`[디자인포] 새 견적문의\n고객명: ${name}\n연락처: ${phone}\n평수: ${data.size?data.size+'평':'미입력'}\n예산: ${data.budget?data.budget+'만원':'미입력'}\n상담방식: ${consultLabel}\n공사범위: ${scopeSummary}\n접수일시: ${접수일시}\n관리자 페이지에서 확인하세요.`;
+  const staffSmsText=`[디자인포] 새 견적문의\n고객명: ${name}\n연락처: ${phone}\n평수: ${data.size?data.size+'평':'미입력'}\n예산: ${data.budget?data.budget+'만원':'미입력'}\n상담방식: ${consultLabel}\n${scopeSummary}\n접수일시: ${접수일시}\n관리자 페이지에서 확인하세요.`;
 
   await Promise.all(staffNums.map(num=>sendSMS(num, staffSmsText)));
 
@@ -2747,7 +2868,9 @@ window.submitInquiry=async function(){
 };
 
 /* ── 공사 범위 수집 ── */
-var scopeNames=['scope-sashi','scope-wall','scope-floor','scope-bath'];
+var scopeRadioNames=['scope-sashi','scope-wall','scope-floor','scope-bath','scope-middle-door','scope-aircon','scope-entrance-door'];
+var scopeCheckNames=['scope-cur-expansion','scope-expansion-work','scope-new-furniture','scope-film-furniture'];
+var scopeAllNames=scopeRadioNames.concat(scopeCheckNames);
 var scopeLabels={
   'scope-sashi':'샷시공사','scope-wall':'벽마감',
   'scope-floor':'바닥공사','scope-bath':'욕실공사'
@@ -2755,29 +2878,45 @@ var scopeLabels={
 
 function collectScope(){
   var obj={};
-  scopeNames.forEach(function(n){
+  // 기존 4개 라디오 (한글 키)
+  ['scope-sashi','scope-wall','scope-floor','scope-bath'].forEach(function(n){
     var el=document.querySelector('input[name="'+n+'"]:checked');
     obj[scopeLabels[n]]=el?el.value:null;
   });
+  // 새 체크박스 (배열)
+  obj.currentExpansion=[].slice.call(document.querySelectorAll('input[name="scope-cur-expansion"]:checked')).map(function(c){return c.value;});
+  obj.expansionWork=[].slice.call(document.querySelectorAll('input[name="scope-expansion-work"]:checked')).map(function(c){return c.value;});
+  obj.newFurniture=[].slice.call(document.querySelectorAll('input[name="scope-new-furniture"]:checked')).map(function(c){return c.value;});
+  obj.filmFurniture=[].slice.call(document.querySelectorAll('input[name="scope-film-furniture"]:checked')).map(function(c){return c.value;});
+  // 새 라디오 (문자열)
+  var md=document.querySelector('input[name="scope-middle-door"]:checked');
+  obj.middleDoor=md?md.value:null;
+  var ac=document.querySelector('input[name="scope-aircon"]:checked');
+  obj.airConditioner=ac?ac.value:null;
+  var ed=document.querySelector('input[name="scope-entrance-door"]:checked');
+  obj.entranceDoor=ed?ed.value:null;
   return obj;
 }
 
-// 라디오 선택 시 "잘 모르겠어요" 자동 해제 + "잘 모르겠어요" 연동
+// 라디오/체크박스 선택 시 "잘 모르겠어요" 자동 해제 + "잘 모르겠어요" 연동
 document.addEventListener('change',function(e){
-  // 라디오 선택 → "잘 모르겠어요" 해제
-  if(scopeNames.some(function(n){return e.target.name===n;})){
+  // scope 항목 선택 → "잘 모르겠어요" 해제
+  if(scopeAllNames.indexOf(e.target.name)!==-1){
     var unsure=document.getElementById('scope-unsure');
     if(unsure&&unsure.checked){
       unsure.checked=false;
       document.getElementById('scope-block').classList.remove('is-disabled');
     }
   }
-  // "잘 모르겠어요" 체크 → 모든 라디오 해제 + 비활성화
+  // "잘 모르겠어요" 체크 → 모든 라디오/체크박스 해제 + 비활성화
   if(e.target.id==='scope-unsure'){
     var block=document.getElementById('scope-block');
     if(e.target.checked){
-      scopeNames.forEach(function(n){
+      scopeRadioNames.forEach(function(n){
         document.querySelectorAll('input[name="'+n+'"]:checked').forEach(function(r){r.checked=false;});
+      });
+      scopeCheckNames.forEach(function(n){
+        document.querySelectorAll('input[name="'+n+'"]:checked').forEach(function(c){c.checked=false;});
       });
       block.classList.add('is-disabled');
     } else {
