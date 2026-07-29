@@ -831,10 +831,11 @@ button{font-family:var(--ff-sans);}
 /* ── 섹션 박스 ── */
 .inq-section{
   background:#FFFFFF;
-  border:1px solid var(--c-border);
-  border-radius:16px;
-  padding:28px 32px;
-  margin-bottom:16px;
+  padding:32px 0;
+  margin-bottom:0;
+}
+.inq-section + .inq-section{
+  border-top:1px solid var(--c-border);
 }
 .inq-section__title{
   font-family:var(--ff-sans);font-size:16px;font-weight:500;color:var(--c-dark);
@@ -1088,7 +1089,7 @@ button{font-family:var(--ff-sans);}
   .inquiry-form{padding:28px var(--pad-x-sm);}
   .inq-row-3,.inq-row-4{grid-template-columns:1fr 1fr;}
   .inq-portfolio-grid{grid-template-columns:repeat(2,1fr);height:440px;}
-  .inq-section{padding:20px;}
+  .inq-section{padding:24px 0;}
 }
 
 /* SNS */
@@ -1231,7 +1232,7 @@ button{font-family:var(--ff-sans);}
   .inquiry-form{padding:24px var(--pad-x);}
   .inq-row-3,.inq-row-4{grid-template-columns:1fr 1fr;}
   .inq-portfolio-grid{grid-template-columns:repeat(2,1fr);height:420px;}
-  .inq-section{padding:20px;}
+  .inq-section{padding:24px 0;}
   .sns__inner{padding:40px var(--pad-x);}
   .sns-grid{grid-template-columns:1fr;max-width:100%;}
   .site-footer{padding:20px var(--pad-x);flex-direction:column;gap:8px;}
