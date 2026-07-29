@@ -2100,7 +2100,7 @@ if(window.wcs) {
                 <input type="radio" name="consult-method" value="visit">
                 <div class="consult-card__header">
                   <span class="consult-card__dot"></span>
-                  <span class="consult-card__title">프리미엄 방문상담</span>
+                  <span class="consult-card__title">3D 올인원 상담</span>
                 </div>
                 <div class="consult-card__desc">공간 구성, 3D 자료, 상세 견적, 샘플링까지 함께 받아보시고 싶으신 경우에 적합합니다.</div>
                 <div class="consult-card__note">소정의 상담비가 발생하며, 계약 시 전액 반환해 드립니다.</div>
@@ -2848,7 +2848,7 @@ window.submitInquiry=async function(){
     if(sc.entranceDoor) smsLines.push('방문: '+sc.entranceDoor);
     scopeSummary=smsLines.length?'공사범위:\n- '+smsLines.join('\n- '):'공사범위: 선택 없음';
   }
-  const consultLabel=data.consultMethod==='kakao'?'예상견적 카톡상담':'프리미엄 방문상담';
+  const consultLabel=data.consultMethod==='kakao'?'예상견적 카톡상담':'3D 올인원 상담';
   const staffSmsText=`[디자인포] 새 견적문의\n고객명: ${name}\n연락처: ${phone}\n평수: ${data.size?data.size+'평':'미입력'}\n예산: ${data.budget?data.budget+'만원':'미입력'}\n상담방식: ${consultLabel}\n${scopeSummary}\n접수일시: ${접수일시}\n관리자 페이지에서 확인하세요.`;
 
   await Promise.all(staffNums.map(num=>sendSMS(num, staffSmsText)));
