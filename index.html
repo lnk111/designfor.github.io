@@ -837,10 +837,6 @@ button{font-family:var(--ff-sans);}
 .inq-section + .inq-section{
   border-top:1px solid var(--c-border);
 }
-/* 상담방식 섹션만 오른쪽 영역(왼쪽 사진 420px 제외) 전체 폭으로 확장 */
-@media (min-width: 901px){
-  .inq-section--wide{width:calc(100vw - 524px);}
-}
 .inq-section__title{
   font-family:var(--ff-sans);font-size:16px;font-weight:500;color:var(--c-dark);
   margin-bottom:4px;letter-spacing:0.02em;
@@ -1862,7 +1858,7 @@ if(window.wcs) {
           </div>
 
           <!-- 상담 방식 -->
-          <div class="inq-section inq-section--wide">
+          <div class="inq-section">
             <div class="inq-section__title">어떤 방식으로 안내받고 싶으신가요? <span class="req">•</span></div>
             <div class="consult-cards">
               <label class="consult-card">
