@@ -828,7 +828,7 @@ async function fetchInquiries(){
           <div><span class="fl">연락처</span>${esc(inq.phone||'—')}</div>
           <div><span class="fl">이메일</span>${esc(inq.email||'—')}</div>
           <div><span class="fl">경로</span>${esc(inq.route||'—')}</div>
-          ${inq.consultMethod?`<div><span class="fl">상담 방식</span><strong>${inq.consultMethod==='kakao'?'예상견적 카톡상담':'프리미엄 방문상담'}</strong></div>`:''}
+          ${inq.consultMethod?`<div><span class="fl">상담 방식</span><strong>${inq.consultMethod==='kakao'?'예상견적 카톡상담':'3D 올인원 상담'}</strong></div>`:''}
           <div><span class="fl">유형</span>${esc(inq.type||'—')}</div>
           <div><span class="fl">평수</span>${inq.size?inq.size+'평':'—'}</div>
           <div><span class="fl">예산</span>${inq.budget?inq.budget+'만원':'—'}</div>
