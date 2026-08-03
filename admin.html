@@ -224,6 +224,25 @@ html,body{min-height:100%;font-family:var(--ff);font-weight:300;background:var(-
 .link-del:hover{color:var(--red);}
 .link-del svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;}
 
+.proof-thumb-row{display:flex;flex-wrap:wrap;gap:8px;margin:-4px 0 14px;}
+.proof-thumb-row img{width:64px;height:64px;object-fit:cover;border-radius:8px;border:1px solid var(--border);}
+.proof-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-top:20px;}
+.proof-card{position:relative;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
+.proof-card img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;}
+.proof-card .pc-body{padding:10px 12px;}
+.proof-card .pc-cap{font-size:12px;color:var(--dark);line-height:1.4;}
+.proof-card .pc-meta{font-size:11px;color:var(--stone-lt);margin-top:4px;}
+.proof-card .pc-del{position:absolute;top:6px;right:6px;width:26px;height:26px;border-radius:50%;background:rgba(0,0,0,0.55);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.proof-card .pc-del svg{width:13px;height:13px;stroke:#fff;fill:none;stroke-width:2;}
+
+.btn-fetch{flex-shrink:0;background:var(--dark);color:#fff;border:none;border-radius:var(--r);padding:0 20px;font-family:var(--ff);font-size:13px;letter-spacing:0.08em;cursor:pointer;transition:background .2s;}
+.btn-fetch:hover{background:var(--gold);}
+.btn-fetch:disabled{opacity:0.5;cursor:default;}
+.sf-fetch-status{font-size:12px;color:var(--stone-lt);margin:-6px 0 10px;min-height:16px;}
+.btn-fallback-toggle{display:block;background:none;border:none;color:var(--stone-lt);font-size:12px;text-decoration:underline;cursor:pointer;padding:6px 0 4px;font-family:var(--ff);}
+.btn-fallback-toggle:hover{color:var(--stone);}
+.sf-manual{margin-top:4px;padding-top:14px;border-top:1px dashed var(--border);}
+
 /* 홈 슬라이드 순서 영역 (포트폴리오 탭 상단) */
 .home-strip{
   background:#FAEEDA;border:1px solid #EF9F27;border-radius:16px;
@@ -342,6 +361,7 @@ html,body{min-height:100%;font-family:var(--ff);font-weight:300;background:var(-
     <button class="adm-tab" data-tab="inquiries" onclick="switchTab('inquiries')">문의 내역</button>
     <button class="adm-tab" data-tab="settings" onclick="switchTab('settings')">사이트 설정</button>
     <button class="adm-tab" data-tab="links" onclick="switchTab('links')">링크 관리</button>
+    <button class="adm-tab" data-tab="proof" onclick="switchTab('proof')">후기 · 숏폼</button>
   </div>
 
   <!-- 포트폴리오 탭 -->
@@ -450,6 +470,57 @@ html,body{min-height:100%;font-family:var(--ff);font-weight:300;background:var(-
         <textarea class="form-textarea" id="link-memo" placeholder="간단한 설명"></textarea>
         <button class="btn-submit" onclick="addLink()">링크 등록하기</button>
         <div class="link-list" id="link-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 후기 · 숏폼 탭 -->
+  <div class="adm-view" id="tab-proof">
+    <div class="link-view">
+      <div class="link-view-title">후기 · 숏폼 관리</div>
+
+      <div class="panel">
+        <div class="panel-title">
+          <svg class="panel-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          카톡 · 리뷰 후기 스크린샷
+        </div>
+        <label class="form-label">스크린샷 이미지 (여러 장 선택 가능)</label>
+        <input class="form-input" type="file" id="review-files" accept="image/*" multiple>
+        <div class="proof-thumb-row" id="review-pending-preview"></div>
+        <button class="btn-submit" id="review-upload-btn" onclick="uploadReviews()">후기 등록하기</button>
+        <div class="upload-progress" id="review-upload-prog"></div>
+        <div class="proof-grid" id="review-list"></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">
+          <svg class="panel-icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          숏폼(릴스) 카드
+        </div>
+        <label class="form-label">릴스 링크</label>
+        <div style="display:flex;gap:8px;margin-bottom:14px;">
+          <input class="form-input" id="sf-link" type="url" placeholder="https://www.instagram.com/reel/..." style="margin-bottom:0;flex:1;">
+          <button type="button" class="btn-fetch" id="sf-fetch-btn" onclick="fetchReelMeta()">가져오기</button>
+        </div>
+        <div class="sf-fetch-status" id="sf-fetch-status"></div>
+        <div class="proof-thumb-row" id="sf-pending-preview"></div>
+
+        <div class="sf-fields" id="sf-fields" style="display:none;">
+          <label class="form-label">캡션</label>
+          <input class="form-input" id="sf-caption" type="text" placeholder="예: 동탄 34평 신혼집 풀시공">
+          <label class="form-label">참고 문구 (선택)</label>
+          <input class="form-input" id="sf-meta" type="text" placeholder="좋아요 · 댓글 수 등">
+          <button class="btn-submit" id="sf-upload-btn" onclick="uploadShortform()">숏폼 카드 등록하기</button>
+        </div>
+
+        <button type="button" class="btn-fallback-toggle" id="sf-manual-toggle" onclick="toggleSfManual()">링크로 가져오기가 안 되면 → 직접 업로드</button>
+        <div class="sf-manual" id="sf-manual" style="display:none;">
+          <label class="form-label">썸네일 이미지 직접 업로드</label>
+          <input class="form-input" type="file" id="sf-thumb-file" accept="image/*">
+        </div>
+
+        <div class="upload-progress" id="sf-upload-prog"></div>
+        <div class="proof-grid" id="sf-list"></div>
       </div>
     </div>
   </div>
@@ -645,6 +716,7 @@ window.switchTab=function(name){
   document.querySelectorAll('.adm-view').forEach(v=>v.classList.toggle('is-on',v.id===`tab-${name}`));
   if(name==='inquiries') fetchInquiries();
   if(name==='settings'){ loadConsultImgAdmin(); loadAboutPhotoAdmin(); }
+  if(name==='proof'){ fetchReviews(); fetchShortform(); }
 };
 
 /* ── 상담 페이지 사진 ── */
@@ -1515,6 +1587,166 @@ document.getElementById('link-tags').addEventListener('click',e=>{
   document.querySelectorAll('#link-tags .tag-btn').forEach(b=>b.classList.remove('selected'));
   btn.classList.add('selected');
 });
+
+/* ── PROOF: 후기 · 숏폼 ── */
+let pendingReviewFiles=[], pendingSfThumb=null;
+
+document.getElementById('review-files').addEventListener('change',e=>{
+  pendingReviewFiles=Array.from(e.target.files||[]);
+  const prev=document.getElementById('review-pending-preview');
+  prev.innerHTML=pendingReviewFiles.map(f=>`<img src="${makeObjectUrl(f)}">`).join('');
+});
+document.getElementById('sf-thumb-file').addEventListener('change',e=>{
+  pendingSfThumb=e.target.files[0]||null;
+  sfAutoThumbUrl=null;
+  const prev=document.getElementById('sf-pending-preview');
+  prev.innerHTML=pendingSfThumb?`<img src="${makeObjectUrl(pendingSfThumb)}">`:'';
+  if(pendingSfThumb) document.getElementById('sf-fields').style.display='block';
+});
+window.toggleSfManual=function(){
+  const el=document.getElementById('sf-manual');
+  el.style.display=el.style.display==='none'?'block':'none';
+};
+
+/* 릴스 링크만 넣으면 썸네일·캡션·좋아요/댓글을 자동으로 가져옴 (CORS 우회 프록시 경유) */
+const PROXY='https://api.allorigins.win/raw?url=';
+let sfAutoThumbUrl=null;
+
+window.fetchReelMeta=async function(){
+  const link=document.getElementById('sf-link').value.trim();
+  const status=document.getElementById('sf-fetch-status');
+  const btn=document.getElementById('sf-fetch-btn');
+  if(!link){ showToast('릴스 링크를 먼저 입력해 주세요.'); return; }
+  btn.disabled=true; status.textContent='가져오는 중...';
+  try{
+    const res=await fetch(PROXY+encodeURIComponent(link));
+    if(!res.ok) throw new Error('페이지를 불러오지 못했습니다');
+    const html=await res.text();
+    const docu=new DOMParser().parseFromString(html,'text/html');
+    const ogImage=docu.querySelector('meta[property="og:image"]')?.content;
+    const ogDesc=docu.querySelector('meta[property="og:description"]')?.content||'';
+    if(!ogImage) throw new Error('썸네일을 찾지 못했습니다');
+
+    // "2,399 likes, 56 comments - designfor_official - April 16, 2025: "caption". "
+    const countMatch=ogDesc.match(/^([\d,]+)\s*likes?,\s*([\d,]+)\s*comments?/i);
+    const meta=countMatch?`좋아요 ${countMatch[1]} · 댓글 ${countMatch[2]}`:'';
+    const capMatch=ogDesc.match(/:\s*"([\s\S]*)"\.?\s*$/);
+    let caption=capMatch?capMatch[1]:ogDesc;
+    caption=caption.split('\n')[0].trim().slice(0,60);
+
+    status.textContent='썸네일 업로드 중...';
+    const imgRes=await fetch(PROXY+encodeURIComponent(ogImage));
+    if(!imgRes.ok) throw new Error('썸네일 다운로드에 실패했습니다');
+    const blob=await imgRes.blob();
+    const thumbUrl=await uploadToCloudinary(blob);
+
+    sfAutoThumbUrl=thumbUrl;
+    pendingSfThumb=null;
+    document.getElementById('sf-pending-preview').innerHTML=`<img src="${thumbUrl}">`;
+    document.getElementById('sf-caption').value=caption;
+    document.getElementById('sf-meta').value=meta;
+    document.getElementById('sf-fields').style.display='block';
+    status.textContent='자동으로 가져왔습니다 — 필요하면 아래 캡션을 수정하세요.';
+  } catch(e){
+    status.textContent='자동으로 가져오지 못했습니다. 아래 "직접 업로드"를 이용해 주세요.';
+    document.getElementById('sf-manual').style.display='block';
+    document.getElementById('sf-fields').style.display='block';
+  }
+  btn.disabled=false;
+};
+
+window.uploadReviews=async function(){
+  if(!pendingReviewFiles.length){ showToast('업로드할 스크린샷을 선택해 주세요.'); return; }
+  const btn=document.getElementById('review-upload-btn'), prog=document.getElementById('review-upload-prog');
+  btn.disabled=true;
+  let done=0;
+  try{
+    for(const file of pendingReviewFiles){
+      prog.textContent=`업로드 중... (${done+1}/${pendingReviewFiles.length})`;
+      const compressed=await compressImage(file);
+      const url=await uploadToCloudinary(compressed);
+      await setDoc(doc(db,'reviews',uid()),{url,createdAt:Date.now()});
+      done++;
+    }
+    prog.textContent='';
+    showToast(`후기 ${done}장이 등록되었습니다.`);
+    pendingReviewFiles=[];
+    document.getElementById('review-files').value='';
+    document.getElementById('review-pending-preview').innerHTML='';
+    fetchReviews();
+  } catch(e){ prog.textContent=''; showToast('업로드 실패: '+e.message); }
+  btn.disabled=false;
+};
+async function fetchReviews(){
+  try{
+    const snap=await getDocs(query(collection(db,'reviews'),orderBy('createdAt','desc')));
+    renderReviewList(snap.docs.map(d=>({id:d.id,...d.data()})));
+  } catch(e){}
+}
+function renderReviewList(items){
+  const el=document.getElementById('review-list');
+  if(!items||!items.length){el.innerHTML='';return;}
+  el.innerHTML=items.map(r=>`
+    <div class="proof-card">
+      <img src="${esc(r.url)}">
+      <button class="pc-del" onclick="deleteReview('${esc(r.id)}')"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg></button>
+    </div>`).join('');
+}
+window.deleteReview=async function(id){
+  try{ await deleteDoc(doc(db,'reviews',id)); fetchReviews(); showToast('삭제되었습니다.'); } catch(e){}
+};
+
+window.uploadShortform=async function(){
+  const link=document.getElementById('sf-link').value.trim();
+  const caption=document.getElementById('sf-caption').value.trim();
+  const meta=document.getElementById('sf-meta').value.trim();
+  if(!sfAutoThumbUrl && !pendingSfThumb){ showToast('릴스 링크로 가져오거나, 썸네일을 직접 업로드해 주세요.'); return; }
+  if(!link){ showToast('릴스 링크를 입력해 주세요.'); return; }
+  if(!caption){ showToast('캡션을 입력해 주세요.'); return; }
+  const btn=document.getElementById('sf-upload-btn'), prog=document.getElementById('sf-upload-prog');
+  btn.disabled=true; prog.textContent='업로드 중...';
+  try{
+    let thumbUrl=sfAutoThumbUrl;
+    if(!thumbUrl){
+      const compressed=await compressImage(pendingSfThumb);
+      thumbUrl=await uploadToCloudinary(compressed);
+    }
+    await setDoc(doc(db,'shortform',uid()),{thumbUrl,link,caption,meta,createdAt:Date.now()});
+    prog.textContent='';
+    showToast('숏폼 카드가 등록되었습니다.');
+    sfAutoThumbUrl=null; pendingSfThumb=null;
+    ['sf-link','sf-caption','sf-meta'].forEach(i=>document.getElementById(i).value='');
+    document.getElementById('sf-thumb-file').value='';
+    document.getElementById('sf-pending-preview').innerHTML='';
+    document.getElementById('sf-fields').style.display='none';
+    document.getElementById('sf-manual').style.display='none';
+    document.getElementById('sf-fetch-status').textContent='';
+    fetchShortform();
+  } catch(e){ prog.textContent=''; showToast('업로드 실패: '+e.message); }
+  btn.disabled=false;
+};
+async function fetchShortform(){
+  try{
+    const snap=await getDocs(query(collection(db,'shortform'),orderBy('createdAt','desc')));
+    renderShortformList(snap.docs.map(d=>({id:d.id,...d.data()})));
+  } catch(e){}
+}
+function renderShortformList(items){
+  const el=document.getElementById('sf-list');
+  if(!items||!items.length){el.innerHTML='';return;}
+  el.innerHTML=items.map(s=>`
+    <div class="proof-card">
+      <img src="${esc(s.thumbUrl)}">
+      <div class="pc-body">
+        <div class="pc-cap">${esc(s.caption)}</div>
+        ${s.meta?`<div class="pc-meta">${esc(s.meta)}</div>`:''}
+      </div>
+      <button class="pc-del" onclick="deleteShortform('${esc(s.id)}')"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg></button>
+    </div>`).join('');
+}
+window.deleteShortform=async function(id){
+  try{ await deleteDoc(doc(db,'shortform',id)); fetchShortform(); showToast('삭제되었습니다.'); } catch(e){}
+};
 
 /* ── UTILS ── */
 let toastTimer;
