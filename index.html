@@ -341,12 +341,17 @@ button{font-family:var(--ff-sans);}
 .proof-title{font-family:var(--ff-serif);font-size:clamp(26px,3vw,36px);font-weight:300;color:var(--c-dark);line-height:1.45;}
 .proof-desc{font-size:14px;color:var(--c-stone);line-height:1.8;margin-top:16px;}
 
-/* 후기 — 스크린샷을 자르지 않고 가로 스크롤로 나열 */
-.review-strip{max-width:1180px;margin:0 auto;display:flex;gap:18px;overflow-x:auto;padding:4px 4px 12px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;}
-.review-strip::-webkit-scrollbar{height:6px;}
-.review-strip::-webkit-scrollbar-thumb{background:var(--c-border);border-radius:3px;}
-.review-strip img{height:420px;width:auto;border-radius:10px;border:1px solid var(--c-border);scroll-snap-align:start;flex-shrink:0;background:var(--c-cream);}
+/* 후기 — 여러 열이 각각 다른 속도로 위로 무한 스크롤 */
+.review-columns{max-width:1180px;margin:0 auto;display:flex;justify-content:center;gap:18px;max-height:740px;overflow:hidden;-webkit-mask-image:linear-gradient(to bottom,transparent,black 12%,black 88%,transparent);mask-image:linear-gradient(to bottom,transparent,black 12%,black 88%,transparent);}
+.review-col{flex:1;min-width:0;max-width:280px;}
+.review-col:nth-child(2),.review-col:nth-child(3){display:none;}
+.review-col__track{display:flex;flex-direction:column;gap:18px;animation:review-scroll-up linear infinite;}
+.review-col__track img{width:100%;height:auto;display:block;border-radius:10px;border:1px solid var(--c-border);background:var(--c-cream);}
+@keyframes review-scroll-up{from{transform:translateY(0);}to{transform:translateY(-50%);}}
 .review-empty{text-align:center;font-size:13px;color:var(--c-stone-lt);padding:40px 0;}
+@media (prefers-reduced-motion:reduce){.review-col__track{animation:none;}}
+@media (min-width:640px){.review-col:nth-child(2){display:block;}}
+@media (min-width:900px){.review-col:nth-child(3){display:block;}}
 
 /* 숏폼 릴스 카드 */
 .sf-grid{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);gap:16px;}
@@ -372,7 +377,6 @@ button{font-family:var(--ff-sans);}
 .proof-closing p{font-size:14px;color:var(--c-stone);line-height:2.1;max-width:44ch;margin:18px auto 0;}
 
 @media (max-width:900px){
-  .review-strip img{height:320px;}
   .sf-grid{grid-template-columns:repeat(2,1fr);}
 }
 
@@ -1412,7 +1416,7 @@ if(window.wcs) {
         <h2 class="proof-title">고민은 입주 날짜만<br>늦출 뿐입니다</h2>
         <p class="proof-desc">이미 많은 분들이 디자인포를 만나 예쁜 집에서 살고 있습니다.</p>
       </div>
-      <div class="review-strip" id="review-strip">
+      <div class="review-columns" id="review-columns">
         <div class="review-empty" id="review-empty">관리자 페이지에서 후기 스크린샷을 등록해 주세요</div>
       </div>
     </section>
@@ -2418,13 +2422,23 @@ onSnapshot(query(collection(db,'links'),orderBy('createdAt','desc')),snap=>{
   });
 });
 
-/* 후기 스크린샷 — 관리자 페이지에서 등록한 이미지가 자동 반영됨 */
+/* 후기 스크린샷 — 관리자 페이지에서 등록한 이미지가 자동 반영됨, 3열로 나눠 각각 다른 속도로 위로 무한 스크롤 */
 onSnapshot(query(collection(db,'reviews'),orderBy('createdAt','desc')),snap=>{
   const items=snap.docs.map(d=>d.data());
-  const strip=document.getElementById('review-strip');
-  strip.innerHTML=items.length
-    ? items.map(r=>`<img src="${esc(r.url)}" alt="디자인포 후기" loading="lazy">`).join('')
-    : '<div class="review-empty">관리자 페이지에서 후기 스크린샷을 등록해 주세요</div>';
+  const wrap=document.getElementById('review-columns');
+  if(!items.length){
+    wrap.innerHTML='<div class="review-empty">관리자 페이지에서 후기 스크린샷을 등록해 주세요</div>';
+    return;
+  }
+  const cols=[[],[],[]];
+  items.forEach((r,i)=>cols[i%3].push(r));
+  const durations=[26,32,29];
+  wrap.innerHTML=cols.map((colItems,ci)=>{
+    if(!colItems.length) return '';
+    const imgs=colItems.map(r=>`<img src="${esc(r.url)}" alt="디자인포 후기" loading="lazy">`).join('');
+    // translateY(-50%) 루프가 자연스럽도록 목록을 두 번 이어붙임
+    return `<div class="review-col"><div class="review-col__track" style="animation-duration:${durations[ci]}s;">${imgs}${imgs}</div></div>`;
+  }).join('');
 });
 
 /* 숏폼(릴스) 카드 — 관리자 페이지에서 등록한 카드가 자동 반영됨 */
