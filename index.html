@@ -340,9 +340,10 @@ button{font-family:var(--ff-sans);}
 .proof-eyebrow{font-size:12px;color:var(--c-gold);letter-spacing:0.24em;font-weight:500;text-transform:uppercase;margin-bottom:16px;}
 .proof-title{font-family:var(--ff-serif);font-size:clamp(26px,3vw,36px);font-weight:300;color:var(--c-dark);line-height:1.45;}
 .proof-desc{font-size:14px;color:var(--c-stone);line-height:1.8;margin-top:16px;}
+.proof-desc--below{text-align:center;margin-top:36px;color:var(--c-dark);font-size:13px;font-weight:400;}
 
 /* 후기 — 여러 열이 각각 다른 속도로 위로 무한 스크롤 */
-.review-columns{max-width:1180px;margin:0 auto;display:flex;justify-content:center;gap:18px;max-height:740px;overflow:hidden;-webkit-mask-image:linear-gradient(to bottom,transparent,black 12%,black 88%,transparent);mask-image:linear-gradient(to bottom,transparent,black 12%,black 88%,transparent);}
+.review-columns{max-width:1180px;margin:0 auto;display:flex;justify-content:center;gap:18px;max-height:740px;overflow:hidden;}
 .review-col{flex:1;min-width:0;max-width:280px;}
 .review-col:nth-child(2),.review-col:nth-child(3){display:none;}
 .review-col__track{display:flex;flex-direction:column;gap:18px;animation:review-scroll-up linear infinite;}
@@ -361,6 +362,9 @@ button{font-family:var(--ff-sans);}
 .sf-card__play::after{content:'';border-style:solid;border-width:6px 0 6px 10px;border-color:transparent transparent transparent var(--c-dark);margin-left:3px;}
 .sf-card__cap{position:absolute;left:10px;right:10px;bottom:10px;z-index:2;font-size:12px;line-height:1.5;color:#fff;}
 .sf-card__cap span{display:block;font-size:10px;color:rgba(255,255,255,0.7);margin-top:4px;}
+.sf-card{opacity:0;transform:translateY(20px);transition:opacity .5s ease-out,transform .5s ease-out;}
+.sf-card.is-in{opacity:1;transform:translateY(0);}
+@media (prefers-reduced-motion:reduce){.sf-card{opacity:1;transform:none;transition:none;}}
 
 /* FAQ */
 .proof-faq-list{max-width:720px;margin:0 auto;}
@@ -374,7 +378,7 @@ button{font-family:var(--ff-sans);}
 
 /* 클로징 */
 .proof-closing{background:var(--c-bg);text-align:center;padding:96px var(--pad-x) 120px;}
-.proof-closing p{font-size:14px;color:var(--c-stone);line-height:2.1;max-width:44ch;margin:18px auto 0;}
+.proof-closing p{font-size:14px;color:var(--c-dark);font-weight:400;line-height:2.1;max-width:44ch;margin:18px auto 0;}
 
 @media (max-width:900px){
   .sf-grid{grid-template-columns:repeat(2,1fr);}
@@ -1413,12 +1417,12 @@ if(window.wcs) {
     <section class="proof-section proof-section--review">
       <div class="proof-head">
         <div class="proof-eyebrow">Review</div>
-        <h2 class="proof-title">고민은 입주 날짜만<br>늦출 뿐입니다</h2>
-        <p class="proof-desc">이미 많은 분들이 디자인포를 만나 예쁜 집에서 살고 있습니다.</p>
+        <h2 class="proof-title">고민은 입주 날짜만 늦출 뿐</h2>
       </div>
       <div class="review-columns" id="review-columns">
         <div class="review-empty" id="review-empty">관리자 페이지에서 후기 스크린샷을 등록해 주세요</div>
       </div>
+      <p class="proof-desc proof-desc--below">이미 많은 분들이 디자인포를 만나 예쁜 집에서 살고 있습니다.</p>
     </section>
 
     <!-- 숏폼 사례 -->
@@ -1455,7 +1459,7 @@ if(window.wcs) {
     <!-- 클로징 -->
     <section class="proof-closing">
       <div class="proof-eyebrow">Before you contact us</div>
-      <p>아직 상담을 신청하지 않으셔도 괜찮습니다.<br>시공사례와 견적 구조를 먼저 충분히 살펴보시고,<br>믿고 맡길 수 있겠다는 확신이 들 때 문의해 주세요.</p>
+      <p>아직 상담을 신청하지 않으셔도 괜찮습니다.<br>시공 포트폴리오와, 고객후기를 먼저 충분히 살펴보시고,<br>믿고 맡길 수 있겠다는 확신이 들 때 문의해 주세요.</p>
     </section>
   </section>
 
@@ -2441,15 +2445,28 @@ onSnapshot(query(collection(db,'reviews'),orderBy('createdAt','desc')),snap=>{
   }).join('');
 });
 
-/* 숏폼(릴스) 카드 — 관리자 페이지에서 등록한 카드가 자동 반영됨 */
+/* 숏폼(릴스) 카드 — 관리자 페이지에서 등록한 카드가 자동 반영됨, 스크롤 진입 시 순서대로 떠오르며 등장 */
+const sfObserver=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(!entry.isIntersecting) return;
+    Array.from(entry.target.children).forEach((card,i)=>{
+      card.style.transitionDelay=(i*0.12)+'s';
+      card.classList.add('is-in');
+    });
+    sfObserver.unobserve(entry.target);
+  });
+},{threshold:0.2});
+
 onSnapshot(query(collection(db,'shortform'),orderBy('createdAt','desc')),snap=>{
   const items=snap.docs.map(d=>d.data());
   const grid=document.getElementById('sf-grid');
   grid.innerHTML=items.map(s=>`
     <a class="sf-card" href="${esc(s.link)}" target="_blank" rel="noopener" style="background-image:url('${esc(s.thumbUrl)}')">
       <div class="sf-card__play"></div>
-      <div class="sf-card__cap">${esc(s.caption)}${s.meta?`<span>${esc(s.meta)}</span>`:''}</div>
+      <div class="sf-card__cap">${esc(s.caption)}</div>
     </a>`).join('');
+  sfObserver.unobserve(grid);
+  sfObserver.observe(grid);
 });
 
 /* ── HOME SLIDESHOW ── */
