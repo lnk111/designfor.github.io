@@ -309,11 +309,11 @@ button{font-family:var(--ff-sans);}
 /* 홈 페이지만 헤더 영역까지 슬라이드쇼가 채우도록 */
 #pg-home{top:calc(var(--header-h) * -1);height:calc(100% + var(--header-h));}
 /* 히어로는 첫 화면 높이만큼만 차지 — 그 아래로 후기·숏폼·FAQ가 스크롤로 이어짐 */
-.home-hero-frame{position:relative;height:100vh;min-height:560px;}
+.home-hero-frame{position:relative;height:90vh;min-height:560px;}
 .home-stage{position:absolute;inset:0;}
 .home-slide{position:absolute;inset:0;opacity:0;transition:opacity 1.2s cubic-bezier(0.4,0,0.2,1);pointer-events:none;overflow:hidden;background:var(--c-dark2);}
 .home-slide.is-active{opacity:1;pointer-events:all;}
-.home-slide img{width:100%;height:100%;object-fit:cover;object-position:center 45%;display:block;}
+.home-slide img{width:100%;height:100%;object-fit:cover;object-position:center bottom;display:block;}
 .home-slide.is-active img{animation:kenburns 5s ease-out forwards;}
 @keyframes kenburns{from{transform:scale(1.0);}to{transform:scale(1.03);}}
 .home-slide__dim{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.05) 0%,rgba(0,0,0,0) 30%,rgba(0,0,0,0.15) 100%);pointer-events:none;}
