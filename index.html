@@ -478,25 +478,36 @@ button{font-family:var(--ff-sans);}
 .about-new__card--3{bottom:30%;left:3%;}
 .about-new__card--4{bottom:10%;right:5%;}
 
-/* 모바일 반응형 */
+/* 모바일 반응형 — 스크롤 없이 한 화면에 들어오도록 압축 */
 @media (max-width: 900px){
-  .about-new__wrap{padding:40px var(--pad-x-sm);}
-  .about-new__inner{grid-template-columns:1fr;gap:50px;}
-  .about-new__h1{font-size:32px;}
-  .about-new__photo{width:75%;}
-  .about-new__card--1{top:6%;left:8%;}
-  .about-new__card--2{top:16%;right:6%;}
-  .about-new__card--3{bottom:28%;left:6%;}
-  .about-new__card--4{bottom:8%;right:8%;}
+  .about-new__wrap{padding:20px var(--pad-x-sm);align-items:center;}
+  .about-new__inner{grid-template-columns:1fr;gap:18px;}
+  .about-new__tag{font-size:11px;margin:0 0 8px;}
+  .about-new__pill{font-size:12px;padding:6px 12px;margin-bottom:10px;}
+  .about-new__h1{font-size:22px;line-height:1.35;}
+  .about-new__divider{margin:12px 0;}
+  .about-new__desc{font-size:12.5px;line-height:1.6;margin:0 0 12px;}
+  .about-new__quote{font-size:12px;margin:0 0 12px;padding:5px 0 5px 12px;}
+  .about-new__meta{margin-bottom:14px;gap:6px 14px;}
+  .about-new__meta-item{font-size:12px;}
+  .about-new__cta{gap:8px;}
+  .about-new__btn{padding:10px 18px;font-size:12px;}
+  .about-new__photo{width:auto;height:26vh;max-height:230px;aspect-ratio:4/5;}
+  .about-new__photo-caption{padding:9px 12px;bottom:10px;left:10px;right:10px;}
+  .about-new__caption-name{font-size:13px;}
+  .about-new__caption-role{font-size:11px;}
+  .about-new__card{padding:8px 10px;gap:8px;}
+  .about-new__card-icon{width:26px;height:26px;font-size:12px;}
+  .about-new__card-label{font-size:11px;}
+  .about-new__card-value{font-size:12px;}
+  .about-new__card--1{top:4%;left:4%;}
+  .about-new__card--2{top:14%;right:2%;}
+  .about-new__card--3{bottom:26%;left:2%;}
+  .about-new__card--4{bottom:18%;right:4%;}
 }
 @media (max-width: 520px){
-  .about-new__photo{width:80%;}
-  .about-new__card{padding:10px 12px;}
-  .about-new__card-icon{width:30px;height:30px;font-size:13px;}
-  .about-new__card-label{font-size:13px;}
-  .about-new__card-value{font-size:13px;}
-  .about-new__h1{font-size:28px;}
-  .about-new__pill{font-size:13px;padding:7px 14px;}
+  .about-new__photo{height:22vh;max-height:190px;}
+  .about-new__h1{font-size:20px;}
   .about-new__card--1{left:0;}
   .about-new__card--2{right:0;}
   .about-new__card--3{left:0;}
