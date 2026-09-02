@@ -300,7 +300,8 @@ button{font-family:var(--ff-sans);}
 
 /* PAGE SYSTEM */
 #page-wrap{position:fixed;top:var(--header-h);left:0;right:0;bottom:0;z-index:1;}
-.page{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;opacity:0;pointer-events:none;transition:opacity .5s var(--ease-out);-webkit-overflow-scrolling:touch;}
+.page{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;opacity:0;pointer-events:none;transition:opacity .5s var(--ease-out);-webkit-overflow-scrolling:touch;scrollbar-width:none;-ms-overflow-style:none;}
+.page::-webkit-scrollbar{display:none;}
 .page.is-active{opacity:1;pointer-events:all;}
 
 /* HOME */
@@ -388,7 +389,8 @@ button{font-family:var(--ff-sans);}
 #pg-about{background:var(--c-cream);}
 
 /* ABOUT — 새 디자인 */
-.about-new__wrap{padding:60px var(--pad-x);height:100%;overflow-y:auto;display:flex;align-items:center;justify-content:center;}
+.about-new__wrap{padding:60px var(--pad-x);height:100%;overflow-y:auto;display:flex;align-items:center;justify-content:center;scrollbar-width:none;-ms-overflow-style:none;}
+.about-new__wrap::-webkit-scrollbar{display:none;}
 .about-new__inner{max-width:1180px;width:100%;display:grid;grid-template-columns:1.05fr 1fr;gap:60px;align-items:center;}
 
 .about-new__tag{font-size:13px;color:#B59155;letter-spacing:0.24em;margin:0 0 20px;font-weight:500;}
