@@ -2501,6 +2501,15 @@ function toHQ(url){
   return url.replace(/\/upload\/(?:[^/]+\/)?(v\d+\/)/, `/upload/${params}/$1`);
 }
 
+/* 그리드 썸네일 전용 — 카드가 작으므로 원본 대신 작은 사이즈로 요청해 용량을 크게 줄인다.
+   라이트박스로 확대해서 볼 때는 이 함수를 거치지 않은 원본 URL을 그대로 쓴다. */
+function toThumb(url){
+  if(!url || typeof url !== 'string') return url;
+  if(!url.includes('res.cloudinary.com') || !url.includes('/upload/')) return url;
+  const params='c_fill,w_400,h_300,q_auto,f_auto';
+  return url.replace(/\/upload\/(?:[^/]+\/)?(v\d+\/)/, `/upload/${params}/$1`);
+}
+
 
 function buildHomeSlideshow(){
   // homeShow=true 인 현장만, homeOrder 오름차순으로 정렬
@@ -2632,7 +2641,7 @@ function buildSpaceGrid(){
   grid.innerHTML=filtered.map(img=>`
     <div class="space-card-item" onclick="openSpaceLightbox('${esc(img.url)}','${esc(img.projectId)}','${esc(img.siteName)}')">
       <div class="space-img-wrap" style="aspect-ratio:4/3;">
-        <img src="${esc(img.url)}" alt="${esc(img.siteName)}" loading="lazy" style="height:100%;">
+        <img src="${esc(toThumb(img.url))}" alt="${esc(img.siteName)}" loading="lazy" style="height:100%;">
       </div>
     </div>`).join('');
 }
