@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive">
 <title>디자인포 관리자</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -343,10 +344,12 @@ html,body{min-height:100%;font-family:var(--ff);font-weight:300;background:var(-
   <div class="login-box">
     <div class="login-logo">DESIGN FOR</div>
     <div class="login-sub">관리자 전용 페이지</div>
+    <label class="login-label">이메일</label>
+    <input class="login-input" type="email" id="email-input" placeholder="관리자 이메일" autocomplete="username" onkeydown="if(event.key==='Enter')document.getElementById('pw-input').focus()">
     <label class="login-label">비밀번호</label>
-    <input class="login-input" type="password" id="pw-input" placeholder="비밀번호 입력" onkeydown="if(event.key==='Enter')doLogin()">
+    <input class="login-input" type="password" id="pw-input" placeholder="비밀번호 입력" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
     <div class="login-error" id="login-error"></div>
-    <button class="btn-login" onclick="doLogin()">로그인</button>
+    <button class="btn-login" id="btn-login" onclick="doLogin()">로그인</button>
   </div>
 </div>
 
@@ -663,6 +666,7 @@ html,body{min-height:100%;font-family:var(--ff);font-weight:300;background:var(-
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, collection, doc, getDocs, setDoc, updateDoc, deleteDoc, query, orderBy, writeBatch } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getAuth, setPersistence, browserSessionPersistence, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const app = initializeApp({
   apiKey:"AIzaSyC0LNwrtehJ8BytnXL5-aiG2H_sTIgXgk4",
@@ -673,8 +677,11 @@ const app = initializeApp({
   appId:"1:284384518635:web:62f4a1ce63e90ca7b2f9ae"
 });
 const db = getFirestore(app);
+const auth = getAuth(app);
 
-const PASS='1212', CLOUD_NAME='dirocerek', UPLOAD_PRESET='designfor_upload';
+// 화면 표시용 허용 목록(UX 전용). 실제 접근 차단은 Firestore 보안 규칙(firestore.rules)이 담당한다.
+const ADMIN_EMAILS=['729497@naver.com','lg1044@naver.com'];
+const CLOUD_NAME='dirocerek', UPLOAD_PRESET='designfor_upload';
 const PARALLEL=8, COMPRESS_PX=1600, COMPRESS_QUALITY=0.78, COMPRESS_MIN_SIZE=400*1024;
 const THUMB_PX=240, THUMB_QUALITY=0.7;
 
@@ -692,23 +699,55 @@ function makeObjectUrl(file){ const u=URL.createObjectURL(file); objectUrls.push
 function clearObjectUrls(){ objectUrls.forEach(u=>{ try{URL.revokeObjectURL(u);}catch(e){} }); objectUrls=[]; }
 
 /* ── AUTH ── */
-window.doLogin=function(){
-  const pw=document.getElementById('pw-input').value;
-  if(pw===PASS){
-    document.getElementById('login-screen').style.display='none';
-    document.getElementById('admin-screen').classList.add('show');
-    fetchProjects(); fetchLinks();
-  } else {
-    document.getElementById('login-error').textContent='비밀번호가 맞지 않습니다.';
-    document.getElementById('pw-input').value='';
-  }
-};
-window.doLogout=function(){
+function showLoginError(msg){ document.getElementById('login-error').textContent=msg; }
+function showAdminScreen(){
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('admin-screen').classList.add('show');
+}
+function showLoginScreen(){
   document.getElementById('admin-screen').classList.remove('show');
   document.getElementById('login-screen').style.display='flex';
   document.getElementById('pw-input').value='';
-  document.getElementById('login-error').textContent='';
+}
+function loginErrorMessage(code){
+  if(code==='auth/too-many-requests') return '로그인 시도가 너무 많습니다. 잠시 후 다시 시도해 주세요.';
+  if(code==='auth/network-request-failed') return '네트워크 연결을 확인해 주세요.';
+  // 계정 존재 여부를 알려주지 않도록 동일한 문구 사용
+  return '이메일 또는 비밀번호가 맞지 않습니다.';
+}
+
+window.doLogin=async function(){
+  const email=document.getElementById('email-input').value.trim().toLowerCase();
+  const pw=document.getElementById('pw-input').value;
+  const btn=document.getElementById('btn-login');
+  showLoginError('');
+  if(!email||!pw){ showLoginError('이메일과 비밀번호를 입력해 주세요.'); return; }
+  btn.disabled=true;
+  try{
+    // 탭을 닫으면 로그인이 풀리도록 세션 단위로만 유지
+    await setPersistence(auth, browserSessionPersistence);
+    await signInWithEmailAndPassword(auth,email,pw);
+  } catch(e){
+    showLoginError(loginErrorMessage(e.code));
+    document.getElementById('pw-input').value='';
+  }
+  btn.disabled=false;
 };
+window.doLogout=async function(){
+  try{ await signOut(auth); } catch(e){}
+};
+
+let adminDataLoaded=false;
+onAuthStateChanged(auth,user=>{
+  if(!user){ adminDataLoaded=false; showLoginScreen(); return; }
+  if(!ADMIN_EMAILS.includes((user.email||'').toLowerCase())){
+    showLoginError('관리자 권한이 없는 계정입니다.');
+    signOut(auth);
+    return;
+  }
+  showAdminScreen();
+  if(!adminDataLoaded){ adminDataLoaded=true; fetchProjects(); fetchLinks(); }
+});
 
 /* ── TABS ── */
 window.switchTab=function(name){
